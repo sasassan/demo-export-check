@@ -24,9 +24,9 @@ export class OpenAIProvider implements InvestigationProvider {
     }
 
     try {
-      const client = new OpenAI({ apiKey });
+      const client = new OpenAI({ apiKey, timeout: 8000 });
       const response = await client.chat.completions.create({
-        model: "gpt-4o",
+        model: "gpt-4o-mini",
         messages: [
           {
             role: "system",
