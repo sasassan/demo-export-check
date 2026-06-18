@@ -198,6 +198,27 @@ export default async function CaseDetailPage({
                         </span>
                       </div>
 
+                      {modelResult.providerStatusLabel && (
+                        <div className="mb-3 flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50 px-3 py-2">
+                          <span className="text-[11px] font-semibold text-slate-500">接続状態</span>
+                          <span className={`text-[11px] font-bold ${
+                            modelResult.providerStatus === "live"
+                              ? "text-emerald-600"
+                              : modelResult.providerStatus === "fallback-error"
+                                ? "text-red-600"
+                                : "text-amber-600"
+                          }`}>
+                            {modelResult.providerStatusLabel}
+                          </span>
+                        </div>
+                      )}
+
+                      {modelResult.providerReason && modelResult.providerStatus !== "live" && (
+                        <p className="mb-3 text-[11px] leading-relaxed text-slate-500">
+                          {modelResult.providerReason}
+                        </p>
+                      )}
+
                       {/* reviewComment */}
                       {modelResult.reviewComment && (
                         <p className="text-xs text-slate-600 leading-relaxed mb-3 bg-slate-50 rounded-lg p-2">

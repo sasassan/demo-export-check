@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { getSessionEmail } from "@/lib/auth/server";
-import { createCaseRecord, listCasesByUser } from "@/lib/db/repository";
+import { createCaseRecord, listCasesByUser, markConsultationAsCased } from "@/lib/db/repository";
 import { createCaseSchema } from "@/lib/validation/case";
 
 export async function GET() {
@@ -42,6 +42,11 @@ export async function POST(request: Request) {
   }
 
   const record = await createCaseRecord(userEmail, parsed.data);
+
+  const consultationId = typeof body === "object" && body && "consultationId" in body ? String((body as Record<string, unknown>).consultationId ?? "") : "";
+  if (consultationId) {
+    await markConsultationAsCased(consultationId, record.id);
+  }
 
   return NextResponse.json({
     id: record.id,

@@ -113,6 +113,9 @@ export type ModelResult = {
   dimensions: DimensionScore[];
   reviewComment?: string;
   keyRisk?: string;
+  providerStatus?: "live" | "fallback-no-key" | "fallback-disabled" | "fallback-error";
+  providerStatusLabel?: string;
+  providerReason?: string;
 };
 
 export type AssessmentRecord = {
@@ -129,6 +132,25 @@ export type AssessmentRecord = {
   disagreementDimensions?: string[];
   createdAt: string;
   updatedAt: string;
+};
+
+
+export type AiConsultationRecord = {
+  caseDraft?: Partial<CreateCaseInput>;
+  fetchedUrlText?: string;
+  sourceFetchStatus?: "success" | "failed" | "not_requested";
+  caseId?: string;
+  id: string;
+  userEmail: string;
+  mode: string;
+  question: string;
+  sourceUrl?: string;
+  sourceText?: string;
+  answerTitle: string;
+  answer: string;
+  judgement?: string;
+  recommendedChecks?: string[];
+  createdAt: string;
 };
 
 export type CaseDetail = {
@@ -164,4 +186,7 @@ export type ProviderResult = {
   keyRisk?: string;
   rawImprovementSteps?: Array<{ action: string; scoreGain: number; priority: number; detail: string }>;
   rawWorstCaseScenarios?: Array<{ scenario: string; impact: string; probability: "低" | "中" | "高"; grade: Grade }>;
+  providerStatus?: "live" | "fallback-no-key" | "fallback-disabled" | "fallback-error";
+  providerStatusLabel?: string;
+  providerReason?: string;
 };

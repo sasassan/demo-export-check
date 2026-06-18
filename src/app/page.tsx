@@ -161,22 +161,62 @@ export default function Home() {
               サービス説明
             </Link>
             <Link
-              href="/login?v=lp-nav"
+              href="/glossary?v=lp-nav"
               className="flex-1 rounded-lg px-4 py-2 text-center text-sm font-medium text-slate-200 hover:bg-cyan-400/10 hover:text-white sm:flex-none"
             >
-              ログイン
+              輸出辞典
             </Link>
             <Link
-              href="/cases/new?v=lp-nav"
-              className="flex-1 rounded-lg bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white hover:bg-indigo-700 sm:flex-none"
+              href="/ai-room?v=lp-nav"
+              className="flex-1 rounded-lg px-4 py-2 text-center text-sm font-medium text-slate-200 hover:bg-cyan-400/10 hover:text-white sm:flex-none"
             >
-              無料で試す
+              AI相談室
+            </Link>
+            <Link
+              href="/demo?v=lp-nav"
+              className="flex-1 rounded-lg px-4 py-2 text-center text-sm font-medium text-slate-200 hover:bg-cyan-400/10 hover:text-white sm:flex-none"
+            >
+              デモを見る
+            </Link>
+            <Link
+              href="/contact?v=lp-nav"
+              className="flex-1 rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-400 px-4 py-2 text-center text-sm font-semibold text-slate-950 shadow-lg shadow-cyan-500/25 hover:from-indigo-400 hover:to-cyan-300 sm:flex-none"
+            >
+              お問い合わせ
             </Link>
           </div>
         </div>
       </nav>
 
       <main>
+        <section className="border-b border-cyan-400/15 bg-[#081a2c] px-4 py-8 sm:px-6">
+          <div className="mx-auto grid max-w-6xl gap-4 lg:grid-cols-4">
+            {[
+              {
+                title: "案件管理",
+                text: "輸出案件登録・AIリスク診断・レポート作成",
+              },
+              {
+                title: "輸出辞典",
+                text: "専門用語検索・法令解説・初心者向け説明",
+              },
+              {
+                title: "AI相談室",
+                text: "資料解説・手続き相談・規制の疑問を整理",
+              },
+              {
+                title: "学習コンテンツ",
+                text: "失敗例・注意事項・最初に見るべきポイント",
+              },
+            ].map((item) => (
+              <div key={item.title} className="rounded-2xl border border-cyan-300/12 bg-white/6 px-5 py-4 shadow-[0_18px_44px_rgba(2,6,23,0.16)] backdrop-blur">
+                <p className="text-sm font-semibold text-white">{item.title}</p>
+                <p className="mt-2 text-sm leading-6 text-slate-300">{item.text}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* ヒーローセクション */}
         <section className="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-24">
           <div className="trade-grid absolute inset-0 opacity-60" />
@@ -187,7 +227,7 @@ export default function Home() {
             style={{ backgroundImage: heroMapOverlay }}
           />
           <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-            <div className="rounded-[2rem] border border-cyan-400/20 bg-white/96 p-8 text-center shadow-[0_24px_80px_rgba(2,6,23,0.28)] lg:p-10 lg:text-left">
+            <div className="trade-glass-card rounded-[2rem] p-8 text-center shadow-[0_24px_80px_rgba(2,6,23,0.28)] lg:p-10 lg:text-left">
               <span className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-white/90 px-4 py-2 text-sm font-medium text-indigo-700 shadow-sm shadow-indigo-100/60">
                 <span className="h-2 w-2 rounded-full bg-indigo-500" />
                 輸出管理部門がなくても使える · 営業担当者向け
@@ -212,7 +252,7 @@ export default function Home() {
                   ["AI診断観点", "8項目"],
                   ["出力形式", "PDF / 要約"],
                 ].map(([label, value]) => (
-                  <div key={label} className="rounded-2xl border border-slate-200 bg-white p-4 text-left shadow-sm">
+                  <div key={label} className="trade-soft-block p-4 text-left shadow-sm">
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">{label}</p>
                     <p className="mt-2 text-xl font-bold text-slate-900">{value}</p>
                   </div>
@@ -221,7 +261,7 @@ export default function Home() {
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
                 <Link
                   href="/demo?v=hero"
-                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-700 to-sky-500 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-indigo-500/20 hover:from-indigo-800 hover:to-sky-600"
+                  className="trade-primary-button gap-2 !px-6 !py-3 text-base text-white shadow-lg shadow-indigo-500/20 hover:from-indigo-800 hover:to-sky-600"
                 >
                   デモ画面を見る
                   <svg viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
@@ -230,7 +270,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/about?v=hero"
-                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-slate-700 to-slate-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-slate-500/20 hover:from-slate-800 hover:to-slate-700"
+                  className="trade-secondary-button gap-2 !px-6 !py-3 text-base"
                 >
                   サービス説明を見る
                   <svg viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
@@ -238,8 +278,17 @@ export default function Home() {
                   </svg>
                 </Link>
                 <Link
+                  href="/glossary?v=hero"
+                  className="trade-secondary-button gap-2 !px-6 !py-3 text-base"
+                >
+                  輸出辞典を見る
+                  <svg viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
+                    <path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" />
+                  </svg>
+                </Link>
+                <Link
                   href="/contact?v=hero"
-                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-teal-600 to-cyan-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-teal-500/20 hover:from-teal-700 hover:to-cyan-700"
+                  className="trade-primary-button gap-2 !px-6 !py-3 text-base"
                 >
                   フィードバックを送る
                   <svg viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
@@ -622,15 +671,15 @@ export default function Home() {
                   ))}
                 </ul>
                 <Link
-                  href="/login?v=pricing"
-                  className="mt-8 block rounded-xl bg-indigo-600 py-3 text-center text-sm font-semibold text-white hover:bg-indigo-700"
+                  href="/demo?v=pricing"
+                  className="trade-primary-button mt-8 flex w-full justify-center !py-3 text-sm"
                 >
-                  無料で始める
+                  デモで試す
                 </Link>
               </div>
 
               {/* 正式版プラン */}
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-8">
+              <div className="trade-glass-card rounded-2xl p-8">
                 <p className="text-sm font-semibold uppercase tracking-widest text-slate-500">正式版（準備中）</p>
                 <p className="mt-2 text-4xl font-bold text-slate-400">未定</p>
                 <p className="mt-1 text-sm text-slate-400">月額料金・プランは検討中です</p>
@@ -652,7 +701,7 @@ export default function Home() {
                 </ul>
                 <Link
                   href="/contact?v=pricing"
-                  className="mt-8 block rounded-xl border border-slate-300 bg-white py-3 text-center text-sm font-semibold text-slate-600 hover:bg-slate-50"
+                  className="trade-secondary-button mt-8 flex w-full justify-center !py-3 text-sm"
                 >
                   リリース通知を受け取る
                 </Link>
@@ -701,27 +750,27 @@ export default function Home() {
 
         {/* CTAセクション */}
         <section className="px-6 py-20">
-          <div className="mx-auto max-w-3xl rounded-2xl bg-indigo-600 px-8 py-12 text-center">
+          <div className="trade-dark-panel mx-auto max-w-3xl rounded-[2rem] px-8 py-12 text-center">
             <h2 className="text-3xl font-bold text-white">まずは1件、試してみてください</h2>
             <p className="mt-3 text-base font-medium text-indigo-100">
               β版は無料。メールアドレスだけで開始できます。登録後すぐに案件確認フローを試せます。
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Link
-                href="/login?v=cta"
-                className="rounded-xl bg-white px-6 py-3 text-base font-semibold text-indigo-700 hover:bg-indigo-50"
+                href="/contact?v=cta"
+                className="trade-primary-button !bg-white !text-indigo-700 !px-6 !py-3 text-base"
               >
-                無料で始める（β版）
+                導入について相談する
               </Link>
               <Link
                 href="/demo?v=cta"
-                className="rounded-xl border border-indigo-400 px-6 py-3 text-base font-semibold text-white hover:bg-indigo-500"
+                className="trade-secondary-button !border-white/20 !bg-white/10 !text-white !px-6 !py-3 text-base"
               >
                 デモを見る
               </Link>
               <Link
                 href="/contact?v=cta"
-                className="rounded-xl border border-indigo-400 px-6 py-3 text-base font-semibold text-white hover:bg-indigo-500"
+                className="trade-secondary-button !border-white/20 !bg-white/10 !text-white !px-6 !py-3 text-base"
               >
                 フィードバックを送る
               </Link>

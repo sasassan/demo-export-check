@@ -33,10 +33,10 @@ export default function AboutPage() {
     <div className="trade-surface trade-dashboard-bg min-h-screen bg-[#06111f] text-slate-800">
       <main className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-8 sm:px-6 sm:py-10">
         {/* Hero */}
-        <section className="trade-grid overflow-hidden rounded-[1.75rem] border border-indigo-200/50 bg-white/95 px-5 py-8 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur sm:px-7">
+        <section className="trade-grid trade-glass-card overflow-hidden rounded-[1.9rem] px-5 py-8 sm:px-7">
           <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
             <div>
-              <span className="inline-flex rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-indigo-600">
+              <span className="trade-section-label">
                 Service Overview
               </span>
               <h1 className="mt-5 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
@@ -49,14 +49,14 @@ export default function AboutPage() {
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
-                  href="/login"
-                  className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 hover:bg-indigo-700"
+                  href="/demo"
+                  className="trade-primary-button"
                 >
-                  ログインして使う
+                  デモを見る
                 </Link>
                 <Link
                   href="/?v=about"
-                  className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50"
+                  className="trade-secondary-button"
                 >
                   LPに戻る
                 </Link>
@@ -87,7 +87,7 @@ export default function AboutPage() {
         {/* 3カラムポイント */}
         <section className="grid gap-5 md:grid-cols-3">
           {servicePoints.map((item) => (
-            <div key={item.title} className="trade-panel rounded-2xl border border-indigo-200/40 bg-white/95 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.06)]">
+            <div key={item.title} className="trade-glass-card rounded-2xl p-6">
               <h2 className="text-lg font-semibold text-slate-900">{item.title}</h2>
               <p className="mt-3 text-sm leading-7 font-medium text-slate-700">{item.description}</p>
             </div>
@@ -96,7 +96,7 @@ export default function AboutPage() {
 
         {/* 2カラム機能 */}
         <section className="grid gap-6 lg:grid-cols-[1fr_0.92fr]">
-          <div className="trade-panel rounded-2xl border border-indigo-200/40 bg-white/95 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.06)]">
+          <div className="trade-glass-card rounded-2xl p-6">
             <h2 className="text-2xl font-bold tracking-tight text-slate-900">このサービスでできること</h2>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {[
@@ -107,19 +107,19 @@ export default function AboutPage() {
                 "PDFレポートをすぐに出力",
                 "案件一覧で検索・絞り込み・並び替え",
               ].map((item) => (
-                <div key={item} className="rounded-xl border border-indigo-100 bg-indigo-50/80 px-4 py-3 text-sm font-semibold text-slate-800">
+                <div key={item} className="trade-soft-block px-4 py-3 text-sm font-semibold text-slate-800">
                   {item}
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="trade-panel rounded-2xl border border-indigo-200/40 bg-white/95 p-6 text-slate-900 shadow-[0_24px_60px_rgba(15,23,42,0.06)]">
+          <div className="trade-glass-card rounded-2xl p-6 text-slate-900">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-indigo-500">Recommended scenes</p>
             <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900">こんな場面で役立ちます</h2>
             <ul className="mt-6 space-y-3">
               {useCases.map((item) => (
-                <li key={item} className="flex items-start gap-3 rounded-xl bg-indigo-50/80 px-4 py-3 text-sm font-medium text-slate-800">
+                <li key={item} className="trade-soft-block flex items-start gap-3 px-4 py-3 text-sm font-medium text-slate-800">
                   <span className="mt-1 h-2.5 w-2.5 rounded-full bg-indigo-500" />
                   <span>{item}</span>
                 </li>
@@ -129,7 +129,7 @@ export default function AboutPage() {
         </section>
 
         {/* CTA */}
-        <section className="trade-panel rounded-2xl border border-indigo-200/40 bg-white/95 p-6 sm:p-8 shadow-[0_24px_60px_rgba(15,23,42,0.06)]">
+        <section className="trade-glass-card rounded-2xl p-6 sm:p-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Quick guide</p>
@@ -140,14 +140,14 @@ export default function AboutPage() {
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
-                href="/login?v=about"
-                className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 hover:bg-indigo-700"
+                href="/contact?v=about"
+                className="trade-primary-button"
               >
-                ログインページへ
+                導入について相談
               </Link>
               <Link
                 href="/?v=about"
-                className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50"
+                className="trade-secondary-button"
               >
                 LPを見る
               </Link>

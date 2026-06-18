@@ -30,9 +30,16 @@ const quickSuggestions = [
   "顧客企業の英字表記も確認",
 ];
 
-export function CaseForm() {
+export function CaseForm({
+  initialValues,
+}: {
+  initialValues?: Partial<CreateCaseSchema>;
+}) {
   const router = useRouter();
-  const [form, setForm] = useState<CreateCaseSchema>(initialState);
+  const [form, setForm] = useState<CreateCaseSchema>({
+    ...initialState,
+    ...initialValues,
+  });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [diagnosis, setDiagnosis] = useState<string | null>(null);

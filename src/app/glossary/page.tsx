@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Shell } from "@/components/layout/shell";
+import { DictionarySearch } from "@/components/glossary/dictionary-search";
 
 const TERMS = [
   {
@@ -105,9 +106,9 @@ const CATEGORIES = [...new Set(TERMS.map((t) => t.category))];
 export default function GlossaryPage() {
   return (
     <Shell title="輸出用語辞典">
-      <div className="rounded-[1.75rem] border border-indigo-200/50 bg-white/95 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+      <div className="trade-glass-card rounded-[1.9rem] p-6">
         <div className="flex items-center gap-3 mb-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-50 to-cyan-50">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-indigo-600">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
             </svg>
@@ -122,7 +123,7 @@ export default function GlossaryPage() {
           {CATEGORIES.map((cat) => (
             <span
               key={cat}
-              className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-600"
+              className="rounded-full border border-indigo-100 bg-indigo-50/70 px-3 py-1 text-xs font-medium text-slate-700"
             >
               {cat}
             </span>
@@ -130,12 +131,14 @@ export default function GlossaryPage() {
         </div>
       </div>
 
+      <DictionarySearch />
+
       <div className="space-y-4">
         {TERMS.map((item) => (
           <div
             key={item.term}
             id={item.term.toLowerCase().replace(/\s+/g, "-")}
-            className="rounded-[1.75rem] border border-gray-200 bg-white p-6 shadow-sm"
+            className="trade-glass-card rounded-[1.75rem] p-6"
           >
             <div className="flex items-start justify-between gap-4">
               <div>
@@ -154,7 +157,7 @@ export default function GlossaryPage() {
             <p className="mt-3 text-sm leading-7 text-slate-700">{item.description}</p>
 
             {item.example && (
-              <div className="mt-3 flex items-start gap-2 rounded-lg bg-slate-50 border border-slate-100 px-3 py-2">
+              <div className="trade-soft-block mt-3 flex items-start gap-2 px-3 py-2">
                 <span className="text-xs font-semibold text-indigo-600 flex-shrink-0 mt-0.5">
                   活用例
                 </span>
@@ -165,7 +168,7 @@ export default function GlossaryPage() {
         ))}
       </div>
 
-      <div className="rounded-[1.75rem] border border-amber-200 bg-amber-50 p-6">
+      <div className="rounded-[1.75rem] border border-cyan-200/50 bg-cyan-50/90 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
         <p className="text-sm text-amber-800">
           本用語集は参考情報として提供しています。法令の解釈・適用については必ず専門家（輸出管理担当者・弁護士・行政書士）にご相談ください。
         </p>

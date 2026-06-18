@@ -8,11 +8,13 @@ import type { CaseRecord, InvestigationFinding, EvidenceItem } from "@/lib/types
 import { createId } from "@/lib/utils";
 import type { RiskDimension } from "@/lib/constants";
 import { RISK_DIMENSIONS } from "@/lib/constants";
+import { getProviderRuntimeInfo } from "@/lib/ai/config";
 
 export class OpenAIProvider implements InvestigationProvider {
   async run(caseRecord: CaseRecord) {
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) {
+    const runtime = getProviderRuntimeInfo("gpt-4o");
+    const apiKey = runtime.apiKey;
+    if (runtime.status !== "live" || !apiKey) {
       const fallback = await Promise.all([
         new MockSanctionsProvider().run(caseRecord),
         new MockCompanyProvider().run(caseRecord),
@@ -20,11 +22,16 @@ export class OpenAIProvider implements InvestigationProvider {
       const findings = fallback.flatMap((r) =>
         r.findings.map((f) => ({ ...f, aiModel: "mock" as const })),
       );
-      return buildProviderResult("openai-gpt4o", findings);
+      return {
+        ...buildProviderResult("openai-gpt4o", findings),
+        providerStatus: runtime.status,
+        providerStatusLabel: runtime.statusLabel,
+        providerReason: runtime.reason,
+      };
     }
 
     try {
-      const client = new OpenAI({ apiKey, timeout: 8000 });
+      const client = new OpenAI({ apiKey, timeout: runtime.timeoutMs });
       const response = await client.chat.completions.create({
         model: "gpt-4o-mini",
         messages: [
@@ -76,6 +83,8 @@ export class OpenAIProvider implements InvestigationProvider {
         keyRisk: parsed.keyRisk,
         rawImprovementSteps: parsed.improvementSteps,
         rawWorstCaseScenarios: parsed.worstCaseScenarios,
+        providerStatus: runtime.status,
+        providerStatusLabel: runtime.statusLabel,
       };
     } catch (error) {
       console.error("OpenAI provider error:", error);
@@ -84,6 +93,9 @@ export class OpenAIProvider implements InvestigationProvider {
         ...buildProviderResult("openai-gpt4o", fallback.findings),
         status: "partial" as const,
         errors: [error instanceof Error ? error.message : "OpenAI error"],
+        providerStatus: "fallback-error" as const,
+        providerStatusLabel: "フォールバック",
+        providerReason: error instanceof Error ? error.message : "OpenAI error",
       };
     }
   }

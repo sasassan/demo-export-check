@@ -7,17 +7,24 @@ import type { CaseRecord, InvestigationFinding, EvidenceItem } from "@/lib/types
 import { createId } from "@/lib/utils";
 import type { RiskDimension } from "@/lib/constants";
 import { RISK_DIMENSIONS } from "@/lib/constants";
+import { getProviderRuntimeInfo } from "@/lib/ai/config";
 
 export class GeminiProvider implements InvestigationProvider {
   async run(caseRecord: CaseRecord) {
-    const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
-    if (!apiKey) {
+    const runtime = getProviderRuntimeInfo("gemini");
+    const apiKey = runtime.apiKey;
+    if (runtime.status !== "live" || !apiKey) {
       const fallback = await new MockCountryProvider().run(caseRecord);
       const findings = fallback.findings.map((f) => ({
         ...f,
         aiModel: "mock" as const,
       }));
-      return buildProviderResult("google-gemini", findings);
+      return {
+        ...buildProviderResult("google-gemini", findings),
+        providerStatus: runtime.status,
+        providerStatusLabel: runtime.statusLabel,
+        providerReason: runtime.reason,
+      };
     }
 
     try {
@@ -62,6 +69,8 @@ export class GeminiProvider implements InvestigationProvider {
         keyRisk: parsed.keyRisk,
         rawImprovementSteps: parsed.improvementSteps,
         rawWorstCaseScenarios: parsed.worstCaseScenarios,
+        providerStatus: runtime.status,
+        providerStatusLabel: runtime.statusLabel,
       };
     } catch (error) {
       console.error("Gemini provider error:", error);
@@ -70,6 +79,9 @@ export class GeminiProvider implements InvestigationProvider {
         ...buildProviderResult("google-gemini", fallback.findings),
         status: "partial" as const,
         errors: [error instanceof Error ? error.message : "Gemini error"],
+        providerStatus: "fallback-error" as const,
+        providerStatusLabel: "フォールバック",
+        providerReason: error instanceof Error ? error.message : "Gemini error",
       };
     }
   }

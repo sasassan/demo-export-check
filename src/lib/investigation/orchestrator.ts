@@ -116,6 +116,9 @@ function buildModelResults(results: ProviderResult[]): ModelResult[] {
       dimensions,
       reviewComment: result.reviewComment,
       keyRisk: result.keyRisk,
+      providerStatus: result.providerStatus,
+      providerStatusLabel: result.providerStatusLabel,
+      providerReason: result.providerReason,
     };
   });
 }

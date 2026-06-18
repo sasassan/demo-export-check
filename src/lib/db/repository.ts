@@ -1,7 +1,11 @@
 import { buildChecklistFromCase } from "@/lib/checklist/generator";
+import { getDbClient } from "@/lib/db/client";
+import { aiConsultations, cases, investigations, riskAssessments } from "@/lib/db/schema";
 import { createId } from "@/lib/utils";
+import { and, desc, eq } from "drizzle-orm";
 import type {
   AssessmentRecord,
+  AiConsultationRecord,
   CaseDetail,
   CaseRecord,
   ChecklistItem,
@@ -13,6 +17,7 @@ type RepositoryState = {
   cases: CaseRecord[];
   investigations: InvestigationRecord[];
   assessments: AssessmentRecord[];
+  consultations: AiConsultationRecord[];
 };
 
 declare global {
@@ -57,13 +62,41 @@ function getState(): RepositoryState {
         },
       ],
       assessments: [],
+      consultations: [],
     };
   }
 
   return globalThis.__ernRepoState;
 }
 
+function getDb() {
+  return getDbClient();
+}
+
 export async function listCasesByUser(userEmail: string) {
+  const db = getDb();
+  if (db) {
+    const rows = await db
+      .select()
+      .from(cases)
+      .where(eq(cases.userEmail, userEmail))
+      .orderBy(desc(cases.createdAt));
+
+    return rows.map((row) => ({
+      id: row.id,
+      userEmail: row.userEmail,
+      productName: row.productName,
+      modelNumber: row.modelNumber,
+      destinationCountry: row.destinationCountry,
+      customerCompanyName: row.customerCompanyName,
+      productImageUrl: row.productImageUrl ?? undefined,
+      status: row.status as CaseRecord["status"],
+      checklist: (row.checklist as ChecklistItem[]) ?? [],
+      createdAt: row.createdAt.toISOString(),
+      updatedAt: row.updatedAt.toISOString(),
+    }));
+  }
+
   const state = getState();
 
   return state.cases
@@ -75,6 +108,44 @@ export async function createCaseRecord(
   userEmail: string,
   input: CreateCaseInput,
 ): Promise<CaseRecord> {
+  const db = getDb();
+  if (db) {
+    const now = new Date();
+    const record: CaseRecord = {
+      id: createId("case"),
+      userEmail,
+      status: "investigating",
+      checklist: buildChecklistFromCase(input),
+      createdAt: now.toISOString(),
+      updatedAt: now.toISOString(),
+      ...input,
+    };
+
+    await db.insert(cases).values({
+      id: record.id,
+      userEmail: record.userEmail,
+      productName: record.productName,
+      modelNumber: record.modelNumber,
+      destinationCountry: record.destinationCountry,
+      customerCompanyName: record.customerCompanyName,
+      productImageUrl: record.productImageUrl,
+      status: record.status,
+      checklist: record.checklist,
+      createdAt: now,
+      updatedAt: now,
+    });
+
+    await db.insert(investigations).values({
+      id: createId("inv"),
+      caseId: record.id,
+      status: "queued",
+      createdAt: now,
+      updatedAt: now,
+    });
+
+    return record;
+  }
+
   const state = getState();
   const now = new Date().toISOString();
 
@@ -104,6 +175,71 @@ export async function createCaseRecord(
 }
 
 export async function getCaseDetail(caseId: string) {
+  const db = getDb();
+  if (db) {
+    const caseRows = await db.select().from(cases).where(eq(cases.id, caseId)).limit(1);
+    const caseRow = caseRows[0];
+    if (!caseRow) {
+      return null;
+    }
+
+    const investigationRow = (
+      await db.select().from(investigations).where(eq(investigations.caseId, caseId)).limit(1)
+    )[0];
+    const assessmentRow = (
+      await db.select().from(riskAssessments).where(eq(riskAssessments.caseId, caseId)).limit(1)
+    )[0];
+
+    return {
+      case: {
+        id: caseRow.id,
+        userEmail: caseRow.userEmail,
+        productName: caseRow.productName,
+        modelNumber: caseRow.modelNumber,
+        destinationCountry: caseRow.destinationCountry,
+        customerCompanyName: caseRow.customerCompanyName,
+        productImageUrl: caseRow.productImageUrl ?? undefined,
+        status: caseRow.status as CaseRecord["status"],
+        checklist: (caseRow.checklist as ChecklistItem[]) ?? [],
+        createdAt: caseRow.createdAt.toISOString(),
+        updatedAt: caseRow.updatedAt.toISOString(),
+      },
+      investigation: investigationRow
+        ? {
+            id: investigationRow.id,
+            caseId: investigationRow.caseId,
+            status: investigationRow.status as InvestigationRecord["status"],
+            startedAt: investigationRow.startedAt?.toISOString(),
+            completedAt: investigationRow.completedAt?.toISOString(),
+            errorMessage: investigationRow.errorMessage ?? undefined,
+            createdAt: investigationRow.createdAt.toISOString(),
+            updatedAt: investigationRow.updatedAt.toISOString(),
+          }
+        : undefined,
+      assessment: assessmentRow
+        ? {
+            caseId: assessmentRow.caseId,
+            summary: assessmentRow.summary as AssessmentRecord["summary"],
+            dimensions: (assessmentRow.dimensions as AssessmentRecord["dimensions"]) ?? [],
+            evidence: (assessmentRow.evidence as AssessmentRecord["evidence"]) ?? [],
+            reportNarrative: assessmentRow.reportNarrative,
+            modelResults: (assessmentRow.modelResults as AssessmentRecord["modelResults"]) ?? undefined,
+            agreementRate: assessmentRow.agreementRate ?? undefined,
+            reviewMeeting: (assessmentRow.reviewMeeting as AssessmentRecord["reviewMeeting"]) ?? undefined,
+            improvementSteps:
+              (assessmentRow.improvementSteps as AssessmentRecord["improvementSteps"]) ?? undefined,
+            worstCaseScenarios:
+              (assessmentRow.worstCaseScenarios as AssessmentRecord["worstCaseScenarios"]) ?? undefined,
+            disagreementDimensions:
+              (assessmentRow.disagreementDimensions as AssessmentRecord["disagreementDimensions"]) ??
+              undefined,
+            createdAt: assessmentRow.createdAt.toISOString(),
+            updatedAt: assessmentRow.updatedAt.toISOString(),
+          }
+        : undefined,
+    } satisfies CaseDetail;
+  }
+
   const state = getState();
   const caseRecord = state.cases.find((item) => item.id === caseId);
 
@@ -125,6 +261,38 @@ export async function updateInvestigationStatus(
   caseId: string,
   update: Partial<InvestigationRecord>,
 ) {
+  const db = getDb();
+  if (db) {
+    const existing = (
+      await db.select().from(investigations).where(eq(investigations.caseId, caseId)).limit(1)
+    )[0];
+    if (!existing) {
+      return null;
+    }
+
+    await db
+      .update(investigations)
+      .set({
+        status: update.status ?? existing.status,
+        startedAt: update.startedAt ? new Date(update.startedAt) : existing.startedAt,
+        completedAt: update.completedAt ? new Date(update.completedAt) : existing.completedAt,
+        errorMessage: update.errorMessage ?? existing.errorMessage,
+        updatedAt: new Date(),
+      })
+      .where(eq(investigations.caseId, caseId));
+
+    return {
+      id: existing.id,
+      caseId: existing.caseId,
+      status: (update.status ?? existing.status) as InvestigationRecord["status"],
+      startedAt: update.startedAt ?? existing.startedAt?.toISOString(),
+      completedAt: update.completedAt ?? existing.completedAt?.toISOString(),
+      errorMessage: update.errorMessage ?? existing.errorMessage ?? undefined,
+      createdAt: existing.createdAt.toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+  }
+
   const state = getState();
   const record = state.investigations.find((item) => item.caseId === caseId);
 
@@ -140,6 +308,57 @@ export async function updateInvestigationStatus(
 }
 
 export async function saveAssessment(assessment: AssessmentRecord) {
+  const db = getDb();
+  if (db) {
+    const now = new Date();
+    await db
+      .insert(riskAssessments)
+      .values({
+        caseId: assessment.caseId,
+        summary: assessment.summary,
+        reportNarrative: assessment.reportNarrative,
+        dimensions: assessment.dimensions,
+        evidence: assessment.evidence,
+        modelResults: assessment.modelResults ?? null,
+        agreementRate: assessment.agreementRate ?? null,
+        reviewMeeting: assessment.reviewMeeting ?? null,
+        improvementSteps: assessment.improvementSteps ?? null,
+        worstCaseScenarios: assessment.worstCaseScenarios ?? null,
+        disagreementDimensions: assessment.disagreementDimensions ?? null,
+        createdAt: new Date(assessment.createdAt),
+        updatedAt: now,
+      })
+      .onConflictDoUpdate({
+        target: riskAssessments.caseId,
+        set: {
+          summary: assessment.summary,
+          reportNarrative: assessment.reportNarrative,
+          dimensions: assessment.dimensions,
+          evidence: assessment.evidence,
+          modelResults: assessment.modelResults ?? null,
+          agreementRate: assessment.agreementRate ?? null,
+          reviewMeeting: assessment.reviewMeeting ?? null,
+          improvementSteps: assessment.improvementSteps ?? null,
+          worstCaseScenarios: assessment.worstCaseScenarios ?? null,
+          disagreementDimensions: assessment.disagreementDimensions ?? null,
+          updatedAt: now,
+        },
+      });
+
+    await db
+      .update(cases)
+      .set({
+        status: "completed",
+        updatedAt: now,
+      })
+      .where(eq(cases.id, assessment.caseId));
+
+    return {
+      ...assessment,
+      updatedAt: now.toISOString(),
+    };
+  }
+
   const state = getState();
   const existingIndex = state.assessments.findIndex(
     (item) => item.caseId === assessment.caseId,
@@ -176,6 +395,38 @@ export async function updateCaseChecklist(
   userEmail: string,
   checklist: ChecklistItem[],
 ) {
+  const db = getDb();
+  if (db) {
+    const existing = (
+      await db
+        .select()
+        .from(cases)
+        .where(and(eq(cases.id, caseId), eq(cases.userEmail, userEmail)))
+        .limit(1)
+    )[0];
+
+    if (!existing) {
+      return null;
+    }
+
+    await db
+      .update(cases)
+      .set({
+        checklist,
+        updatedAt: new Date(),
+      })
+      .where(and(eq(cases.id, caseId), eq(cases.userEmail, userEmail)));
+
+    return {
+      ...existing,
+      productImageUrl: existing.productImageUrl ?? undefined,
+      status: existing.status as CaseRecord["status"],
+      checklist,
+      createdAt: existing.createdAt.toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+  }
+
   const state = getState();
   const record = state.cases.find((item) => item.id === caseId && item.userEmail === userEmail);
 
@@ -190,6 +441,31 @@ export async function updateCaseChecklist(
 }
 
 export async function replaceCaseChecklist(caseId: string, checklist: ChecklistItem[]) {
+  const db = getDb();
+  if (db) {
+    const existing = (await db.select().from(cases).where(eq(cases.id, caseId)).limit(1))[0];
+    if (!existing) {
+      return null;
+    }
+
+    await db
+      .update(cases)
+      .set({
+        checklist,
+        updatedAt: new Date(),
+      })
+      .where(eq(cases.id, caseId));
+
+    return {
+      ...existing,
+      productImageUrl: existing.productImageUrl ?? undefined,
+      status: existing.status as CaseRecord["status"],
+      checklist,
+      createdAt: existing.createdAt.toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+  }
+
   const state = getState();
   const record = state.cases.find((item) => item.id === caseId);
 
@@ -200,5 +476,88 @@ export async function replaceCaseChecklist(caseId: string, checklist: ChecklistI
   record.checklist = checklist;
   record.updatedAt = new Date().toISOString();
 
+  return record;
+}
+export async function saveAiConsultation(record: AiConsultationRecord) {
+  const db = getDb();
+  if (db) {
+    await db.insert(aiConsultations).values({
+      id: record.id,
+      userEmail: record.userEmail,
+      caseId: record.caseId ?? null,
+      mode: record.mode,
+      question: record.question,
+      sourceUrl: record.sourceUrl ?? null,
+      sourceText: record.sourceText ?? null,
+      fetchedUrlText: record.fetchedUrlText ?? null,
+      sourceFetchStatus: record.sourceFetchStatus ?? null,
+      answerTitle: record.answerTitle,
+      answer: record.answer,
+      judgement: record.judgement ?? null,
+      recommendedChecks: record.recommendedChecks ?? null,
+      caseDraft: record.caseDraft ?? null,
+      createdAt: new Date(record.createdAt),
+    });
+    return record;
+  }
+
+  const state = getState();
+  state.consultations.unshift(record);
+  return record;
+}
+
+export async function listAiConsultationsByUser(userEmail: string) {
+  const db = getDb();
+  if (db) {
+    const rows = await db
+      .select()
+      .from(aiConsultations)
+      .where(eq(aiConsultations.userEmail, userEmail))
+      .orderBy(desc(aiConsultations.createdAt));
+
+    return rows.map((row) => ({
+      id: row.id,
+      userEmail: row.userEmail,
+      caseId: row.caseId ?? undefined,
+      mode: row.mode,
+      question: row.question,
+      sourceUrl: row.sourceUrl ?? undefined,
+      sourceText: row.sourceText ?? undefined,
+      fetchedUrlText: row.fetchedUrlText ?? undefined,
+      sourceFetchStatus:
+        (row.sourceFetchStatus as AiConsultationRecord["sourceFetchStatus"]) ?? undefined,
+      answerTitle: row.answerTitle,
+      answer: row.answer,
+      judgement: row.judgement ?? undefined,
+      recommendedChecks: (row.recommendedChecks as string[]) ?? undefined,
+      caseDraft: (row.caseDraft as AiConsultationRecord["caseDraft"]) ?? undefined,
+      createdAt: row.createdAt.toISOString(),
+    }));
+  }
+
+  const state = getState();
+  return state.consultations
+    .filter((item) => item.userEmail === userEmail)
+    .sort((left, right) => right.createdAt.localeCompare(left.createdAt));
+}
+
+export async function markConsultationAsCased(consultationId: string, caseId: string) {
+  const db = getDb();
+  if (db) {
+    const existing = (
+      await db.select().from(aiConsultations).where(eq(aiConsultations.id, consultationId)).limit(1)
+    )[0];
+    if (!existing) return null;
+    await db
+      .update(aiConsultations)
+      .set({ caseId })
+      .where(eq(aiConsultations.id, consultationId));
+    return { ...existing, caseId };
+  }
+
+  const state = getState();
+  const record = state.consultations.find((item) => item.id === consultationId);
+  if (!record) return null;
+  record.caseId = caseId;
   return record;
 }

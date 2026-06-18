@@ -39,8 +39,8 @@ export default function DemoPage() {
   return (
     <main className="trade-surface trade-dashboard-bg min-h-screen bg-[#06111f] px-4 py-8 sm:px-6 sm:py-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-6">
-        <section className="rounded-[1.75rem] border border-indigo-200/50 bg-white/95 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] sm:p-8">
-          <span className="inline-flex rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-indigo-700">
+        <section className="trade-glass-card rounded-[1.9rem] p-6 sm:p-8">
+          <span className="trade-section-label">
             Public Demo
           </span>
           <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
@@ -52,13 +52,13 @@ export default function DemoPage() {
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 hover:bg-indigo-700"
+              className="trade-primary-button"
             >
               問い合わせる
             </Link>
             <Link
               href="/about"
-              className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50"
+              className="trade-secondary-button"
             >
               サービス説明を見る
             </Link>
@@ -69,14 +69,14 @@ export default function DemoPage() {
           {sections.map((section) => (
             <div
               key={section.title}
-              className="rounded-[1.75rem] border border-indigo-200/50 bg-white/95 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]"
+              className="trade-glass-card rounded-[1.75rem] p-6"
             >
               <h2 className="text-lg font-semibold text-slate-900">{section.title}</h2>
               <div className="mt-4 space-y-3">
                 {section.items.map((item) => (
                   <div
                     key={item}
-                    className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700"
+                    className="trade-soft-block px-4 py-3 text-sm font-medium text-slate-700"
                   >
                     {item}
                   </div>

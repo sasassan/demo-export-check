@@ -25,6 +25,7 @@ export const cases = pgTable(
     customerCompanyName: text("customer_company_name").notNull(),
     productImageUrl: text("product_image_url"),
     status: varchar("status", { length: 32 }).notNull(),
+    checklist: jsonb("checklist").notNull().default([]),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull(),
   },
@@ -50,9 +51,42 @@ export const riskAssessments = pgTable("risk_assessments", {
   caseId: varchar("case_id", { length: 64 }).primaryKey(),
   summary: jsonb("summary").notNull(),
   reportNarrative: text("report_narrative").notNull(),
+  dimensions: jsonb("dimensions").notNull().default([]),
+  evidence: jsonb("evidence").notNull().default([]),
+  modelResults: jsonb("model_results"),
+  agreementRate: integer("agreement_rate"),
+  reviewMeeting: jsonb("review_meeting"),
+  improvementSteps: jsonb("improvement_steps"),
+  worstCaseScenarios: jsonb("worst_case_scenarios"),
+  disagreementDimensions: jsonb("disagreement_dimensions"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull(),
 });
+
+export const aiConsultations = pgTable(
+  "ai_consultations",
+  {
+    id: varchar("id", { length: 64 }).primaryKey(),
+    userEmail: varchar("user_email", { length: 255 }).notNull(),
+    caseId: varchar("case_id", { length: 64 }),
+    mode: varchar("mode", { length: 64 }).notNull(),
+    question: text("question").notNull(),
+    sourceUrl: text("source_url"),
+    sourceText: text("source_text"),
+    fetchedUrlText: text("fetched_url_text"),
+    sourceFetchStatus: varchar("source_fetch_status", { length: 32 }),
+    answerTitle: text("answer_title").notNull(),
+    answer: text("answer").notNull(),
+    judgement: text("judgement"),
+    recommendedChecks: jsonb("recommended_checks"),
+    caseDraft: jsonb("case_draft"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
+  },
+  (table) => [
+    index("ai_consultations_user_email_idx").on(table.userEmail),
+    index("ai_consultations_case_id_idx").on(table.caseId),
+  ],
+);
 
 export const riskDimensionScores = pgTable(
   "risk_dimension_scores",

@@ -1,13 +1,16 @@
 import Link from "next/link";
 
+import { AiProviderStatusPanel } from "@/components/dashboard/ai-provider-status-panel";
 import { DashboardCaseList } from "@/components/dashboard/dashboard-case-list";
 import { Shell } from "@/components/layout/shell";
+import { getAllProviderRuntimeInfo } from "@/lib/ai/config";
 import { requireSessionEmail } from "@/lib/auth/server";
 import { listCasesByUser } from "@/lib/db/repository";
 
 export default async function DashboardPage() {
   const userEmail = await requireSessionEmail();
   const items = await listCasesByUser(userEmail);
+  const providerRuntimeInfo = getAllProviderRuntimeInfo();
 
   const completed = items.filter((i) => i.status === "completed").length;
   const investigating = items.filter((i) => i.status === "investigating").length;
@@ -18,7 +21,6 @@ export default async function DashboardPage() {
       title="案件一覧"
       description="案件の検索・絞り込み・状況把握をまとめて行えます。AIスクリーニングの進行状況や確認待ち案件も一目で把握できます。"
     >
-      {/* ユーザー情報バー */}
       <div className="flex flex-col items-start justify-between gap-4 rounded-[1.75rem] border border-indigo-200/50 bg-white/95 px-6 py-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)] sm:flex-row sm:items-center">
         <div className="flex items-center gap-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-100 text-sm font-semibold text-indigo-700">
@@ -43,7 +45,8 @@ export default async function DashboardPage() {
         </Link>
       </div>
 
-      {/* 統計カード */}
+      <AiProviderStatusPanel providers={providerRuntimeInfo} />
+
       <div className="rounded-[1.75rem] border border-indigo-200/50 bg-white/95 p-3 shadow-[0_24px_60px_rgba(15,23,42,0.08)] sm:p-4">
         <div className="grid gap-4 md:grid-cols-3">
           <div className="rounded-2xl border border-indigo-100 bg-indigo-50/40 p-5">
@@ -66,7 +69,6 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* タスク・機能 */}
       <div className="rounded-[1.75rem] border border-indigo-200/50 bg-white/95 p-3 shadow-[0_24px_60px_rgba(15,23,42,0.08)] sm:p-4">
         <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="rounded-2xl border border-indigo-100 bg-indigo-50/40 p-5">
@@ -91,7 +93,7 @@ export default async function DashboardPage() {
               {[
                 { title: "案件検索", text: "商品名・顧客名・輸出先国からすぐに案件を探せます。" },
                 { title: "ステータス絞り込み", text: "スクリーニング中・完了案件だけを切り替えて確認できます。" },
-                { title: "並び替え", text: "更新日や商品名順で一覧を整理できます。" },
+                { title: "AI構成確認", text: "どのAIが実API接続中か、管理画面上で即時確認できます。" },
               ].map((item) => (
                 <div key={item.title} className="rounded-xl border border-indigo-100 bg-white px-4 py-3">
                   <p className="text-sm font-semibold text-slate-900">{item.title}</p>
@@ -103,7 +105,6 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* 案件リスト */}
       {items.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-[1.75rem] border border-dashed border-slate-300 bg-white/95 px-6 py-16 text-center shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-100">
