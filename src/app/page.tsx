@@ -230,15 +230,21 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/about?v=hero"
-                  className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-6 py-3 text-base font-semibold text-slate-700 shadow-sm hover:bg-slate-50"
+                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-slate-700 to-slate-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-slate-500/20 hover:from-slate-800 hover:to-slate-700"
                 >
                   サービス説明を見る
+                  <svg viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
+                    <path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" />
+                  </svg>
                 </Link>
                 <Link
                   href="/contact?v=hero"
-                  className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-6 py-3 text-base font-semibold text-slate-700 shadow-sm hover:bg-slate-50"
+                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-teal-600 to-cyan-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-teal-500/20 hover:from-teal-700 hover:to-cyan-700"
                 >
                   フィードバックを送る
+                  <svg viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
+                    <path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" />
+                  </svg>
                 </Link>
               </div>
             </div>
