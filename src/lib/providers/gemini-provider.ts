@@ -56,7 +56,13 @@ export class GeminiProvider implements InvestigationProvider {
           })) as EvidenceItem[],
         }));
 
-      return buildProviderResult("google-gemini", findings);
+      return {
+        ...buildProviderResult("google-gemini", findings),
+        reviewComment: parsed.reviewComment,
+        keyRisk: parsed.keyRisk,
+        rawImprovementSteps: parsed.improvementSteps,
+        rawWorstCaseScenarios: parsed.worstCaseScenarios,
+      };
     } catch (error) {
       console.error("Gemini provider error:", error);
       const fallback = await new MockCountryProvider().run(caseRecord);

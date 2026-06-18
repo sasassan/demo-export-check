@@ -70,7 +70,13 @@ export class OpenAIProvider implements InvestigationProvider {
           })) as EvidenceItem[],
         }));
 
-      return buildProviderResult("openai-gpt4o", findings);
+      return {
+        ...buildProviderResult("openai-gpt4o", findings),
+        reviewComment: parsed.reviewComment,
+        keyRisk: parsed.keyRisk,
+        rawImprovementSteps: parsed.improvementSteps,
+        rawWorstCaseScenarios: parsed.worstCaseScenarios,
+      };
     } catch (error) {
       console.error("OpenAI provider error:", error);
       const fallback = await new MockSanctionsProvider().run(caseRecord);

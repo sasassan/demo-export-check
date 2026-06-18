@@ -84,10 +84,35 @@ export type InvestigationRecord = {
   updatedAt: string;
 };
 
+export type ImprovementStep = {
+  action: string;
+  scoreGain: number;
+  cumulativeScore: number;
+  priority: number;
+  detail: string;
+};
+
+export type WorstCaseScenario = {
+  scenario: string;
+  impact: string;
+  probability: "低" | "中" | "高";
+  grade: Grade;
+};
+
+export type ReviewMeetingEntry = {
+  model: AiModel;
+  modelLabel: string;
+  reviewComment: string;
+  keyRisk: string;
+  overallGrade: Grade;
+};
+
 export type ModelResult = {
   model: AiModel;
   modelLabel: string;
   dimensions: DimensionScore[];
+  reviewComment?: string;
+  keyRisk?: string;
 };
 
 export type AssessmentRecord = {
@@ -97,6 +122,11 @@ export type AssessmentRecord = {
   evidence: EvidenceItem[];
   reportNarrative: string;
   modelResults?: ModelResult[];
+  agreementRate?: number;
+  reviewMeeting?: ReviewMeetingEntry[];
+  improvementSteps?: ImprovementStep[];
+  worstCaseScenarios?: WorstCaseScenario[];
+  disagreementDimensions?: string[];
   createdAt: string;
   updatedAt: string;
 };
@@ -130,4 +160,8 @@ export type ProviderResult = {
   status: ProviderStatus;
   findings: InvestigationFinding[];
   errors: string[];
+  reviewComment?: string;
+  keyRisk?: string;
+  rawImprovementSteps?: Array<{ action: string; scoreGain: number; priority: number; detail: string }>;
+  rawWorstCaseScenarios?: Array<{ scenario: string; impact: string; probability: "低" | "中" | "高"; grade: Grade }>;
 };

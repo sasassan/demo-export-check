@@ -67,7 +67,13 @@ export class ClaudeProvider implements InvestigationProvider {
           })) as EvidenceItem[],
         }));
 
-      return buildProviderResult("anthropic-claude", findings);
+      return {
+        ...buildProviderResult("anthropic-claude", findings),
+        reviewComment: parsed.reviewComment,
+        keyRisk: parsed.keyRisk,
+        rawImprovementSteps: parsed.improvementSteps,
+        rawWorstCaseScenarios: parsed.worstCaseScenarios,
+      };
     } catch (error) {
       console.error("Claude provider error:", error);
       const fallback = await new MockCountryProvider().run(caseRecord);
