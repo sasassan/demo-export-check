@@ -1,0 +1,3016 @@
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+index 0000000..5ef6a52
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1,41 @@
++# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
++
++# dependencies
++/node_modules
++/.pnp
++.pnp.*
++.yarn/*
++!.yarn/patches
++!.yarn/plugins
++!.yarn/releases
++!.yarn/versions
++
++# testing
++/coverage
++
++# next.js
++/.next/
++/out/
++
++# production
++/build
++
++# misc
++.DS_Store
++*.pem
++
++# debug
++npm-debug.log*
++yarn-debug.log*
++yarn-error.log*
++.pnpm-debug.log*
++
++# env files (can opt-in for committing if needed)
++.env*
++
++# vercel
++.vercel
++
++# typescript
++*.tsbuildinfo
++next-env.d.ts
+diff --git a/AGENTS.md b/AGENTS.md
+new file mode 100644
+index 0000000..8bd0e39
+--- /dev/null
++++ b/AGENTS.md
+@@ -0,0 +1,5 @@
++<!-- BEGIN:nextjs-agent-rules -->
++# This is NOT the Next.js you know
++
++This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
++<!-- END:nextjs-agent-rules -->
+diff --git a/CLAUDE.md b/CLAUDE.md
+new file mode 100644
+index 0000000..43c994c
+--- /dev/null
++++ b/CLAUDE.md
+@@ -0,0 +1 @@
++@AGENTS.md
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..30faee5
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,56 @@
++# Export Risk Navi
++
++中小企業の営業担当・輸出担当向けに、`この商品を、この会社へ、この国へ輸出しても大丈夫か？` を短時間で確認できる Next.js アプリです。
++
++## 実装済みの初期版
++
++- メールログイン
++- 案件登録
++- モックProviderによるAI調査
++- ABC評価表示
++- PDFレポート出力
++- Drizzle スキーマ定義
++
++## 技術構成
++
++- Next.js 16 / App Router
++- TypeScript
++- Tailwind CSS 4
++- Drizzle ORM
++- React PDF
++
++## セットアップ
++
++```bash
++npm install
++npm run dev
++```
++
++ブラウザで `http://localhost:3000` を開いてください。
++
++## 環境変数
++
++`.env.example` を参考に `.env.local` を作成してください。
++
++### 初期版の動作方針
++
++- 現在は **Cookieベースの簡易メールログイン** で動作します
++- 調査処理は **mock provider** により自己完結で実行されます
++- `src/lib/db/schema.ts` には本番向けDBスキーマを定義しています
++- 実データベース接続や Supabase/Auth/API 契約がなくても、UI と案件フローを確認できます
++
++## 主な画面
++
++- `/` トップページ
++- `/login` ログイン
++- `/dashboard` 案件一覧
++- `/cases/new` 案件登録
++- `/cases/[id]` 評価結果
++- `/cases/[id]/report` レポート確認
++
++## 今後の差し替えポイント
++
++- `src/lib/auth/*` を Supabase Auth に置き換え
++- `src/lib/db/repository.ts` を永続DB実装に置き換え
++- `src/lib/providers/mock/*` を制裁/企業/ニュースAPI接続に置き換え
++- `src/app/api/webhooks/inngest/route.ts` を実ジョブ実行に接続
+\ No newline at end of file
+diff --git a/drizzle.config.ts b/drizzle.config.ts
+new file mode 100644
+index 0000000..6834179
+--- /dev/null
++++ b/drizzle.config.ts
+@@ -0,0 +1,10 @@
++import { defineConfig } from "drizzle-kit";
++
++export default defineConfig({
++  schema: "./src/lib/db/schema.ts",
++  out: "./drizzle",
++  dialect: "postgresql",
++  dbCredentials: {
++    url: process.env.DATABASE_URL ?? "postgres://postgres:postgres@localhost:5432/export-risk-navigator",
++  },
++});
+\ No newline at end of file
+diff --git a/eslint.config.mjs b/eslint.config.mjs
+new file mode 100644
+index 0000000..05e726d
+--- /dev/null
++++ b/eslint.config.mjs
+@@ -0,0 +1,18 @@
++import { defineConfig, globalIgnores } from "eslint/config";
++import nextVitals from "eslint-config-next/core-web-vitals";
++import nextTs from "eslint-config-next/typescript";
++
++const eslintConfig = defineConfig([
++  ...nextVitals,
++  ...nextTs,
++  // Override default ignores of eslint-config-next.
++  globalIgnores([
++    // Default ignores of eslint-config-next:
++    ".next/**",
++    "out/**",
++    "build/**",
++    "next-env.d.ts",
++  ]),
++]);
++
++export default eslintConfig;
+diff --git a/next.config.ts b/next.config.ts
+new file mode 100644
+index 0000000..e9ffa30
+--- /dev/null
++++ b/next.config.ts
+@@ -0,0 +1,7 @@
++import type { NextConfig } from "next";
++
++const nextConfig: NextConfig = {
++  /* config options here */
++};
++
++export default nextConfig;
+diff --git a/package.json b/package.json
+new file mode 100644
+index 0000000..b444762
+--- /dev/null
++++ b/package.json
+@@ -0,0 +1,31 @@
++{
++  "name": "export-risk-navigator-aiexport",
++  "version": "0.1.0",
++  "private": true,
++  "scripts": {
++    "dev": "next dev",
++    "build": "next build",
++    "start": "next start",
++    "lint": "eslint"
++  },
++  "dependencies": {
++    "@react-pdf/renderer": "^4.5.1",
++    "drizzle-orm": "^0.45.2",
++    "next": "16.2.7",
++    "postgres": "^3.4.9",
++    "react": "19.2.4",
++    "react-dom": "19.2.4",
++    "zod": "^4.4.3"
++  },
++  "devDependencies": {
++    "@tailwindcss/postcss": "^4",
++    "@types/node": "^20",
++    "@types/react": "^19",
++    "@types/react-dom": "^19",
++    "drizzle-kit": "^0.31.10",
++    "eslint": "^9",
++    "eslint-config-next": "16.2.7",
++    "tailwindcss": "^4",
++    "typescript": "^5"
++  }
++}
+diff --git a/postcss.config.mjs b/postcss.config.mjs
+new file mode 100644
+index 0000000..61e3684
+--- /dev/null
++++ b/postcss.config.mjs
+@@ -0,0 +1,7 @@
++const config = {
++  plugins: {
++    "@tailwindcss/postcss": {},
++  },
++};
++
++export default config;
+diff --git a/proxy.ts b/proxy.ts
+new file mode 100644
+index 0000000..11af04e
+--- /dev/null
++++ b/proxy.ts
+@@ -0,0 +1,39 @@
++import { NextResponse } from "next/server";
++import type { NextRequest } from "next/server";
++
++const publicPaths = ["/", "/login", "/api/auth/login", "/api/auth/logout"];
++
++export function proxy(request: NextRequest) {
++  const { pathname } = request.nextUrl;
++
++  if (
++    pathname.startsWith("/api") ||
++    pathname.startsWith("/_next") ||
++    pathname.startsWith("/favicon") ||
++    pathname.startsWith("/api/reports")
++  ) {
++    return NextResponse.next();
++  }
++
++  const isPublicPath = publicPaths.some((path) =>
++    pathname === path || pathname.startsWith(`${path}/`),
++  );
++
++  const session = request.cookies.get("ern_session_email")?.value;
++
++  if (!session && !isPublicPath) {
++    return NextResponse.redirect(new URL("/login", request.url));
++  }
++
++  if (session && (pathname === "/" || pathname === "/login")) {
++    return NextResponse.redirect(new URL("/dashboard", request.url));
++  }
++
++  return NextResponse.next();
++}
++
++export const config = {
++  matcher: [
++    "/((?!api|_next/static|_next/image|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
++  ],
++};
+\ No newline at end of file
+diff --git a/src/app/api/auth/login/route.ts b/src/app/api/auth/login/route.ts
+new file mode 100644
+index 0000000..f40d2be
+--- /dev/null
++++ b/src/app/api/auth/login/route.ts
+@@ -0,0 +1,36 @@
++import { cookies } from "next/headers";
++import { NextResponse } from "next/server";
++import { z } from "zod";
++
++import { SESSION_COOKIE_NAME } from "@/lib/constants";
++
++const loginSchema = z.object({
++  email: z.email("正しいメールアドレスを入力してください。"),
++});
++
++export async function POST(request: Request) {
++  const payload = await request.json();
++  const parsed = loginSchema.safeParse(payload);
++
++  if (!parsed.success) {
++    return NextResponse.json(
++      {
++        error: parsed.error.issues[0]?.message ?? "入力内容を確認してください。",
++      },
++      { status: 400 },
++    );
++  }
++
++  const cookieStore = await cookies();
++  cookieStore.set({
++    name: SESSION_COOKIE_NAME,
++    value: parsed.data.email,
++    path: "/",
++    sameSite: "lax",
++    httpOnly: true,
++  });
++
++  return NextResponse.json({
++    ok: true,
++  });
++}
+\ No newline at end of file
+diff --git a/src/app/api/auth/logout/route.ts b/src/app/api/auth/logout/route.ts
+new file mode 100644
+index 0000000..10d3713
+--- /dev/null
++++ b/src/app/api/auth/logout/route.ts
+@@ -0,0 +1,13 @@
++import { cookies } from "next/headers";
++import { NextResponse } from "next/server";
++
++import { SESSION_COOKIE_NAME } from "@/lib/constants";
++
++export async function POST() {
++  const cookieStore = await cookies();
++  cookieStore.delete(SESSION_COOKIE_NAME);
++
++  return NextResponse.json({
++    ok: true,
++  });
++}
+\ No newline at end of file
+diff --git a/src/app/api/cases/[id]/route.ts b/src/app/api/cases/[id]/route.ts
+new file mode 100644
+index 0000000..2d30b0f
+--- /dev/null
++++ b/src/app/api/cases/[id]/route.ts
+@@ -0,0 +1,24 @@
++import { NextResponse } from "next/server";
++
++import { getSessionEmail } from "@/lib/auth/server";
++import { assertCaseOwner } from "@/lib/db/repository";
++
++export async function GET(
++  _request: Request,
++  context: RouteContext<"/api/cases/[id]">,
++) {
++  const userEmail = await getSessionEmail();
++
++  if (!userEmail) {
++    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
++  }
++
++  const { id } = await context.params;
++  const detail = await assertCaseOwner(id, userEmail);
++
++  if (!detail) {
++    return NextResponse.json({ error: "Not found" }, { status: 404 });
++  }
++
++  return NextResponse.json(detail);
++}
+\ No newline at end of file
+diff --git a/src/app/api/cases/route.ts b/src/app/api/cases/route.ts
+new file mode 100644
+index 0000000..4833d64
+--- /dev/null
++++ b/src/app/api/cases/route.ts
+@@ -0,0 +1,42 @@
++import { NextResponse } from "next/server";
++
++import { getSessionEmail } from "@/lib/auth/server";
++import { createCaseRecord, listCasesByUser } from "@/lib/db/repository";
++import { createCaseSchema } from "@/lib/validation/case";
++
++export async function GET() {
++  const userEmail = await getSessionEmail();
++
++  if (!userEmail) {
++    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
++  }
++
++  const items = await listCasesByUser(userEmail);
++  return NextResponse.json(items);
++}
++
++export async function POST(request: Request) {
++  const userEmail = await getSessionEmail();
++
++  if (!userEmail) {
++    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
++  }
++
++  const body = await request.json();
++  const parsed = createCaseSchema.safeParse(body);
++
++  if (!parsed.success) {
++    return NextResponse.json(
++      {
++        error: parsed.error.issues[0]?.message ?? "入力内容を確認してください。",
++      },
++      { status: 400 },
++    );
++  }
++
++  const record = await createCaseRecord(userEmail, parsed.data);
++
++  return NextResponse.json({
++    id: record.id,
++  });
++}
+\ No newline at end of file
+diff --git a/src/app/api/investigations/[id]/route.ts b/src/app/api/investigations/[id]/route.ts
+new file mode 100644
+index 0000000..f6e2832
+--- /dev/null
++++ b/src/app/api/investigations/[id]/route.ts
+@@ -0,0 +1,24 @@
++import { NextResponse } from "next/server";
++
++import { getSessionEmail } from "@/lib/auth/server";
++import { assertCaseOwner } from "@/lib/db/repository";
++
++export async function GET(
++  _request: Request,
++  context: RouteContext<"/api/investigations/[id]">,
++) {
++  const userEmail = await getSessionEmail();
++
++  if (!userEmail) {
++    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
++  }
++
++  const { id } = await context.params;
++  const detail = await assertCaseOwner(id, userEmail);
++
++  if (!detail) {
++    return NextResponse.json({ error: "Not found" }, { status: 404 });
++  }
++
++  return NextResponse.json(detail.investigation ?? null);
++}
+\ No newline at end of file
+diff --git a/src/app/api/investigations/[id]/run/route.ts b/src/app/api/investigations/[id]/run/route.ts
+new file mode 100644
+index 0000000..ae0ea81
+--- /dev/null
++++ b/src/app/api/investigations/[id]/run/route.ts
+@@ -0,0 +1,27 @@
++import { NextResponse } from "next/server";
++
++import { getSessionEmail } from "@/lib/auth/server";
++import { runInvestigation } from "@/lib/investigation/orchestrator";
++
++export async function POST(
++  _request: Request,
++  context: RouteContext<"/api/investigations/[id]/run">,
++) {
++  const userEmail = await getSessionEmail();
++
++  if (!userEmail) {
++    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
++  }
++
++  const { id } = await context.params;
++  const detail = await runInvestigation(id, userEmail);
++
++  if (!detail) {
++    return NextResponse.json({ error: "Not found" }, { status: 404 });
++  }
++
++  return NextResponse.json({
++    ok: true,
++    status: detail.investigation?.status,
++  });
++}
+\ No newline at end of file
+diff --git a/src/app/api/reports/[caseId]/pdf/route.ts b/src/app/api/reports/[caseId]/pdf/route.ts
+new file mode 100644
+index 0000000..84fafcc
+--- /dev/null
++++ b/src/app/api/reports/[caseId]/pdf/route.ts
+@@ -0,0 +1,40 @@
++import { renderToBuffer } from "@react-pdf/renderer";
++
++import { getSessionEmail } from "@/lib/auth/server";
++import { assertCaseOwner } from "@/lib/db/repository";
++import { buildReportModel } from "@/lib/reports/build-report";
++import { createRiskReportPdf } from "@/lib/reports/pdf";
++
++export async function GET(
++  _request: Request,
++  context: RouteContext<"/api/reports/[caseId]/pdf">,
++) {
++  const userEmail = await getSessionEmail();
++
++  if (!userEmail) {
++    return new Response("Unauthorized", { status: 401 });
++  }
++
++  const { caseId } = await context.params;
++  const detail = await assertCaseOwner(caseId, userEmail);
++
++  if (!detail) {
++    return new Response("Not found", { status: 404 });
++  }
++
++  const model = buildReportModel(detail);
++
++  if (!model) {
++    return new Response("Report not ready", { status: 409 });
++  }
++
++  const pdfBuffer = await renderToBuffer(createRiskReportPdf(model));
++  const pdfBytes = new Uint8Array(pdfBuffer);
++
++  return new Response(pdfBytes, {
++    headers: {
++      "Content-Type": "application/pdf",
++      "Content-Disposition": `inline; filename="${caseId}.pdf"`,
++    },
++  });
++}
+\ No newline at end of file
+diff --git a/src/app/api/webhooks/inngest/route.ts b/src/app/api/webhooks/inngest/route.ts
+new file mode 100644
+index 0000000..f9efb70
+--- /dev/null
++++ b/src/app/api/webhooks/inngest/route.ts
+@@ -0,0 +1,8 @@
++import { NextResponse } from "next/server";
++
++export async function POST() {
++  return NextResponse.json({
++    ok: true,
++    message: "初期版では同期実行のため、将来の非同期ジョブ入口を予約しています。",
++  });
++}
+\ No newline at end of file
+diff --git a/src/app/cases/[id]/page.tsx b/src/app/cases/[id]/page.tsx
+new file mode 100644
+index 0000000..03ee9d4
+--- /dev/null
++++ b/src/app/cases/[id]/page.tsx
+@@ -0,0 +1,137 @@
++import Image from "next/image";
++import Link from "next/link";
++import { notFound } from "next/navigation";
++
++import { ReportPreview } from "@/components/reports/report-preview";
++import { RiskDimensionTable } from "@/components/results/risk-dimension-table";
++import { RiskScoreCard } from "@/components/results/risk-score-card";
++import { SourceEvidenceList } from "@/components/results/source-evidence-list";
++import { Shell } from "@/components/layout/shell";
++import { requireSessionEmail } from "@/lib/auth/server";
++import { assertCaseOwner } from "@/lib/db/repository";
++
++export default async function CaseDetailPage({
++  params,
++}: {
++  params: Promise<{ id: string }>;
++}) {
++  const userEmail = await requireSessionEmail();
++  const { id } = await params;
++  const detail = await assertCaseOwner(id, userEmail);
++
++  if (!detail) {
++    notFound();
++  }
++
++  return (
++    <Shell
++      title={detail.case.productName}
++      description="評価結果と根拠を一画面で確認できます。最終的な法令判断は社内確認を前提にしてください。"
++    >
++      <section className="grid gap-6 rounded-3xl border border-slate-200 bg-white p-6 lg:grid-cols-[1fr_320px]">
++        <div className="grid gap-4">
++          <div className="grid gap-1">
++            <p className="text-sm text-slate-500">型番</p>
++            <p className="text-lg font-semibold">{detail.case.modelNumber}</p>
++          </div>
++          <div className="grid gap-1 md:grid-cols-2">
++            <div>
++              <p className="text-sm text-slate-500">輸出先国</p>
++              <p className="font-medium">{detail.case.destinationCountry}</p>
++            </div>
++            <div>
++              <p className="text-sm text-slate-500">顧客企業名</p>
++              <p className="font-medium">{detail.case.customerCompanyName}</p>
++            </div>
++          </div>
++          <div className="rounded-2xl bg-amber-50 px-4 py-3 text-sm leading-7 text-amber-800">
++            本サービスは営業担当の一次確認を支援するものであり、法的判断の最終責任は社内確認を前提としてください。
++          </div>
++        </div>
++
++        <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50">
++          {detail.case.productImageUrl ? (
++            <div className="relative h-full min-h-[220px] w-full">
++              <Image
++                src={detail.case.productImageUrl}
++                alt={detail.case.productName}
++                fill
++                className="object-cover"
++                unoptimized
++              />
++            </div>
++          ) : (
++            <div className="flex h-full min-h-[220px] items-center justify-center text-sm text-slate-500">
++              商品画像なし
++            </div>
++          )}
++        </div>
++      </section>
++
++      {detail.assessment ? (
++        <>
++          <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
++            <RiskScoreCard
++              label="総合評価"
++              grade={detail.assessment.summary.overall}
++              description={detail.assessment.summary.headline}
++            />
++            <RiskScoreCard
++              label="安全保障リスク"
++              grade={detail.assessment.summary.security}
++              description="制裁・エンドユーザー・用途・キャッチオールを統合して表示します。"
++            />
++            <RiskScoreCard
++              label="信用リスク"
++              grade={detail.assessment.summary.credit}
++              description="UBO・PEPs・ブランド毀損リスクを中心に評価します。"
++            />
++            <RiskScoreCard
++              label="国リスク"
++              grade={detail.assessment.summary.country}
++              description="輸出先国の政情・規制変化・地政学リスクを表示します。"
++            />
++          </section>
++
++          <section className="grid gap-6">
++            <div className="rounded-3xl border border-slate-200 bg-white p-6">
++              <div className="flex items-center justify-between gap-4">
++                <div>
++                  <h2 className="text-xl font-semibold">AIの要約</h2>
++                  <p className="mt-2 text-sm leading-7 text-slate-600">
++                    {detail.assessment.summary.summary}
++                  </p>
++                </div>
++                <Link
++                  href={`/cases/${detail.case.id}/report`}
++                  className="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700"
++                >
++                  レポート確認
++                </Link>
++              </div>
++              <p className="mt-4 text-sm leading-7 text-slate-700">
++                {detail.assessment.reportNarrative}
++              </p>
++            </div>
++
++            <RiskDimensionTable items={detail.assessment.dimensions} />
++          </section>
++
++          <section className="grid gap-4">
++            <h2 className="text-2xl font-semibold">根拠ソース</h2>
++            <SourceEvidenceList items={detail.assessment.evidence} />
++          </section>
++
++          <ReportPreview detail={detail} />
++        </>
++      ) : (
++        <section className="rounded-3xl border border-slate-200 bg-white p-6">
++          <h2 className="text-xl font-semibold">調査結果を準備中です</h2>
++          <p className="mt-3 text-sm leading-7 text-slate-600">
++            まだ評価結果がありません。調査開始APIの実行後に再読み込みしてください。
++          </p>
++        </section>
++      )}
++    </Shell>
++  );
++}
+\ No newline at end of file
+diff --git a/src/app/cases/[id]/report/page.tsx b/src/app/cases/[id]/report/page.tsx
+new file mode 100644
+index 0000000..20943b8
+--- /dev/null
++++ b/src/app/cases/[id]/report/page.tsx
+@@ -0,0 +1,86 @@
++import { notFound } from "next/navigation";
++
++import { Shell } from "@/components/layout/shell";
++import { requireSessionEmail } from "@/lib/auth/server";
++import { assertCaseOwner } from "@/lib/db/repository";
++import { buildReportModel } from "@/lib/reports/build-report";
++
++export default async function CaseReportPage({
++  params,
++}: {
++  params: Promise<{ id: string }>;
++}) {
++  const userEmail = await requireSessionEmail();
++  const { id } = await params;
++  const detail = await assertCaseOwner(id, userEmail);
++
++  if (!detail) {
++    notFound();
++  }
++
++  const report = buildReportModel(detail);
++
++  if (!report) {
++    notFound();
++  }
++
++  return (
++    <Shell
++      title="レポート確認"
++      description="PDFに出力される内容を事前に確認できます。"
++    >
++      <section className="grid gap-6 rounded-3xl border border-slate-200 bg-white p-8">
++        <div>
++          <p className="text-sm text-slate-500">案件ID</p>
++          <p className="mt-1 text-lg font-semibold">{report.caseId}</p>
++        </div>
++
++        <div className="grid gap-4 md:grid-cols-2">
++          <div className="rounded-2xl bg-slate-50 p-5">
++            <p className="text-sm text-slate-500">総合評価</p>
++            <p className="mt-2 text-4xl font-semibold">{report.overallGrade}</p>
++          </div>
++          <div className="rounded-2xl bg-slate-50 p-5">
++            <p className="text-sm text-slate-500">対象案件</p>
++            <p className="mt-2 text-lg font-semibold">{report.productName}</p>
++            <p className="text-sm text-slate-600">{report.customerCompanyName}</p>
++          </div>
++        </div>
++
++        <div className="rounded-2xl border border-slate-200 p-5">
++          <h2 className="text-lg font-semibold">要約</h2>
++          <p className="mt-3 text-sm leading-7 text-slate-600">{report.summary}</p>
++          <p className="mt-3 text-sm leading-7 text-slate-700">
++            {report.reportNarrative}
++          </p>
++        </div>
++
++        <div className="grid gap-4 md:grid-cols-2">
++          {report.dimensions.map((item) => (
++            <div
++              key={item.dimension}
++              className="rounded-2xl border border-slate-200 p-5"
++            >
++              <div className="flex items-center justify-between gap-3">
++                <p className="font-semibold">{item.label}</p>
++                <p className="text-sm font-medium">
++                  {item.grade} / {item.score}
++                </p>
++              </div>
++              <p className="mt-3 text-sm leading-7 text-slate-600">{item.rationale}</p>
++            </div>
++          ))}
++        </div>
++
++        <a
++          href={`/api/reports/${report.caseId}/pdf`}
++          target="_blank"
++          rel="noreferrer"
++          className="inline-flex w-fit rounded-full bg-slate-950 px-5 py-3 text-sm font-medium text-white"
++        >
++          PDFを生成して開く
++        </a>
++      </section>
++    </Shell>
++  );
++}
+\ No newline at end of file
+diff --git a/src/app/cases/new/page.tsx b/src/app/cases/new/page.tsx
+new file mode 100644
+index 0000000..a048fc7
+--- /dev/null
++++ b/src/app/cases/new/page.tsx
+@@ -0,0 +1,16 @@
++import { CaseForm } from "@/components/forms/case-form";
++import { Shell } from "@/components/layout/shell";
++import { requireSessionEmail } from "@/lib/auth/server";
++
++export default async function NewCasePage() {
++  await requireSessionEmail();
++
++  return (
++    <Shell
++      title="新規案件登録"
++      description="商品情報と顧客情報を入力すると、制裁・企業・用途・国リスクを自動で調査します。"
++    >
++      <CaseForm />
++    </Shell>
++  );
++}
+\ No newline at end of file
+diff --git a/src/app/dashboard/page.tsx b/src/app/dashboard/page.tsx
+new file mode 100644
+index 0000000..dc7e93a
+--- /dev/null
++++ b/src/app/dashboard/page.tsx
+@@ -0,0 +1,37 @@
++import Link from "next/link";
++
++import { CaseSummaryCard } from "@/components/cases/case-summary-card";
++import { Shell } from "@/components/layout/shell";
++import { requireSessionEmail } from "@/lib/auth/server";
++import { listCasesByUser } from "@/lib/db/repository";
++
++export default async function DashboardPage() {
++  const userEmail = await requireSessionEmail();
++  const items = await listCasesByUser(userEmail);
++
++  return (
++    <Shell
++      title="案件一覧"
++      description="営業案件ごとに、調査状況・評価結果・レポート出力状況を一覧で確認できます。"
++    >
++      <div className="flex items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-white p-6">
++        <div>
++          <p className="text-sm text-slate-500">ログイン中</p>
++          <p className="text-lg font-semibold">{userEmail}</p>
++        </div>
++        <Link
++          href="/cases/new"
++          className="rounded-full bg-slate-950 px-4 py-2 text-sm font-medium text-white"
++        >
++          新規案件を登録
++        </Link>
++      </div>
++
++      <div className="grid gap-4">
++        {items.map((item) => (
++          <CaseSummaryCard key={item.id} item={item} />
++        ))}
++      </div>
++    </Shell>
++  );
++}
+\ No newline at end of file
+diff --git a/src/app/favicon.ico b/src/app/favicon.ico
+new file mode 100644
+index 0000000..718d6fe
+Binary files /dev/null and b/src/app/favicon.ico differ
+diff --git a/src/app/globals.css b/src/app/globals.css
+new file mode 100644
+index 0000000..aafed80
+--- /dev/null
++++ b/src/app/globals.css
+@@ -0,0 +1,32 @@
++@import "tailwindcss";
++
++:root {
++  --background: #f8fafc;
++  --foreground: #0f172a;
++}
++
++@theme inline {
++  --color-background: var(--background);
++  --color-foreground: var(--foreground);
++  --font-sans: var(--font-geist-sans);
++  --font-mono: var(--font-geist-mono);
++}
++
++* {
++  box-sizing: border-box;
++}
++
++html {
++  scroll-behavior: smooth;
++}
++
++body {
++  background: var(--background);
++  color: var(--foreground);
++  font-family: Arial, Helvetica, sans-serif;
++}
++
++a {
++  color: inherit;
++  text-decoration: none;
++}
+\ No newline at end of file
+diff --git a/src/app/layout.tsx b/src/app/layout.tsx
+new file mode 100644
+index 0000000..b8e080b
+--- /dev/null
++++ b/src/app/layout.tsx
+@@ -0,0 +1,34 @@
++import type { Metadata } from "next";
++import { Geist, Geist_Mono } from "next/font/google";
++
++import "./globals.css";
++
++const geistSans = Geist({
++  variable: "--font-geist-sans",
++  subsets: ["latin"],
++});
++
++const geistMono = Geist_Mono({
++  variable: "--font-geist-mono",
++  subsets: ["latin"],
++});
++
++export const metadata: Metadata = {
++  title: "Export Risk Navi",
++  description: "中小企業向けの輸出リスク調査・評価Webアプリ",
++};
++
++export default function RootLayout({
++  children,
++}: Readonly<{
++  children: React.ReactNode;
++}>) {
++  return (
++    <html
++      lang="ja"
++      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
++    >
++      <body className="min-h-full bg-slate-50 text-slate-950">{children}</body>
++    </html>
++  );
++}
+\ No newline at end of file
+diff --git a/src/app/login/page.tsx b/src/app/login/page.tsx
+new file mode 100644
+index 0000000..a5662b3
+--- /dev/null
++++ b/src/app/login/page.tsx
+@@ -0,0 +1,32 @@
++import { LoginForm } from "@/components/forms/login-form";
++
++export default function LoginPage() {
++  return (
++    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-6 py-16">
++      <div className="grid w-full max-w-5xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
++        <section className="rounded-[2rem] bg-slate-950 p-10 text-white">
++          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-400">
++            Export Risk Navi
++          </p>
++          <h1 className="mt-4 text-4xl font-semibold leading-tight">
++            メールだけでログインして、案件調査をすぐ始められます。
++          </h1>
++          <ul className="mt-8 grid gap-4 text-sm leading-7 text-slate-200">
++            <li>・商品名、型番、輸出先国、顧客企業名を入力</li>
++            <li>・AIが制裁、企業、用途、国リスクを自動調査</li>
++            <li>・ABC評価とPDFレポートをそのまま社内提出</li>
++          </ul>
++        </section>
++        <section className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
++          <h2 className="text-2xl font-semibold">ログイン</h2>
++          <p className="mt-2 text-sm leading-7 text-slate-600">
++            初期版ではメール入力のみで利用できます。将来はMagic Linkに拡張可能です。
++          </p>
++          <div className="mt-8">
++            <LoginForm />
++          </div>
++        </section>
++      </div>
++    </div>
++  );
++}
+\ No newline at end of file
+diff --git a/src/app/not-found.tsx b/src/app/not-found.tsx
+new file mode 100644
+index 0000000..71320ff
+--- /dev/null
++++ b/src/app/not-found.tsx
+@@ -0,0 +1,20 @@
++import Link from "next/link";
++
++export default function NotFound() {
++  return (
++    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-6">
++      <div className="max-w-lg rounded-3xl border border-slate-200 bg-white p-8 text-center">
++        <h1 className="text-3xl font-semibold">ページが見つかりません</h1>
++        <p className="mt-3 text-sm leading-7 text-slate-600">
++          案件が削除されたか、ログイン状態が切れている可能性があります。
++        </p>
++        <Link
++          href="/dashboard"
++          className="mt-6 inline-flex rounded-full bg-slate-950 px-4 py-2 text-sm font-medium text-white"
++        >
++          案件一覧へ戻る
++        </Link>
++      </div>
++    </div>
++  );
++}
+\ No newline at end of file
+diff --git a/src/app/page.tsx b/src/app/page.tsx
+new file mode 100644
+index 0000000..591accf
+--- /dev/null
++++ b/src/app/page.tsx
+@@ -0,0 +1,108 @@
++import Link from "next/link";
++
++import { APP_NAME } from "@/lib/constants";
++
++const features = [
++  "制裁リスト調査",
++  "エンドユーザー実在性確認",
++  "UBO / PEPs確認",
++  "国リスク評価",
++  "用途リスク / キャッチオール確認",
++  "PDFレポート出力",
++];
++
++export default function Home() {
++  return (
++    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#eff6ff,_#f8fafc_45%,_#e2e8f0)]">
++      <main className="mx-auto flex max-w-6xl flex-col gap-20 px-6 py-12">
++        <header className="flex items-center justify-between">
++          <div>
++            <p className="text-sm font-semibold tracking-[0.3em] text-slate-500 uppercase">
++              Export Compliance
++            </p>
++            <h1 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950">
++              {APP_NAME}
++            </h1>
++          </div>
++          <div className="flex items-center gap-3">
++            <Link
++              href="/login"
++              className="rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700"
++            >
++              ログイン
++            </Link>
++            <Link
++              href="/dashboard"
++              className="rounded-full bg-slate-950 px-4 py-2 text-sm font-medium text-white"
++            >
++              デモを見る
++            </Link>
++          </div>
++        </header>
++
++        <section className="grid gap-10 lg:grid-cols-[1.3fr_0.9fr] lg:items-center">
++          <div className="space-y-6">
++            <span className="inline-flex rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm">
++              営業担当でも短時間で輸出リスクを把握
++            </span>
++            <h2 className="max-w-4xl text-5xl font-semibold leading-tight tracking-tight text-slate-950">
++              「この商品を、この会社へ、この国へ輸出して大丈夫か？」
++              を、わかりやすく可視化します。
++            </h2>
++            <p className="max-w-3xl text-lg leading-8 text-slate-600">
++              Export Risk Navi
++              は、中小企業向けに輸出規制・制裁・用途リスク・信用リスクをひとつの画面で確認できるWebサービスです。
++            </p>
++            <div className="flex flex-wrap gap-3">
++              <Link
++                href="/cases/new"
++                className="rounded-full bg-slate-950 px-5 py-3 text-sm font-medium text-white"
++              >
++                案件登録を始める
++              </Link>
++              <Link
++                href="/dashboard"
++                className="rounded-full border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700"
++              >
++                サンプル案件を見る
++              </Link>
++            </div>
++          </div>
++
++          <div className="rounded-[2rem] border border-white/70 bg-white/80 p-6 shadow-xl shadow-slate-200/80 backdrop-blur">
++            <div className="rounded-3xl bg-slate-950 p-6 text-white">
++              <p className="text-sm text-slate-300">サンプル結果</p>
++              <div className="mt-4 grid gap-4 sm:grid-cols-2">
++                <div className="rounded-2xl bg-white/10 p-4">
++                  <p className="text-sm text-slate-300">総合評価</p>
++                  <p className="mt-2 text-4xl font-semibold">B</p>
++                </div>
++                <div className="rounded-2xl bg-white/10 p-4">
++                  <p className="text-sm text-slate-300">国リスク</p>
++                  <p className="mt-2 text-4xl font-semibold">B</p>
++                </div>
++              </div>
++              <p className="mt-4 text-sm leading-7 text-slate-200">
++                類似名称確認と用途確認を追加で行えば、営業段階でも判断材料として使える状態です。
++              </p>
++            </div>
++          </div>
++        </section>
++
++        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
++          {features.map((feature) => (
++            <div
++              key={feature}
++              className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
++            >
++              <p className="text-lg font-semibold">{feature}</p>
++              <p className="mt-3 text-sm leading-7 text-slate-600">
++                営業担当でも理解しやすい日本語で要点を整理し、追加確認事項まで提示します。
++              </p>
++            </div>
++          ))}
++        </section>
++      </main>
++    </div>
++  );
++}
+\ No newline at end of file
+diff --git a/src/components/cases/case-summary-card.tsx b/src/components/cases/case-summary-card.tsx
+new file mode 100644
+index 0000000..9d0ab82
+--- /dev/null
++++ b/src/components/cases/case-summary-card.tsx
+@@ -0,0 +1,37 @@
++import Link from "next/link";
++
++import { formatDate } from "@/lib/utils";
++import type { CaseRecord } from "@/lib/types";
++
++const statusLabelMap = {
++  draft: "下書き",
++  investigating: "AI調査中",
++  completed: "調査完了",
++  failed: "失敗",
++} as const;
++
++export function CaseSummaryCard({ item }: { item: CaseRecord }) {
++  return (
++    <Link
++      href={`/cases/${item.id}`}
++      className="grid gap-4 rounded-3xl border border-slate-200 bg-white p-6 transition hover:border-slate-300 hover:shadow-sm"
++    >
++      <div className="flex items-start justify-between gap-4">
++        <div>
++          <p className="text-lg font-semibold">{item.productName}</p>
++          <p className="text-sm text-slate-500">
++            型番: {item.modelNumber} / 顧客: {item.customerCompanyName}
++          </p>
++        </div>
++        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
++          {statusLabelMap[item.status]}
++        </span>
++      </div>
++      <div className="grid gap-1 text-sm text-slate-600 md:grid-cols-3">
++        <p>輸出先国: {item.destinationCountry}</p>
++        <p>登録日時: {formatDate(item.createdAt)}</p>
++        <p>更新日時: {formatDate(item.updatedAt)}</p>
++      </div>
++    </Link>
++  );
++}
+\ No newline at end of file
+diff --git a/src/components/forms/case-form.tsx b/src/components/forms/case-form.tsx
+new file mode 100644
+index 0000000..580b100
+--- /dev/null
++++ b/src/components/forms/case-form.tsx
+@@ -0,0 +1,193 @@
++"use client";
++
++import Image from "next/image";
++import { useRouter } from "next/navigation";
++import { useState } from "react";
++
++import { uploadImageAsDataUrl } from "@/lib/storage/upload";
++import type { CreateCaseSchema } from "@/lib/validation/case";
++
++const initialState: CreateCaseSchema = {
++  productName: "",
++  modelNumber: "",
++  destinationCountry: "",
++  customerCompanyName: "",
++  productImageUrl: undefined,
++};
++
++export function CaseForm() {
++  const router = useRouter();
++  const [form, setForm] = useState<CreateCaseSchema>(initialState);
++  const [submitting, setSubmitting] = useState(false);
++  const [error, setError] = useState<string | null>(null);
++
++  async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
++    const file = event.target.files?.[0];
++
++    if (!file) {
++      return;
++    }
++
++    const productImageUrl = await uploadImageAsDataUrl(file);
++    setForm((current) => ({
++      ...current,
++      productImageUrl,
++    }));
++  }
++
++  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
++    event.preventDefault();
++    setSubmitting(true);
++    setError(null);
++
++    try {
++      const response = await fetch("/api/cases", {
++        method: "POST",
++        headers: {
++          "Content-Type": "application/json",
++        },
++        body: JSON.stringify(form),
++      });
++
++      const payload = (await response.json()) as { id?: string; error?: string };
++
++      if (!response.ok || !payload.id) {
++        throw new Error(payload.error ?? "案件登録に失敗しました。");
++      }
++
++      await fetch(`/api/investigations/${payload.id}/run`, {
++        method: "POST",
++      });
++
++      router.push(`/cases/${payload.id}`);
++      router.refresh();
++    } catch (submissionError) {
++      setError(
++        submissionError instanceof Error
++          ? submissionError.message
++          : "案件登録に失敗しました。",
++      );
++    } finally {
++      setSubmitting(false);
++    }
++  }
++
++  function updateField<Key extends keyof CreateCaseSchema>(
++    key: Key,
++    value: CreateCaseSchema[Key],
++  ) {
++    setForm((current) => ({
++      ...current,
++      [key]: value,
++    }));
++  }
++
++  return (
++    <form onSubmit={handleSubmit} className="grid gap-6 lg:grid-cols-[2fr_1fr]">
++      <div className="grid gap-4 rounded-3xl border border-slate-200 bg-white p-6">
++        <div className="grid gap-4 md:grid-cols-2">
++          <label className="flex flex-col gap-2 text-sm font-medium text-slate-700">
++            商品名
++            <input
++              className="rounded-2xl border border-slate-200 px-4 py-3"
++              value={form.productName}
++              onChange={(event) => updateField("productName", event.target.value)}
++              placeholder="例: 高精度サーボモーター"
++              required
++            />
++          </label>
++          <label className="flex flex-col gap-2 text-sm font-medium text-slate-700">
++            型番
++            <input
++              className="rounded-2xl border border-slate-200 px-4 py-3"
++              value={form.modelNumber}
++              onChange={(event) => updateField("modelNumber", event.target.value)}
++              placeholder="例: SRV-9800"
++              required
++            />
++          </label>
++        </div>
++
++        <div className="grid gap-4 md:grid-cols-2">
++          <label className="flex flex-col gap-2 text-sm font-medium text-slate-700">
++            輸出先国
++            <input
++              className="rounded-2xl border border-slate-200 px-4 py-3"
++              value={form.destinationCountry}
++              onChange={(event) => updateField("destinationCountry", event.target.value)}
++              placeholder="例: ベトナム"
++              required
++            />
++          </label>
++          <label className="flex flex-col gap-2 text-sm font-medium text-slate-700">
++            顧客企業名
++            <input
++              className="rounded-2xl border border-slate-200 px-4 py-3"
++              value={form.customerCompanyName}
++              onChange={(event) =>
++                updateField("customerCompanyName", event.target.value)
++              }
++              placeholder="例: Saigon Precision Parts Ltd."
++              required
++            />
++          </label>
++        </div>
++
++        <label className="flex flex-col gap-2 text-sm font-medium text-slate-700">
++          商品画像
++          <input
++            type="file"
++            accept="image/*"
++            className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-6"
++            onChange={handleFileChange}
++          />
++        </label>
++
++        {form.productImageUrl ? (
++          <div className="overflow-hidden rounded-3xl border border-slate-200">
++            <Image
++              src={form.productImageUrl}
++              alt="商品画像プレビュー"
++              width={1200}
++              height={480}
++              className="h-48 w-full object-cover"
++              unoptimized
++            />
++          </div>
++        ) : null}
++
++        {error ? (
++          <p className="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
++        ) : null}
++
++        <button
++          type="submit"
++          disabled={submitting}
++          className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-medium text-white disabled:opacity-60"
++        >
++          {submitting ? "案件を登録中..." : "案件を登録してAI調査を開始"}
++        </button>
++      </div>
++
++      <aside className="grid gap-4 rounded-3xl border border-slate-200 bg-white p-6">
++        <div>
++          <h2 className="text-lg font-semibold">この画面で入力する内容</h2>
++          <p className="mt-2 text-sm leading-7 text-slate-600">
++            商品名だけでも開始できますが、型番・顧客名・輸出先国があるほど判定精度が上がります。
++          </p>
++        </div>
++        <div>
++          <h3 className="text-sm font-semibold text-slate-900">自動で確認される項目</h3>
++          <ul className="mt-3 grid gap-2 text-sm text-slate-600">
++            <li>・制裁リスト</li>
++            <li>・エンドユーザー実在性</li>
++            <li>・UBO / PEPs</li>
++            <li>・国リスク</li>
++            <li>・用途リスク / キャッチオール</li>
++            <li>・ブランド毀損リスク</li>
++          </ul>
++        </div>
++      </aside>
++    </form>
++  );
++}
+\ No newline at end of file
+diff --git a/src/components/forms/login-form.tsx b/src/components/forms/login-form.tsx
+new file mode 100644
+index 0000000..e8ec85b
+--- /dev/null
++++ b/src/components/forms/login-form.tsx
+@@ -0,0 +1,63 @@
++"use client";
++
++import { useRouter } from "next/navigation";
++import { useState } from "react";
++
++import { loginWithEmail } from "@/lib/auth/client";
++
++export function LoginForm() {
++  const router = useRouter();
++  const [email, setEmail] = useState("demo@example.com");
++  const [isSubmitting, setIsSubmitting] = useState(false);
++  const [error, setError] = useState<string | null>(null);
++
++  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
++    event.preventDefault();
++    setIsSubmitting(true);
++    setError(null);
++
++    try {
++      await loginWithEmail(email);
++      router.push("/dashboard");
++      router.refresh();
++    } catch (submissionError) {
++      setError(
++        submissionError instanceof Error
++          ? submissionError.message
++          : "ログインに失敗しました。",
++      );
++    } finally {
++      setIsSubmitting(false);
++    }
++  }
++
++  return (
++    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
++      <label className="flex flex-col gap-2 text-sm font-medium text-slate-700">
++        メールアドレス
++        <input
++          type="email"
++          value={email}
++          onChange={(event) => setEmail(event.target.value)}
++          className="rounded-2xl border border-slate-200 bg-white px-4 py-3 outline-none ring-0"
++          placeholder="you@example.com"
++          required
++        />
++      </label>
++      {error ? (
++        <p className="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
++      ) : null}
++      <button
++        type="submit"
++        disabled={isSubmitting}
++        className="rounded-2xl bg-slate-950 px-4 py-3 text-sm font-medium text-white disabled:opacity-60"
++      >
++        {isSubmitting ? "ログイン中..." : "メールでログイン"}
++      </button>
++      <p className="text-xs leading-6 text-slate-500">
++        初期版ではメールを入力するとそのまま利用開始できます。将来的に Magic Link
++        に置き換えやすい構成です。
++      </p>
++    </form>
++  );
++}
+\ No newline at end of file
+diff --git a/src/components/layout/header.tsx b/src/components/layout/header.tsx
+new file mode 100644
+index 0000000..1192532
+--- /dev/null
++++ b/src/components/layout/header.tsx
+@@ -0,0 +1,34 @@
++import Link from "next/link";
++
++import { APP_NAME } from "@/lib/constants";
++
++export function Header() {
++  return (
++    <header className="border-b border-slate-200 bg-white/90 backdrop-blur">
++      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
++        <div>
++          <Link href="/" className="text-lg font-semibold text-slate-950">
++            {APP_NAME}
++          </Link>
++          <p className="text-sm text-slate-500">
++            輸出リスクを営業担当でも短時間で確認できるWebアプリ
++          </p>
++        </div>
++        <nav className="flex items-center gap-3 text-sm">
++          <Link
++            href="/dashboard"
++            className="rounded-full border border-slate-200 px-4 py-2 text-slate-700"
++          >
++            案件一覧
++          </Link>
++          <Link
++            href="/cases/new"
++            className="rounded-full bg-slate-950 px-4 py-2 text-white"
++          >
++            新規案件
++          </Link>
++        </nav>
++      </div>
++    </header>
++  );
++}
+\ No newline at end of file
+diff --git a/src/components/layout/shell.tsx b/src/components/layout/shell.tsx
+new file mode 100644
+index 0000000..e77c4f0
+--- /dev/null
++++ b/src/components/layout/shell.tsx
+@@ -0,0 +1,26 @@
++import { Header } from "@/components/layout/header";
++
++export function Shell({
++  children,
++  title,
++  description,
++}: {
++  children: React.ReactNode;
++  title: string;
++  description?: string;
++}) {
++  return (
++    <div className="min-h-screen bg-slate-50 text-slate-950">
++      <Header />
++      <main className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-10">
++        <section className="flex flex-col gap-2">
++          <h1 className="text-3xl font-semibold tracking-tight">{title}</h1>
++          {description ? (
++            <p className="max-w-3xl text-sm leading-7 text-slate-600">{description}</p>
++          ) : null}
++        </section>
++        {children}
++      </main>
++    </div>
++  );
++}
+\ No newline at end of file
+diff --git a/src/components/reports/report-preview.tsx b/src/components/reports/report-preview.tsx
+new file mode 100644
+index 0000000..7761bf0
+--- /dev/null
++++ b/src/components/reports/report-preview.tsx
+@@ -0,0 +1,34 @@
++import Link from "next/link";
++
++import type { CaseDetail } from "@/lib/types";
++
++export function ReportPreview({ detail }: { detail: CaseDetail }) {
++  if (!detail.assessment) {
++    return null;
++  }
++
++  return (
++    <div className="grid gap-4 rounded-3xl border border-slate-200 bg-white p-6">
++      <div className="flex items-center justify-between gap-4">
++        <div>
++          <h2 className="text-xl font-semibold">PDFレポート出力</h2>
++          <p className="mt-2 text-sm text-slate-600">
++            上司提出や社内決裁向けに、そのまま出力できる体裁でレポートを生成します。
++          </p>
++        </div>
++        <Link
++          href={`/api/reports/${detail.case.id}/pdf`}
++          className="rounded-full bg-slate-950 px-4 py-2 text-sm font-medium text-white"
++          target="_blank"
++        >
++          PDFを開く
++        </Link>
++      </div>
++      <div className="rounded-2xl bg-slate-50 p-4 text-sm leading-7 text-slate-600">
++        <p>総合評価: {detail.assessment.summary.overall}</p>
++        <p>{detail.assessment.summary.summary}</p>
++        <p>{detail.assessment.reportNarrative}</p>
++      </div>
++    </div>
++  );
++}
+\ No newline at end of file
+diff --git a/src/components/results/risk-dimension-table.tsx b/src/components/results/risk-dimension-table.tsx
+new file mode 100644
+index 0000000..bba3d06
+--- /dev/null
++++ b/src/components/results/risk-dimension-table.tsx
+@@ -0,0 +1,32 @@
++import type { DimensionScore } from "@/lib/types";
++
++export function RiskDimensionTable({ items }: { items: DimensionScore[] }) {
++  return (
++    <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white">
++      <table className="min-w-full divide-y divide-slate-200 text-left text-sm">
++        <thead className="bg-slate-50 text-slate-600">
++          <tr>
++            <th className="px-4 py-3 font-medium">項目</th>
++            <th className="px-4 py-3 font-medium">評価</th>
++            <th className="px-4 py-3 font-medium">理由</th>
++            <th className="px-4 py-3 font-medium">追加確認</th>
++          </tr>
++        </thead>
++        <tbody className="divide-y divide-slate-100">
++          {items.map((item) => (
++            <tr key={item.dimension}>
++              <td className="px-4 py-4 font-medium text-slate-900">{item.label}</td>
++              <td className="px-4 py-4">
++                {item.grade} / {item.score}
++              </td>
++              <td className="px-4 py-4 text-slate-600">{item.rationale}</td>
++              <td className="px-4 py-4 text-slate-600">
++                {item.recommendedAction}
++              </td>
++            </tr>
++          ))}
++        </tbody>
++      </table>
++    </div>
++  );
++}
+\ No newline at end of file
+diff --git a/src/components/results/risk-score-card.tsx b/src/components/results/risk-score-card.tsx
+new file mode 100644
+index 0000000..b37b37f
+--- /dev/null
++++ b/src/components/results/risk-score-card.tsx
+@@ -0,0 +1,35 @@
++import { cn } from "@/lib/utils";
++import type { Grade } from "@/lib/types";
++
++const gradeStyleMap: Record<Grade, string> = {
++  A: "bg-emerald-50 text-emerald-700 border-emerald-200",
++  B: "bg-amber-50 text-amber-700 border-amber-200",
++  C: "bg-rose-50 text-rose-700 border-rose-200",
++};
++
++export function RiskScoreCard({
++  label,
++  grade,
++  description,
++}: {
++  label: string;
++  grade: Grade;
++  description: string;
++}) {
++  return (
++    <div className="rounded-3xl border border-slate-200 bg-white p-6">
++      <div className="flex items-center justify-between gap-4">
++        <p className="text-sm font-medium text-slate-600">{label}</p>
++        <span
++          className={cn(
++            "rounded-full border px-3 py-1 text-sm font-semibold",
++            gradeStyleMap[grade],
++          )}
++        >
++          {grade}
++        </span>
++      </div>
++      <p className="mt-3 text-sm leading-7 text-slate-600">{description}</p>
++    </div>
++  );
++}
+\ No newline at end of file
+diff --git a/src/components/results/source-evidence-list.tsx b/src/components/results/source-evidence-list.tsx
+new file mode 100644
+index 0000000..79887b2
+--- /dev/null
++++ b/src/components/results/source-evidence-list.tsx
+@@ -0,0 +1,32 @@
++import type { EvidenceItem } from "@/lib/types";
++
++export function SourceEvidenceList({ items }: { items: EvidenceItem[] }) {
++  return (
++    <div className="grid gap-4">
++      {items.map((item) => (
++        <article
++          key={item.id}
++          className="rounded-3xl border border-slate-200 bg-white p-5"
++        >
++          <div className="flex flex-wrap items-center justify-between gap-3">
++            <h3 className="text-base font-semibold">{item.title}</h3>
++            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">
++              {item.sourceName} / 信頼度 {item.confidence}
++            </span>
++          </div>
++          <p className="mt-3 text-sm leading-7 text-slate-600">{item.summary}</p>
++          {item.url ? (
++            <a
++              href={item.url}
++              target="_blank"
++              rel="noreferrer"
++              className="mt-3 inline-flex text-sm font-medium text-slate-900 underline"
++            >
++              参照元を開く
++            </a>
++          ) : null}
++        </article>
++      ))}
++    </div>
++  );
++}
+\ No newline at end of file
+diff --git a/src/lib/auth/client.ts b/src/lib/auth/client.ts
+new file mode 100644
+index 0000000..e8c6711
+--- /dev/null
++++ b/src/lib/auth/client.ts
+@@ -0,0 +1,24 @@
++export async function loginWithEmail(email: string) {
++  const response = await fetch("/api/auth/login", {
++    method: "POST",
++    headers: {
++      "Content-Type": "application/json",
++    },
++    body: JSON.stringify({ email }),
++  });
++
++  if (!response.ok) {
++    const payload = (await response.json().catch(() => null)) as
++      | { error?: string }
++      | null;
++    throw new Error(payload?.error ?? "ログインに失敗しました。");
++  }
++
++  return response.json();
++}
++
++export async function logout() {
++  await fetch("/api/auth/logout", {
++    method: "POST",
++  });
++}
+\ No newline at end of file
+diff --git a/src/lib/auth/server.ts b/src/lib/auth/server.ts
+new file mode 100644
+index 0000000..9beeb4b
+--- /dev/null
++++ b/src/lib/auth/server.ts
+@@ -0,0 +1,19 @@
++import { cookies } from "next/headers";
++import { redirect } from "next/navigation";
++
++import { SESSION_COOKIE_NAME } from "@/lib/constants";
++
++export async function getSessionEmail() {
++  const cookieStore = await cookies();
++  return cookieStore.get(SESSION_COOKIE_NAME)?.value;
++}
++
++export async function requireSessionEmail() {
++  const email = await getSessionEmail();
++
++  if (!email) {
++    redirect("/login");
++  }
++
++  return email;
++}
+\ No newline at end of file
+diff --git a/src/lib/constants.ts b/src/lib/constants.ts
+new file mode 100644
+index 0000000..e2f5c3d
+--- /dev/null
++++ b/src/lib/constants.ts
+@@ -0,0 +1,17 @@
++export const SESSION_COOKIE_NAME =
++  process.env.SESSION_COOKIE_NAME ?? "ern_session_email";
++
++export const APP_NAME = "Export Risk Navi";
++
++export const RISK_DIMENSIONS = [
++  "sanctions",
++  "endUser",
++  "ubo",
++  "peps",
++  "country",
++  "useCase",
++  "catchAll",
++  "reputation",
++] as const;
++
++export type RiskDimension = (typeof RISK_DIMENSIONS)[number];
+\ No newline at end of file
+diff --git a/src/lib/db/client.ts b/src/lib/db/client.ts
+new file mode 100644
+index 0000000..c359785
+--- /dev/null
++++ b/src/lib/db/client.ts
+@@ -0,0 +1,16 @@
++import postgres from "postgres";
++import { drizzle } from "drizzle-orm/postgres-js";
++
++const databaseUrl = process.env.DATABASE_URL;
++
++export function getDbClient() {
++  if (!databaseUrl) {
++    return null;
++  }
++
++  const client = postgres(databaseUrl, {
++    prepare: false,
++  });
++
++  return drizzle(client);
++}
+\ No newline at end of file
+diff --git a/src/lib/db/repository.ts b/src/lib/db/repository.ts
+new file mode 100644
+index 0000000..e0cb1a5
+--- /dev/null
++++ b/src/lib/db/repository.ts
+@@ -0,0 +1,165 @@
++import { createId } from "@/lib/utils";
++import type {
++  AssessmentRecord,
++  CaseDetail,
++  CaseRecord,
++  CreateCaseInput,
++  InvestigationRecord,
++} from "@/lib/types";
++
++type RepositoryState = {
++  cases: CaseRecord[];
++  investigations: InvestigationRecord[];
++  assessments: AssessmentRecord[];
++};
++
++declare global {
++  var __ernRepoState: RepositoryState | undefined;
++}
++
++function getState(): RepositoryState {
++  if (!globalThis.__ernRepoState) {
++    const now = new Date().toISOString();
++    const sampleCaseId = createId("case");
++    const sampleInvestigationId = createId("inv");
++
++    globalThis.__ernRepoState = {
++      cases: [
++        {
++          id: sampleCaseId,
++          userEmail: "demo@example.com",
++          productName: "高精度サーボモーター",
++          modelNumber: "SRV-9800",
++          destinationCountry: "ベトナム",
++          customerCompanyName: "Saigon Precision Parts Ltd.",
++          status: "completed",
++          createdAt: now,
++          updatedAt: now,
++          productImageUrl:
++            "https://images.unsplash.com/photo-1567789884554-0b844b597180?auto=format&fit=crop&w=1200&q=80",
++        },
++      ],
++      investigations: [
++        {
++          id: sampleInvestigationId,
++          caseId: sampleCaseId,
++          status: "completed",
++          startedAt: now,
++          completedAt: now,
++          createdAt: now,
++          updatedAt: now,
++        },
++      ],
++      assessments: [],
++    };
++  }
++
++  return globalThis.__ernRepoState;
++}
++
++export async function listCasesByUser(userEmail: string) {
++  const state = getState();
++
++  return state.cases
++    .filter((item) => item.userEmail === userEmail)
++    .sort((left, right) => right.createdAt.localeCompare(left.createdAt));
++}
++
++export async function createCaseRecord(
++  userEmail: string,
++  input: CreateCaseInput,
++): Promise<CaseRecord> {
++  const state = getState();
++  const now = new Date().toISOString();
++
++  const record: CaseRecord = {
++    id: createId("case"),
++    userEmail,
++    status: "investigating",
++    createdAt: now,
++    updatedAt: now,
++    ...input,
++  };
++
++  state.cases.unshift(record);
++
++  const investigation: InvestigationRecord = {
++    id: createId("inv"),
++    caseId: record.id,
++    status: "queued",
++    createdAt: now,
++    updatedAt: now,
++  };
++
++  state.investigations.unshift(investigation);
++
++  return record;
++}
++
++export async function getCaseDetail(caseId: string) {
++  const state = getState();
++  const caseRecord = state.cases.find((item) => item.id === caseId);
++
++  if (!caseRecord) {
++    return null;
++  }
++
++  const investigation = state.investigations.find((item) => item.caseId === caseId);
++  const assessment = state.assessments.find((item) => item.caseId === caseId);
++
++  return {
++    case: caseRecord,
++    investigation,
++    assessment,
++  } satisfies CaseDetail;
++}
++
++export async function updateInvestigationStatus(
++  caseId: string,
++  update: Partial<InvestigationRecord>,
++) {
++  const state = getState();
++  const record = state.investigations.find((item) => item.caseId === caseId);
++
++  if (!record) {
++    return null;
++  }
++
++  Object.assign(record, update, {
++    updatedAt: new Date().toISOString(),
++  });
++
++  return record;
++}
++
++export async function saveAssessment(assessment: AssessmentRecord) {
++  const state = getState();
++  const existingIndex = state.assessments.findIndex(
++    (item) => item.caseId === assessment.caseId,
++  );
++
++  if (existingIndex >= 0) {
++    state.assessments[existingIndex] = assessment;
++  } else {
++    state.assessments.unshift(assessment);
++  }
++
++  const caseRecord = state.cases.find((item) => item.id === assessment.caseId);
++
++  if (caseRecord) {
++    caseRecord.status = "completed";
++    caseRecord.updatedAt = new Date().toISOString();
++  }
++
++  return assessment;
++}
++
++export async function assertCaseOwner(caseId: string, userEmail: string) {
++  const detail = await getCaseDetail(caseId);
++
++  if (!detail || detail.case.userEmail !== userEmail) {
++    return null;
++  }
++
++  return detail;
++}
+\ No newline at end of file
+diff --git a/src/lib/db/schema.ts b/src/lib/db/schema.ts
+new file mode 100644
+index 0000000..bb35d85
+--- /dev/null
++++ b/src/lib/db/schema.ts
+@@ -0,0 +1,113 @@
++import {
++  index,
++  integer,
++  jsonb,
++  pgTable,
++  text,
++  timestamp,
++  varchar,
++} from "drizzle-orm/pg-core";
++
++export const users = pgTable("users", {
++  id: varchar("id", { length: 64 }).primaryKey(),
++  email: varchar("email", { length: 255 }).notNull().unique(),
++  createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
++});
++
++export const cases = pgTable(
++  "cases",
++  {
++    id: varchar("id", { length: 64 }).primaryKey(),
++    userEmail: varchar("user_email", { length: 255 }).notNull(),
++    productName: text("product_name").notNull(),
++    modelNumber: text("model_number").notNull(),
++    destinationCountry: text("destination_country").notNull(),
++    customerCompanyName: text("customer_company_name").notNull(),
++    productImageUrl: text("product_image_url"),
++    status: varchar("status", { length: 32 }).notNull(),
++    createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
++    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull(),
++  },
++  (table) => [index("cases_user_email_idx").on(table.userEmail)],
++);
++
++export const investigations = pgTable(
++  "investigations",
++  {
++    id: varchar("id", { length: 64 }).primaryKey(),
++    caseId: varchar("case_id", { length: 64 }).notNull(),
++    status: varchar("status", { length: 32 }).notNull(),
++    startedAt: timestamp("started_at", { withTimezone: true }),
++    completedAt: timestamp("completed_at", { withTimezone: true }),
++    errorMessage: text("error_message"),
++    createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
++    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull(),
++  },
++  (table) => [index("investigations_case_id_idx").on(table.caseId)],
++);
++
++export const riskAssessments = pgTable("risk_assessments", {
++  caseId: varchar("case_id", { length: 64 }).primaryKey(),
++  summary: jsonb("summary").notNull(),
++  reportNarrative: text("report_narrative").notNull(),
++  createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
++  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull(),
++});
++
++export const riskDimensionScores = pgTable(
++  "risk_dimension_scores",
++  {
++    id: varchar("id", { length: 64 }).primaryKey(),
++    caseId: varchar("case_id", { length: 64 }).notNull(),
++    dimension: varchar("dimension", { length: 32 }).notNull(),
++    label: text("label").notNull(),
++    score: integer("score").notNull(),
++    grade: varchar("grade", { length: 8 }).notNull(),
++    rationale: text("rationale").notNull(),
++    recommendedAction: text("recommended_action").notNull(),
++  },
++  (table) => [index("risk_dimension_scores_case_id_idx").on(table.caseId)],
++);
++
++export const evidenceItems = pgTable(
++  "evidence_items",
++  {
++    id: varchar("id", { length: 64 }).primaryKey(),
++    caseId: varchar("case_id", { length: 64 }).notNull(),
++    dimension: varchar("dimension", { length: 32 }).notNull(),
++    title: text("title").notNull(),
++    summary: text("summary").notNull(),
++    sourceName: text("source_name").notNull(),
++    sourceType: varchar("source_type", { length: 32 }).notNull(),
++    url: text("url"),
++    confidence: integer("confidence").notNull(),
++    riskLevel: varchar("risk_level", { length: 16 }).notNull(),
++    capturedAt: timestamp("captured_at", { withTimezone: true }).notNull(),
++  },
++  (table) => [index("evidence_items_case_id_idx").on(table.caseId)],
++);
++
++export const providerRuns = pgTable(
++  "provider_runs",
++  {
++    id: varchar("id", { length: 64 }).primaryKey(),
++    caseId: varchar("case_id", { length: 64 }).notNull(),
++    providerName: text("provider_name").notNull(),
++    status: varchar("status", { length: 16 }).notNull(),
++    errors: jsonb("errors").notNull(),
++    createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
++  },
++  (table) => [index("provider_runs_case_id_idx").on(table.caseId)],
++);
++
++export const generatedReports = pgTable(
++  "generated_reports",
++  {
++    id: varchar("id", { length: 64 }).primaryKey(),
++    caseId: varchar("case_id", { length: 64 }).notNull(),
++    version: integer("version").notNull(),
++    fileName: text("file_name").notNull(),
++    generatedAt: timestamp("generated_at", { withTimezone: true }).notNull(),
++  },
++  (table) => [index("generated_reports_case_id_idx").on(table.caseId)],
++);
+\ No newline at end of file
+diff --git a/src/lib/investigation/normalizers.ts b/src/lib/investigation/normalizers.ts
+new file mode 100644
+index 0000000..2f9e268
+--- /dev/null
++++ b/src/lib/investigation/normalizers.ts
+@@ -0,0 +1,11 @@
++import type { EvidenceItem, ProviderResult } from "@/lib/types";
++
++export function collectEvidence(results: ProviderResult[]): EvidenceItem[] {
++  return results.flatMap((result) =>
++    result.findings.flatMap((finding) => finding.evidence),
++  );
++}
++
++export function flattenFindings(results: ProviderResult[]) {
++  return results.flatMap((result) => result.findings);
++}
+\ No newline at end of file
+diff --git a/src/lib/investigation/orchestrator.ts b/src/lib/investigation/orchestrator.ts
+new file mode 100644
+index 0000000..22453c3
+--- /dev/null
++++ b/src/lib/investigation/orchestrator.ts
+@@ -0,0 +1,70 @@
++import { generateNarrative } from "@/lib/providers/openai";
++import { summarizeExternalSignals } from "@/lib/providers/gemini";
++import { MockCompanyProvider } from "@/lib/providers/mock/company";
++import { MockCountryProvider } from "@/lib/providers/mock/country";
++import { MockNewsProvider } from "@/lib/providers/mock/news";
++import { MockSanctionsProvider } from "@/lib/providers/mock/sanctions";
++import {
++  assertCaseOwner,
++  getCaseDetail,
++  saveAssessment,
++  updateInvestigationStatus,
++} from "@/lib/db/repository";
++import { collectEvidence, flattenFindings } from "@/lib/investigation/normalizers";
++import { buildDimensionScores, buildScoreSummary } from "@/lib/risk/scoring";
++import type { AssessmentRecord } from "@/lib/types";
++
++const providers = [
++  new MockSanctionsProvider(),
++  new MockCompanyProvider(),
++  new MockNewsProvider(),
++  new MockCountryProvider(),
++];
++
++export async function runInvestigation(caseId: string, userEmail: string) {
++  const detail = await assertCaseOwner(caseId, userEmail);
++
++  if (!detail) {
++    return null;
++  }
++
++  await updateInvestigationStatus(caseId, {
++    status: "running",
++    startedAt: new Date().toISOString(),
++  });
++
++  const results = await Promise.all(providers.map((provider) => provider.run(detail.case)));
++  const findings = flattenFindings(results);
++  const dimensions = buildDimensionScores(findings);
++  const summary = buildScoreSummary(dimensions);
++  const evidence = collectEvidence(results);
++  const highlights = await summarizeExternalSignals(
++    dimensions.filter((item) => item.grade !== "A").map((item) => item.label),
++  );
++  const reportNarrative = await generateNarrative({
++    productName: detail.case.productName,
++    destinationCountry: detail.case.destinationCountry,
++    customerCompanyName: detail.case.customerCompanyName,
++    overallGrade: summary.overall,
++    highlights: highlights ? highlights.split(" / ") : ["追加確認事項"],
++  });
++  const now = new Date().toISOString();
++
++  const assessment: AssessmentRecord = {
++    caseId,
++    summary,
++    dimensions,
++    evidence,
++    reportNarrative,
++    createdAt: detail.assessment?.createdAt ?? now,
++    updatedAt: now,
++  };
++
++  await saveAssessment(assessment);
++  await updateInvestigationStatus(caseId, {
++    status: "completed",
++    completedAt: now,
++  });
++
++  return getCaseDetail(caseId);
++}
+\ No newline at end of file
+diff --git a/src/lib/investigation/types.ts b/src/lib/investigation/types.ts
+new file mode 100644
+index 0000000..7feb4fe
+--- /dev/null
++++ b/src/lib/investigation/types.ts
+@@ -0,0 +1,4 @@
++export type InvestigationRunOptions = {
++  caseId: string;
++  userEmail: string;
++};
+\ No newline at end of file
+diff --git a/src/lib/providers/gemini.ts b/src/lib/providers/gemini.ts
+new file mode 100644
+index 0000000..046b999
+--- /dev/null
++++ b/src/lib/providers/gemini.ts
+@@ -0,0 +1,3 @@
++export async function summarizeExternalSignals(signals: string[]) {
++  return signals.join(" / ");
++}
+\ No newline at end of file
+diff --git a/src/lib/providers/mock/base.ts b/src/lib/providers/mock/base.ts
+new file mode 100644
+index 0000000..069c592
+--- /dev/null
++++ b/src/lib/providers/mock/base.ts
+@@ -0,0 +1,52 @@
++import { createId } from "@/lib/utils";
++import type { EvidenceItem, InvestigationFinding, ProviderResult } from "@/lib/types";
++import type { RiskDimension } from "@/lib/constants";
++
++export function buildMockFinding(input: {
++  dimension: RiskDimension;
++  label: string;
++  baseScore: number;
++  rationale: string;
++  recommendedAction: string;
++  evidence: Array<{
++    title: string;
++    summary: string;
++    sourceName: string;
++    sourceType: EvidenceItem["sourceType"];
++    confidence: number;
++    riskLevel: EvidenceItem["riskLevel"];
++    url?: string;
++  }>;
++}): InvestigationFinding {
++  return {
++    dimension: input.dimension,
++    label: input.label,
++    baseScore: input.baseScore,
++    rationale: input.rationale,
++    recommendedAction: input.recommendedAction,
++    evidence: input.evidence.map((item) => ({
++      id: createId("evi"),
++      dimension: input.dimension,
++      title: item.title,
++      summary: item.summary,
++      sourceName: item.sourceName,
++      sourceType: item.sourceType,
++      confidence: item.confidence,
++      riskLevel: item.riskLevel,
++      url: item.url,
++      capturedAt: new Date().toISOString(),
++    })),
++  };
++}
++
++export function buildProviderResult(
++  providerName: string,
++  findings: InvestigationFinding[],
++): ProviderResult {
++  return {
++    providerName,
++    status: "success",
++    findings,
++    errors: [],
++  };
++}
+\ No newline at end of file
+diff --git a/src/lib/providers/mock/company.ts b/src/lib/providers/mock/company.ts
+new file mode 100644
+index 0000000..7c0a18a
+--- /dev/null
++++ b/src/lib/providers/mock/company.ts
+@@ -0,0 +1,67 @@
++import type { InvestigationProvider } from "@/lib/providers/types";
++import { buildMockFinding, buildProviderResult } from "@/lib/providers/mock/base";
++import type { CaseRecord } from "@/lib/types";
++
++export class MockCompanyProvider implements InvestigationProvider {
++  async run(caseRecord: CaseRecord) {
++    return buildProviderResult("mock-company", [
++      buildMockFinding({
++        dimension: "endUser",
++        label: "エンドユーザーリスク",
++        baseScore: 49,
++        rationale:
++          "企業実在性は確認できる一方、最終需要先の情報が不足しています。",
++        recommendedAction:
++          "顧客の主要製品、納入先、Webサイト会社概要を取得してください。",
++        evidence: [
++          {
++            title: "企業実在性確認",
++            summary: `${caseRecord.customerCompanyName} は一般的な事業実態が確認できる想定です。`,
++            sourceName: "Mock Company Intel",
++            sourceType: "company",
++            confidence: 80,
++            riskLevel: "low",
++          },
++        ],
++      }),
++      buildMockFinding({
++        dimension: "ubo",
++        label: "UBO調査",
++        baseScore: 40,
++        rationale:
++          "株主構成に高リスク情報は見当たりませんが、実質支配者の裏付け資料は不足しています。",
++        recommendedAction:
++          "登記情報、株主一覧、代表者情報の入手を推奨します。",
++        evidence: [
++          {
++            title: "株主情報の粒度不足",
++            summary: "公開情報ベースでは最終支配者までは特定しきれていません。",
++            sourceName: "Mock Ownership Registry",
++            sourceType: "company",
++            confidence: 68,
++            riskLevel: "medium",
++          },
++        ],
++      }),
++      buildMockFinding({
++        dimension: "peps",
++        label: "PEPs調査",
++        baseScore: 28,
++        rationale:
++          "政治的重要人物との明確な関連は確認されていません。",
++        recommendedAction:
++          "取締役・主要株主の氏名表記を確定させて再検索してください。",
++        evidence: [
++          {
++            title: "PEPs一次検索",
++            summary: "重大一致は確認されていません。",
++            sourceName: "Mock PEP Registry",
++            sourceType: "company",
++            confidence: 77,
++            riskLevel: "low",
++          },
++        ],
++      }),
++    ]);
++  }
++}
+\ No newline at end of file
+diff --git a/src/lib/providers/mock/country.ts b/src/lib/providers/mock/country.ts
+new file mode 100644
+index 0000000..aa4d858
+--- /dev/null
++++ b/src/lib/providers/mock/country.ts
+@@ -0,0 +1,58 @@
++import type { InvestigationProvider } from "@/lib/providers/types";
++import { buildMockFinding, buildProviderResult } from "@/lib/providers/mock/base";
++import type { CaseRecord } from "@/lib/types";
++
++const countryRiskScoreMap: Record<string, number> = {
++  ベトナム: 37,
++  インド: 44,
++  中国: 62,
++  ロシア: 90,
++  ミャンマー: 86,
++};
++
++export class MockCountryProvider implements InvestigationProvider {
++  async run(caseRecord: CaseRecord) {
++    const countryScore = countryRiskScoreMap[caseRecord.destinationCountry] ?? 52;
++
++    return buildProviderResult("mock-country", [
++      buildMockFinding({
++        dimension: "country",
++        label: "国リスク",
++        baseScore: countryScore,
++        rationale:
++          "政治・規制・地政学の変動を踏まえ、追加モニタリングが必要な国です。",
++        recommendedAction:
++          "案件受注後も制裁・法令改正・政情ニュースを継続監視してください。",
++        evidence: [
++          {
++            title: "国別安定性の確認",
++            summary: `${caseRecord.destinationCountry} は一定の事業機会がある一方、規制変化の監視が必要です。`,
++            sourceName: "Mock Country Risk Index",
++            sourceType: "country",
++            confidence: 74,
++            riskLevel: countryScore >= 70 ? "high" : "medium",
++          },
++        ],
++      }),
++      buildMockFinding({
++        dimension: "useCase",
++        label: "用途リスク",
++        baseScore: 54,
++        rationale:
++          "製品特性上、産業用途として妥当でも軍民両用解釈の余地があります。",
++        recommendedAction:
++          "仕様書と最終用途確認書をセットで回収してください。",
++        evidence: [
++          {
++            title: "高精度部品の転用余地",
++            summary: "高精度駆動部品はドローンや自動制御用途との切り分け確認が重要です。",
++            sourceName: "Mock Dual-use Bulletin",
++            sourceType: "country",
++            confidence: 79,
++            riskLevel: "medium",
++          },
++        ],
++      }),
++    ]);
++  }
++}
+\ No newline at end of file
+diff --git a/src/lib/providers/mock/news.ts b/src/lib/providers/mock/news.ts
+new file mode 100644
+index 0000000..2c5095c
+--- /dev/null
++++ b/src/lib/providers/mock/news.ts
+@@ -0,0 +1,29 @@
++import type { InvestigationProvider } from "@/lib/providers/types";
++import { buildMockFinding, buildProviderResult } from "@/lib/providers/mock/base";
++import type { CaseRecord } from "@/lib/types";
++
++export class MockNewsProvider implements InvestigationProvider {
++  async run(caseRecord: CaseRecord) {
++    return buildProviderResult("mock-news", [
++      buildMockFinding({
++        dimension: "reputation",
++        label: "ブランド毀損リスク",
++        baseScore: 45,
++        rationale:
++          "重大ネガティブニュースは見当たりませんが、戦略物資関連と誤認される表現には注意が必要です。",
++        recommendedAction:
++          "公開資料や営業提案書で用途表現を具体化してください。",
++        evidence: [
++          {
++            title: "ネガティブニュース限定的",
++            summary: `${caseRecord.customerCompanyName} に関する重大な炎上情報は限定的です。`,
++            sourceName: "Mock News Monitor",
++            sourceType: "news",
++            confidence: 71,
++            riskLevel: "low",
++          },
++        ],
++      }),
++    ]);
++  }
++}
+\ No newline at end of file
+diff --git a/src/lib/providers/mock/sanctions.ts b/src/lib/providers/mock/sanctions.ts
+new file mode 100644
+index 0000000..6bf9fa7
+--- /dev/null
++++ b/src/lib/providers/mock/sanctions.ts
+@@ -0,0 +1,49 @@
++import type { InvestigationProvider } from "@/lib/providers/types";
++import { buildMockFinding, buildProviderResult } from "@/lib/providers/mock/base";
++import type { CaseRecord } from "@/lib/types";
++
++export class MockSanctionsProvider implements InvestigationProvider {
++  async run(caseRecord: CaseRecord) {
++    return buildProviderResult("mock-sanctions", [
++      buildMockFinding({
++        dimension: "sanctions",
++        label: "制裁リスク",
++        baseScore: caseRecord.destinationCountry.includes("ロシア") ? 85 : 42,
++        rationale:
++          "現時点で明確な制裁一致は確認されていませんが、類似名称確認と最終顧客の再確認は必要です。",
++        recommendedAction:
++          "会社名の英字表記と親会社名を取得し、正式表記で再確認してください。",
++        evidence: [
++          {
++            title: "制裁リスト一次確認",
++            summary: "主要名称では一致なし。類似名称候補が少数存在します。",
++            sourceName: "Mock Sanctions Watch",
++            sourceType: "sanctions",
++            confidence: 78,
++            riskLevel: "medium",
++            url: "https://example.com/sanctions",
++          },
++        ],
++      }),
++      buildMockFinding({
++        dimension: "catchAll",
++        label: "キャッチオール規制",
++        baseScore: 58,
++        rationale:
++          "用途情報が不足しており、軍民両用判定の追加確認が必要です。",
++        recommendedAction:
++          "最終用途・設置先・使用設備の3点を取引先へ確認してください。",
++        evidence: [
++          {
++            title: "用途未確定の注意",
++            summary: "高精度モーターは転用可能性があるため用途確認が重要です。",
++            sourceName: "Mock Compliance Rulebook",
++            sourceType: "sanctions",
++            confidence: 73,
++            riskLevel: "medium",
++          },
++        ],
++      }),
++    ]);
++  }
++}
+\ No newline at end of file
+diff --git a/src/lib/providers/openai.ts b/src/lib/providers/openai.ts
+new file mode 100644
+index 0000000..a75d9c2
+--- /dev/null
++++ b/src/lib/providers/openai.ts
+@@ -0,0 +1,23 @@
++type NarrativeInput = {
++  productName: string;
++  destinationCountry: string;
++  customerCompanyName: string;
++  overallGrade: "A" | "B" | "C";
++  highlights: string[];
++};
++
++export async function generateNarrative(input: NarrativeInput) {
++  const headline =
++    input.overallGrade === "C"
++      ? "高リスク案件として社内承認前提で確認が必要です。"
++      : input.overallGrade === "B"
++        ? "追加確認を前提に進められる可能性があります。"
++        : "現時点では大きな懸念は限定的です。";
++
++  return [
++    `${input.productName} を ${input.customerCompanyName} 向けに ${input.destinationCountry} へ輸出する案件について、初期調査を実施しました。`,
++    headline,
++    `主な確認事項は ${input.highlights.join("、")} です。`,
++    "法令判断は最終的に社内確認を前提としつつ、営業担当でも論点を把握しやすいように整理しています。",
++  ].join("");
++}
+\ No newline at end of file
+diff --git a/src/lib/providers/types.ts b/src/lib/providers/types.ts
+new file mode 100644
+index 0000000..fe2c056
+--- /dev/null
++++ b/src/lib/providers/types.ts
+@@ -0,0 +1,5 @@
++import type { CaseRecord, ProviderResult } from "@/lib/types";
++
++export interface InvestigationProvider {
++  run(caseRecord: CaseRecord): Promise<ProviderResult>;
++}
+\ No newline at end of file
+diff --git a/src/lib/reports/build-report.ts b/src/lib/reports/build-report.ts
+new file mode 100644
+index 0000000..d6ec6aa
+--- /dev/null
++++ b/src/lib/reports/build-report.ts
+@@ -0,0 +1,23 @@
++import { formatDate } from "@/lib/utils";
++import type { CaseDetail } from "@/lib/types";
++
++export function buildReportModel(detail: CaseDetail) {
++  if (!detail.assessment) {
++    return null;
++  }
++
++  return {
++    generatedAt: formatDate(new Date().toISOString()),
++    caseId: detail.case.id,
++    productName: detail.case.productName,
++    modelNumber: detail.case.modelNumber,
++    destinationCountry: detail.case.destinationCountry,
++    customerCompanyName: detail.case.customerCompanyName,
++    overallGrade: detail.assessment.summary.overall,
++    summary: detail.assessment.summary.summary,
++    reportNarrative: detail.assessment.reportNarrative,
++    dimensions: detail.assessment.dimensions,
++    evidence: detail.assessment.evidence.slice(0, 6),
++    nextActions: detail.assessment.summary.nextActions,
++  };
++}
+\ No newline at end of file
+diff --git a/src/lib/reports/pdf.tsx b/src/lib/reports/pdf.tsx
+new file mode 100644
+index 0000000..5884259
+--- /dev/null
++++ b/src/lib/reports/pdf.tsx
+@@ -0,0 +1,124 @@
++import type { ReactElement } from "react";
++import {
++  Document,
++  type DocumentProps,
++  Page,
++  StyleSheet,
++  Text,
++  View,
++} from "@react-pdf/renderer";
++
++type ReportModel = NonNullable<
++  ReturnType<typeof import("@/lib/reports/build-report").buildReportModel>
++>;
++
++const styles = StyleSheet.create({
++  page: {
++    padding: 32,
++    fontSize: 11,
++    lineHeight: 1.5,
++    color: "#111827",
++  },
++  title: {
++    fontSize: 20,
++    marginBottom: 12,
++    fontWeight: 700,
++  },
++  section: {
++    marginBottom: 16,
++  },
++  card: {
++    border: "1 solid #d1d5db",
++    borderRadius: 6,
++    padding: 10,
++    marginBottom: 8,
++  },
++  heading: {
++    fontSize: 13,
++    marginBottom: 6,
++    fontWeight: 700,
++  },
++  row: {
++    display: "flex",
++    flexDirection: "row",
++    justifyContent: "space-between",
++    gap: 12,
++  },
++  small: {
++    fontSize: 10,
++    color: "#4b5563",
++  },
++});
++
++export function RiskReportPdf({ model }: { model: ReportModel }) {
++  return (
++    <Document title={`Export Risk Report ${model.caseId}`}>
++      <Page size="A4" style={styles.page}>
++        <View style={styles.section}>
++          <Text style={styles.title}>Export Risk Navi 調査レポート</Text>
++          <Text>案件ID: {model.caseId}</Text>
++          <Text>生成日時: {model.generatedAt}</Text>
++        </View>
++
++        <View style={styles.section}>
++          <Text style={styles.heading}>案件概要</Text>
++          <View style={styles.card}>
++            <Text>商品名: {model.productName}</Text>
++            <Text>型番: {model.modelNumber}</Text>
++            <Text>輸出先国: {model.destinationCountry}</Text>
++            <Text>顧客企業名: {model.customerCompanyName}</Text>
++          </View>
++        </View>
++
++        <View style={styles.section}>
++          <Text style={styles.heading}>総合評価</Text>
++          <View style={styles.card}>
++            <Text>総合評価: {model.overallGrade}</Text>
++            <Text>{model.summary}</Text>
++            <Text>{model.reportNarrative}</Text>
++          </View>
++        </View>
++
++        <View style={styles.section}>
++          <Text style={styles.heading}>評価軸</Text>
++          {model.dimensions.map((dimension) => (
++            <View style={styles.card} key={dimension.dimension}>
++              <View style={styles.row}>
++                <Text>{dimension.label}</Text>
++                <Text>
++                  {dimension.grade} / {dimension.score}
++                </Text>
++              </View>
++              <Text>{dimension.rationale}</Text>
++              <Text style={styles.small}>推奨: {dimension.recommendedAction}</Text>
++            </View>
++          ))}
++        </View>
++
++        <View style={styles.section}>
++          <Text style={styles.heading}>主要根拠</Text>
++          {model.evidence.map((item) => (
++            <View style={styles.card} key={item.id}>
++              <Text>{item.title}</Text>
++              <Text>{item.summary}</Text>
++              <Text style={styles.small}>
++                {item.sourceName} / 信頼度 {item.confidence}
++              </Text>
++            </View>
++          ))}
++        </View>
++
++        <View style={styles.section}>
++          <Text style={styles.heading}>次のアクション</Text>
++          {model.nextActions.map((action) => (
++            <Text key={action}>・{action}</Text>
++          ))}
++        </View>
++      </Page>
++    </Document>
++  );
++}
++
++export function createRiskReportPdf(model: ReportModel): ReactElement<DocumentProps> {
++  return <RiskReportPdf model={model} />;
++}
+\ No newline at end of file
+diff --git a/src/lib/risk/rules.ts b/src/lib/risk/rules.ts
+new file mode 100644
+index 0000000..4449897
+--- /dev/null
++++ b/src/lib/risk/rules.ts
+@@ -0,0 +1,25 @@
++import type { Grade } from "@/lib/types";
++
++export function scoreToGrade(score: number): Grade {
++  if (score >= 70) {
++    return "C";
++  }
++
++  if (score >= 40) {
++    return "B";
++  }
++
++  return "A";
++}
++
++export function maxGrade(grades: Grade[]): Grade {
++  if (grades.includes("C")) {
++    return "C";
++  }
++
++  if (grades.includes("B")) {
++    return "B";
++  }
++
++  return "A";
++}
+\ No newline at end of file
+diff --git a/src/lib/risk/scoring.ts b/src/lib/risk/scoring.ts
+new file mode 100644
+index 0000000..03a491d
+--- /dev/null
++++ b/src/lib/risk/scoring.ts
+@@ -0,0 +1,64 @@
++import { scoreToGrade, maxGrade } from "@/lib/risk/rules";
++import { toTitleGradeLabel } from "@/lib/utils";
++import type {
++  DimensionScore,
++  InvestigationFinding,
++  ScoreSummary,
++} from "@/lib/types";
++
++function average(values: number[]) {
++  if (values.length === 0) {
++    return 0;
++  }
++
++  return Math.round(values.reduce((sum, value) => sum + value, 0) / values.length);
++}
++
++export function buildDimensionScores(findings: InvestigationFinding[]): DimensionScore[] {
++  return findings.map((finding) => ({
++    dimension: finding.dimension,
++    label: finding.label,
++    score: finding.baseScore,
++    grade: scoreToGrade(finding.baseScore),
++    rationale: finding.rationale,
++    recommendedAction: finding.recommendedAction,
++  }));
++}
++
++export function buildScoreSummary(dimensions: DimensionScore[]): ScoreSummary {
++  const gradeMap = new Map(dimensions.map((item) => [item.dimension, item.grade]));
++  const overall = maxGrade(dimensions.map((item) => item.grade));
++  const security = maxGrade([
++    gradeMap.get("sanctions") ?? "A",
++    gradeMap.get("endUser") ?? "A",
++    gradeMap.get("catchAll") ?? "A",
++    gradeMap.get("useCase") ?? "A",
++  ]);
++  const credit = maxGrade([
++    gradeMap.get("ubo") ?? "A",
++    gradeMap.get("peps") ?? "A",
++    gradeMap.get("reputation") ?? "A",
++  ]);
++  const logistics = maxGrade([
++    gradeMap.get("country") ?? "A",
++    gradeMap.get("reputation") ?? "A",
++  ]);
++  const country = gradeMap.get("country") ?? "A";
++  const averageScore = average(dimensions.map((item) => item.score));
++
++  return {
++    overall,
++    security,
++    credit,
++    logistics,
++    country,
++    headline: `総合評価 ${overall}（平均スコア ${averageScore} 点）`,
++    summary: `現在の案件は ${toTitleGradeLabel(overall)} に分類されます。重大な論点は ${toTitleGradeLabel(
++      security,
++    )} の安全保障リスクと、${toTitleGradeLabel(country)} の国別リスクです。`,
++    nextActions: dimensions
++      .filter((item) => item.grade !== "A")
++      .slice(0, 3)
++      .map((item) => item.recommendedAction),
++  };
++}
+\ No newline at end of file
+diff --git a/src/lib/storage/upload.ts b/src/lib/storage/upload.ts
+new file mode 100644
+index 0000000..aca4f3a
+--- /dev/null
++++ b/src/lib/storage/upload.ts
+@@ -0,0 +1,20 @@
++export async function uploadImageAsDataUrl(file: File) {
++  return new Promise<string>((resolve, reject) => {
++    const reader = new FileReader();
++
++    reader.onload = () => {
++      if (typeof reader.result === "string") {
++        resolve(reader.result);
++        return;
++      }
++
++      reject(new Error("画像の読み込みに失敗しました。"));
++    };
++
++    reader.onerror = () => {
++      reject(new Error("画像の読み込みに失敗しました。"));
++    };
++
++    reader.readAsDataURL(file);
++  });
++}
+\ No newline at end of file
+diff --git a/src/lib/types.ts b/src/lib/types.ts
+new file mode 100644
+index 0000000..45abf96
+--- /dev/null
++++ b/src/lib/types.ts
+@@ -0,0 +1,114 @@
++import type { RiskDimension } from "@/lib/constants";
++
++export type InvestigationStatus =
++  | "queued"
++  | "running"
++  | "completed"
++  | "failed";
++
++export type CaseStatus =
++  | "draft"
++  | "investigating"
++  | "completed"
++  | "failed";
++
++export type Grade = "A" | "B" | "C";
++
++export type ProviderStatus = "success" | "partial" | "failed";
++
++export type EvidenceItem = {
++  id: string;
++  dimension: RiskDimension;
++  title: string;
++  summary: string;
++  sourceName: string;
++  sourceType: "sanctions" | "company" | "news" | "country" | "ai";
++  url?: string;
++  confidence: number;
++  riskLevel: "low" | "medium" | "high";
++  capturedAt: string;
++};
++
++export type DimensionScore = {
++  dimension: RiskDimension;
++  label: string;
++  score: number;
++  grade: Grade;
++  rationale: string;
++  recommendedAction: string;
++};
++
++export type ScoreSummary = {
++  overall: Grade;
++  security: Grade;
++  credit: Grade;
++  logistics: Grade;
++  country: Grade;
++  headline: string;
++  summary: string;
++  nextActions: string[];
++};
++
++export type CaseRecord = {
++  id: string;
++  userEmail: string;
++  productName: string;
++  modelNumber: string;
++  destinationCountry: string;
++  customerCompanyName: string;
++  productImageUrl?: string;
++  status: CaseStatus;
++  createdAt: string;
++  updatedAt: string;
++};
++
++export type InvestigationRecord = {
++  id: string;
++  caseId: string;
++  status: InvestigationStatus;
++  startedAt?: string;
++  completedAt?: string;
++  errorMessage?: string;
++  createdAt: string;
++  updatedAt: string;
++};
++
++export type AssessmentRecord = {
++  caseId: string;
++  summary: ScoreSummary;
++  dimensions: DimensionScore[];
++  evidence: EvidenceItem[];
++  reportNarrative: string;
++  createdAt: string;
++  updatedAt: string;
++};
++
++export type CaseDetail = {
++  case: CaseRecord;
++  investigation?: InvestigationRecord;
++  assessment?: AssessmentRecord;
++};
++
++export type CreateCaseInput = {
++  productName: string;
++  modelNumber: string;
++  destinationCountry: string;
++  customerCompanyName: string;
++  productImageUrl?: string;
++};
++
++export type InvestigationFinding = {
++  dimension: RiskDimension;
++  label: string;
++  baseScore: number;
++  rationale: string;
++  recommendedAction: string;
++  evidence: EvidenceItem[];
++};
++
++export type ProviderResult = {
++  providerName: string;
++  status: ProviderStatus;
++  findings: InvestigationFinding[];
++  errors: string[];
++};
+\ No newline at end of file
+diff --git a/src/lib/utils.ts b/src/lib/utils.ts
+new file mode 100644
+index 0000000..1247dc9
+--- /dev/null
++++ b/src/lib/utils.ts
+@@ -0,0 +1,29 @@
++export function cn(...parts: Array<string | false | null | undefined>) {
++  return parts.filter(Boolean).join(" ");
++}
++
++export function formatDate(value: string) {
++  return new Intl.DateTimeFormat("ja-JP", {
++    year: "numeric",
++    month: "short",
++    day: "numeric",
++    hour: "2-digit",
++    minute: "2-digit",
++  }).format(new Date(value));
++}
++
++export function toTitleGradeLabel(grade: "A" | "B" | "C") {
++  if (grade === "A") {
++    return "低リスク";
++  }
++
++  if (grade === "B") {
++    return "要注意";
++  }
++
++  return "高リスク";
++}
++
++export function createId(prefix: string) {
++  return `${prefix}_${Math.random().toString(36).slice(2, 10)}`;
++}
+\ No newline at end of file
+diff --git a/src/lib/validation/case.ts b/src/lib/validation/case.ts
+new file mode 100644
+index 0000000..e6e6f6a
+--- /dev/null
++++ b/src/lib/validation/case.ts
+@@ -0,0 +1,11 @@
++import { z } from "zod";
++
++export const createCaseSchema = z.object({
++  productName: z.string().min(2, "商品名を入力してください。"),
++  modelNumber: z.string().min(1, "型番を入力してください。"),
++  destinationCountry: z.string().min(2, "輸出先国を入力してください。"),
++  customerCompanyName: z.string().min(2, "顧客企業名を入力してください。"),
++  productImageUrl: z.url().optional().or(z.literal("")).transform((value) => value || undefined),
++});
++
++export type CreateCaseSchema = z.infer<typeof createCaseSchema>;
+\ No newline at end of file
+diff --git a/tsconfig.json b/tsconfig.json
+new file mode 100644
+index 0000000..cf9c65d
+--- /dev/null
++++ b/tsconfig.json
+@@ -0,0 +1,34 @@
++{
++  "compilerOptions": {
++    "target": "ES2017",
++    "lib": ["dom", "dom.iterable", "esnext"],
++    "allowJs": true,
++    "skipLibCheck": true,
++    "strict": true,
++    "noEmit": true,
++    "esModuleInterop": true,
++    "module": "esnext",
++    "moduleResolution": "bundler",
++    "resolveJsonModule": true,
++    "isolatedModules": true,
++    "jsx": "react-jsx",
++    "incremental": true,
++    "plugins": [
++      {
++        "name": "next"
++      }
++    ],
++    "paths": {
++      "@/*": ["./src/*"]
++    }
++  },
++  "include": [
++    "next-env.d.ts",
++    "**/*.ts",
++    "**/*.tsx",
++    ".next/types/**/*.ts",
++    ".next/dev/types/**/*.ts",
++    "**/*.mts"
++  ],
++  "exclude": ["node_modules"]
++}

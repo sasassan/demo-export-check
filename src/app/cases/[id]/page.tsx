@@ -297,6 +297,102 @@ export default async function CaseDetailPage({
             );
           })()}
 
+          {/* AIモデル別診断 */}
+          {detail.assessment.modelResults && detail.assessment.modelResults.length > 0 && (
+            <section className="rounded-[1.75rem] border border-violet-200/50 bg-white/95 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-violet-600">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5m.75-9 3-3 2.148 2.148A12.061 12.061 0 0 1 16.5 7.605" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 className="text-base font-semibold text-slate-900">AIモデル別診断結果</h2>
+                  <p className="text-sm text-slate-500">複数のAIモデルが独立して評価。視点の違いと一致点を確認できます。</p>
+                </div>
+              </div>
+
+              <div className="mt-6 grid gap-5 md:grid-cols-3">
+                {detail.assessment.modelResults.map((modelResult) => {
+                  const modelMeta: Record<string, { label: string; color: string; bg: string; badge: string }> = {
+                    "gpt-4o": { label: "GPT-4o", color: "text-emerald-700", bg: "bg-emerald-50", badge: "border-emerald-200 bg-emerald-50 text-emerald-700" },
+                    "claude": { label: "Claude", color: "text-amber-700", bg: "bg-amber-50", badge: "border-amber-200 bg-amber-50 text-amber-700" },
+                    "gemini": { label: "Gemini", color: "text-sky-700", bg: "bg-sky-50", badge: "border-sky-200 bg-sky-50 text-sky-700" },
+                    "mock": { label: "モック", color: "text-slate-500", bg: "bg-slate-50", badge: "border-slate-200 bg-slate-50 text-slate-500" },
+                  };
+                  const meta = modelMeta[modelResult.model] ?? modelMeta["mock"];
+                  const overallGrade = modelResult.dimensions.reduce<"A" | "B" | "C">((worst, d) => {
+                    if (d.grade === "C") return "C";
+                    if (d.grade === "B" && worst !== "C") return "B";
+                    return worst;
+                  }, "A");
+                  const gradeColor = overallGrade === "C" ? "text-red-600 bg-red-50 border-red-200" : overallGrade === "B" ? "text-amber-600 bg-amber-50 border-amber-200" : "text-emerald-600 bg-emerald-50 border-emerald-200";
+
+                  return (
+                    <div key={modelResult.model} className="rounded-2xl border border-slate-200 bg-white p-5">
+                      <div className="flex items-center justify-between">
+                        <span className={`rounded-full border px-3 py-1 text-xs font-bold ${meta.badge}`}>
+                          {meta.label}
+                        </span>
+                        <span className={`rounded-full border px-3 py-1 text-sm font-bold ${gradeColor}`}>
+                          総合 {overallGrade}
+                        </span>
+                      </div>
+
+                      <div className="mt-4 space-y-2">
+                        {modelResult.dimensions.map((dim) => {
+                          const dimGradeColor = dim.grade === "C" ? "bg-red-100 text-red-700" : dim.grade === "B" ? "bg-amber-100 text-amber-700" : "bg-emerald-100 text-emerald-700";
+                          return (
+                            <div key={dim.dimension} className="rounded-lg border border-slate-100 bg-slate-50 px-3 py-2">
+                              <div className="flex items-center justify-between gap-2">
+                                <p className="text-xs font-semibold text-slate-800">{dim.label}</p>
+                                <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${dimGradeColor}`}>
+                                  {dim.grade} / {dim.score}点
+                                </span>
+                              </div>
+                              {dim.rationale && (
+                                <p className="mt-1 text-xs leading-5 text-slate-600 line-clamp-2">{dim.rationale.split("\n")[0]}</p>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* モデル合意度サマリー */}
+              {detail.assessment.modelResults.length >= 2 && (
+                <div className="mt-5 rounded-2xl border border-violet-100 bg-violet-50 px-5 py-4">
+                  <p className="text-xs font-semibold text-violet-700">モデル間の合意状況</p>
+                  <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+                    {detail.assessment.dimensions.map((dim) => {
+                      const modelGrades = detail.assessment!.modelResults!.map(
+                        (mr) => mr.dimensions.find((d) => d.dimension === dim.dimension)?.grade ?? "A"
+                      );
+                      const allSame = modelGrades.every((g) => g === modelGrades[0]);
+                      const hasC = modelGrades.includes("C");
+                      return (
+                        <div key={dim.dimension} className={`rounded-xl px-3 py-2 ${allSame ? "border border-emerald-200 bg-emerald-50" : "border border-amber-200 bg-amber-50"}`}>
+                          <p className="text-[10px] font-semibold text-slate-600">{dim.label}</p>
+                          <div className="mt-1 flex items-center gap-1">
+                            {modelGrades.map((g, i) => (
+                              <span key={i} className={`rounded px-1 py-0.5 text-[10px] font-bold ${g === "C" ? "bg-red-100 text-red-700" : g === "B" ? "bg-amber-100 text-amber-700" : "bg-emerald-100 text-emerald-700"}`}>{g}</span>
+                            ))}
+                            <span className={`ml-1 text-[10px] ${allSame ? "text-emerald-600" : "text-amber-600"}`}>
+                              {allSame ? "一致" : "差異あり"}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </section>
+          )}
+
           {/* リスクスコアカード */}
           <section className="rounded-[1.75rem] border border-indigo-200/50 bg-white/95 p-3 shadow-[0_24px_60px_rgba(15,23,42,0.08)] sm:p-4">
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">

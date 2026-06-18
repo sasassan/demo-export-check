@@ -16,6 +16,8 @@ export type Grade = "A" | "B" | "C";
 
 export type ProviderStatus = "success" | "partial" | "failed";
 
+export type AiModel = "gpt-4o" | "claude" | "gemini" | "mock";
+
 export type EvidenceItem = {
   id: string;
   dimension: RiskDimension;
@@ -27,6 +29,7 @@ export type EvidenceItem = {
   confidence: number;
   riskLevel: "low" | "medium" | "high";
   capturedAt: string;
+  aiModel?: AiModel;
 };
 
 export type DimensionScore = {
@@ -36,6 +39,7 @@ export type DimensionScore = {
   grade: Grade;
   rationale: string;
   recommendedAction: string;
+  aiModel?: AiModel;
 };
 
 export type ScoreSummary = {
@@ -80,12 +84,19 @@ export type InvestigationRecord = {
   updatedAt: string;
 };
 
+export type ModelResult = {
+  model: AiModel;
+  modelLabel: string;
+  dimensions: DimensionScore[];
+};
+
 export type AssessmentRecord = {
   caseId: string;
   summary: ScoreSummary;
   dimensions: DimensionScore[];
   evidence: EvidenceItem[];
   reportNarrative: string;
+  modelResults?: ModelResult[];
   createdAt: string;
   updatedAt: string;
 };
@@ -111,6 +122,7 @@ export type InvestigationFinding = {
   rationale: string;
   recommendedAction: string;
   evidence: EvidenceItem[];
+  aiModel?: AiModel;
 };
 
 export type ProviderResult = {

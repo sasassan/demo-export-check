@@ -1,9 +1,16 @@
-import type { EvidenceItem } from "@/lib/types";
+import type { EvidenceItem, AiModel } from "@/lib/types";
 
 const confidenceColor = (confidence: number) => {
   if (confidence >= 0.8) return "text-emerald-600 bg-emerald-50 border-emerald-200";
   if (confidence >= 0.5) return "text-amber-600 bg-amber-50 border-amber-200";
   return "text-rose-600 bg-rose-50 border-rose-200";
+};
+
+const modelBadge: Record<AiModel, { label: string; cls: string }> = {
+  "gpt-4o": { label: "GPT-4o", cls: "bg-emerald-50 text-emerald-700 border-emerald-200" },
+  "claude": { label: "Claude", cls: "bg-amber-50 text-amber-700 border-amber-200" },
+  "gemini": { label: "Gemini", cls: "bg-sky-50 text-sky-700 border-sky-200" },
+  "mock": { label: "モック", cls: "bg-slate-50 text-slate-500 border-slate-200" },
 };
 
 export function SourceEvidenceList({ items }: { items: EvidenceItem[] }) {
@@ -16,7 +23,12 @@ export function SourceEvidenceList({ items }: { items: EvidenceItem[] }) {
         >
           <div className="flex flex-wrap items-start justify-between gap-3">
             <h3 className="text-sm font-semibold text-slate-900">{item.title}</h3>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              {item.aiModel && modelBadge[item.aiModel] && (
+                <span className={`rounded-full border px-2.5 py-0.5 text-xs font-semibold ${modelBadge[item.aiModel].cls}`}>
+                  {modelBadge[item.aiModel].label}
+                </span>
+              )}
               <span className="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs text-indigo-600">
                 {item.sourceName}
               </span>
