@@ -87,6 +87,58 @@ const steps = [
   },
 ];
 
+const dataSources = [
+  {
+    label: "国際制裁情報",
+    desc: "国連・米国OFAC・EU・英国HMTなどの制裁対象リスト",
+    color: "bg-indigo-50 border-indigo-200 text-indigo-700",
+  },
+  {
+    label: "輸出規制情報",
+    desc: "日本の外為法・EAR（米国輸出管理規則）などの規制情報",
+    color: "bg-violet-50 border-violet-200 text-violet-700",
+  },
+  {
+    label: "企業公開情報",
+    desc: "企業登記・所在地・事業内容などの公開データ",
+    color: "bg-sky-50 border-sky-200 text-sky-700",
+  },
+  {
+    label: "国リスク情報",
+    desc: "政情・紛争・地政学リスクに関する公開情報",
+    color: "bg-teal-50 border-teal-200 text-teal-700",
+  },
+  {
+    label: "用途リスク情報",
+    desc: "軍事転用・大量破壊兵器関連用途に関する分類情報",
+    color: "bg-amber-50 border-amber-200 text-amber-700",
+  },
+];
+
+const roadmap = [
+  {
+    phase: "Phase 1",
+    status: "開発中",
+    statusColor: "bg-indigo-100 text-indigo-700",
+    title: "輸出可否AI診断",
+    items: ["A/B/C評価", "PDFレポート出力", "一次スクリーニング支援"],
+  },
+  {
+    phase: "Phase 2",
+    status: "計画中",
+    statusColor: "bg-amber-100 text-amber-700",
+    title: "企業・人物調査",
+    items: ["企業情報調査", "UBO（実質支配者）確認", "制裁リスク詳細分析"],
+  },
+  {
+    phase: "Phase 3",
+    status: "構想中",
+    statusColor: "bg-slate-100 text-slate-600",
+    title: "高度なAI解析",
+    items: ["商品画像解析", "戦場・ニュース類似調査", "AI市場調査"],
+  },
+];
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-[linear-gradient(180deg,#06111f_0%,#0b1f35_26%,#0e2b47_58%,#0a1728_100%)]">
@@ -103,19 +155,19 @@ export default function Home() {
           </div>
           <div className="flex w-full items-center gap-3 sm:w-auto">
             <Link
-                href="/about?v=lp-nav"
-                className="flex-1 rounded-lg px-4 py-2 text-center text-sm font-medium text-slate-200 hover:bg-cyan-400/10 hover:text-white sm:flex-none"
-              >
-                サービス説明
-              </Link>
-              <Link
-                href="/login?v=lp-nav"
+              href="/about?v=lp-nav"
+              className="flex-1 rounded-lg px-4 py-2 text-center text-sm font-medium text-slate-200 hover:bg-cyan-400/10 hover:text-white sm:flex-none"
+            >
+              サービス説明
+            </Link>
+            <Link
+              href="/login?v=lp-nav"
               className="flex-1 rounded-lg px-4 py-2 text-center text-sm font-medium text-slate-200 hover:bg-cyan-400/10 hover:text-white sm:flex-none"
             >
               ログイン
             </Link>
             <Link
-                href="/cases/new?v=lp-nav"
+              href="/cases/new?v=lp-nav"
               className="flex-1 rounded-lg bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white hover:bg-indigo-700 sm:flex-none"
             >
               無料で試す
@@ -138,16 +190,18 @@ export default function Home() {
             <div className="rounded-[2rem] border border-cyan-400/20 bg-white/96 p-8 text-center shadow-[0_24px_80px_rgba(2,6,23,0.28)] lg:p-10 lg:text-left">
               <span className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-white/90 px-4 py-2 text-sm font-medium text-indigo-700 shadow-sm shadow-indigo-100/60">
                 <span className="h-2 w-2 rounded-full bg-indigo-500" />
-                Export Control / Sanctions Screening
+                輸出管理部門がなくても使える · 営業担当者向け
               </span>
               <h1 className="mt-6 text-4xl font-bold leading-tight tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-                「この輸出、
-                <span className="bg-gradient-to-r from-indigo-700 via-sky-600 to-cyan-500 bg-clip-text text-transparent">大丈夫か？</span>
-                」を
+                その輸出、
                 <br />
-                5分で確認できます。
+                <span className="bg-gradient-to-r from-indigo-700 via-sky-600 to-cyan-500 bg-clip-text text-transparent">本当に大丈夫</span>
+                ですか？
               </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 font-medium text-slate-700 lg:mx-0">
+              <p className="mt-4 text-lg font-semibold text-indigo-700">
+                営業担当者が商談前に5分で一次確認できます。
+              </p>
+              <p className="mt-3 max-w-2xl text-base leading-8 font-medium text-slate-700 lg:mx-0">
                 制裁リスト・企業信用・用途・国リスクについて、
                 AIが入力情報と公開情報をもとに一次スクリーニングを支援します。
                 専門知識がなくても輸出コンプライアンスの初動確認を進められます。
@@ -249,7 +303,7 @@ export default function Home() {
                 ].map((item) => (
                   <div key={item.label} className={`rounded-xl border p-3 text-center ${item.cls}`}>
                     <p className="text-xs text-slate-500">{item.label}</p>
-                    <p className={`mt-1 text-2xl font-bold`}>{item.grade}</p>
+                    <p className="mt-1 text-2xl font-bold">{item.grade}</p>
                   </div>
                 ))}
               </div>
@@ -283,6 +337,128 @@ export default function Home() {
           </div>
         </section>
 
+        {/* 診断レポートサンプルセクション */}
+        <section className="px-6 pb-8">
+          <div className="mx-auto max-w-6xl">
+            <div className="rounded-[2rem] border border-cyan-400/20 bg-white/96 px-6 py-10 shadow-[0_24px_80px_rgba(2,6,23,0.2)]">
+              <div className="text-center">
+                <span className="inline-flex rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-indigo-700">
+                  診断レポートサンプル
+                </span>
+                <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-900">
+                  入力したら何が出るのか
+                </h2>
+                <p className="mt-3 text-base text-slate-600">
+                  診断結果はこのように表示されます。A4レポートとしてPDF出力も可能です。
+                </p>
+              </div>
+              <div className="mt-10 grid gap-6 lg:grid-cols-2">
+                {/* レポート1ページ目 */}
+                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-3">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-widest text-indigo-500">診断レポート — 1ページ目</p>
+                      <p className="mt-1 text-sm font-semibold text-slate-800">高精度サーボモーター SRV-9800 → ベトナム</p>
+                    </div>
+                    <span className="rounded-lg bg-amber-100 px-3 py-1 text-sm font-bold text-amber-700">B</span>
+                  </div>
+                  <div className="grid grid-cols-4 gap-2 text-center">
+                    {[
+                      { label: "制裁リスト", score: "95", grade: "A", c: "emerald" },
+                      { label: "企業信用", score: "72", grade: "B", c: "amber" },
+                      { label: "国リスク", score: "68", grade: "B", c: "amber" },
+                      { label: "用途", score: "88", grade: "A", c: "emerald" },
+                    ].map((item) => (
+                      <div key={item.label} className={`rounded-xl border p-2 bg-${item.c}-50 border-${item.c}-100`}>
+                        <p className="text-[10px] text-slate-500">{item.label}</p>
+                        <p className={`mt-1 text-xl font-bold text-${item.c}-600`}>{item.grade}</p>
+                        <p className="text-[10px] text-slate-400">{item.score}点</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4 rounded-lg bg-slate-50 p-3">
+                    <p className="text-xs font-semibold text-slate-700">総合リスク概要</p>
+                    <p className="mt-1 text-xs text-slate-600 leading-5">
+                      ベトナムは中程度の国リスク。企業の登記情報は確認済みだが、
+                      類似名称企業の存在を確認する必要あり。用途は産業機械として適切。
+                    </p>
+                  </div>
+                </div>
+
+                {/* レポート2ページ目 */}
+                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <div className="mb-4 border-b border-slate-100 pb-3">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-indigo-500">診断レポート — 2ページ目</p>
+                    <p className="mt-1 text-sm font-semibold text-slate-800">判定理由・確認ポイント・推奨対応</p>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
+                      <p className="text-xs font-bold text-amber-700">要確認：企業信用</p>
+                      <p className="mt-1 text-xs text-amber-800">類似名称の別企業が同地域に存在。商標登記番号または法人番号を取引先に確認してください。</p>
+                    </div>
+                    <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+                      <p className="text-xs font-bold text-slate-700">推奨アクション</p>
+                      <ul className="mt-1 space-y-1 text-xs text-slate-600">
+                        <li>· 取引先の法人登記証明書を入手</li>
+                        <li>· 最終用途証明書（EUC）を取得</li>
+                        <li>· 社内輸出管理担当者へ連携</li>
+                      </ul>
+                    </div>
+                    <div className="rounded-lg border border-indigo-100 bg-indigo-50 p-3">
+                      <p className="text-xs font-bold text-indigo-700">免責事項</p>
+                      <p className="mt-1 text-xs text-indigo-800">本レポートは参考情報です。最終的な輸出可否の判断は利用者自身の責任で実施してください。</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-6 text-center">
+                <Link
+                  href="/demo?v=report-sample"
+                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-700 to-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 hover:from-indigo-800 hover:to-sky-600"
+                >
+                  実際のデモを見る
+                  <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
+                    <path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 判定根拠の可視化セクション */}
+        <section className="px-6 pb-8">
+          <div className="trade-dark-panel mx-auto max-w-6xl rounded-[2rem] px-6 py-10 text-white lg:px-10">
+            <div className="text-center">
+              <span className="inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-indigo-200">
+                判定の根拠
+              </span>
+              <h2 className="mt-4 text-3xl font-bold tracking-tight">
+                何をもとに判定しているのか
+              </h2>
+              <p className="mt-3 text-base leading-7 text-slate-200">
+                AIが一次スクリーニングに使用する情報源を公開しています。
+                最終的な判断は利用者自身が行ってください。
+              </p>
+            </div>
+            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {dataSources.map((src) => (
+                <div key={src.label} className={`rounded-2xl border bg-white px-5 py-4 ${src.color.split(" ").slice(0, 2).join(" ")}`}>
+                  <p className={`text-sm font-bold ${src.color.split(" ")[2]}`}>{src.label}</p>
+                  <p className="mt-1 text-sm text-slate-700">{src.desc}</p>
+                </div>
+              ))}
+              <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
+                <p className="text-sm font-bold text-cyan-100">免責・注意事項</p>
+                <p className="mt-1 text-sm text-slate-300">
+                  本サービスは一次スクリーニング支援ツールです。法令上の最終判断を代替するものではありません。
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* AI診断機能セクション */}
         <section className="px-6 pb-8">
           <div className="trade-dark-panel mx-auto max-w-6xl rounded-[2rem] px-6 py-8 text-white lg:px-10">
             <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
@@ -327,43 +503,51 @@ export default function Home() {
           </div>
         </section>
 
+        {/* 信頼性セクション */}
         <section className="px-6 pb-8">
-          <div className="mx-auto max-w-6xl rounded-[2rem] border border-cyan-400/20 bg-white/96 p-6 shadow-[0_24px_80px_rgba(2,6,23,0.2)] sm:p-8">
-            <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div className="mx-auto max-w-6xl rounded-[2rem] border border-cyan-400/20 bg-white/96 p-6 shadow-[0_24px_80px_rgba(2,6,23,0.2)] sm:p-10">
+            <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
               <div>
                 <span className="inline-flex rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-indigo-700">
-                  About Service
+                  About This Service
                 </span>
                 <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-900">
-                  このサービスで何ができるのか、最初に把握できます
+                  誰が、なぜ作っているのか
                 </h2>
-                <p className="mt-3 text-base leading-8 font-medium text-slate-700">
-                  初めて使う方向けに、サービス概要・活用シーン・できることをまとめた説明ページを追加しました。
-                  LPで概要を見てから、ログインして実際のAI診断フローを試せます。
+                <p className="mt-4 text-base leading-8 font-medium text-slate-700">
+                  輸出管理・海外業務の実務経験を背景に、
+                  「中小企業の営業担当者でも一次確認ができる」ツールを目指して開発しています。
                 </p>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <Link
-                    href="/about?v=section"
-                    className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-indigo-700 to-sky-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 hover:from-indigo-800 hover:to-sky-600"
-                  >
-                    説明ページへ
-                  </Link>
-                  <Link
-                    href="/login?v=section"
-                    className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-                  >
-                    ログインページへ
-                  </Link>
-                </div>
+                <p className="mt-3 text-base leading-8 font-medium text-slate-700">
+                  大企業には専任の輸出管理部門があります。しかし中小企業の現場では、
+                  営業担当者が輸出コンプライアンスの初動判断を迫られることが多くあります。
+                  このサービスは、そのような現場の課題を解決するために開発中です。
+                </p>
               </div>
-              <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+              <div className="grid gap-4">
                 {[
-                  "サービス概要をすぐ理解",
-                  "ログイン前に活用イメージを確認",
-                  "LP → 説明 → ログインの導線を整理",
+                  {
+                    title: "輸出管理部門がなくても使える",
+                    desc: "専門知識不要。商品と取引先の基本情報を入力するだけで一次確認を進められます。",
+                    color: "border-indigo-200 bg-indigo-50",
+                    textColor: "text-indigo-700",
+                  },
+                  {
+                    title: "営業担当者が商談前に確認できる",
+                    desc: "5分で完了するスクリーニングで、商談前のリスク把握が可能です。",
+                    color: "border-sky-200 bg-sky-50",
+                    textColor: "text-sky-700",
+                  },
+                  {
+                    title: "判断根拠を可視化して共有",
+                    desc: "評価理由と根拠をPDFで出力し、上司・法務担当へスムーズに連携できます。",
+                    color: "border-teal-200 bg-teal-50",
+                    textColor: "text-teal-700",
+                  },
                 ].map((item) => (
-                  <div key={item} className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm font-semibold text-slate-800">
-                    {item}
+                  <div key={item.title} className={`rounded-2xl border p-4 ${item.color}`}>
+                    <p className={`text-sm font-bold ${item.textColor}`}>{item.title}</p>
+                    <p className="mt-1 text-sm text-slate-700">{item.desc}</p>
                   </div>
                 ))}
               </div>
@@ -395,32 +579,114 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="px-6 py-20">
-          <div className="mx-auto max-w-6xl">
+        {/* 料金セクション */}
+        <section className="px-6 pb-8">
+          <div className="mx-auto max-w-5xl">
             <div className="rounded-[2rem] border border-cyan-400/20 bg-white/96 px-6 py-10 text-center shadow-[0_24px_80px_rgba(2,6,23,0.2)]">
-              <h2 className="text-3xl font-bold tracking-tight text-slate-900">現場で迷わない操作設計</h2>
-              <p className="text-base text-slate-600">
-                初めて使う人でも、次に何をすべきかが一目でわかる画面構成にしています。
+              <span className="inline-flex rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-indigo-700">
+                料金プラン
+              </span>
+              <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-900">シンプルな料金体系</h2>
+              <p className="mt-3 text-base text-slate-600">
+                β版は無料でご利用いただけます。正式版の料金は準備中です。
               </p>
             </div>
-            <div className="mt-12 grid gap-5 md:grid-cols-3">
-              {[
-                {
-                  title: "案件登録を簡単化",
-                  text: "入力項目を最小限に整理し、商品画像もその場でアップロード可能。",
-                },
-                {
-                  title: "診断結果を要点表示",
-                  text: "評価、リスク要因、推奨アクションをカード形式で一覧表示。",
-                },
-                {
-                  title: "社内共有まで最短",
-                  text: "PDF出力・確認メモ・根拠ソースで、上司確認までスムーズに繋がります。",
-                },
-              ].map((item) => (
-                <div key={item.title} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                  <h3 className="text-lg font-semibold text-slate-900">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-7 font-medium text-slate-700">{item.text}</p>
+            <div className="mt-10 grid gap-6 md:grid-cols-2">
+              {/* β版プラン */}
+              <div className="relative rounded-2xl border-2 border-indigo-500 bg-white p-8 shadow-lg">
+                <div className="absolute -top-3 left-6">
+                  <span className="rounded-full bg-indigo-600 px-3 py-1 text-xs font-bold text-white">現在公開中</span>
+                </div>
+                <p className="text-sm font-semibold uppercase tracking-widest text-indigo-600">β版</p>
+                <p className="mt-2 text-4xl font-bold text-slate-900">無料</p>
+                <p className="mt-1 text-sm text-slate-500">β版期間中は全機能を無料でご利用いただけます</p>
+                <ul className="mt-6 space-y-3">
+                  {[
+                    "AI一次スクリーニング（8観点）",
+                    "A/B/C評価 + 判定理由表示",
+                    "PDFレポート出力",
+                    "案件管理（β版制限あり）",
+                  ].map((item) => (
+                    <li key={item} className="flex items-center gap-2 text-sm text-slate-700">
+                      <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-indigo-500">
+                        <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clipRule="evenodd" />
+                      </svg>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href="/login?v=pricing"
+                  className="mt-8 block rounded-xl bg-indigo-600 py-3 text-center text-sm font-semibold text-white hover:bg-indigo-700"
+                >
+                  無料で始める
+                </Link>
+              </div>
+
+              {/* 正式版プラン */}
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-8">
+                <p className="text-sm font-semibold uppercase tracking-widest text-slate-500">正式版（準備中）</p>
+                <p className="mt-2 text-4xl font-bold text-slate-400">未定</p>
+                <p className="mt-1 text-sm text-slate-400">月額料金・プランは検討中です</p>
+                <ul className="mt-6 space-y-3">
+                  {[
+                    "β版の全機能",
+                    "企業情報・UBO詳細調査",
+                    "制裁リストリアルタイム照合",
+                    "チーム共有・管理機能",
+                    "API連携（開発者向け）",
+                  ].map((item) => (
+                    <li key={item} className="flex items-center gap-2 text-sm text-slate-400">
+                      <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-slate-300">
+                        <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clipRule="evenodd" />
+                      </svg>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href="/contact?v=pricing"
+                  className="mt-8 block rounded-xl border border-slate-300 bg-white py-3 text-center text-sm font-semibold text-slate-600 hover:bg-slate-50"
+                >
+                  リリース通知を受け取る
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ロードマップセクション */}
+        <section className="px-6 pb-8">
+          <div className="trade-dark-panel mx-auto max-w-5xl rounded-[2rem] px-6 py-10 text-white lg:px-10">
+            <div className="text-center">
+              <span className="inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-indigo-200">
+                開発ロードマップ
+              </span>
+              <h2 className="mt-4 text-3xl font-bold tracking-tight">
+                中小企業向け輸出リスク判断支援プラットフォームへ
+              </h2>
+              <p className="mt-3 text-base text-slate-200">
+                単なるAIチャットではなく、輸出コンプライアンスの実務を支援するプラットフォームを目指しています。
+              </p>
+            </div>
+            <div className="mt-10 grid gap-6 md:grid-cols-3">
+              {roadmap.map((phase) => (
+                <div key={phase.phase} className="rounded-2xl border border-white/10 bg-white/5 p-6">
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs font-bold uppercase tracking-widest text-indigo-300">{phase.phase}</p>
+                    <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${phase.statusColor}`}>
+                      {phase.status}
+                    </span>
+                  </div>
+                  <h3 className="mt-3 text-lg font-bold text-white">{phase.title}</h3>
+                  <ul className="mt-4 space-y-2">
+                    {phase.items.map((item) => (
+                      <li key={item} className="flex items-center gap-2 text-sm text-slate-200">
+                        <span className="h-1.5 w-1.5 rounded-full bg-indigo-400" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               ))}
             </div>
@@ -432,26 +698,26 @@ export default function Home() {
           <div className="mx-auto max-w-3xl rounded-2xl bg-indigo-600 px-8 py-12 text-center">
             <h2 className="text-3xl font-bold text-white">まずは1件、試してみてください</h2>
             <p className="mt-3 text-base font-medium text-indigo-100">
-              メールアドレスだけで開始できます。登録後すぐに案件確認フローを試せます。
+              β版は無料。メールアドレスだけで開始できます。登録後すぐに案件確認フローを試せます。
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Link
                 href="/login?v=cta"
                 className="rounded-xl bg-white px-6 py-3 text-base font-semibold text-indigo-700 hover:bg-indigo-50"
               >
-                無料で始める
+                無料で始める（β版）
               </Link>
               <Link
-                href="/about?v=cta"
-                className="rounded-xl border border-indigo-400 px-6 py-3 text-base font-semibold text-white hover:bg-indigo-500"
-              >
-                説明ページを見る
-              </Link>
-              <Link
-                href="/dashboard?v=cta"
+                href="/demo?v=cta"
                 className="rounded-xl border border-indigo-400 px-6 py-3 text-base font-semibold text-white hover:bg-indigo-500"
               >
                 デモを見る
+              </Link>
+              <Link
+                href="/contact?v=cta"
+                className="rounded-xl border border-indigo-400 px-6 py-3 text-base font-semibold text-white hover:bg-indigo-500"
+              >
+                フィードバックを送る
               </Link>
             </div>
           </div>
