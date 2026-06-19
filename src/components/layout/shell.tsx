@@ -11,10 +11,10 @@ export function Shell({
   description?: string;
 }) {
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+    <div className="min-h-screen bg-transparent text-slate-900">
       <Header />
       <main className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-10">
-        <section className="rounded-xl border border-slate-200 bg-white px-6 py-5">
+        <section className="rounded-xl border border-slate-200 bg-white/95 px-6 py-5 shadow-[0_16px_40px_rgba(15,23,42,0.05)] backdrop-blur-sm">
           <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-[#1e3a5f]">
             Export Control Monitor
           </span>

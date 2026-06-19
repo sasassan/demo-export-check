@@ -163,7 +163,7 @@ export default function Home() {
         }}
       />
       {/* ナビゲーション */}
-      <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
+      <nav className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/92 shadow-[0_10px_24px_rgba(15,23,42,0.04)] backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
           <div className="flex items-center gap-2.5">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1e3a5f]">
@@ -186,7 +186,7 @@ export default function Home() {
 
       <main>
         {/* クイックリンク */}
-        <section className="border-b border-slate-100 bg-slate-50 px-4 py-4 sm:px-6">
+        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-blue-50/50 px-4 py-4 sm:px-6">
           <div className="mx-auto grid max-w-6xl grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
             {quickLinks.map((item) => (
               <Link key={item.label} href={item.href} className="group rounded-lg border border-slate-200 bg-white px-4 py-3 transition hover:border-slate-300 hover:shadow-sm">
@@ -198,7 +198,7 @@ export default function Home() {
         </section>
 
         {/* ヒーローセクション */}
-        <section className="border-b border-slate-100 px-4 py-16 sm:px-6 sm:py-20">
+        <section className="border-b border-slate-100 bg-gradient-to-b from-white via-white to-slate-50/70 px-4 py-16 sm:px-6 sm:py-20">
           <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2">
             <div>
               <span className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5 text-sm font-medium text-[#1e3a5f]">
@@ -235,7 +235,7 @@ export default function Home() {
                   ["AI診断観点", "8項目"],
                   ["出力形式", "PDF / 要約"],
                 ].map(([label, value]) => (
-                  <div key={label} className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+                  <div key={label} className="rounded-lg border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-3 shadow-sm">
                     <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">{label}</p>
                     <p className="mt-1 text-lg font-bold text-slate-900">{value}</p>
                   </div>
@@ -314,7 +314,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="border-b border-slate-100 bg-slate-50 px-4 py-16 sm:px-6">
+        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-blue-50/40 px-4 py-16 sm:px-6">
           <div className="mx-auto max-w-6xl space-y-12">
             <div className="text-center">
               <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-[#1e3a5f]">
@@ -374,7 +374,7 @@ export default function Home() {
         </section>
 
         {/* 3ステップ */}
-        <section className="border-b border-slate-100 bg-slate-50 px-4 py-16 sm:px-6">
+        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-white px-4 py-16 sm:px-6">
           <div className="mx-auto max-w-5xl text-center">
             <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">3ステップで完了</h2>
             <p className="mt-2 text-base text-slate-600">専門知識不要。商品情報を入力するだけで一次確認の論点を整理できます。</p>
@@ -491,7 +491,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="border-b border-slate-100 bg-slate-50 px-4 py-16 sm:px-6">
+        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-blue-50/30 px-4 py-16 sm:px-6">
           <div className="mx-auto max-w-5xl">
             <div className="text-center">
               <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-[#1e3a5f]">
@@ -526,7 +526,7 @@ export default function Home() {
         </section>
 
         {/* AI診断機能 */}
-        <section className="border-b border-slate-100 bg-slate-50 px-4 py-16 sm:px-6">
+        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-white px-4 py-16 sm:px-6">
           <div className="mx-auto max-w-5xl">
             <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
               <div>
@@ -643,7 +643,7 @@ export default function Home() {
         </section>
 
         {/* Trust & Training */}
-        <section className="border-b border-slate-100 bg-slate-50 px-4 py-12 sm:px-6">
+        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-blue-50/40 px-4 py-12 sm:px-6">
           <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-2">
             <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
               <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-2.5 py-1 text-[10px] font-semibold tracking-wider text-[#1e3a5f]">TRUST & SECURITY</span>
@@ -710,7 +710,7 @@ export default function Home() {
         </section>
 
         {/* フッター */}
-        <footer className="border-t border-slate-200 bg-slate-50 px-4 py-8 sm:px-6">
+        <footer className="border-t border-slate-200 bg-gradient-to-b from-slate-50 to-white px-4 py-8 sm:px-6">
           <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 text-sm md:flex-row">
             <div className="flex items-center gap-2">
               <div className="flex h-6 w-6 items-center justify-center rounded bg-[#1e3a5f]">

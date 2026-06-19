@@ -489,7 +489,7 @@ export function AiRoomPanel({
                           onClick={() => sendFeedback(entry.consultationId!, "helpful")}
                           className={`rounded-full px-3 py-1 text-[10px] font-semibold ${
                             feedbackState[entry.consultationId] === "helpful"
-                              ? "bg-emerald-600 text-white"
+                              ? "bg-emerald-700 text-white"
                               : "border border-emerald-200 bg-white text-emerald-700"
                           }`}
                         >
@@ -500,7 +500,7 @@ export function AiRoomPanel({
                           onClick={() => sendFeedback(entry.consultationId!, "needs-work")}
                           className={`rounded-full px-3 py-1 text-[10px] font-semibold ${
                             feedbackState[entry.consultationId] === "needs-work"
-                              ? "bg-amber-500 text-white"
+                              ? "bg-amber-700 text-white"
                               : "border border-amber-200 bg-white text-amber-700"
                           }`}
                         >

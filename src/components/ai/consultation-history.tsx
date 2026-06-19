@@ -202,7 +202,7 @@ export function ConsultationHistory() {
                   disabled={feedbackSendingId === item.id}
                   className={`rounded-lg px-3 py-2 text-xs font-semibold ${
                     item.feedback === "helpful"
-                      ? "bg-emerald-600 text-white"
+                      ? "bg-emerald-700 text-white"
                       : "border border-emerald-200 bg-white text-emerald-700"
                   }`}
                 >
@@ -214,7 +214,7 @@ export function ConsultationHistory() {
                   disabled={feedbackSendingId === item.id}
                   className={`rounded-lg px-3 py-2 text-xs font-semibold ${
                     item.feedback === "needs-work"
-                      ? "bg-amber-500 text-white"
+                      ? "bg-amber-700 text-white"
                       : "border border-amber-200 bg-white text-amber-700"
                   }`}
                 >
