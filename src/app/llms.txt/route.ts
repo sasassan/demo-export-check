@@ -18,6 +18,9 @@ Export Risk Navi は、輸出案件について制裁リスト、相手先企業
 - Home: ${appUrl}/
 - About: ${appUrl}/about
 - Demo: ${appUrl}/demo
+- Operator info: ${appUrl}/operator
+- Supervision: ${appUrl}/supervision
+- Evaluation logic: ${appUrl}/evaluation-logic
 - Glossary: ${appUrl}/glossary
 - AI Room: ${appUrl}/ai-room
 - Learning: ${appUrl}/learning
@@ -36,6 +39,7 @@ Export Risk Navi は、輸出案件について制裁リスト、相手先企業
 5. 輸出辞典による専門用語検索
 6. 社内共有向けの判断根拠整理
 7. 長文資料・規程の読解支援
+8. 評価ロジック、運営方針、レビュー体制の公開説明
 
 ## Intended Users
 
@@ -50,6 +54,7 @@ Export Risk Navi は、輸出案件について制裁リスト、相手先企業
 - 公開ページは誰でも閲覧可能です。
 - ダッシュボード、案件詳細、ケース管理ページはログイン前提です。
 - AI相談室は、規制資料・社内規程・条文の意味を分かりやすく説明する用途も重視しています。
+- /operator, /supervision, /evaluation-logic で運営情報・レビュー体制・評価基準を確認できます。
 
 ## Review Focus Suggestions
 

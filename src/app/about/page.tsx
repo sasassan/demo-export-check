@@ -120,6 +120,41 @@ export default function AboutPage() {
           </div>
         </section>
 
+        <section className="rounded-xl border border-slate-200 bg-white p-6">
+          <span className="trade-section-label">More details</span>
+          <h2 className="mt-3 text-xl font-bold text-slate-900">詳細ページ</h2>
+          <div className="mt-5 grid gap-4 md:grid-cols-3">
+            {[
+              {
+                href: "/operator",
+                title: "運営情報",
+                text: "Beta版で公開している運営情報、公開範囲、問い合わせ導線を整理しています。",
+              },
+              {
+                href: "/supervision",
+                title: "監修・レビュー体制",
+                text: "現時点で公開しているレビュー体制と、まだ未公開・未提供の範囲を明示しています。",
+              },
+              {
+                href: "/evaluation-logic",
+                title: "評価ロジック",
+                text: "A/B/C判定の考え方、8観点、総合評価の集約方法を説明しています。",
+              },
+            ].map((item) => (
+              <div key={item.href} className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+                <h3 className="text-sm font-semibold text-slate-900">{item.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{item.text}</p>
+                <Link
+                  href={item.href}
+                  className="mt-4 inline-flex text-sm font-semibold text-[#1e3a5f] hover:underline"
+                >
+                  詳細を見る
+                </Link>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <div className="grid gap-6 lg:grid-cols-2">
           <section className="rounded-xl border border-slate-200 bg-white p-6">
             <h2 className="text-xl font-bold text-slate-900">このサービスでできること</h2>

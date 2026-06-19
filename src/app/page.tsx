@@ -559,6 +559,9 @@ export default function Home() {
               <Link href="/terms" className="hover:text-slate-700 hover:underline">利用規約</Link>
               <Link href="/privacy" className="hover:text-slate-700 hover:underline">プライバシーポリシー</Link>
               <Link href="/security" className="hover:text-slate-700 hover:underline">セキュリティ</Link>
+              <Link href="/operator" className="hover:text-slate-700 hover:underline">運営情報</Link>
+              <Link href="/supervision" className="hover:text-slate-700 hover:underline">監修体制</Link>
+              <Link href="/evaluation-logic" className="hover:text-slate-700 hover:underline">評価ロジック</Link>
               <Link href="/for-ai" className="hover:text-slate-700 hover:underline">AIレビュー用概要</Link>
               <Link href="/contact" className="hover:text-slate-700 hover:underline">お問い合わせ</Link>
             </div>
