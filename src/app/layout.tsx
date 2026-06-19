@@ -23,13 +23,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(appUrl),
   applicationName: "Export Risk Navi",
   robots: {
-    index: false,
-    follow: false,
-    googleBot: {
-      index: false,
-      follow: false,
-      noimageindex: true,
-    },
+    index: true,
+    follow: true,
   },
   alternates: {
     canonical: "/",
