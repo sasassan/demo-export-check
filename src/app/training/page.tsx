@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import { Header } from "@/components/layout/header";
 
+export const dynamic = "force-static";
+
 const trainingPrograms = [
   { title: "輸出管理基礎研修", description: "営業担当・実務担当向けに、輸出管理の基本・案件確認の流れ・よくある判断ミスを整理します。" },
   { title: "営業担当者向け教育", description: "商談前に何を聞くべきか、用途確認・相手先確認・社内引き継ぎの要点を実例で学べます。" },

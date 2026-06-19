@@ -5,6 +5,8 @@ import { BetaBanner } from "@/components/layout/beta-banner";
 
 import "./globals.css";
 
+export const dynamic = "force-static";
+
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
 const geistSans = Geist({

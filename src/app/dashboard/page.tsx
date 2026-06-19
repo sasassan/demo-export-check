@@ -7,6 +7,8 @@ import { getAllProviderRuntimeInfo } from "@/lib/ai/config";
 import { requireSessionEmail } from "@/lib/auth/server";
 import { listCasesByUser } from "@/lib/db/repository";
 
+export const dynamic = "force-static";
+
 export default async function DashboardPage() {
   const userEmail = await requireSessionEmail();
   const items = await listCasesByUser(userEmail);

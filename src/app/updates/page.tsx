@@ -3,6 +3,8 @@ import Link from "next/link";
 import { Shell } from "@/components/layout/shell";
 import { REGULATION_UPDATES } from "@/lib/regulation-updates";
 
+export const dynamic = "force-static";
+
 export default function UpdatesPage() {
   return (
     <Shell

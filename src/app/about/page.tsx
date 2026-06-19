@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { APP_NAME } from "@/lib/constants";
 
+export const dynamic = "force-static";
+
 const servicePoints = [
   { title: "営業担当でも使いやすい", description: "商品名・型番・輸出先国・顧客企業名を入れるだけで、輸出管理の一次確認を始められます。" },
   { title: "AIが論点を整理", description: "制裁・国リスク・用途・エンドユーザー確認など、判断に必要な論点を文章で要約します。" },

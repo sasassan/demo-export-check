@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import { Header } from "@/components/layout/header";
 
+export const dynamic = "force-static";
+
 const sections = [
   {
     title: "判定理由",

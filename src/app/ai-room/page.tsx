@@ -2,6 +2,8 @@ import { Shell } from "@/components/layout/shell";
 import { AiRoomPanel } from "@/components/ai/ai-room-panel";
 import { ConsultationHistory } from "@/components/ai/consultation-history";
 
+export const dynamic = "force-static";
+
 export default function AiRoomPage() {
   return (
     <Shell

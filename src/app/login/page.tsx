@@ -3,6 +3,8 @@ import Image from "next/image";
 import { LoginForm } from "@/components/forms/login-form";
 import { APP_NAME } from "@/lib/constants";
 
+export const dynamic = "force-static";
+
 export default function LoginPage() {
   return (
     <div className="flex min-h-screen bg-slate-50">

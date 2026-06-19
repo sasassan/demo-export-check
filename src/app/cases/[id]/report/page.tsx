@@ -5,6 +5,8 @@ import { requireSessionEmail } from "@/lib/auth/server";
 import { assertCaseOwner } from "@/lib/db/repository";
 import { buildReportModel } from "@/lib/reports/build-report";
 
+export const dynamic = "force-static";
+
 export default async function CaseReportPage({
   params,
 }: {

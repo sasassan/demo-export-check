@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import { Shell } from "@/components/layout/shell";
 
+export const dynamic = "force-static";
+
 const guides = [
   {
     id: "first-export",

@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Shell } from "@/components/layout/shell";
 import { DictionarySearch } from "@/components/glossary/dictionary-search";
 
+export const dynamic = "force-static";
+
 const TERMS = [
   {
     term: "ECCN",

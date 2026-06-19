@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import { Header } from "@/components/layout/header";
 
+export const dynamic = "force-static";
+
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-slate-50">

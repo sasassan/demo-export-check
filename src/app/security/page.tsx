@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import { Header } from "@/components/layout/header";
 
+export const dynamic = "force-static";
+
 const securityItems = [
   { title: "通信の暗号化（SSL/TLS）", description: "ブラウザとサービス間の通信は暗号化を前提とし、第三者による盗聴・改ざんリスクの低減を図ります。" },
   { title: "データ保存ポリシー", description: "案件情報・相談履歴は、業務利用に必要な範囲で保存されます。将来的には企業ごとの保存期間設定にも対応予定です。" },

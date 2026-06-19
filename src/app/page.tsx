@@ -3,6 +3,8 @@ import Link from "next/link";
 
 import { APP_NAME } from "@/lib/constants";
 
+export const dynamic = "force-static";
+
 const features = [
   {
     title: "制裁リスト調査",
