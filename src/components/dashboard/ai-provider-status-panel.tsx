@@ -24,8 +24,8 @@ export function AiProviderStatusPanel({ providers }: Props) {
   const liveCount = providers.filter((provider) => provider.status === "live").length;
 
   return (
-    <div className="rounded-[1.75rem] border border-indigo-200/50 bg-white/95 p-3 shadow-[0_24px_60px_rgba(15,23,42,0.08)] sm:p-4">
-      <div className="rounded-2xl border border-indigo-100 bg-indigo-50/40 p-5">
+    <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
+      <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <p className="text-sm font-medium text-slate-500">現在のAI構成</p>
@@ -36,7 +36,7 @@ export function AiProviderStatusPanel({ providers }: Props) {
               ダッシュボード上で、どのAIが実APIで動作し、どれがフォールバック中か確認できます。
             </p>
           </div>
-          <div className="rounded-xl border border-indigo-100 bg-white px-4 py-3">
+          <div className="rounded-xl border border-slate-200 bg-white px-4 py-3">
             <p className="text-xs font-semibold text-slate-500">有効化の切り替え</p>
             <p className="mt-1 text-sm font-semibold text-slate-900">
               ENABLED_AI_PROVIDERS
@@ -48,7 +48,7 @@ export function AiProviderStatusPanel({ providers }: Props) {
           {providers.map((provider) => (
             <div
               key={provider.providerName}
-              className="rounded-2xl border border-indigo-100 bg-white px-4 py-4"
+              className="rounded-lg border border-slate-200 bg-white px-4 py-4"
             >
               <div className="flex items-center justify-between gap-3">
                 <div>
@@ -112,7 +112,7 @@ export function AiProviderStatusPanel({ providers }: Props) {
           ].map((item) => (
             <div
               key={item.label}
-              className="flex items-center gap-2 rounded-xl border border-indigo-100 bg-white px-3 py-2"
+              className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2"
             >
               <span className={`h-2.5 w-2.5 rounded-full ${item.color}`} />
               <span className="text-xs text-slate-600">{item.label}</span>

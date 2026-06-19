@@ -69,7 +69,7 @@ export function ConsultationHistory() {
   }
 
   return (
-    <div className="trade-glass-card rounded-[1.75rem] p-6">
+    <div className="rounded-xl border border-slate-200 bg-white p-6">
       <p className="trade-section-label">Consultation History</p>
       <h2 className="mt-3 text-xl font-bold text-slate-900">相談履歴</h2>
       <p className="mt-2 text-sm leading-7 text-slate-600">
@@ -116,7 +116,7 @@ export function ConsultationHistory() {
                   </span>
                 </div>
               </div>
-              <p className="mt-2 text-xs font-medium text-indigo-700">質問: {item.question || "（資料読解のみ）"}</p>
+              <p className="mt-2 text-xs font-medium text-[#1e3a5f]">質問: {item.question || "（資料読解のみ）"}</p>
               <p className="mt-2 text-sm leading-7 text-slate-600">{item.answer}</p>
 
               {(item.sourceUrl || item.fetchedUrlText || item.sourceFetchStatus) && (
@@ -136,7 +136,7 @@ export function ConsultationHistory() {
                 </p>
               ) : null}
               {item.confidenceLabel ? (
-                <p className="mt-2 text-xs font-semibold text-indigo-700">
+                <p className="mt-2 text-xs font-semibold text-[#1e3a5f]">
                   回答信頼度: {item.confidenceLabel}
                 </p>
               ) : null}
@@ -166,7 +166,7 @@ export function ConsultationHistory() {
                 </ul>
               ) : null}
               {item.caseDraft ? (
-                <div className="mt-3 rounded-xl border border-indigo-100 bg-indigo-50/70 px-3 py-2 text-xs text-slate-700">
+                <div className="mt-3 rounded-xl border border-slate-200 bg-blue-50 px-3 py-2 text-xs text-slate-700">
                   案件化候補: {item.caseDraft.productName || "要確認商品"}
                   {item.caseDraft.destinationCountry ? ` / ${item.caseDraft.destinationCountry}` : ""}
                   {item.caseDraft.customerCompanyName ? ` / ${item.caseDraft.customerCompanyName}` : ""}
@@ -185,7 +185,7 @@ export function ConsultationHistory() {
                     type="button"
                     onClick={() => createCaseFromConsultation(item)}
                     disabled={creatingId === item.id}
-                    className="rounded-lg bg-gradient-to-r from-indigo-600 to-sky-500 px-3 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-500/20 disabled:opacity-60"
+                    className="rounded-lg bg-gradient-to-r from-[#1e3a5f] to-sky-500 px-3 py-2 text-xs font-semibold text-white shadow-sm disabled:opacity-60"
                   >
                     {creatingId === item.id ? "案件化中..." : "この相談から案件を作成"}
                   </button>

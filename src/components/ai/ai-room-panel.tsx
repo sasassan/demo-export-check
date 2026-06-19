@@ -248,10 +248,10 @@ export function AiRoomPanel({
   };
 
   return (
-    <div className="trade-glass-card rounded-[1.75rem] p-6">
+    <div className="rounded-xl border border-slate-200 bg-white p-6">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-500">
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#1e3a5f]">
             AI consultation
           </p>
           <h2 className="mt-2 text-xl font-bold text-slate-900">AI相談室</h2>
@@ -279,21 +279,21 @@ export function AiRoomPanel({
               <div
                 className={`max-w-[85%] rounded-2xl p-4 ${
                   entry.role === "user"
-                    ? "bg-indigo-600 text-white"
+                    ? "bg-[#1e3a5f] text-white"
                     : "border border-cyan-100 bg-white text-slate-900"
                 }`}
               >
                 <div className="flex items-center justify-between gap-3">
                   <span
                     className={`text-xs font-semibold ${
-                      entry.role === "user" ? "text-indigo-200" : "text-indigo-500"
+                      entry.role === "user" ? "text-blue-200" : "text-[#1e3a5f]"
                     }`}
                   >
                     {entry.role === "user" ? "あなた" : "AI"}
                   </span>
                   <span
                     className={`text-[10px] ${
-                      entry.role === "user" ? "text-indigo-300" : "text-slate-400"
+                      entry.role === "user" ? "text-blue-200" : "text-slate-400"
                     }`}
                   >
                     {entry.timestamp}
@@ -310,16 +310,16 @@ export function AiRoomPanel({
                 {entry.answer && (
                   <div className="mt-3 space-y-2">
                     {entry.answer.documentSummary && (
-                      <div className="rounded-xl bg-indigo-50 p-3">
+                      <div className="rounded-xl bg-blue-50 p-3">
                         <div className="flex items-center justify-between gap-3">
-                          <p className="text-xs font-semibold text-indigo-700">資料要約</p>
+                          <p className="text-xs font-semibold text-[#1e3a5f]">資料要約</p>
                           {entry.answer.confidenceLabel ? (
-                            <span className="rounded-full border border-indigo-200 bg-white px-2 py-0.5 text-[10px] font-semibold text-indigo-700">
+                            <span className="rounded-full border border-slate-200 bg-white px-2 py-0.5 text-[10px] font-semibold text-[#1e3a5f]">
                               信頼度 {entry.answer.confidenceLabel}
                             </span>
                           ) : null}
                         </div>
-                        <p className="mt-1 text-xs leading-6 text-indigo-900">
+                        <p className="mt-1 text-xs leading-6 text-slate-800">
                           {entry.answer.documentSummary}
                         </p>
                       </div>
@@ -342,7 +342,7 @@ export function AiRoomPanel({
                           <Link
                             key={kw}
                             href={`/glossary?q=${encodeURIComponent(kw)}`}
-                            className="rounded-full border border-cyan-200 bg-white px-2 py-0.5 text-[10px] font-semibold text-slate-600 hover:border-indigo-400 hover:text-indigo-700"
+                            className="rounded-full border border-cyan-200 bg-white px-2 py-0.5 text-[10px] font-semibold text-slate-600 hover:border-slate-300 hover:text-[#1e3a5f]"
                           >
                             {kw}
                           </Link>
@@ -464,7 +464,7 @@ export function AiRoomPanel({
                         <Link
                           key={item.href + item.label}
                           href={item.href}
-                          className="rounded-lg bg-gradient-to-r from-indigo-600 to-sky-500 px-2 py-1 text-[10px] font-semibold text-white"
+                          className="rounded-lg bg-gradient-to-r from-[#1e3a5f] to-sky-500 px-2 py-1 text-[10px] font-semibold text-white"
                         >
                           {item.label}
                         </Link>
@@ -518,9 +518,9 @@ export function AiRoomPanel({
             <div className="flex justify-start">
               <div className="max-w-[85%] animate-pulse rounded-2xl border border-cyan-100 bg-white p-4">
                 <div className="flex items-center gap-2">
-                  <div className="h-2 w-2 animate-bounce rounded-full bg-indigo-400" />
-                  <div className="h-2 w-2 animate-bounce rounded-full bg-indigo-400 [animation-delay:0.15s]" />
-                  <div className="h-2 w-2 animate-bounce rounded-full bg-indigo-400 [animation-delay:0.3s]" />
+                  <div className="h-2 w-2 animate-bounce rounded-full bg-[#1e3a5f]" />
+                  <div className="h-2 w-2 animate-bounce rounded-full bg-[#1e3a5f] [animation-delay:0.15s]" />
+                  <div className="h-2 w-2 animate-bounce rounded-full bg-[#1e3a5f] [animation-delay:0.3s]" />
                   <span className="ml-2 text-xs text-slate-500">回答を整理中...</span>
                 </div>
               </div>
@@ -544,7 +544,7 @@ export function AiRoomPanel({
         </div>
       )}
 
-      <div className="mt-4 rounded-2xl border border-cyan-100 bg-gradient-to-br from-indigo-50/70 to-cyan-50/70 p-4">
+      <div className="mt-4 rounded-2xl border border-cyan-100 bg-gradient-to-br from-blue-50/70 to-cyan-50/70 p-4">
         <p className="text-sm font-semibold text-slate-900">相談モード</p>
         <div className="mt-3 grid gap-2 md:grid-cols-2">
           {MODES.map((item) => (
@@ -555,7 +555,7 @@ export function AiRoomPanel({
               className={`rounded-xl border px-4 py-3 text-left transition ${
                 mode === item.value
                   ? "border-cyan-300 bg-white shadow-sm"
-                  : "border-indigo-100 bg-white/75 hover:border-indigo-200"
+                  : "border-slate-200 bg-white/75 hover:border-slate-200"
               }`}
             >
               <p className="text-sm font-semibold text-slate-900">{item.label}</p>
@@ -566,7 +566,7 @@ export function AiRoomPanel({
       </div>
 
       {thread.length === 0 && (
-        <div className="mt-4 rounded-2xl border border-cyan-100 bg-gradient-to-br from-indigo-50/70 to-cyan-50/70 p-4">
+        <div className="mt-4 rounded-2xl border border-cyan-100 bg-gradient-to-br from-blue-50/70 to-cyan-50/70 p-4">
           <p className="text-sm font-semibold text-slate-900">テンプレートから始める</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {quickTemplates.map((t) => (
@@ -587,7 +587,7 @@ export function AiRoomPanel({
       )}
 
       {thread.length === 0 && (
-        <div className="mt-4 rounded-2xl border border-cyan-100 bg-gradient-to-br from-indigo-50/70 to-cyan-50/70 p-4">
+        <div className="mt-4 rounded-2xl border border-cyan-100 bg-gradient-to-br from-blue-50/70 to-cyan-50/70 p-4">
           <p className="text-sm font-semibold text-slate-900">質問例</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {EXAMPLES.map((item) => (
@@ -595,7 +595,7 @@ export function AiRoomPanel({
                 key={item}
                 type="button"
                 onClick={() => setMessage(item)}
-                className="rounded-full border border-indigo-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 hover:border-indigo-400"
+                className="rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 hover:border-slate-300"
               >
                 {item}
               </button>
@@ -619,7 +619,7 @@ export function AiRoomPanel({
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeyDown}
             rows={3}
-            className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm leading-7 text-slate-900 outline-none placeholder:text-slate-400 focus:border-indigo-400"
+            className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm leading-7 text-slate-900 outline-none placeholder:text-slate-400 focus:border-[#1e3a5f]"
             placeholder={
               thread.length > 0
                 ? "前の回答を踏まえて追加で質問できます"
@@ -629,7 +629,7 @@ export function AiRoomPanel({
         </div>
 
         <details className={thread.length > 0 ? "" : "open"}>
-          <summary className="cursor-pointer text-sm font-semibold text-slate-700 hover:text-indigo-600">
+          <summary className="cursor-pointer text-sm font-semibold text-slate-700 hover:text-[#1e3a5f]">
             参考資料・URL（任意）
           </summary>
           <div className="mt-3 grid gap-3 lg:grid-cols-[0.9fr_1.1fr]">
@@ -638,7 +638,7 @@ export function AiRoomPanel({
               <input
                 value={sourceUrl}
                 onChange={(e) => setSourceUrl(e.target.value)}
-                className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-indigo-400"
+                className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-[#1e3a5f]"
                 placeholder="https://example.com/regulation"
               />
             </div>
@@ -651,7 +651,7 @@ export function AiRoomPanel({
                 value={sourceText}
                 onChange={(e) => setSourceText(e.target.value)}
                 rows={4}
-                className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm leading-7 text-slate-900 outline-none placeholder:text-slate-400 focus:border-indigo-400"
+                className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm leading-7 text-slate-900 outline-none placeholder:text-slate-400 focus:border-[#1e3a5f]"
                 placeholder="規制資料、法令テキスト、社内規程をここに貼り付け"
               />
               <div className="mt-3 rounded-2xl border border-dashed border-cyan-300/60 bg-cyan-50/70 p-4">
@@ -663,7 +663,7 @@ export function AiRoomPanel({
                   type="file"
                   accept="application/pdf"
                   onChange={handlePdfUpload}
-                  className="mt-3 block w-full text-sm text-slate-700 file:mr-4 file:rounded-xl file:border-0 file:bg-indigo-600 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white"
+                  className="mt-3 block w-full text-sm text-slate-700 file:mr-4 file:rounded-xl file:border-0 file:bg-[#1e3a5f] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white"
                 />
                 {pdfFileName && (
                   <p className="mt-2 text-xs text-slate-600">
@@ -682,7 +682,7 @@ export function AiRoomPanel({
           </div>
         </details>
 
-        <div className="rounded-2xl border border-indigo-200/60 bg-indigo-50/80 px-4 py-3 text-xs leading-6 text-indigo-800">
+        <div className="rounded-2xl border border-slate-200 bg-blue-50/80 px-4 py-3 text-xs leading-6 text-slate-700">
           <span className="font-semibold">現在のモード:</span> {selectedMode.label} —{" "}
           {selectedMode.description}
         </div>

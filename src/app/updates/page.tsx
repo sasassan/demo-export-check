@@ -13,16 +13,16 @@ export default function UpdatesPage() {
         {REGULATION_UPDATES.map((item) => (
           <article
             key={`${item.title}-${item.publishedAt}`}
-            className="trade-glass-card rounded-[1.75rem] p-6"
+            className="rounded-xl border border-slate-200 bg-white p-6"
           >
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-indigo-500">
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#1e3a5f]">
                   Regulation update
                 </p>
                 <h2 className="mt-2 text-xl font-bold text-slate-900">{item.title}</h2>
               </div>
-              <span className="rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">
+              <span className="rounded-full border border-slate-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-[#1e3a5f]">
                 {item.publishedAt}
               </span>
             </div>

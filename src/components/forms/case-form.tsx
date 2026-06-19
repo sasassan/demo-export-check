@@ -134,10 +134,10 @@ export function CaseForm({
     <form onSubmit={handleSubmit} className="grid gap-6 lg:grid-cols-[2fr_1fr]">
       {/* 入力フォーム */}
       <div className="grid gap-5 rounded-2xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-950/10">
-        <div className="rounded-2xl border border-indigo-100 bg-gradient-to-r from-indigo-50 to-sky-50 p-5">
+        <div className="rounded-2xl border border-slate-200 bg-gradient-to-r from-blue-50 to-sky-50 p-5">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">AI入力診断</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#1e3a5f]">AI入力診断</p>
               <h2 className="mt-1 text-lg font-semibold text-slate-900">登録前に入力内容をクイックチェック</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">
                 入力漏れや、追加で確認したいポイントをAI風のガイドとして表示します。
@@ -146,7 +146,7 @@ export function CaseForm({
             <button
               type="button"
               onClick={runDiagnosis}
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-indigo-700 shadow-md ring-1 ring-indigo-200 transition hover:bg-indigo-50"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#1e3a5f] shadow-md ring-1 ring-slate-200 transition hover:bg-blue-50"
             >
               <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
                 <path fillRule="evenodd" d="M10 2a.75.75 0 0 1 .75.75v1.043a6.252 6.252 0 0 1 5.457 5.457h1.043a.75.75 0 0 1 0 1.5h-1.043a6.252 6.252 0 0 1-5.457 5.457v1.043a.75.75 0 0 1-1.5 0v-1.043a6.252 6.252 0 0 1-5.457-5.457H2.75a.75.75 0 0 1 0-1.5h1.043a6.252 6.252 0 0 1 5.457-5.457V2.75A.75.75 0 0 1 10 2Zm0 3.25a4.75 4.75 0 1 0 0 9.5 4.75 4.75 0 0 0 0-9.5Z" clipRule="evenodd" />
@@ -162,7 +162,7 @@ export function CaseForm({
             ))}
           </div>
           {diagnosis ? (
-            <div className="mt-4 rounded-xl border border-indigo-100 bg-white px-4 py-3 text-sm leading-6 text-slate-700 shadow-sm">
+            <div className="mt-4 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm leading-6 text-slate-700 shadow-sm">
               {diagnosis}
             </div>
           ) : null}
@@ -173,7 +173,7 @@ export function CaseForm({
               商品名 <span className="text-rose-500">*</span>
             </span>
             <input
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-indigo-300 transition placeholder:text-slate-400 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-400 focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
               value={form.productName}
               onChange={(event) => updateField("productName", event.target.value)}
               placeholder="例: 高精度サーボモーター"
@@ -185,7 +185,7 @@ export function CaseForm({
               型番 <span className="text-rose-500">*</span>
             </span>
             <input
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-indigo-300 transition placeholder:text-slate-400 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-400 focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
               value={form.modelNumber}
               onChange={(event) => updateField("modelNumber", event.target.value)}
               placeholder="例: SRV-9800"
@@ -200,7 +200,7 @@ export function CaseForm({
               輸出先国 <span className="text-rose-500">*</span>
             </span>
             <input
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-indigo-300 transition placeholder:text-slate-400 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-400 focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
               value={form.destinationCountry}
               onChange={(event) => updateField("destinationCountry", event.target.value)}
               placeholder="例: ベトナム"
@@ -212,7 +212,7 @@ export function CaseForm({
               顧客企業名 <span className="text-rose-500">*</span>
             </span>
             <input
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-indigo-300 transition placeholder:text-slate-400 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-400 focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
               value={form.customerCompanyName}
               onChange={(event) => updateField("customerCompanyName", event.target.value)}
               placeholder="例: Saigon Precision Parts Ltd."
@@ -258,7 +258,7 @@ export function CaseForm({
         <button
           type="submit"
           disabled={submitting}
-          className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-700 to-sky-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 ring-1 ring-indigo-300/20 transition hover:from-indigo-800 hover:to-sky-600 hover:shadow-xl disabled:opacity-60"
+          className="flex items-center justify-center gap-2 rounded-xl bg-[#1e3a5f] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#2a4a73] disabled:opacity-60"
         >
           {submitting ? (
             <>

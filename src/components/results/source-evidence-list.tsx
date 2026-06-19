@@ -19,7 +19,7 @@ export function SourceEvidenceList({ items }: { items: EvidenceItem[] }) {
       {items.map((item) => (
         <article
           key={item.id}
-          className="rounded-[1.25rem] border border-indigo-200/50 bg-white/95 p-5 shadow-[0_12px_30px_rgba(15,23,42,0.06)] transition hover:border-indigo-300 hover:shadow-[0_16px_40px_rgba(15,23,42,0.1)]"
+          className="rounded-[1.25rem] border border-slate-200 bg-white/95 p-5 shadow-[0_12px_30px_rgba(15,23,42,0.06)] transition hover:border-slate-300 hover:shadow-[0_16px_40px_rgba(15,23,42,0.1)]"
         >
           <div className="flex flex-wrap items-start justify-between gap-3">
             <h3 className="text-sm font-semibold text-slate-900">{item.title}</h3>
@@ -29,7 +29,7 @@ export function SourceEvidenceList({ items }: { items: EvidenceItem[] }) {
                   {modelBadge[item.aiModel].label}
                 </span>
               )}
-              <span className="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs text-indigo-600">
+              <span className="rounded-full bg-blue-50 px-2.5 py-0.5 text-xs text-[#1e3a5f]">
                 {item.sourceName}
               </span>
               <span className={`rounded-full border px-2.5 py-0.5 text-xs font-medium ${confidenceColor(item.confidence)}`}>
@@ -43,7 +43,7 @@ export function SourceEvidenceList({ items }: { items: EvidenceItem[] }) {
               href={item.url}
               target="_blank"
               rel="noreferrer"
-              className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-indigo-600 hover:underline"
+              className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-[#1e3a5f] hover:underline"
             >
               参照元を開く
               <svg viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3">

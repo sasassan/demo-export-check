@@ -32,7 +32,7 @@ export default async function CaseDetailPage({
   return (
     <Shell title={detail.case.productName}>
       {/* 案件情報カード */}
-      <section className="overflow-hidden rounded-[1.75rem] border border-indigo-200/50 bg-white/95 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+      <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
         <div className="grid lg:grid-cols-[1fr_280px]">
           <div className="flex flex-col gap-5 p-6">
             <div className="grid gap-4 sm:grid-cols-3">
@@ -64,7 +64,7 @@ export default async function CaseDetailPage({
               <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
                 <Link
                   href={`/api/reports/${detail.case.id}/pdf`}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 hover:bg-indigo-700"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#1e3a5f] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#2a4a73]"
                   target="_blank"
                 >
                   <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
@@ -112,7 +112,7 @@ export default async function CaseDetailPage({
           />
 
           {/* ② リスクスコアカード */}
-          <section className="rounded-[1.75rem] border border-indigo-200/50 bg-white/95 p-3 shadow-[0_24px_60px_rgba(15,23,42,0.08)] sm:p-4">
+          <section className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
               <RiskScoreCard
                 label="総合評価"
@@ -148,7 +148,7 @@ export default async function CaseDetailPage({
 
           {/* ④ AIモデル別診断（3列グリッド） */}
           {detail.assessment.modelResults && detail.assessment.modelResults.length > 0 && (
-            <section className="rounded-[1.75rem] border border-violet-200/50 bg-white/95 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+            <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50">
@@ -288,10 +288,10 @@ export default async function CaseDetailPage({
           {/* ⑧ 判断根拠・推奨アクション */}
           <section className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
             {/* 判断根拠テキスト */}
-            <div className="rounded-[1.75rem] border border-indigo-200/50 bg-white/95 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+            <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
               <div className="flex items-center gap-3 mb-4">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-indigo-600">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-[#1e3a5f]">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z" />
                   </svg>
                 </div>
@@ -304,7 +304,7 @@ export default async function CaseDetailPage({
             </div>
 
             {/* 推奨アクション（★優先度付き） */}
-            <div className="rounded-[1.75rem] border border-indigo-200/50 bg-white/95 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+            <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
               <div className="flex items-center gap-3 mb-4">
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-emerald-600">
@@ -317,7 +317,7 @@ export default async function CaseDetailPage({
                 {detail.assessment.summary.nextActions.map((action, idx) => {
                   const stars = "★".repeat(Math.max(1, 5 - idx));
                   return (
-                    <li key={action} className="flex items-start gap-3 rounded-xl border border-indigo-100 bg-indigo-50/50 px-4 py-3">
+                    <li key={action} className="flex items-start gap-3 rounded-xl border border-slate-200 bg-blue-50/50 px-4 py-3">
                       <span className="text-amber-400 text-sm flex-shrink-0">{stars}</span>
                       <span className="text-sm text-slate-700 leading-relaxed">{action}</span>
                     </li>
@@ -340,14 +340,14 @@ export default async function CaseDetailPage({
           </section>
 
           {/* ⑫ AI相談ボタン */}
-          <section className="rounded-[1.75rem] border border-indigo-200 bg-gradient-to-r from-indigo-600 to-violet-600 p-6 text-white text-center">
+          <section className="rounded-xl border border-slate-200 bg-gradient-to-r from-[#1e3a5f] to-[#2a4a73] p-6 text-white text-center">
             <h2 className="text-lg font-bold mb-2">この案件についてAIへ質問する</h2>
-            <p className="text-sm text-indigo-100 mb-4">
+            <p className="text-sm text-blue-100 mb-4">
               「なぜB評価？」「中国へ輸出すると？」など、このレポートの内容を踏まえてAIに直接相談できます。
             </p>
             <Link
               href={`/cases/${detail.case.id}/chat`}
-              className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-bold text-indigo-700 shadow-lg hover:bg-indigo-50 transition-colors"
+              className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-bold text-[#1e3a5f] shadow-lg hover:bg-blue-50 transition-colors"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
@@ -357,7 +357,7 @@ export default async function CaseDetailPage({
           </section>
         </>
       ) : (
-        <section className="flex flex-col items-center justify-center rounded-[1.75rem] border border-dashed border-slate-300 bg-white/95 px-6 py-16 text-center shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+        <section className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center shadow-sm">
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-100">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-7 w-7 text-slate-400">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />

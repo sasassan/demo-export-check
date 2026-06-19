@@ -23,11 +23,11 @@ export function ReportPreview({ detail }: { detail: CaseDetail }) {
   const overall = detail.assessment.summary.overall;
 
   return (
-    <div className="overflow-hidden rounded-[1.75rem] border border-indigo-200/50 bg-white/95 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
-      <div className="flex flex-col gap-4 border-b border-indigo-100 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+      <div className="flex flex-col gap-4 border-b border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-indigo-600">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-[#1e3a5f]">
               <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
             </svg>
           </div>
@@ -38,7 +38,7 @@ export function ReportPreview({ detail }: { detail: CaseDetail }) {
         </div>
         <Link
           href={`/api/reports/${detail.case.id}/pdf`}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 hover:bg-indigo-700 sm:w-auto"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#1e3a5f] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#2a4a73] sm:w-auto"
           target="_blank"
         >
           <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
@@ -54,7 +54,7 @@ export function ReportPreview({ detail }: { detail: CaseDetail }) {
           <p className="mt-1 text-sm leading-7 text-slate-700">{detail.assessment.summary.summary}</p>
           <p className="mt-2 text-sm leading-7 text-slate-500">{detail.assessment.reportNarrative}</p>
         </div>
-        <div className="flex shrink-0 flex-col items-center justify-center rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-4 text-center sm:px-6">
+        <div className="flex shrink-0 flex-col items-center justify-center rounded-xl border border-slate-200 bg-blue-50 px-4 py-4 text-center sm:px-6">
           <p className="text-xs font-semibold text-slate-500">総合評価</p>
           <p className={`mt-1 text-4xl font-bold sm:text-5xl ${gradeBadge[overall].split(" ")[1]}`}>{overall}</p>
           <span className={`mt-1 rounded-full border px-2 py-0.5 text-xs font-medium ${gradeBadge[overall]}`}>

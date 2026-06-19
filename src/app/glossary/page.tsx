@@ -106,10 +106,10 @@ const CATEGORIES = [...new Set(TERMS.map((t) => t.category))];
 export default function GlossaryPage() {
   return (
     <Shell title="輸出用語辞典">
-      <div className="trade-glass-card rounded-[1.9rem] p-6">
+      <div className="border border-slate-200 bg-white rounded-xl p-6">
         <div className="flex items-center gap-3 mb-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-50 to-cyan-50">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-indigo-600">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-slate-50 to-blue-50">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-[#1e3a5f]">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
             </svg>
           </div>
@@ -123,7 +123,7 @@ export default function GlossaryPage() {
           {CATEGORIES.map((cat) => (
             <span
               key={cat}
-              className="rounded-full border border-indigo-100 bg-indigo-50/70 px-3 py-1 text-xs font-medium text-slate-700"
+              className="rounded-full border border-slate-200 bg-blue-50 px-3 py-1 text-xs font-medium text-slate-700"
             >
               {cat}
             </span>
@@ -133,8 +133,8 @@ export default function GlossaryPage() {
 
       <DictionarySearch />
 
-      <div className="trade-glass-card rounded-[1.75rem] p-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-500">How to use with AI</p>
+      <div className="border border-slate-200 bg-white rounded-xl p-6">
+        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#1e3a5f]">How to use with AI</p>
         <h2 className="mt-2 text-xl font-bold text-slate-900">用語辞典と資料読解補助を組み合わせる</h2>
         <div className="mt-4 grid gap-3 md:grid-cols-3">
           {[
@@ -142,7 +142,7 @@ export default function GlossaryPage() {
             "次にAI相談室で条文や規程の文脈を質問",
             "最後に案件化して実務フローへつなぐ",
           ].map((item) => (
-            <div key={item} className="trade-soft-block px-4 py-4 text-sm font-medium text-slate-700">
+            <div key={item} className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-4 text-sm font-medium text-slate-600">
               {item}
             </div>
           ))}
@@ -154,13 +154,13 @@ export default function GlossaryPage() {
           <div
             key={item.term}
             id={item.term.toLowerCase().replace(/\s+/g, "-")}
-            className="trade-glass-card rounded-[1.75rem] p-6"
+            className="border border-slate-200 bg-white rounded-xl p-6"
           >
             <div className="flex items-start justify-between gap-4">
               <div>
                 <div className="flex items-center gap-2">
                   <h2 className="text-xl font-black text-slate-900">{item.term}</h2>
-                  <span className="rounded-full border border-indigo-200 bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700">
+                  <span className="rounded-full border border-slate-200 bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-[#1e3a5f]">
                     {item.category}
                   </span>
                 </div>
@@ -173,8 +173,8 @@ export default function GlossaryPage() {
             <p className="mt-3 text-sm leading-7 text-slate-700">{item.description}</p>
 
             {item.example && (
-              <div className="trade-soft-block mt-3 flex items-start gap-2 px-3 py-2">
-                <span className="text-xs font-semibold text-indigo-600 flex-shrink-0 mt-0.5">
+              <div className="rounded-lg border border-slate-200 bg-slate-50 mt-3 flex items-start gap-2 px-3 py-2">
+                <span className="text-xs font-semibold text-[#1e3a5f] flex-shrink-0 mt-0.5">
                   活用例
                 </span>
                 <p className="text-xs text-slate-600">{item.example}</p>
@@ -184,7 +184,7 @@ export default function GlossaryPage() {
         ))}
       </div>
 
-      <div className="rounded-[1.75rem] border border-cyan-200/50 bg-cyan-50/90 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+      <div className="rounded-xl border border-blue-100 bg-slate-50 p-6 shadow-sm">
         <p className="text-sm text-amber-800">
           本用語集は参考情報として提供しています。法令の解釈・適用については必ず専門家（輸出管理担当者・弁護士・行政書士）にご相談ください。
         </p>

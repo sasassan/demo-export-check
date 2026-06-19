@@ -55,7 +55,7 @@ export function DictionarySearch() {
   };
 
   return (
-    <div className="trade-glass-card rounded-[1.75rem] p-6">
+    <div className="rounded-xl border border-slate-200 bg-white p-6">
       <h2 className="text-xl font-bold text-slate-900">専門用語をAIで検索</h2>
       <p className="mt-2 text-sm leading-7 text-slate-600">
         例: インコタームズ / EAR / ECCN / UBO / キャッチオール規制 / 該非判定
@@ -67,7 +67,7 @@ export function DictionarySearch() {
           onChange={(event) => setQuery(event.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="調べたい用語を入力（Enterで検索）"
-          className="flex-1 rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-900 outline-none ring-0 placeholder:text-slate-400 focus:border-indigo-400"
+          className="flex-1 rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-900 outline-none ring-0 placeholder:text-slate-400 focus:border-[#1e3a5f]"
         />
         <button type="button" onClick={handleSearch} disabled={loading}
           className="trade-primary-button disabled:opacity-50">
@@ -83,7 +83,7 @@ export function DictionarySearch() {
             return (
               <button key={term} type="button"
                 onClick={() => { setQuery(short); }}
-                className="rounded-full border border-slate-200 bg-white px-2 py-1 text-[10px] font-medium text-slate-600 hover:border-indigo-400 hover:text-indigo-700">
+                className="rounded-full border border-slate-200 bg-white px-2 py-1 text-[10px] font-medium text-slate-600 hover:border-slate-300 hover:text-[#1e3a5f]">
                 {short}
               </button>
             );
@@ -100,7 +100,7 @@ export function DictionarySearch() {
 
       {/* Loading skeleton */}
       {loading && !answer && (
-        <div className="mt-5 animate-pulse space-y-4 rounded-2xl border border-cyan-100 bg-gradient-to-br from-indigo-50/70 to-cyan-50/70 p-5">
+        <div className="mt-5 animate-pulse space-y-4 rounded-2xl border border-cyan-100 bg-gradient-to-br from-blue-50/70 to-cyan-50/70 p-5">
           <div className="h-6 w-48 rounded-lg bg-slate-200" />
           <div className="grid gap-3 md:grid-cols-2">
             {[1, 2, 3, 4].map((i) => (
@@ -116,9 +116,9 @@ export function DictionarySearch() {
 
       {/* Answer */}
       {answer && (
-        <div className="mt-5 space-y-4 rounded-2xl border border-cyan-100 bg-gradient-to-br from-indigo-50/70 to-cyan-50/70 p-5">
+        <div className="mt-5 space-y-4 rounded-2xl border border-cyan-100 bg-gradient-to-br from-blue-50/70 to-cyan-50/70 p-5">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-500">Dictionary answer</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#1e3a5f]">Dictionary answer</p>
             <h3 className="mt-2 text-xl font-bold text-slate-900">{answer.title}</h3>
           </div>
 
@@ -147,7 +147,7 @@ export function DictionarySearch() {
               <div className="mt-3 flex flex-wrap gap-2">
                 {answer.relatedFeatures.map((item) => (
                   <Link key={item.href + item.label} href={item.href}
-                    className="rounded-lg bg-gradient-to-r from-indigo-600 to-sky-500 px-3 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-500/20">
+                    className="rounded-lg bg-gradient-to-r from-[#1e3a5f] to-sky-500 px-3 py-2 text-xs font-semibold text-white shadow-sm">
                     {item.label}
                   </Link>
                 ))}
@@ -158,7 +158,7 @@ export function DictionarySearch() {
               <div className="mt-3 space-y-2">
                 {answer.referenceLinks.length > 0 ? answer.referenceLinks.map((item) => (
                   <a key={item.href} href={item.href} target="_blank" rel="noreferrer"
-                    className="block text-sm font-medium text-indigo-600 hover:text-indigo-800">
+                    className="block text-sm font-medium text-[#1e3a5f] hover:text-[#2a4a73]">
                     {item.label}
                   </a>
                 )) : <p className="text-sm text-slate-500">参考リンクはありません。</p>}
@@ -167,10 +167,10 @@ export function DictionarySearch() {
           </div>
 
           {/* AI consultation link */}
-          <div className="rounded-xl border border-indigo-200 bg-indigo-50/80 p-4">
+          <div className="rounded-xl border border-slate-200 bg-blue-50 p-4">
             <p className="text-sm font-semibold text-slate-900">この用語についてもっと詳しく知りたい場合</p>
             <div className="mt-2 flex gap-2">
-              <Link href={`/ai-room`} className="rounded-lg bg-indigo-600 px-3 py-2 text-xs font-semibold text-white hover:bg-indigo-700">
+              <Link href={`/ai-room`} className="rounded-lg bg-[#1e3a5f] px-3 py-2 text-xs font-semibold text-white hover:bg-[#2a4a73]">
                 AI相談室で深掘りする
               </Link>
               <Link href="/learning" className="rounded-lg bg-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-300">

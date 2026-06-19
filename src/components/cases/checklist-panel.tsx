@@ -46,7 +46,7 @@ export function ChecklistPanel({
   }
 
   return (
-    <section className="rounded-[1.75rem] border border-slate-200/60 bg-white/95 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.06)]">
+    <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-base font-semibold text-slate-900">確認チェックリスト</h2>
@@ -61,20 +61,20 @@ export function ChecklistPanel({
       </div>
 
       <div className="mt-4 h-2 overflow-hidden rounded-full bg-slate-200/60">
-        <div className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-indigo-700 transition-all" style={{ width: `${progress}%` }} />
+        <div className="h-full rounded-full bg-gradient-to-r from-[#1e3a5f] to-[#2a4a73] transition-all" style={{ width: `${progress}%` }} />
       </div>
 
       <div className="mt-5 grid gap-3">
         {items.map((item) => (
           <label
             key={item.id}
-            className="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-100 bg-white px-4 py-3 transition hover:border-indigo-300 hover:bg-indigo-50/60"
+            className="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-100 bg-white px-4 py-3 transition hover:border-slate-300 hover:bg-blue-50/60"
           >
             <input
               type="checkbox"
               checked={item.completed}
               onChange={() => toggleItem(item.id)}
-              className="mt-1 h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+              className="mt-1 h-4 w-4 rounded border-slate-300 text-[#1e3a5f] focus:ring-[#1e3a5f]"
             />
             <span className={item.completed ? "text-sm text-slate-500 line-through" : "text-sm text-slate-900"}>
               {item.label}

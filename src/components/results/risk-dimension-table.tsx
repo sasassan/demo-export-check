@@ -9,12 +9,12 @@ const gradeBadge: Record<Grade, string> = {
 
 export function RiskDimensionTable({ items }: { items: DimensionScore[] }) {
   return (
-    <div className="overflow-hidden rounded-[1.75rem] border border-indigo-200/50 bg-white/95 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
-      <div className="border-b border-indigo-100 px-5 py-4">
+    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+      <div className="border-b border-slate-200 px-5 py-4">
         <h2 className="text-base font-semibold text-slate-900">評価軸ごとの詳細</h2>
         <p className="mt-0.5 text-xs text-slate-500">各リスク項目の評価理由と推奨アクションを確認できます。</p>
       </div>
-      <div className="divide-y divide-indigo-100">
+      <div className="divide-y divide-slate-200">
         {items.map((item) => (
           <div key={item.dimension} className="grid gap-2 px-5 py-4 md:grid-cols-[180px_1fr_1fr]">
             <div className="flex items-center gap-2">

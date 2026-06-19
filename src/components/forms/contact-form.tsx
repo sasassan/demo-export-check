@@ -59,7 +59,7 @@ export function ContactForm() {
         <input
           value={name}
           onChange={(event) => setName(event.target.value)}
-          className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+          className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#1e3a5f] focus:ring-2 focus:ring-blue-100"
           placeholder="山田 太郎"
           required
         />
@@ -70,7 +70,7 @@ export function ContactForm() {
           type="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+          className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#1e3a5f] focus:ring-2 focus:ring-blue-100"
           placeholder="you@example.com"
           required
         />
@@ -80,7 +80,7 @@ export function ContactForm() {
         <input
           value={company}
           onChange={(event) => setCompany(event.target.value)}
-          className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+          className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#1e3a5f] focus:ring-2 focus:ring-blue-100"
           placeholder="株式会社〇〇"
         />
       </label>
@@ -90,7 +90,7 @@ export function ContactForm() {
           value={message}
           onChange={(event) => setMessage(event.target.value)}
           rows={6}
-          className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+          className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#1e3a5f] focus:ring-2 focus:ring-blue-100"
           placeholder="ご意見・ご要望・導入相談などをご記入ください"
           required
         />
@@ -105,7 +105,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 hover:bg-indigo-700 disabled:opacity-60"
+        className="inline-flex items-center justify-center rounded-xl bg-[#1e3a5f] px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#2a4a73] disabled:opacity-60"
       >
         {status === "sending" ? "送信中..." : "送信する"}
       </button>

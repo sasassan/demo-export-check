@@ -11,18 +11,16 @@ export function Shell({
   description?: string;
 }) {
   return (
-    <div className="trade-surface trade-dashboard-bg min-h-screen bg-[#06111f] text-slate-100">
+    <div className="min-h-screen bg-slate-50 text-slate-900">
       <Header />
       <main className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-10">
-        <section className="trade-grid trade-glass-card overflow-hidden rounded-[1.9rem] px-5 py-6 sm:px-7">
-          <div className="flex flex-col gap-2">
-            <span className="trade-section-label">
-              Export Control Monitor
-            </span>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">{title}</h1>
-          </div>
+        <section className="rounded-xl border border-slate-200 bg-white px-6 py-5">
+          <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-[#1e3a5f]">
+            Export Control Monitor
+          </span>
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">{title}</h1>
           {description ? (
-            <p className="mt-2 max-w-3xl text-sm leading-7 text-slate-600">{description}</p>
+            <p className="mt-2 max-w-3xl text-sm leading-7 text-slate-500">{description}</p>
           ) : null}
         </section>
         {children}

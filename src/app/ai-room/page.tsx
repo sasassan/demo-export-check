@@ -14,8 +14,8 @@ export default function AiRoomPage() {
           <ConsultationHistory />
         </div>
         <div className="space-y-6">
-          <div className="trade-glass-card rounded-[1.75rem] p-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-500">What you can ask</p>
+          <div className="rounded-xl border border-slate-200 bg-white p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#1e3a5f]">What you can ask</p>
             <h2 className="mt-2 text-xl font-bold text-slate-900">こんな相談に対応</h2>
             <div className="mt-4 space-y-3">
               {[
@@ -27,17 +27,17 @@ export default function AiRoomPage() {
                 "相手先企業の信用確認で何から見るべき？",
                 "用途確認書が必要そうか知りたい",
               ].map((item) => (
-                <div key={item} className="trade-soft-block px-4 py-3 text-sm font-medium text-slate-700">
+                <div key={item} className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-600">
                   {item}
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="rounded-[1.75rem] border border-cyan-200/40 bg-gradient-to-br from-cyan-50 to-indigo-50 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-700">Document support</p>
+          <div className="rounded-xl border border-blue-100 bg-gradient-to-br from-slate-50 to-blue-50 p-6 shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#1e3a5f]">Document support</p>
             <h2 className="mt-2 text-xl font-bold text-slate-900">法令・規程読解補助の使い方</h2>
-            <ol className="mt-4 space-y-3 text-sm leading-7 text-slate-700">
+            <ol className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
               <li>1. 法令・通達・ガイドライン・社内規程PDFを用意</li>
               <li>2. URL入力、文章貼り付け、またはPDFアップロードを行う</li>
               <li>3. 「初心者向けに説明」または「自社輸出への関係を判断」を選ぶ</li>
@@ -45,8 +45,8 @@ export default function AiRoomPage() {
             </ol>
           </div>
 
-          <div className="trade-glass-card rounded-[1.75rem] p-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-500">Reading support</p>
+          <div className="rounded-xl border border-slate-200 bg-white p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#1e3a5f]">Reading support</p>
             <h2 className="mt-2 text-xl font-bold text-slate-900">AIが補助できる読解ポイント</h2>
             <div className="mt-4 grid gap-3">
               {[
@@ -55,15 +55,15 @@ export default function AiRoomPage() {
                 "自社輸出に関係する箇所の切り分け",
                 "実務で確認すべき次のアクションの提示",
               ].map((item) => (
-                <div key={item} className="trade-soft-block px-4 py-3 text-sm font-medium text-slate-700">
+                <div key={item} className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-600">
                   {item}
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="trade-glass-card rounded-[1.75rem] p-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-500">Reliability</p>
+          <div className="rounded-xl border border-slate-200 bg-white p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#1e3a5f]">Reliability</p>
             <h2 className="mt-2 text-xl font-bold text-slate-900">今回強化したAI機能</h2>
             <div className="mt-4 grid gap-3">
               {[
@@ -73,7 +73,7 @@ export default function AiRoomPage() {
                 "回答評価フィードバック",
                 "案件専用AI相談への引き継ぎ",
               ].map((item) => (
-                <div key={item} className="trade-soft-block px-4 py-3 text-sm font-medium text-slate-700">
+                <div key={item} className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-600">
                   {item}
                 </div>
               ))}

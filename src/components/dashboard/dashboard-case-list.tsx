@@ -59,7 +59,7 @@ export function DashboardCaseList({ items }: { items: CaseRecord[] }) {
 
   return (
     <section className="grid gap-4">
-      <div className="rounded-[1.75rem] border border-indigo-200/50 bg-white/95 p-5 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-[1.4fr_0.8fr_0.8fr]">
           <label className="grid gap-2">
             <span className="text-sm font-medium text-slate-700">案件を検索</span>
@@ -67,7 +67,7 @@ export function DashboardCaseList({ items }: { items: CaseRecord[] }) {
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="商品名・型番・顧客名・輸出先国で検索"
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-indigo-300 transition placeholder:text-slate-400 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-400 focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
             />
           </label>
 
@@ -78,7 +78,7 @@ export function DashboardCaseList({ items }: { items: CaseRecord[] }) {
               onChange={(event) =>
                 setStatus(event.target.value as (typeof statusOptions)[number]["value"])
               }
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-indigo-300 transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
             >
               {statusOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -93,7 +93,7 @@ export function DashboardCaseList({ items }: { items: CaseRecord[] }) {
             <select
               value={sortKey}
               onChange={(event) => setSortKey(event.target.value as SortKey)}
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-indigo-300 transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
             >
               <option value="updated-desc">更新日が新しい順</option>
               <option value="updated-asc">更新日が古い順</option>
@@ -124,7 +124,7 @@ export function DashboardCaseList({ items }: { items: CaseRecord[] }) {
       </div>
 
       {filteredItems.length === 0 ? (
-        <div className="rounded-[1.75rem] border border-dashed border-slate-300 bg-white/95 px-6 py-12 text-center shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+        <div className="rounded-xl border border-dashed border-slate-300 bg-white px-6 py-12 text-center shadow-sm">
           <p className="text-base font-semibold text-slate-900">条件に一致する案件がありません</p>
           <p className="mt-2 text-sm text-slate-500">
             検索キーワードまたはステータス条件を変更してください。
