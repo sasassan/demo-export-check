@@ -59,9 +59,35 @@ const quickLinks = [
   { href: "/training", label: "研修支援", desc: "営業教育・社内ルール整備" },
 ];
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: APP_NAME,
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  inLanguage: "ja-JP",
+  description:
+    "中小企業向けの輸出リスク調査・評価Webアプリ。営業担当者が商談前に一次確認でき、AI相談室で規制資料や社内規程の読解支援も行う。",
+  audience: {
+    "@type": "Audience",
+    audienceType: "営業担当者、輸出管理担当者、管理部門",
+  },
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "JPY",
+  },
+};
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       {/* ナビゲーション */}
       <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
@@ -499,6 +525,7 @@ export default function Home() {
               <Link href="/terms" className="hover:text-slate-700 hover:underline">利用規約</Link>
               <Link href="/privacy" className="hover:text-slate-700 hover:underline">プライバシーポリシー</Link>
               <Link href="/security" className="hover:text-slate-700 hover:underline">セキュリティ</Link>
+              <Link href="/for-ai" className="hover:text-slate-700 hover:underline">AIレビュー用概要</Link>
               <Link href="/contact" className="hover:text-slate-700 hover:underline">お問い合わせ</Link>
             </div>
             <p className="max-w-md text-center text-xs leading-5 text-slate-400 md:text-right">

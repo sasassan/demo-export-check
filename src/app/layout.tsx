@@ -7,7 +7,8 @@ import "./globals.css";
 
 export const dynamic = "force-static";
 
-const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+const rawAppUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+const appUrl = rawAppUrl.replace(/\/$/, "");
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
