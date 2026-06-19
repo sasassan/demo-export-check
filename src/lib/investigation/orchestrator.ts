@@ -301,10 +301,27 @@ export async function runInvestigation(caseId: string, userEmail: string) {
   });
 
   try {
-    // 3つのAIプロバイダーを並列実行
-    const results = await Promise.all(
+    // 3つのAIプロバイダーを並列実行（部分成功対応）
+    const settled = await Promise.allSettled(
       aiProviders.map((provider) => provider.run(detail.case)),
     );
+
+    const results = settled
+      .filter((result) => result.status === "fulfilled")
+      .map((result) => (result as PromiseFulfilledResult<ProviderResult>).value);
+
+    const failedProviders = settled
+      .map((result, index) => ({ result, name: aiProviders[index].constructor.name }))
+      .filter((entry) => entry.result.status === "rejected")
+      .map((entry) => entry.name);
+
+    if (failedProviders.length > 0) {
+      console.warn(`[orchestrator] Failed providers: ${failedProviders.join(", ")}`);
+    }
+
+    if (results.length === 0) {
+      throw new Error("全てのAIプロバイダーが応答に失敗しました。");
+    }
 
     // モデル別結果（UI比較表示用）
     const modelResults = buildModelResults(results);
