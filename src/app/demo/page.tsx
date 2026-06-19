@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { PublicDemoSimulator } from "@/components/demo/public-demo-simulator";
 import { Header } from "@/components/layout/header";
 
 export const dynamic = "force-static";
@@ -36,11 +37,37 @@ export default function DemoPage() {
           <span className="trade-section-label">Public Demo</span>
           <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">デモ画面</h1>
           <p className="mt-3 max-w-3xl text-base leading-7 text-slate-600">
-            このページは公開確認用のデモです。実際の輸出リスク判定機能・案件データ・管理画面はBeta公開対象外として保護しています。
+            このページでは、公開用のサンプルシナリオを使って「入力 → リスク論点整理 → 結果確認」の流れを体験できます。
+            実案件データ・顧客情報・社内案件一覧はBeta公開対象外として保護しています。
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/contact" className="trade-primary-button">問い合わせる</Link>
+            <Link href="/contact" className="trade-primary-button">導入について相談</Link>
             <Link href="/about" className="trade-secondary-button">サービス説明を見る</Link>
+          </div>
+        </section>
+
+        <PublicDemoSimulator />
+
+        <section className="grid gap-4 lg:grid-cols-2">
+          <div className="rounded-xl border border-slate-200 bg-white p-6">
+            <span className="trade-section-label">Why public demo is limited</span>
+            <h2 className="mt-3 text-xl font-bold text-slate-900">公開デモで伏せているもの</h2>
+            <ul className="mt-4 space-y-2 text-sm leading-6 text-slate-700">
+              <li>- 実在顧客・実案件の入力情報</li>
+              <li>- ログイン後の案件一覧・調査履歴・PDF出力の内部データ</li>
+              <li>- 社内確認フローに関わる個別案件情報</li>
+              <li>- 実運用の保存データ、相談履歴、顧客固有文書</li>
+            </ul>
+          </div>
+          <div className="rounded-xl border border-slate-200 bg-white p-6">
+            <span className="trade-section-label">What this demo proves</span>
+            <h2 className="mt-3 text-xl font-bold text-slate-900">この公開デモで確認できること</h2>
+            <ul className="mt-4 space-y-2 text-sm leading-6 text-slate-700">
+              <li>- 商品 / 型番 / 輸出先 / 顧客名という入力導線</li>
+              <li>- A / B / C 評価の見せ方</li>
+              <li>- 推奨アクションと根拠サマリーの出し方</li>
+              <li>- 業種別サンプル（機械 / 化学 / 半導体関連）の比較</li>
+            </ul>
           </div>
         </section>
 

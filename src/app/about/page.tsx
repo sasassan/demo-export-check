@@ -20,6 +20,24 @@ const useCases = [
   "決裁前の簡易リスク整理",
 ];
 
+const trustPoints = [
+  {
+    title: "公開デモとサンプルシナリオを用意",
+    description:
+      "公開ページでも、入力→論点整理→結果確認の流れを追えるようにサンプルシナリオベースのデモを提供しています。",
+  },
+  {
+    title: "Beta版の公開範囲を明示",
+    description:
+      "公開ページとログイン後ページを分け、実顧客情報・案件一覧・内部レポートは一般公開しない方針です。",
+  },
+  {
+    title: "法令・規程の読解支援を重視",
+    description:
+      "AI相談室では、条文の意味、社内規程、長文PDFの要点整理など、実務理解に寄与する使い方を重視しています。",
+  },
+];
+
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-slate-50">
@@ -77,6 +95,28 @@ export default function AboutPage() {
                 <li>- 判断前に論点整理したい上長・責任者</li>
               </ul>
             </div>
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-slate-200 bg-white p-6">
+          <span className="trade-section-label">Trust signals</span>
+          <h2 className="mt-3 text-xl font-bold text-slate-900">公開ページで伝えている信頼ポイント</h2>
+          <div className="mt-5 grid gap-4 lg:grid-cols-3">
+            {trustPoints.map((item) => (
+              <div key={item.title} className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+                <h3 className="text-sm font-semibold text-slate-900">{item.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-slate-200 bg-white p-6">
+          <span className="trade-section-label">Current limitations</span>
+          <h2 className="mt-3 text-xl font-bold text-slate-900">現時点での公開上の制限</h2>
+          <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-900">
+            実顧客データを含む案件一覧、社内向けの調査履歴、実運用のPDFレポート詳細は一般公開していません。
+            公開デモでは、機密情報を含まないサンプルシナリオで操作イメージを確認できる構成にしています。
           </div>
         </section>
 

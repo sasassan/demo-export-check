@@ -19,6 +19,9 @@ export default function ContactPage() {
           <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
             判定結果は参考情報であり、最終的な輸出可否判断を保証するものではありません。
           </div>
+          <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700">
+            お問い合わせには原則として 1営業日以内の一次返信を目標としています。Beta期間中のため、内容によってはお時間をいただく場合があります。
+          </div>
         </section>
 
         <section className="rounded-xl border border-slate-200 bg-white p-6 sm:p-8">

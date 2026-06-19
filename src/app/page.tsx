@@ -151,10 +151,10 @@ export default function Home() {
                 <Link href="/about?v=hero" className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50">
                   サービス説明
                 </Link>
-                <Link href="/contact?v=hero" className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50">
-                  フィードバックを送る
-                </Link>
               </div>
+              <p className="mt-3 text-xs leading-6 text-slate-500">
+                まずは公開デモで入力〜結果確認の流れをご覧ください。導入相談・フィードバックは各ページ下部から受け付けています。
+              </p>
               <div className="mt-8 grid grid-cols-3 gap-4">
                 {[
                   ["平均確認時間", "約5分"],
@@ -322,6 +322,40 @@ export default function Home() {
                 <p className="text-sm font-semibold text-blue-200">免責事項</p>
                 <p className="mt-1 text-sm text-blue-200/80">本サービスは一次スクリーニング支援ツールです。法令上の最終判断を代替するものではありません。</p>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-slate-100 bg-slate-50 px-4 py-16 sm:px-6">
+          <div className="mx-auto max-w-5xl">
+            <div className="text-center">
+              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-[#1e3a5f]">
+                信頼性と公開方針
+              </span>
+              <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+                公開版で明示していること
+              </h2>
+            </div>
+            <div className="mt-10 grid gap-4 md:grid-cols-3">
+              {[
+                {
+                  title: "公開デモはサンプルシナリオ方式",
+                  text: "実顧客情報は公開せず、入力〜結果確認の流れをサンプル条件で体験できる構成にしています。",
+                },
+                {
+                  title: "最新情報の再確認が前提",
+                  text: "制裁・規制・国リスクは変動するため、最終判断前に最新情報を確認する運用を前提としています。",
+                },
+                {
+                  title: "法的判断の代替ではない",
+                  text: "一次確認・論点整理・理解支援を目的とし、社内承認や専門家判断を置き換えるものではありません。",
+                },
+              ].map((item) => (
+                <div key={item.title} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+                  <h3 className="text-sm font-semibold text-slate-900">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{item.text}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -503,8 +537,8 @@ export default function Home() {
             <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">まずは1件、試してみてください</h2>
             <p className="mt-2 text-base text-slate-600">Beta版は無料。メールアドレスだけで開始できます。登録後すぐに案件確認フローを試せます。</p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <Link href="/contact?v=cta" className="rounded-lg bg-[#1e3a5f] px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#2a4a73]">導入について相談する</Link>
               <Link href="/demo?v=cta" className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">デモを見る</Link>
+              <Link href="/contact?v=cta" className="rounded-lg bg-[#1e3a5f] px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#2a4a73]">導入について相談する</Link>
               <Link href="/contact?v=cta-fb" className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">フィードバックを送る</Link>
             </div>
           </div>

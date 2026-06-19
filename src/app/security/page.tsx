@@ -22,6 +22,24 @@ const aiUsageGuidelines = [
   "AI相談室は判断補助であり、法的結論を確定するものではない",
 ];
 
+const dataSourcePolicy = [
+  {
+    title: "公開情報ベースの一次確認支援",
+    description:
+      "公開サイトでは、制裁リスト、企業公開情報、国リスク、用途リスクなどをもとに一次確認論点を整理する設計思想を明示しています。",
+  },
+  {
+    title: "更新頻度は案件特性に応じて再確認が前提",
+    description:
+      "制裁・規制・地政学情報は更新され得るため、最終判断前には必ず最新情報の再確認が必要です。公開版もこの前提を維持しています。",
+  },
+  {
+    title: "最終判断の代替ではない",
+    description:
+      "本サービスは一次スクリーニングと理解支援を目的とし、外為法上の最終判断や法的助言を代替するものではありません。",
+  },
+];
+
 export default function SecurityPage() {
   return (
     <div className="min-h-screen bg-slate-50">
@@ -47,6 +65,23 @@ export default function SecurityPage() {
               <p className="mt-2 text-sm leading-6 text-slate-600">{item.description}</p>
             </div>
           ))}
+        </section>
+
+        <section className="rounded-xl border border-slate-200 bg-white p-6">
+          <span className="trade-section-label">Data source policy</span>
+          <h2 className="mt-3 text-xl font-bold text-slate-900">データソースと更新に関する考え方</h2>
+          <div className="mt-5 grid gap-4 lg:grid-cols-3">
+            {dataSourcePolicy.map((item) => (
+              <div key={item.title} className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+                <h3 className="text-sm font-semibold text-slate-900">{item.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{item.description}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 rounded-lg border border-blue-100 bg-blue-50 p-4 text-sm leading-7 text-slate-700">
+            Beta版では、公開ページ上で「いつ・何を・どの粒度で確認すべきか」を分かりやすく提示することを重視しています。
+            実務導入時には、制裁・規制情報の最新性、社内承認フロー、証跡管理の運用設計を含めて確認してください。
+          </div>
         </section>
 
         <div className="grid gap-6 lg:grid-cols-2">
