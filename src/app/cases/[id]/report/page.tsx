@@ -101,7 +101,7 @@ export default async function CaseReportPage({
             {report.nextActions.map((action, index) => (
               <div key={action} className="rounded-xl border border-slate-200 bg-white px-4 py-4">
                 <div className="flex items-start gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1e3a5f] text-xs font-bold text-white">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1e3a5f] text-xs font-bold !text-white">
                     {index + 1}
                   </span>
                   <p className="text-sm leading-6 text-slate-700">{action}</p>

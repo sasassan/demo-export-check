@@ -258,7 +258,7 @@ export function CaseForm({
         <button
           type="submit"
           disabled={submitting}
-          className="flex items-center justify-center gap-2 rounded-xl bg-[#1e3a5f] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#2a4a73] disabled:opacity-60"
+          className="flex items-center justify-center gap-2 rounded-xl bg-[#1e3a5f] px-5 py-3 text-sm font-semibold !text-white shadow-sm transition hover:bg-[#2a4a73] disabled:opacity-60"
         >
           {submitting ? (
             <>

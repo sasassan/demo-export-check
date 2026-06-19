@@ -279,7 +279,7 @@ export function AiRoomPanel({
               <div
                 className={`max-w-[85%] rounded-2xl p-4 ${
                   entry.role === "user"
-                    ? "bg-[#1e3a5f] text-white"
+                    ? "bg-[#1e3a5f] !text-white"
                     : "border border-cyan-100 bg-white text-slate-900"
                 }`}
               >
@@ -663,7 +663,7 @@ export function AiRoomPanel({
                   type="file"
                   accept="application/pdf"
                   onChange={handlePdfUpload}
-                  className="mt-3 block w-full text-sm text-slate-700 file:mr-4 file:rounded-xl file:border-0 file:bg-[#1e3a5f] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white"
+                  className="mt-3 block w-full text-sm text-slate-700 file:mr-4 file:rounded-xl file:border-0 file:bg-[#1e3a5f] file:px-4 file:py-2 file:text-sm file:font-semibold file:!text-white"
                 />
                 {pdfFileName && (
                   <p className="mt-2 text-xs text-slate-600">

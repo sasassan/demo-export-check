@@ -170,7 +170,7 @@ export function DictionarySearch() {
           <div className="rounded-xl border border-slate-200 bg-blue-50 p-4">
             <p className="text-sm font-semibold text-slate-900">この用語についてもっと詳しく知りたい場合</p>
             <div className="mt-2 flex gap-2">
-              <Link href={`/ai-room`} className="rounded-lg bg-[#1e3a5f] px-3 py-2 text-xs font-semibold text-white hover:bg-[#2a4a73]">
+              <Link href={`/ai-room`} className="rounded-lg bg-[#1e3a5f] px-3 py-2 text-xs font-semibold !text-white hover:bg-[#2a4a73]">
                 AI相談室で深掘りする
               </Link>
               <Link href="/learning" className="rounded-lg bg-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-300">

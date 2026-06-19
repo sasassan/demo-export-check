@@ -66,7 +66,7 @@ export default async function CaseDetailPage({
               <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
                 <Link
                   href={`/api/reports/${detail.case.id}/pdf`}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#1e3a5f] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#2a4a73]"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#1e3a5f] px-4 py-2 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73]"
                   target="_blank"
                 >
                   <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
