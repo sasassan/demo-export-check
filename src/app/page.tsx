@@ -483,9 +483,9 @@ export default function Home() {
                   <p className="mt-1 text-sm text-blue-50">{src.desc}</p>
                 </div>
               ))}
-              <div className="rounded-lg border border-white/10 bg-white/5 px-4 py-3">
-                <p className="text-sm font-semibold text-blue-100">免責事項</p>
-                <p className="mt-1 text-sm text-blue-100/80">本サービスは一次スクリーニング支援ツールです。法令上の最終判断を代替するものではありません。</p>
+              <div className="rounded-lg border border-white/15 bg-white/10 px-4 py-3">
+                <p className="text-sm font-semibold text-white">免責事項</p>
+                <p className="mt-1 text-sm text-blue-50">本サービスは一次スクリーニング支援ツールです。法令上の最終判断を代替するものではありません。</p>
               </div>
             </div>
           </div>
@@ -730,7 +730,7 @@ export default function Home() {
               <Link href="/for-ai" className="hover:text-slate-900 hover:underline">AIレビュー用概要</Link>
               <Link href="/contact" className="hover:text-slate-900 hover:underline">お問い合わせ</Link>
             </div>
-            <p className="max-w-md text-center text-xs leading-5 text-slate-600 md:text-right">
+            <p className="max-w-md text-center text-xs leading-5 text-slate-700 md:text-right">
               本サービスは参考情報を提供するものであり、法令上の判断を代替するものではありません。
             </p>
           </div>

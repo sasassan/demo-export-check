@@ -70,7 +70,7 @@ export default function LoginPage() {
           </ul>
         </div>
 
-        <p className="relative text-xs leading-5 text-white/50">
+        <p className="relative text-xs leading-5 text-white/80">
           本サービスは参考情報を提供するものであり、法令上の判断を代替するものではありません。
         </p>
       </div>
