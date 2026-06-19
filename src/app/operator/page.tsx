@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 const publicFacts = [
   { label: "サービス名", value: APP_NAME },
   { label: "公開ステータス", value: "Beta版公開中" },
+  { label: "公開主体の現状", value: "公開実証・改善中のBetaプロジェクト" },
   {
     label: "公開URL",
     value: "https://demo-export-check.vercel.app",
@@ -25,7 +26,14 @@ const publicFacts = [
     value: "https://github.com/sasassan/demo-export-check",
     href: "https://github.com/sasassan/demo-export-check",
   },
+  { label: "GitHubオーナー", value: "sasassan" },
   { label: "問い合わせ窓口", value: "お問い合わせフォーム", href: "/contact" },
+];
+
+const trustSignals = [
+  "公開デモ、評価ロジック、セキュリティ方針、AIレビュー用概要を誰でも確認可能",
+  "GitHub公開リポジトリで改善履歴と更新内容を追跡可能",
+  "Beta版として、公開範囲と未公開範囲を分けて説明",
 ];
 
 const disclosurePolicy = [
@@ -81,6 +89,18 @@ export default function OperatorPage() {
                 ) : (
                   <p className="mt-2 text-sm font-semibold text-slate-900">{item.value}</p>
                 )}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-slate-200 bg-white p-6">
+          <span className="trade-section-label">Why this is trustworthy</span>
+          <h2 className="mt-3 text-xl font-bold text-slate-900">現時点で示している信頼材料</h2>
+          <div className="mt-5 grid gap-4 md:grid-cols-3">
+            {trustSignals.map((item) => (
+              <div key={item} className="rounded-lg border border-slate-200 bg-slate-50 p-5 text-sm leading-7 text-slate-700">
+                {item}
               </div>
             ))}
           </div>

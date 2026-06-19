@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
+import { useRef, useState } from "react";
 
 type ScenarioId = "servo" | "chemical" | "semiconductor";
 
@@ -125,7 +126,8 @@ const gradeClassMap = {
 
 export function PublicDemoSimulator() {
   const [selectedId, setSelectedId] = useState<ScenarioId>("servo");
-  const [hasRun, setHasRun] = useState(true);
+  const [runState, setRunState] = useState<"idle" | "loading" | "done">("done");
+  const resultRef = useRef<HTMLDivElement | null>(null);
 
   const selectedScenario =
     scenarios.find((scenario) => scenario.id === selectedId) ?? scenarios[0];
@@ -145,7 +147,15 @@ export function PublicDemoSimulator() {
       destinationCountry: scenario.destinationCountry,
       customerName: scenario.customerName,
     });
-    setHasRun(true);
+    setRunState("done");
+  };
+
+  const runDemo = () => {
+    setRunState("loading");
+    window.setTimeout(() => {
+      setRunState("done");
+      resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 1200);
   };
 
   return (
@@ -251,10 +261,10 @@ export function PublicDemoSimulator() {
         <div className="mt-5 flex flex-wrap items-center gap-3">
           <button
             type="button"
-            onClick={() => setHasRun(true)}
+            onClick={runDemo}
             className="trade-primary-button"
           >
-            この条件でデモ判定を見る
+            {runState === "loading" ? "AIが判定中..." : "この条件でデモ判定を見る"}
           </button>
           <p className="text-xs leading-6 text-slate-500">
             実運用ではここから AI が論点整理、根拠要約、PDF レポート化を行います。
@@ -262,7 +272,7 @@ export function PublicDemoSimulator() {
         </div>
       </section>
 
-      <section className="rounded-xl border border-slate-200 bg-white p-6">
+      <section ref={resultRef} className="rounded-xl border border-slate-200 bg-white p-6">
         <div className="flex items-start justify-between gap-4">
           <div>
             <span className="trade-section-label">Sample result</span>
@@ -280,7 +290,22 @@ export function PublicDemoSimulator() {
           </span>
         </div>
 
-        {hasRun ? (
+        {runState === "loading" ? (
+          <div className="mt-5 space-y-4">
+            <div className="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm font-medium text-[#1e3a5f]">
+              条件をもとに論点を整理しています。実運用ではこの間に AI が確認ポイントと推奨アクションを生成します。
+            </div>
+            <div className="grid gap-3 sm:grid-cols-4">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <div key={index} className="h-24 animate-pulse rounded-lg border border-slate-200 bg-slate-100" />
+              ))}
+            </div>
+            <div className="grid gap-4 lg:grid-cols-2">
+              <div className="h-36 animate-pulse rounded-lg border border-slate-200 bg-slate-100" />
+              <div className="h-36 animate-pulse rounded-lg border border-slate-200 bg-slate-100" />
+            </div>
+          </div>
+        ) : (
           <div className="mt-5 space-y-5">
             <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
               <p className="text-sm font-semibold text-slate-900">
@@ -342,8 +367,29 @@ export function PublicDemoSimulator() {
                 </ul>
               </div>
             </div>
+
+            <div className="rounded-lg border border-slate-200 bg-white p-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-sm font-semibold text-slate-900">
+                    この先の実運用イメージ
+                  </p>
+                  <p className="mt-1 text-sm leading-6 text-slate-600">
+                    実案件では、ここからPDFレポート生成、案件保存、AI相談室への引き継ぎまで進められます。
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  <Link href="/evaluation-logic" className="trade-secondary-button">
+                    評価ロジックを見る
+                  </Link>
+                  <Link href="/contact" className="trade-primary-button">
+                    デモ相談をする
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
-        ) : null}
+        )}
       </section>
     </div>
   );

@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 export function ContactForm() {
+  const [purpose, setPurpose] = useState("導入相談");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
@@ -17,11 +18,12 @@ export function ContactForm() {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, company, message }),
+        body: JSON.stringify({ purpose, name, email, company, message }),
       });
 
       if (response.ok) {
         setStatus("sent");
+        setPurpose("導入相談");
         setName("");
         setEmail("");
         setCompany("");
@@ -39,7 +41,7 @@ export function ContactForm() {
       <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 text-center">
         <p className="text-lg font-bold text-emerald-800">送信しました</p>
         <p className="mt-2 text-sm leading-7 text-emerald-700">
-          お問い合わせありがとうございます。確認後、ご連絡いたします。
+          お問い合わせありがとうございます。内容を確認し、原則1営業日以内を目安に一次返信いたします。
         </p>
         <button
           type="button"
@@ -54,6 +56,21 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="grid gap-4">
+      <label className="grid gap-2">
+        <span className="text-sm font-semibold text-slate-700">お問い合わせ種別 <span className="text-rose-500">*</span></span>
+        <select
+          value={purpose}
+          onChange={(event) => setPurpose(event.target.value)}
+          className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#1e3a5f] focus:ring-2 focus:ring-blue-100"
+          required
+        >
+          {["導入相談", "デモ依頼", "フィードバック", "NDA・セキュリティ相談", "その他"].map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+      </label>
       <label className="grid gap-2">
         <span className="text-sm font-semibold text-slate-700">お名前 <span className="text-rose-500">*</span></span>
         <input
@@ -91,7 +108,7 @@ export function ContactForm() {
           onChange={(event) => setMessage(event.target.value)}
           rows={6}
           className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#1e3a5f] focus:ring-2 focus:ring-blue-100"
-          placeholder="ご意見・ご要望・導入相談などをご記入ください"
+          placeholder="背景、課題、相談したい内容、希望時期などをご記入ください"
           required
         />
       </label>
@@ -110,7 +127,7 @@ export function ContactForm() {
         {status === "sending" ? "送信中..." : "送信する"}
       </button>
       <p className="text-xs leading-6 text-slate-500">
-        送信された情報は問い合わせ対応のみに利用します。
+        送信された情報は問い合わせ対応のみに利用します。機密情報や未公開技術情報の送信は避け、必要に応じて匿名化してください。
       </p>
     </form>
   );

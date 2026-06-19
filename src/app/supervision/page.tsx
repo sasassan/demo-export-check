@@ -38,6 +38,12 @@ const futurePlan = [
   "Beta版で得たフィードバックを反映した運用ガイドの拡充",
 ];
 
+const reviewObjectives = [
+  "誤解を招く表現を減らし、営業担当者が過信しない導線にする",
+  "公開デモ・AI相談室・辞典・学習ページの説明責任を高める",
+  "外為法・制裁・用途確認で重要な論点が抜けないよう設計を改善する",
+];
+
 export default function SupervisionPage() {
   return (
     <div className="min-h-screen bg-slate-50">
@@ -66,33 +72,54 @@ export default function SupervisionPage() {
           </section>
 
           <section className="rounded-xl border border-slate-200 bg-white p-6">
-            <span className="trade-section-label">Not yet published</span>
-            <h2 className="mt-3 text-xl font-bold text-slate-900">現時点で未公開・未提供の範囲</h2>
+            <span className="trade-section-label">Review objectives</span>
+            <h2 className="mt-3 text-xl font-bold text-slate-900">レビューで重視していること</h2>
             <ul className="mt-4 space-y-2 text-sm leading-7 text-slate-700">
-              {notYetPublished.map((item) => (
+              {reviewObjectives.map((item) => (
                 <li key={item}>- {item}</li>
               ))}
             </ul>
-            <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-900">
-              本サービスは、法的助言・最終許認可判断・制裁照合の最終責任代行を提供するものではありません。
-              公開ページ・AI相談室・デモの情報は、一次確認と理解支援の補助としてご利用ください。
-            </div>
           </section>
         </div>
 
         <section className="rounded-xl border border-slate-200 bg-white p-6">
-          <span className="trade-section-label">Recommended operation</span>
-          <h2 className="mt-3 text-xl font-bold text-slate-900">実務利用時の推奨フロー</h2>
-          <div className="mt-5 grid gap-4 md:grid-cols-2">
-            {recommendedUse.map((item, index) => (
-              <div key={item} className="rounded-lg border border-slate-200 bg-slate-50 p-5">
-                <p className="text-xs font-semibold uppercase tracking-wider text-[#1e3a5f]">
-                  Step {index + 1}
-                </p>
-                <p className="mt-2 text-sm leading-7 text-slate-700">{item}</p>
-              </div>
+          <span className="trade-section-label">Current limits</span>
+          <h2 className="mt-3 text-xl font-bold text-slate-900">現時点で未公開・未提供の範囲</h2>
+          <ul className="mt-4 space-y-2 text-sm leading-7 text-slate-700">
+            {notYetPublished.map((item) => (
+              <li key={item}>- {item}</li>
             ))}
+          </ul>
+          <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-900">
+            Beta段階では、専門家氏名の掲示よりも先に、公開ページでの説明責任と誤利用防止の設計を優先しています。
+            導入相談や正式運用の前提条件は、責任分界点とあわせて個別に整理する方針です。
           </div>
+        </section>
+
+        <section className="grid gap-6 lg:grid-cols-2">
+          <section className="rounded-xl border border-slate-200 bg-white p-6">
+            <span className="trade-section-label">Not yet published</span>
+            <h2 className="mt-3 text-xl font-bold text-slate-900">本サービスが行わないこと</h2>
+            <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-900">
+              本サービスは、法的助言・最終許認可判断・制裁照合の最終責任代行を提供するものではありません。
+              公開ページ・AI相談室・デモの情報は、一次確認と理解支援の補助としてご利用ください。
+            </div>
+          </section>
+
+          <section className="rounded-xl border border-slate-200 bg-white p-6">
+            <span className="trade-section-label">Recommended operation</span>
+            <h2 className="mt-3 text-xl font-bold text-slate-900">実務利用時の推奨フロー</h2>
+            <div className="mt-5 grid gap-4 md:grid-cols-2">
+              {recommendedUse.map((item, index) => (
+                <div key={item} className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-[#1e3a5f]">
+                    Step {index + 1}
+                  </p>
+                  <p className="mt-2 text-sm leading-7 text-slate-700">{item}</p>
+                </div>
+              ))}
+            </div>
+          </section>
         </section>
 
         <section className="rounded-xl border border-slate-200 bg-white p-6">

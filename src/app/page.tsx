@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { APP_NAME } from "@/lib/constants";
@@ -57,6 +56,24 @@ const quickLinks = [
   { href: "/learning", label: "学習コンテンツ", desc: "失敗例・注意事項を確認" },
   { href: "/security", label: "セキュリティ", desc: "AI入力ガイドライン" },
   { href: "/training", label: "研修支援", desc: "営業教育・社内ルール整備" },
+];
+
+const trustSignals = [
+  {
+    title: "公開デモあり",
+    body: "入力→結果確認の流れをサンプルシナリオで体験できます。",
+    href: "/demo",
+  },
+  {
+    title: "評価ロジック公開",
+    body: "A/B/C判定の考え方、8観点、集約方法を公開しています。",
+    href: "/evaluation-logic",
+  },
+  {
+    title: "運営・公開方針を明示",
+    body: "公開範囲、レビュー体制、セキュリティ方針を分けて説明しています。",
+    href: "/operator",
+  },
 ];
 
 const jsonLd = {
@@ -169,40 +186,72 @@ export default function Home() {
               </div>
             </div>
 
-            <div>
+            <div className="space-y-4">
               <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
-                <Image
-                  src="/trade-hero.png"
-                  alt="輸出管理ダッシュボード"
-                  width={1792}
-                  height={1024}
-                  className="h-auto w-full object-cover"
-                  priority
-                  unoptimized
-                />
-              </div>
-              {/* サンプル評価カード */}
-              <div className="mt-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">サンプル調査結果</p>
-                    <p className="mt-0.5 text-sm font-semibold text-slate-900">高精度サーボモーター SRV-9800 → ベトナム</p>
+                <div className="border-b border-slate-200 bg-slate-50 px-4 py-3">
+                  <div className="flex items-center gap-2">
+                    <span className="h-2.5 w-2.5 rounded-full bg-rose-300" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-amber-300" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-emerald-300" />
+                    <span className="ml-2 text-xs font-medium text-slate-500">公開デモの画面イメージ</span>
                   </div>
-                  <span className="rounded-md border border-amber-200 bg-amber-50 px-2.5 py-1 text-sm font-bold text-amber-700">B</span>
                 </div>
-                <div className="mt-3 grid grid-cols-4 gap-2">
-                  {[
-                    { label: "制裁", grade: "A", bg: "bg-emerald-50", border: "border-emerald-200", text: "text-emerald-700" },
-                    { label: "企業信用", grade: "B", bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-700" },
-                    { label: "国リスク", grade: "B", bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-700" },
-                    { label: "用途", grade: "A", bg: "bg-emerald-50", border: "border-emerald-200", text: "text-emerald-700" },
-                  ].map((item) => (
-                    <div key={item.label} className={`rounded-lg border p-2 text-center ${item.bg} ${item.border}`}>
-                      <p className="text-[10px] text-slate-500">{item.label}</p>
-                      <p className={`mt-0.5 text-lg font-bold ${item.text}`}>{item.grade}</p>
+                <div className="grid gap-4 p-5 lg:grid-cols-[0.95fr_1.05fr]">
+                  <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-[#1e3a5f]">Input</p>
+                    <div className="mt-3 space-y-3">
+                      {[
+                        ["商品名", "高精度サーボモーター"],
+                        ["型番", "SRV-9800"],
+                        ["輸出先国", "ベトナム"],
+                        ["顧客企業名", "Hanoi Precision Robotics Co., Ltd."],
+                      ].map(([label, value]) => (
+                        <div key={label} className="rounded-md border border-slate-200 bg-white px-3 py-2.5">
+                          <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">{label}</p>
+                          <p className="mt-1 text-sm font-medium text-slate-800">{value}</p>
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  </div>
+                  <div className="rounded-lg border border-slate-200 bg-white p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-wider text-[#1e3a5f]">Result</p>
+                        <p className="mt-1 text-sm font-semibold text-slate-900">高精度サーボモーター SRV-9800 → ベトナム</p>
+                      </div>
+                      <span className="rounded-md border border-amber-200 bg-amber-50 px-3 py-1 text-sm font-bold text-amber-700">総合 B</span>
+                    </div>
+                    <div className="mt-4 grid grid-cols-4 gap-2">
+                      {[
+                        { label: "制裁", grade: "A", bg: "bg-emerald-50", border: "border-emerald-200", text: "text-emerald-700" },
+                        { label: "企業信用", grade: "B", bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-700" },
+                        { label: "国リスク", grade: "B", bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-700" },
+                        { label: "用途", grade: "A", bg: "bg-emerald-50", border: "border-emerald-200", text: "text-emerald-700" },
+                      ].map((item) => (
+                        <div key={item.label} className={`rounded-lg border p-2 text-center ${item.bg} ${item.border}`}>
+                          <p className="text-[10px] text-slate-500">{item.label}</p>
+                          <p className={`mt-0.5 text-lg font-bold ${item.text}`}>{item.grade}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-3">
+                      <p className="text-xs font-semibold text-amber-800">要確認: 企業信用 / 最終用途</p>
+                      <p className="mt-1 text-xs leading-5 text-amber-900">類似名称企業の存在と、最終需要先の裏取り不足のため追加確認を推奨。</p>
+                    </div>
+                  </div>
                 </div>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-3">
+                {trustSignals.map((item) => (
+                  <Link
+                    key={item.title}
+                    href={item.href}
+                    className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition hover:border-slate-300 hover:shadow-md"
+                  >
+                    <p className="text-sm font-semibold text-slate-900">{item.title}</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-600">{item.body}</p>
+                  </Link>
+                ))}
               </div>
             </div>
           </div>

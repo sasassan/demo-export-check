@@ -26,6 +26,26 @@ export default function ContactPage() {
 
         <section className="rounded-xl border border-slate-200 bg-white p-6 sm:p-8">
           <ContactForm />
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+              <p className="text-sm font-semibold text-slate-900">こんなご相談を受け付けています</p>
+              <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
+                <li>- 自社の営業フローに合うか確認したい</li>
+                <li>- 公開デモ以外の使い方を見たい</li>
+                <li>- NDAや専用環境の相談をしたい</li>
+                <li>- AI相談室の読解支援を業務導入できるか知りたい</li>
+              </ul>
+            </div>
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+              <p className="text-sm font-semibold text-slate-900">事前に書いていただけるとスムーズな情報</p>
+              <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
+                <li>- 想定している利用部門（営業 / 法務 / 管理部門 など）</li>
+                <li>- 想定案件数や対象商材</li>
+                <li>- 課題感（制裁確認、用途確認、資料読解など）</li>
+                <li>- 希望時期や相談したいテーマ</li>
+              </ul>
+            </div>
+          </div>
           <div className="mt-6">
             <Link href="/" className="text-sm font-semibold text-[#1e3a5f] hover:underline">トップページへ戻る</Link>
           </div>

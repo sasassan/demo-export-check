@@ -70,6 +70,24 @@ const nextActionRules = [
   "PDFレポートや詳細画面では、根拠・エビデンス・確認すべき資料をあわせて提示",
 ];
 
+const flowSteps = [
+  { title: "8観点で確認", body: "制裁、相手先、UBO、PEPs、国、用途、キャッチオール、企業信用を観点別に整理" },
+  { title: "スコア化", body: "各観点を 0〜100 のリスクスコアに変換し、A / B / C にマッピング" },
+  { title: "カテゴリ集約", body: "安全保障 / 信用 / 地政学などのカテゴリへ最大グレードで集約" },
+  { title: "総合判定", body: "最も重いグレードを総合判定として採用し、推奨アクションを提示" },
+];
+
+const exampleCase = {
+  title: "サーボモーター → ベトナムの公開デモ例",
+  summary:
+    "制裁はA、用途もAですが、企業信用と国リスクがBのため、営業単独で進めず追加確認を推奨する総合Bになります。",
+  drivers: [
+    "企業信用: 類似名称企業の存在、法人情報の裏取り不足",
+    "国リスク: 地政学・物流・規制変動を踏まえて中間リスク",
+    "用途: 産業機械として説明可能でA",
+  ],
+};
+
 export default function EvaluationLogicPage() {
   return (
     <div className="min-h-screen bg-slate-50">
@@ -100,6 +118,22 @@ export default function EvaluationLogicPage() {
                   </span>
                 </div>
                 <p className="mt-3 text-sm leading-6 text-slate-700">{row.meaning}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-slate-200 bg-white p-6">
+          <span className="trade-section-label">How scoring works</span>
+          <h2 className="mt-3 text-xl font-bold text-slate-900">ひと目で分かる判定フロー</h2>
+          <div className="mt-5 grid gap-4 lg:grid-cols-4">
+            {flowSteps.map((step, index) => (
+              <div key={step.title} className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+                <p className="text-xs font-semibold uppercase tracking-wider text-[#1e3a5f]">
+                  Step {index + 1}
+                </p>
+                <h3 className="mt-2 text-sm font-semibold text-slate-900">{step.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{step.body}</p>
               </div>
             ))}
           </div>
@@ -154,6 +188,25 @@ export default function EvaluationLogicPage() {
             <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-900">
               この評価ロジックは、営業段階・一次確認段階で論点を整理しやすくすることを目的としたものです。
               外為法上の最終判断や、法的助言・適法性保証を行うものではありません。
+            </div>
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-slate-200 bg-white p-6">
+          <span className="trade-section-label">Worked example</span>
+          <h2 className="mt-3 text-xl font-bold text-slate-900">公開デモの具体例</h2>
+          <div className="mt-5 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+              <p className="text-sm font-semibold text-slate-900">{exampleCase.title}</p>
+              <p className="mt-3 text-sm leading-7 text-slate-700">{exampleCase.summary}</p>
+            </div>
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+              <p className="text-sm font-semibold text-slate-900">総合Bになる主な理由</p>
+              <ul className="mt-3 space-y-2 text-sm leading-7 text-slate-700">
+                {exampleCase.drivers.map((item) => (
+                  <li key={item}>- {item}</li>
+                ))}
+              </ul>
             </div>
           </div>
         </section>
