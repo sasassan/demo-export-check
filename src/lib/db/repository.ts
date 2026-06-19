@@ -233,6 +233,9 @@ export async function getCaseDetail(caseId: string) {
             disagreementDimensions:
               (assessmentRow.disagreementDimensions as AssessmentRecord["disagreementDimensions"]) ??
               undefined,
+            regulationUpdates:
+              (assessmentRow.regulationUpdates as AssessmentRecord["regulationUpdates"]) ??
+              undefined,
             createdAt: assessmentRow.createdAt.toISOString(),
             updatedAt: assessmentRow.updatedAt.toISOString(),
           }
@@ -325,6 +328,7 @@ export async function saveAssessment(assessment: AssessmentRecord) {
         improvementSteps: assessment.improvementSteps ?? null,
         worstCaseScenarios: assessment.worstCaseScenarios ?? null,
         disagreementDimensions: assessment.disagreementDimensions ?? null,
+        regulationUpdates: assessment.regulationUpdates ?? null,
         createdAt: new Date(assessment.createdAt),
         updatedAt: now,
       })
@@ -341,6 +345,7 @@ export async function saveAssessment(assessment: AssessmentRecord) {
           improvementSteps: assessment.improvementSteps ?? null,
           worstCaseScenarios: assessment.worstCaseScenarios ?? null,
           disagreementDimensions: assessment.disagreementDimensions ?? null,
+          regulationUpdates: assessment.regulationUpdates ?? null,
           updatedAt: now,
         },
       });
@@ -493,11 +498,18 @@ export async function saveAiConsultation(record: AiConsultationRecord) {
       sourceFetchStatus: record.sourceFetchStatus ?? null,
       answerTitle: record.answerTitle,
       answer: record.answer,
+      confidenceLabel: record.confidenceLabel ?? null,
       documentSummary: record.documentSummary ?? null,
       judgement: record.judgement ?? null,
+      factHighlights: record.factHighlights ?? null,
+      assumptionHighlights: record.assumptionHighlights ?? null,
       relatedClauses: record.relatedClauses ?? null,
       keywordHighlights: record.keywordHighlights ?? null,
+      followUpQuestions: record.followUpQuestions ?? null,
+      citations: record.citations ?? null,
       recommendedChecks: record.recommendedChecks ?? null,
+      feedback: record.feedback ?? null,
+      feedbackComment: record.feedbackComment ?? null,
       caseDraft: record.caseDraft ?? null,
       createdAt: new Date(record.createdAt),
     });
@@ -531,11 +543,18 @@ export async function listAiConsultationsByUser(userEmail: string) {
         (row.sourceFetchStatus as AiConsultationRecord["sourceFetchStatus"]) ?? undefined,
       answerTitle: row.answerTitle,
       answer: row.answer,
+      confidenceLabel: (row.confidenceLabel as AiConsultationRecord["confidenceLabel"]) ?? undefined,
       documentSummary: row.documentSummary ?? undefined,
       judgement: row.judgement ?? undefined,
+      factHighlights: (row.factHighlights as string[]) ?? undefined,
+      assumptionHighlights: (row.assumptionHighlights as string[]) ?? undefined,
       relatedClauses: (row.relatedClauses as string[]) ?? undefined,
       keywordHighlights: (row.keywordHighlights as string[]) ?? undefined,
+      followUpQuestions: (row.followUpQuestions as string[]) ?? undefined,
+      citations: (row.citations as AiConsultationRecord["citations"]) ?? undefined,
       recommendedChecks: (row.recommendedChecks as string[]) ?? undefined,
+      feedback: (row.feedback as AiConsultationRecord["feedback"]) ?? undefined,
+      feedbackComment: row.feedbackComment ?? undefined,
       caseDraft: (row.caseDraft as AiConsultationRecord["caseDraft"]) ?? undefined,
       createdAt: row.createdAt.toISOString(),
     }));
@@ -576,11 +595,18 @@ export async function getLatestConsultationByCaseId(caseId: string, userEmail: s
         (row.sourceFetchStatus as AiConsultationRecord["sourceFetchStatus"]) ?? undefined,
       answerTitle: row.answerTitle,
       answer: row.answer,
+      confidenceLabel: (row.confidenceLabel as AiConsultationRecord["confidenceLabel"]) ?? undefined,
       documentSummary: row.documentSummary ?? undefined,
       judgement: row.judgement ?? undefined,
+      factHighlights: (row.factHighlights as string[]) ?? undefined,
+      assumptionHighlights: (row.assumptionHighlights as string[]) ?? undefined,
       relatedClauses: (row.relatedClauses as string[]) ?? undefined,
       keywordHighlights: (row.keywordHighlights as string[]) ?? undefined,
+      followUpQuestions: (row.followUpQuestions as string[]) ?? undefined,
+      citations: (row.citations as AiConsultationRecord["citations"]) ?? undefined,
       recommendedChecks: (row.recommendedChecks as string[]) ?? undefined,
+      feedback: (row.feedback as AiConsultationRecord["feedback"]) ?? undefined,
+      feedbackComment: row.feedbackComment ?? undefined,
       caseDraft: (row.caseDraft as AiConsultationRecord["caseDraft"]) ?? undefined,
       createdAt: row.createdAt.toISOString(),
     } satisfies AiConsultationRecord;
@@ -612,5 +638,52 @@ export async function markConsultationAsCased(consultationId: string, caseId: st
   const record = state.consultations.find((item) => item.id === consultationId);
   if (!record) return null;
   record.caseId = caseId;
+  return record;
+}
+
+export async function updateConsultationFeedback(
+  consultationId: string,
+  userEmail: string,
+  feedback: "helpful" | "needs-work",
+  feedbackComment?: string,
+) {
+  const db = getDb();
+  if (db) {
+    const existing = (
+      await db
+        .select()
+        .from(aiConsultations)
+        .where(and(eq(aiConsultations.id, consultationId), eq(aiConsultations.userEmail, userEmail)))
+        .limit(1)
+    )[0];
+    if (!existing) {
+      return null;
+    }
+
+    await db
+      .update(aiConsultations)
+      .set({
+        feedback,
+        feedbackComment: feedbackComment ?? null,
+      })
+      .where(and(eq(aiConsultations.id, consultationId), eq(aiConsultations.userEmail, userEmail)));
+
+    return {
+      ...existing,
+      feedback,
+      feedbackComment,
+    };
+  }
+
+  const state = getState();
+  const record = state.consultations.find(
+    (item) => item.id === consultationId && item.userEmail === userEmail,
+  );
+  if (!record) {
+    return null;
+  }
+
+  record.feedback = feedback;
+  record.feedbackComment = feedbackComment;
   return record;
 }

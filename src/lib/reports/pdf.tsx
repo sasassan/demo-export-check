@@ -163,10 +163,24 @@ export function RiskReportPdf({ model }: { model: ReportModel }) {
         {(model.documentSummary || model.relatedClauses.length > 0) && (
           <View style={styles.section}>
             <Text style={styles.heading}>資料読解サポート</Text>
+            {model.confidenceLabel ? (
+              <View style={styles.card}>
+                <Text style={styles.heading}>回答信頼度</Text>
+                <Text>{model.confidenceLabel}</Text>
+              </View>
+            ) : null}
             {model.documentSummary ? (
               <View style={styles.card}>
                 <Text style={styles.heading}>資料要約</Text>
                 <Text>{model.documentSummary}</Text>
+              </View>
+            ) : null}
+            {model.factHighlights.length > 0 ? (
+              <View style={styles.card}>
+                <Text style={styles.heading}>確認できた事実</Text>
+                {model.factHighlights.map((item) => (
+                  <Text key={item}>・{item}</Text>
+                ))}
               </View>
             ) : null}
             {model.relatedClauses.length > 0 ? (
@@ -177,8 +191,35 @@ export function RiskReportPdf({ model }: { model: ReportModel }) {
                 ))}
               </View>
             ) : null}
+            {model.citations.length > 0 ? (
+              <View style={styles.card}>
+                <Text style={styles.heading}>根拠引用</Text>
+                {model.citations.map((item) => (
+                  <View key={`${item.label}-${item.snippet}`}>
+                    <Text>{item.label}: {item.snippet}</Text>
+                    <Text style={styles.small}>出典種別: {item.sourceType}</Text>
+                  </View>
+                ))}
+              </View>
+            ) : null}
           </View>
         )}
+
+        {model.regulationUpdates.length > 0 ? (
+          <View style={styles.section}>
+            <Text style={styles.heading}>規制アップデート</Text>
+            {model.regulationUpdates.map((item) => (
+              <View style={styles.card} key={`${item.title}-${item.publishedAt}`}>
+                <Text>{item.title}</Text>
+                <Text>{item.summary}</Text>
+                <Text>{item.impact}</Text>
+                <Text style={styles.small}>
+                  {item.sourceName} / {item.publishedAt}
+                </Text>
+              </View>
+            ))}
+          </View>
+        ) : null}
 
         <View style={styles.section}>
           <Text style={styles.heading}>次のアクション</Text>

@@ -130,6 +130,14 @@ export type AssessmentRecord = {
   improvementSteps?: ImprovementStep[];
   worstCaseScenarios?: WorstCaseScenario[];
   disagreementDimensions?: string[];
+  regulationUpdates?: Array<{
+    title: string;
+    summary: string;
+    impact: string;
+    sourceName: string;
+    href?: string;
+    publishedAt: string;
+  }>;
   createdAt: string;
   updatedAt: string;
 };
@@ -137,10 +145,21 @@ export type AssessmentRecord = {
 
 export type AiConsultationRecord = {
   caseDraft?: Partial<CreateCaseInput>;
+  confidenceLabel?: "高" | "中" | "低";
   documentSummary?: string;
+  factHighlights?: string[];
   fetchedUrlText?: string;
+  followUpQuestions?: string[];
   keywordHighlights?: string[];
   relatedClauses?: string[];
+  assumptionHighlights?: string[];
+  citations?: Array<{
+    label: string;
+    snippet: string;
+    sourceType: "sourceText" | "urlFetched" | "dictionary" | "model";
+  }>;
+  feedback?: "helpful" | "needs-work";
+  feedbackComment?: string;
   sourceFetchStatus?: "success" | "failed" | "not_requested";
   caseId?: string;
   id: string;

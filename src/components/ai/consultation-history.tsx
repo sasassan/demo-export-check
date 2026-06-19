@@ -15,6 +15,7 @@ export function ConsultationHistory() {
   const [modeFilter, setModeFilter] = useState("all");
   const [caseFilter, setCaseFilter] = useState("all");
   const [creatingId, setCreatingId] = useState<string | null>(null);
+  const [feedbackSendingId, setFeedbackSendingId] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/assistant/history")
@@ -48,6 +49,23 @@ export function ConsultationHistory() {
     }
 
     router.push(buildCaseDraftLink(item));
+  }
+
+  async function sendFeedback(id: string, feedback: "helpful" | "needs-work") {
+    setFeedbackSendingId(id);
+    const response = await fetch("/api/assistant/feedback", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ consultationId: id, feedback }),
+    });
+    if (response.ok) {
+      setItems((current) =>
+        current.map((entry) =>
+          entry.id === id ? { ...entry, feedback } : entry,
+        ),
+      );
+    }
+    setFeedbackSendingId(null);
   }
 
   return (
@@ -117,6 +135,29 @@ export function ConsultationHistory() {
                   <span className="font-semibold">判断:</span> {item.judgement}
                 </p>
               ) : null}
+              {item.confidenceLabel ? (
+                <p className="mt-2 text-xs font-semibold text-indigo-700">
+                  回答信頼度: {item.confidenceLabel}
+                </p>
+              ) : null}
+              {item.factHighlights?.length ? (
+                <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-3 text-xs leading-6 text-emerald-900">
+                  <p className="font-semibold">確認できた事実</p>
+                  {item.factHighlights.map((fact) => (
+                    <p key={fact}>・{fact}</p>
+                  ))}
+                </div>
+              ) : null}
+              {item.citations?.length ? (
+                <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-xs leading-6 text-slate-700">
+                  <p className="font-semibold text-slate-900">根拠引用</p>
+                  {item.citations.map((citation) => (
+                    <p key={`${citation.label}-${citation.snippet}`}>
+                      ・{citation.label}: {citation.snippet}
+                    </p>
+                  ))}
+                </div>
+              ) : null}
               {item.recommendedChecks?.length ? (
                 <ul className="mt-3 space-y-1 text-sm text-slate-600">
                   {item.recommendedChecks.map((check) => (
@@ -155,6 +196,30 @@ export function ConsultationHistory() {
                 >
                   下書きを確認
                 </Link>
+                <button
+                  type="button"
+                  onClick={() => sendFeedback(item.id, "helpful")}
+                  disabled={feedbackSendingId === item.id}
+                  className={`rounded-lg px-3 py-2 text-xs font-semibold ${
+                    item.feedback === "helpful"
+                      ? "bg-emerald-600 text-white"
+                      : "border border-emerald-200 bg-white text-emerald-700"
+                  }`}
+                >
+                  役に立った
+                </button>
+                <button
+                  type="button"
+                  onClick={() => sendFeedback(item.id, "needs-work")}
+                  disabled={feedbackSendingId === item.id}
+                  className={`rounded-lg px-3 py-2 text-xs font-semibold ${
+                    item.feedback === "needs-work"
+                      ? "bg-amber-500 text-white"
+                      : "border border-amber-200 bg-white text-amber-700"
+                  }`}
+                >
+                  改善要望
+                </button>
               </div>
             </div>
           ))

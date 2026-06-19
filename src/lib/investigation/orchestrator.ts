@@ -26,6 +26,7 @@ import type {
 } from "@/lib/types";
 import { scoreToGrade } from "@/lib/risk/rules";
 import { RISK_DIMENSIONS, type RiskDimension } from "@/lib/constants";
+import { getRegulationUpdatesForCase } from "@/lib/regulation-updates";
 
 const MODEL_LABELS: Record<string, string> = {
   "openai-gpt4o": "GPT-4o",
@@ -369,6 +370,10 @@ export async function runInvestigation(caseId: string, userEmail: string) {
       improvementSteps,
       worstCaseScenarios,
       disagreementDimensions,
+      regulationUpdates: getRegulationUpdatesForCase({
+        destinationCountry: detail.case.destinationCountry,
+        productName: detail.case.productName,
+      }),
       createdAt: detail.assessment?.createdAt ?? now,
       updatedAt: now,
     };

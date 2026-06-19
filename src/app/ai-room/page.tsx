@@ -61,6 +61,24 @@ export default function AiRoomPage() {
               ))}
             </div>
           </div>
+
+          <div className="trade-glass-card rounded-[1.75rem] p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-500">Reliability</p>
+            <h2 className="mt-2 text-xl font-bold text-slate-900">今回強化したAI機能</h2>
+            <div className="mt-4 grid gap-3">
+              {[
+                "根拠引用つき回答",
+                "資料チャンク抽出による簡易RAG",
+                "事実 / 要確認の切り分け",
+                "回答評価フィードバック",
+                "案件専用AI相談への引き継ぎ",
+              ].map((item) => (
+                <div key={item} className="trade-soft-block px-4 py-3 text-sm font-medium text-slate-700">
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
     </Shell>

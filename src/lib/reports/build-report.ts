@@ -4,7 +4,14 @@ import type { CaseDetail } from "@/lib/types";
 export function buildReportModel(
   detail: CaseDetail,
   consultation?: {
+    confidenceLabel?: "高" | "中" | "低";
+    citations?: Array<{
+      label: string;
+      snippet: string;
+      sourceType: "sourceText" | "urlFetched" | "dictionary" | "model";
+    }>;
     documentSummary?: string;
+    factHighlights?: string[];
     relatedClauses?: string[];
   } | null,
 ) {
@@ -26,7 +33,11 @@ export function buildReportModel(
     evidence: detail.assessment.evidence.slice(0, 6),
     nextActions: detail.assessment.summary.nextActions,
     headline: detail.assessment.summary.headline,
+    confidenceLabel: consultation?.confidenceLabel,
+    citations: consultation?.citations ?? [],
     documentSummary: consultation?.documentSummary,
+    factHighlights: consultation?.factHighlights ?? [],
     relatedClauses: consultation?.relatedClauses ?? [],
+    regulationUpdates: detail.assessment.regulationUpdates ?? [],
   };
 }

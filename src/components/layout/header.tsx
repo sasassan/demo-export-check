@@ -55,6 +55,12 @@ export function Header() {
             研修支援
           </Link>
           <Link
+            href="/updates?v=nav"
+            className="flex-1 rounded-xl border border-white/12 bg-white/6 px-3 py-2 text-center text-sm font-semibold text-slate-100 shadow-sm hover:bg-white/10 sm:flex-none"
+          >
+            規制更新
+          </Link>
+          <Link
             href="/demo?v=nav"
             className="flex-1 rounded-xl border border-white/12 bg-white/6 px-3 py-2 text-center text-sm font-semibold text-slate-100 shadow-sm hover:bg-white/10 sm:flex-none"
           >

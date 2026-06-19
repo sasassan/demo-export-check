@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 
 import { askAssistant, type ConversationMessage } from "@/lib/ai/assistant";
+import {
+  buildCitationsFromChunks,
+  classifyConfidence,
+  retrieveRelevantChunks,
+} from "@/lib/ai/rag";
 import type { AssistantAnswer } from "@/lib/ai/types";
 import { extractCaseDraftFromConsultation } from "@/lib/ai/extract-case-draft";
 import { getSessionEmail } from "@/lib/auth/server";
@@ -95,6 +100,17 @@ function buildSmartFallback(input: {
   const clauseSentences = extractClauseLikeSentences(analysisText);
   const keywordHighlights = extractKeywordHighlights(analysisText);
   const documentSummary = buildDocumentSummary(analysisText);
+  const chunks = retrieveRelevantChunks({
+    message,
+    sourceText,
+    fetchedUrlText,
+  });
+  const citations = buildCitationsFromChunks(chunks);
+  const confidenceLabel = classifyConfidence({
+    chunks,
+    hasDictionaryHit: Boolean(dictionaryHit),
+    hasSourceMaterial: Boolean(sourceText || fetchedUrlText),
+  });
 
   // Detect question intent
   const isAboutCountry = /(どの国|輸出先|国リスク|制裁対象国)/i.test(message);
@@ -152,6 +168,7 @@ function buildSmartFallback(input: {
 
   return {
     title: dictionaryHit?.term ?? (mode === "document-read" ? "資料読解サポート結果" : "AI相談室の回答"),
+    confidenceLabel,
     caseDraft: extractCaseDraftFromConsultation({
       question: message,
       sourceText: sourceText || fetchedUrlText,
@@ -171,8 +188,19 @@ function buildSmartFallback(input: {
       clauseSentences.length > 0 ? `条文・規程らしい記述を${clauseSentences.length}箇所抽出しました。` : "条文形式の記述は多くありません。",
       keywordHighlights.length > 0 ? `重要語句: ${keywordHighlights.slice(0, 3).join("、")}` : "特定の規制キーワードは検出されませんでした。",
     ],
+    factHighlights: chunks.slice(0, 2).map((chunk) => chunk.text.slice(0, 80)),
+    assumptionHighlights:
+      sourceText || fetchedUrlText
+        ? ["資料に記載のない背景事情や契約条件は別途確認が必要です。"]
+        : ["資料本文がないため、質問文からの一般論ベースで整理しています。"],
     relatedClauses: clauseSentences.length > 0 ? clauseSentences : ["条文・規程らしい記述は少ないため、全体趣旨と実務影響を中心に整理しました。"],
     keywordHighlights: keywordHighlights.length > 0 ? keywordHighlights : ["規制分類", "輸出先国", "相手先確認", "用途確認"],
+    followUpQuestions: [
+      "この案件で最終需要者をどう確認しますか？",
+      "用途確認書やEUCは必要ですか？",
+      "輸出先国や経由地に追加リスクはありますか？",
+    ],
+    citations,
     judgement,
     recommendedChecks,
     relatedFeatures: [
@@ -197,8 +225,9 @@ async function saveConsultation(params: {
   answer: AssistantAnswer;
 }) {
   const { userEmail, mode, message, sourceUrl, sourceText, fetchedUrlText, answer } = params;
+  const consultationId = createId("consult");
   await saveAiConsultation({
-    id: createId("consult"),
+    id: consultationId,
     userEmail,
     mode,
     question: message,
@@ -208,14 +237,20 @@ async function saveConsultation(params: {
     sourceFetchStatus: params.sourceFetchStatus,
     answerTitle: answer.title,
     answer: answer.simpleExplanation,
+    confidenceLabel: answer.confidenceLabel,
     documentSummary: answer.documentSummary,
     judgement: answer.judgement,
+    factHighlights: answer.factHighlights,
+    assumptionHighlights: answer.assumptionHighlights,
     relatedClauses: answer.relatedClauses,
     keywordHighlights: answer.keywordHighlights,
+    followUpQuestions: answer.followUpQuestions,
+    citations: answer.citations,
     recommendedChecks: answer.recommendedChecks,
     caseDraft: answer.caseDraft ?? extractCaseDraftFromConsultation({ question: message, sourceText: sourceText || fetchedUrlText || undefined }),
     createdAt: new Date().toISOString(),
   });
+  return consultationId;
 }
 
 /* ---------- main handler ---------- */
@@ -248,9 +283,18 @@ export async function POST(request: Request) {
     const sourceFetchStatus: "success" | "failed" | "not_requested" = sourceUrl
       ? fetchedUrlText ? "success" : "failed"
       : "not_requested";
-
-    // Dictionary lookup
     const dictionaryHit = searchDictionary(message);
+    const relevantChunks = retrieveRelevantChunks({
+      message,
+      sourceText,
+      fetchedUrlText: fetchedUrlText ?? undefined,
+    });
+    const fallbackCitations = buildCitationsFromChunks(relevantChunks) ?? [];
+    const confidenceLabel = classifyConfidence({
+      chunks: relevantChunks,
+      hasDictionaryHit: Boolean(dictionaryHit),
+      hasSourceMaterial: Boolean(effectiveSourceText),
+    });
 
     // If pure dictionary hit with no AI needed
     if (dictionaryHit && mode === "dictionary" && !sourceText && !sourceUrl) {
@@ -260,12 +304,30 @@ export async function POST(request: Request) {
         practicalUse: dictionaryHit.practicalUse,
         caution: dictionaryHit.caution,
         relatedRisk: dictionaryHit.relatedRisk,
+        confidenceLabel: "中",
         documentSummary: `${dictionaryHit.term} に関する基本概念を短時間で理解するための辞典解説です。`,
+        factHighlights: [dictionaryHit.simpleExplanation],
+        assumptionHighlights: ["詳細な案件条件や契約条件は別途確認が必要です。"],
+        followUpQuestions: [
+          `${dictionaryHit.term.split("（")[0]} は自社製品に関係しますか？`,
+          `${dictionaryHit.term.split("（")[0]} を確認するには何が必要ですか？`,
+        ],
+        citations: [
+          {
+            label: "辞典根拠",
+            snippet: dictionaryHit.simpleExplanation,
+            sourceType: "dictionary",
+          },
+        ],
+        recommendedChecks: [
+          "案件条件に照らしてこの用語が関係するか確認する",
+          "必要ならAI相談室で具体案件として深掘りする",
+        ],
         relatedFeatures: dictionaryHit.relatedFeatures,
         referenceLinks: dictionaryHit.referenceLinks ?? [],
       };
 
-      await saveConsultation({
+      const consultationId = await saveConsultation({
         userEmail, mode, message, sourceUrl, sourceText, fetchedUrlText: fetchedUrlText ?? undefined,
         sourceFetchStatus, answer,
       });
@@ -273,6 +335,7 @@ export async function POST(request: Request) {
       return NextResponse.json({
         answer,
         sourceMeta: { urlFetchStatus: sourceFetchStatus },
+        consultationId,
         allTerms: getAllTerms(),
       });
     }
@@ -293,6 +356,7 @@ export async function POST(request: Request) {
       // AI succeeded - merge with dictionary if available
       finalAnswer = {
         title: aiResult.title ?? dictionaryHit?.term ?? "AI相談室の回答",
+        confidenceLabel: aiResult.confidenceLabel ?? confidenceLabel,
         caseDraft: aiResult.caseDraft ?? extractCaseDraftFromConsultation({ question: message, sourceText: effectiveSourceText || undefined }),
         documentSummary: aiResult.documentSummary ?? (effectiveSourceText ? buildDocumentSummary(effectiveSourceText) : undefined),
         simpleExplanation: aiResult.simpleExplanation ?? "回答の生成に問題がありました。",
@@ -300,8 +364,33 @@ export async function POST(request: Request) {
         caution: aiResult.caution ?? dictionaryHit?.caution ?? "最終判断は社内の輸出管理担当者に確認してください。",
         relatedRisk: aiResult.relatedRisk ?? dictionaryHit?.relatedRisk ?? "規制該当性・相手先信用・用途不明確さが典型的な論点です。",
         extractedPoints: aiResult.extractedPoints ?? undefined,
+        factHighlights:
+          aiResult.factHighlights ??
+          relevantChunks.slice(0, 2).map((chunk) => chunk.text.slice(0, 90)),
+        assumptionHighlights:
+          aiResult.assumptionHighlights ??
+          ["資料に記載されていない条件や契約上の制約は別途確認が必要です。"],
         relatedClauses: aiResult.relatedClauses ?? (effectiveSourceText ? extractClauseLikeSentences(effectiveSourceText) : undefined),
         keywordHighlights: aiResult.keywordHighlights ?? (effectiveSourceText ? extractKeywordHighlights(effectiveSourceText) : undefined),
+        followUpQuestions:
+          aiResult.followUpQuestions ??
+          [
+            "この回答を踏まえて、次に社内で何を確認すべきですか？",
+            "用途確認書や契約条件の追加確認は必要ですか？",
+          ],
+        citations:
+          aiResult.citations ??
+          (fallbackCitations.length > 0
+            ? fallbackCitations
+            : dictionaryHit
+              ? [
+                  {
+                    label: "辞典根拠",
+                    snippet: dictionaryHit.simpleExplanation,
+                    sourceType: "dictionary",
+                  },
+                ]
+              : undefined),
         judgement: aiResult.judgement ?? undefined,
         recommendedChecks: aiResult.recommendedChecks ?? undefined,
         relatedFeatures: aiResult.relatedFeatures ?? [
@@ -318,7 +407,7 @@ export async function POST(request: Request) {
       });
     }
 
-    await saveConsultation({
+    const consultationId = await saveConsultation({
       userEmail, mode, message, sourceUrl, sourceText, fetchedUrlText: fetchedUrlText ?? undefined,
       sourceFetchStatus, answer: finalAnswer,
     });
@@ -329,6 +418,7 @@ export async function POST(request: Request) {
         urlFetchStatus: sourceFetchStatus,
         fetchedExcerpt: fetchedUrlText?.slice(0, 200) ?? undefined,
       },
+      consultationId,
       allTerms: getAllTerms(),
     });
   } catch (error) {
