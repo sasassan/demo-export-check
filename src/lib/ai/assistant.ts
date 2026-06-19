@@ -46,11 +46,14 @@ ${(input.sourceText || "なし").slice(0, 5000)}
 ## 出力JSON
 {
   "title": "回答タイトル",
+  "documentSummary": "資料全体の要点を2〜3文で要約",
   "simpleExplanation": "初心者向けにわかりやすく説明した本文",
   "practicalUse": "実務でどう使うか",
   "caution": "注意点",
   "relatedRisk": "関係する輸出リスク",
   "extractedPoints": ["要点1", "要点2", "要点3"],
+  "relatedClauses": ["関連条文や規程の要旨1", "関連条文や規程の要旨2"],
+  "keywordHighlights": ["重要語句1", "重要語句2", "重要語句3"],
   "judgement": "自社輸出への関係性や判断",
   "recommendedChecks": ["次に確認すべき点1", "次に確認すべき点2", "次に確認すべき点3"],
   "caseDraft": {
@@ -68,7 +71,7 @@ ${(input.sourceText || "なし").slice(0, 5000)}
         {
           role: "system",
           content:
-            "あなたは輸出実務とコンプライアンスの支援AIです。初心者にも分かる日本語で、必ずJSONのみ返してください。",
+            "あなたは輸出実務とコンプライアンスの支援AIです。初心者にも分かる日本語で、必ずJSONのみ返してください。法的助言ではなく一般的な読解支援として、資料の要点、関連条文の要旨、重要語句、実務上の確認事項を構造化して返してください。",
         },
         {
           role: "user",

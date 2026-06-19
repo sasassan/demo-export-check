@@ -46,7 +46,7 @@ export function LoginForm() {
       </label>
 
       {error ? (
-        <div className="flex items-start gap-3 rounded-xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-200">
+        <div className="flex items-start gap-3 rounded-xl border border-rose-300 bg-rose-50 px-4 py-3 text-sm text-rose-700">
           <svg viewBox="0 0 20 20" fill="currentColor" className="mt-0.5 h-4 w-4 shrink-0">
             <path fillRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22Z" clipRule="evenodd" />
           </svg>
@@ -73,7 +73,7 @@ export function LoginForm() {
       </button>
 
       <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-200/70">Login note</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-700">Login note</p>
         <p className="mt-2 text-xs leading-6 text-slate-600">
         初期版ではメールを入力するとそのまま利用開始できます。将来的に Magic Link に置き換えやすい構成です。
         </p>

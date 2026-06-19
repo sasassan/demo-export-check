@@ -493,7 +493,10 @@ export async function saveAiConsultation(record: AiConsultationRecord) {
       sourceFetchStatus: record.sourceFetchStatus ?? null,
       answerTitle: record.answerTitle,
       answer: record.answer,
+      documentSummary: record.documentSummary ?? null,
       judgement: record.judgement ?? null,
+      relatedClauses: record.relatedClauses ?? null,
+      keywordHighlights: record.keywordHighlights ?? null,
       recommendedChecks: record.recommendedChecks ?? null,
       caseDraft: record.caseDraft ?? null,
       createdAt: new Date(record.createdAt),
@@ -528,7 +531,10 @@ export async function listAiConsultationsByUser(userEmail: string) {
         (row.sourceFetchStatus as AiConsultationRecord["sourceFetchStatus"]) ?? undefined,
       answerTitle: row.answerTitle,
       answer: row.answer,
+      documentSummary: row.documentSummary ?? undefined,
       judgement: row.judgement ?? undefined,
+      relatedClauses: (row.relatedClauses as string[]) ?? undefined,
+      keywordHighlights: (row.keywordHighlights as string[]) ?? undefined,
       recommendedChecks: (row.recommendedChecks as string[]) ?? undefined,
       caseDraft: (row.caseDraft as AiConsultationRecord["caseDraft"]) ?? undefined,
       createdAt: row.createdAt.toISOString(),
@@ -539,6 +545,53 @@ export async function listAiConsultationsByUser(userEmail: string) {
   return state.consultations
     .filter((item) => item.userEmail === userEmail)
     .sort((left, right) => right.createdAt.localeCompare(left.createdAt));
+}
+
+export async function getLatestConsultationByCaseId(caseId: string, userEmail: string) {
+  const db = getDb();
+  if (db) {
+    const row = (
+      await db
+        .select()
+        .from(aiConsultations)
+        .where(and(eq(aiConsultations.caseId, caseId), eq(aiConsultations.userEmail, userEmail)))
+        .orderBy(desc(aiConsultations.createdAt))
+        .limit(1)
+    )[0];
+
+    if (!row) {
+      return null;
+    }
+
+    return {
+      id: row.id,
+      userEmail: row.userEmail,
+      caseId: row.caseId ?? undefined,
+      mode: row.mode,
+      question: row.question,
+      sourceUrl: row.sourceUrl ?? undefined,
+      sourceText: row.sourceText ?? undefined,
+      fetchedUrlText: row.fetchedUrlText ?? undefined,
+      sourceFetchStatus:
+        (row.sourceFetchStatus as AiConsultationRecord["sourceFetchStatus"]) ?? undefined,
+      answerTitle: row.answerTitle,
+      answer: row.answer,
+      documentSummary: row.documentSummary ?? undefined,
+      judgement: row.judgement ?? undefined,
+      relatedClauses: (row.relatedClauses as string[]) ?? undefined,
+      keywordHighlights: (row.keywordHighlights as string[]) ?? undefined,
+      recommendedChecks: (row.recommendedChecks as string[]) ?? undefined,
+      caseDraft: (row.caseDraft as AiConsultationRecord["caseDraft"]) ?? undefined,
+      createdAt: row.createdAt.toISOString(),
+    } satisfies AiConsultationRecord;
+  }
+
+  const state = getState();
+  return (
+    state.consultations
+      .filter((item) => item.userEmail === userEmail && item.caseId === caseId)
+      .sort((left, right) => right.createdAt.localeCompare(left.createdAt))[0] ?? null
+  );
 }
 
 export async function markConsultationAsCased(consultationId: string, caseId: string) {

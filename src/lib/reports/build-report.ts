@@ -1,7 +1,13 @@
 import { formatDate } from "@/lib/utils";
 import type { CaseDetail } from "@/lib/types";
 
-export function buildReportModel(detail: CaseDetail) {
+export function buildReportModel(
+  detail: CaseDetail,
+  consultation?: {
+    documentSummary?: string;
+    relatedClauses?: string[];
+  } | null,
+) {
   if (!detail.assessment) {
     return null;
   }
@@ -20,5 +26,7 @@ export function buildReportModel(detail: CaseDetail) {
     evidence: detail.assessment.evidence.slice(0, 6),
     nextActions: detail.assessment.summary.nextActions,
     headline: detail.assessment.summary.headline,
+    documentSummary: consultation?.documentSummary,
+    relatedClauses: consultation?.relatedClauses ?? [],
   };
 }

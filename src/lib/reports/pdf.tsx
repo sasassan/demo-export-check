@@ -2,11 +2,26 @@ import type { ReactElement } from "react";
 import {
   Document,
   type DocumentProps,
+  Font,
   Page,
   StyleSheet,
   Text,
   View,
 } from "@react-pdf/renderer";
+
+Font.register({
+  family: "NotoSansJP",
+  fonts: [
+    {
+      src: "https://cdn.jsdelivr.net/fontsource/fonts/noto-sans-jp@latest/japanese-400-normal.ttf",
+      fontWeight: 400,
+    },
+    {
+      src: "https://cdn.jsdelivr.net/fontsource/fonts/noto-sans-jp@latest/japanese-700-normal.ttf",
+      fontWeight: 700,
+    },
+  ],
+});
 
 type ReportModel = NonNullable<
   ReturnType<typeof import("@/lib/reports/build-report").buildReportModel>
@@ -18,6 +33,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     lineHeight: 1.5,
     color: "#111827",
+    fontFamily: "NotoSansJP",
   },
   title: {
     fontSize: 20,
@@ -143,6 +159,26 @@ export function RiskReportPdf({ model }: { model: ReportModel }) {
             </View>
           ))}
         </View>
+
+        {(model.documentSummary || model.relatedClauses.length > 0) && (
+          <View style={styles.section}>
+            <Text style={styles.heading}>資料読解サポート</Text>
+            {model.documentSummary ? (
+              <View style={styles.card}>
+                <Text style={styles.heading}>資料要約</Text>
+                <Text>{model.documentSummary}</Text>
+              </View>
+            ) : null}
+            {model.relatedClauses.length > 0 ? (
+              <View style={styles.card}>
+                <Text style={styles.heading}>関連条文・規程</Text>
+                {model.relatedClauses.map((item) => (
+                  <Text key={item}>・{item}</Text>
+                ))}
+              </View>
+            ) : null}
+          </View>
+        )}
 
         <View style={styles.section}>
           <Text style={styles.heading}>次のアクション</Text>

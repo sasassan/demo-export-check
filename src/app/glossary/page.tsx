@@ -133,6 +133,22 @@ export default function GlossaryPage() {
 
       <DictionarySearch />
 
+      <div className="trade-glass-card rounded-[1.75rem] p-6">
+        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-500">How to use with AI</p>
+        <h2 className="mt-2 text-xl font-bold text-slate-900">用語辞典と資料読解補助を組み合わせる</h2>
+        <div className="mt-4 grid gap-3 md:grid-cols-3">
+          {[
+            "まず用語辞典で単語の意味を確認",
+            "次にAI相談室で条文や規程の文脈を質問",
+            "最後に案件化して実務フローへつなぐ",
+          ].map((item) => (
+            <div key={item} className="trade-soft-block px-4 py-4 text-sm font-medium text-slate-700">
+              {item}
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="space-y-4">
         {TERMS.map((item) => (
           <div

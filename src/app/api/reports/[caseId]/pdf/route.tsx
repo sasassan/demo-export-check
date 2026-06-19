@@ -1,7 +1,7 @@
 import { renderToBuffer } from "@react-pdf/renderer";
 
 import { getSessionEmail } from "@/lib/auth/server";
-import { assertCaseOwner } from "@/lib/db/repository";
+import { assertCaseOwner, getLatestConsultationByCaseId } from "@/lib/db/repository";
 import { buildReportModel } from "@/lib/reports/build-report";
 import { createRiskReportPdf } from "@/lib/reports/pdf";
 
@@ -22,7 +22,8 @@ export async function GET(
     return new Response("Not found", { status: 404 });
   }
 
-  const model = buildReportModel(detail);
+  const consultation = await getLatestConsultationByCaseId(caseId, userEmail);
+  const model = buildReportModel(detail, consultation);
 
   if (!model) {
     return new Response("Report not ready", { status: 409 });

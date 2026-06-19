@@ -19,6 +19,11 @@ const servicePoints = [
     description:
       "PDFレポート、AIアクション、チェックリストまで揃っているため、そのまま上司確認へ回せます。",
   },
+  {
+    title: "法令・規程の読解も補助",
+    description:
+      "ガイドライン、通達、社内規程、長文PDFの要点整理や言い換えを通じて、新任担当者の理解を支援します。",
+  },
 ];
 
 const useCases = [
@@ -92,6 +97,31 @@ export default function AboutPage() {
               <p className="mt-3 text-sm leading-7 font-medium text-slate-700">{item.description}</p>
             </div>
           ))}
+        </section>
+
+        <section className="trade-glass-card rounded-2xl p-6">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-indigo-500">Knowledge assistant</p>
+          <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900">判定AIだけでなく、理解を助けるAIへ</h2>
+          <div className="mt-5 grid gap-4 lg:grid-cols-2">
+            <div className="trade-soft-block p-5">
+              <p className="text-sm font-semibold text-slate-900">読解支援でできること</p>
+              <ul className="mt-3 space-y-2 text-sm leading-7 text-slate-700">
+                <li>・法令・通達・ガイドラインの要約</li>
+                <li>・条文の意味を現場向けに言い換え</li>
+                <li>・自社輸出に関係ある箇所の抽出</li>
+                <li>・次に確認すべき点の整理</li>
+              </ul>
+            </div>
+            <div className="trade-soft-block p-5">
+              <p className="text-sm font-semibold text-slate-900">想定ユーザー</p>
+              <ul className="mt-3 space-y-2 text-sm leading-7 text-slate-700">
+                <li>・初めて輸出管理を担当する営業担当者</li>
+                <li>・社内規程整備を任された実務担当者</li>
+                <li>・法令資料を読み解きたい管理部門</li>
+                <li>・判断前に論点整理したい上長・責任者</li>
+              </ul>
+            </div>
+          </div>
         </section>
 
         {/* 2カラム機能 */}

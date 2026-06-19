@@ -11,6 +11,9 @@ export type AssistantAnswer = {
   caution: string;
   relatedRisk: string;
   extractedPoints?: string[];
+  relatedClauses?: string[];
+  keywordHighlights?: string[];
+  documentSummary?: string;
   judgement?: string;
   recommendedChecks?: string[];
   relatedFeatures: { label: string; href: string }[];

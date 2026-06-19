@@ -19,8 +19,11 @@ type Answer = {
   practicalUse: string;
   caution: string;
   relatedRisk: string;
+  documentSummary?: string;
   relatedFeatures: { label: string; href: string }[];
   extractedPoints?: string[];
+  relatedClauses?: string[];
+  keywordHighlights?: string[];
   judgement?: string;
   recommendedChecks?: string[];
 };
@@ -28,6 +31,7 @@ type Answer = {
 const EXAMPLES = [
   "この商品をベトナムへ輸出したい。何を確認すべき？",
   "EARって初心者向けにいうと何？",
+  "この条文は何を意味するのか、営業担当向けに説明して",
   "この資料の内容が自社輸出に関係あるか判断したい",
   "相手先企業が怪しい時、最初に見るポイントは？",
   "インコタームズと契約条件の関係を初心者向けに知りたい",
@@ -80,6 +84,11 @@ export function AiRoomPanel() {
       {
         label: "規制資料をやさしく",
         message: "この資料を初心者向けに説明してください。",
+        mode: "beginner-explain" as const,
+      },
+      {
+        label: "条文の意味を確認",
+        message: "この条文は何を意味するのか、実務でどう読むべきか説明してください。",
         mode: "beginner-explain" as const,
       },
       {
@@ -171,6 +180,35 @@ export function AiRoomPanel() {
               {template.label}
             </button>
           ))}
+        </div>
+      </div>
+
+      <div className="mt-4 grid gap-3 md:grid-cols-2">
+        <div className="rounded-2xl border border-amber-200 bg-amber-50/80 p-4">
+          <p className="text-sm font-semibold text-slate-900">対応しやすい資料</p>
+          <ul className="mt-2 space-y-2 text-xs leading-6 text-slate-700">
+            {[
+              "法令・通達・ガイドラインのPDF",
+              "社内輸出管理規程・手順書",
+              "取引先要件・契約条件の説明資料",
+              "社内教育用の長文ドキュメント",
+            ].map((item) => (
+              <li key={item}>・{item}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="rounded-2xl border border-cyan-200 bg-cyan-50/90 p-4">
+          <p className="text-sm font-semibold text-slate-900">期待できる出力</p>
+          <ul className="mt-2 space-y-2 text-xs leading-6 text-slate-700">
+            {[
+              "要点の箇条書き",
+              "条文の意味の言い換え",
+              "自社輸出への関係性整理",
+              "現場で次に確認すべき事項",
+            ].map((item) => (
+              <li key={item}>・{item}</li>
+            ))}
+          </ul>
         </div>
       </div>
 
@@ -274,6 +312,10 @@ export function AiRoomPanel() {
           URLを入力すると、本文を自動取得できる場合はその内容も読解に利用します。取得できないサイトでは、貼り付けた本文が優先して使われます。
         </div>
 
+        <div className="rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-xs leading-6 text-slate-700">
+          本機能は法的助言ではなく、法令・規程・資料を理解しやすくする一般的な読解支援です。最終判断は社内輸出管理担当者や専門家に確認してください。
+        </div>
+
         {lastSavedMessage ? (
           <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs leading-6 text-emerald-800">
             直近の相談履歴保存対象: {lastSavedMessage}
@@ -298,6 +340,49 @@ export function AiRoomPanel() {
               回答生成済み
             </span>
           </div>
+
+          {(answer.documentSummary || answer.relatedClauses?.length || answer.keywordHighlights?.length) && (
+            <div className="grid gap-3 lg:grid-cols-3">
+              <div className="trade-soft-block p-4 lg:col-span-3">
+                <p className="text-sm font-semibold text-slate-900">資料要約</p>
+                <p className="mt-2 text-sm leading-7 text-slate-600">
+                  {answer.documentSummary ?? "資料全体の要約はまだありません。"}
+                </p>
+              </div>
+
+              <div className="trade-soft-block p-4 lg:col-span-2">
+                <p className="text-sm font-semibold text-slate-900">関連条文・規程</p>
+                {answer.relatedClauses?.length ? (
+                  <ul className="mt-2 space-y-2 text-sm leading-7 text-slate-600">
+                    {answer.relatedClauses.map((item) => (
+                      <li key={item}>・{item}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="mt-2 text-sm leading-7 text-slate-500">関連条文・規程は抽出されていません。</p>
+                )}
+              </div>
+
+              <div className="trade-soft-block p-4">
+                <p className="text-sm font-semibold text-slate-900">重要語句</p>
+                {answer.keywordHighlights?.length ? (
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {answer.keywordHighlights.map((item) => (
+                      <span
+                        key={item}
+                        className="rounded-full border border-cyan-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="mt-2 text-sm leading-7 text-slate-500">重要語句は抽出されていません。</p>
+                )}
+              </div>
+            </div>
+          )}
+
           <div className="trade-soft-block p-4">
             <p className="text-sm font-semibold text-slate-900">初心者向けの説明</p>
             <p className="mt-2 text-sm leading-7 text-slate-600">{answer.simpleExplanation}</p>

@@ -190,7 +190,7 @@ export default function Home() {
 
       <main>
         <section className="border-b border-cyan-400/15 bg-[#081a2c] px-4 py-8 sm:px-6">
-          <div className="mx-auto grid max-w-6xl gap-4 lg:grid-cols-4">
+          <div className="mx-auto grid max-w-6xl gap-4 lg:grid-cols-3 xl:grid-cols-6">
             {[
               {
                 title: "案件管理",
@@ -207,6 +207,14 @@ export default function Home() {
               {
                 title: "学習コンテンツ",
                 text: "失敗例・注意事項・最初に見るべきポイント",
+              },
+              {
+                title: "セキュリティ",
+                text: "AI入力ガイドライン・保存方針・NDA対応方針",
+              },
+              {
+                title: "研修支援",
+                text: "営業教育・外為法セミナー・社内ルール整備支援",
               },
             ].map((item) => (
               <div key={item.title} className="rounded-2xl border border-cyan-300/12 bg-white/6 px-5 py-4 shadow-[0_18px_44px_rgba(2,6,23,0.16)] backdrop-blur">
@@ -419,14 +427,14 @@ export default function Home() {
                   </div>
                   <div className="grid grid-cols-4 gap-2 text-center">
                     {[
-                      { label: "制裁リスト", score: "95", grade: "A", c: "emerald" },
-                      { label: "企業信用", score: "72", grade: "B", c: "amber" },
-                      { label: "国リスク", score: "68", grade: "B", c: "amber" },
-                      { label: "用途", score: "88", grade: "A", c: "emerald" },
+                      { label: "制裁リスト", score: "95", grade: "A", bg: "bg-emerald-50", border: "border-emerald-100", text: "text-emerald-600" },
+                      { label: "企業信用", score: "72", grade: "B", bg: "bg-amber-50", border: "border-amber-100", text: "text-amber-600" },
+                      { label: "国リスク", score: "68", grade: "B", bg: "bg-amber-50", border: "border-amber-100", text: "text-amber-600" },
+                      { label: "用途", score: "88", grade: "A", bg: "bg-emerald-50", border: "border-emerald-100", text: "text-emerald-600" },
                     ].map((item) => (
-                      <div key={item.label} className={`rounded-xl border p-2 bg-${item.c}-50 border-${item.c}-100`}>
+                      <div key={item.label} className={`rounded-xl border p-2 ${item.bg} ${item.border}`}>
                         <p className="text-[10px] text-slate-500">{item.label}</p>
-                        <p className={`mt-1 text-xl font-bold text-${item.c}-600`}>{item.grade}</p>
+                        <p className={`mt-1 text-xl font-bold ${item.text}`}>{item.grade}</p>
                         <p className="text-[10px] text-slate-400">{item.score}点</p>
                       </div>
                     ))}
@@ -710,6 +718,44 @@ export default function Home() {
           </div>
         </section>
 
+
+        <section className="px-6 pb-8">
+          <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1fr_1fr]">
+            <div className="trade-glass-card rounded-[1.9rem] p-6">
+              <span className="trade-section-label">Trust & Security</span>
+              <h2 className="mt-4 text-2xl font-bold text-slate-900">AI入力の不安に先回りして対応</h2>
+              <p className="mt-3 text-sm leading-7 text-slate-700">
+                図面・仕様書・スペック情報をAIへ入力してよいか、技術提供に該当しないか、どこまで匿名化すべきか。
+                企業導入でよく出る懸念を整理したガイドラインと、情報管理方針を用意しています。
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link href="/security?v=lp" className="trade-primary-button">
+                  セキュリティ方針を見る
+                </Link>
+                <Link href="/ai-room?v=lp-security" className="trade-secondary-button">
+                  AI相談室で確認する
+                </Link>
+              </div>
+            </div>
+            <div className="trade-glass-card rounded-[1.9rem] p-6">
+              <span className="trade-section-label">Training Service</span>
+              <h2 className="mt-4 text-2xl font-bold text-slate-900">AI導入だけでなく、運用教育まで支援</h2>
+              <p className="mt-3 text-sm leading-7 text-slate-700">
+                営業担当向け教育、外為法セミナー、法令改正時の定期講習、社内ルール策定支援など、
+                企業が導入後に継続運用できる体制づくりまで支援する構想です。
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link href="/training?v=lp" className="trade-primary-button">
+                  研修サービスを見る
+                </Link>
+                <Link href="/contact?v=lp-training" className="trade-secondary-button">
+                  導入相談をする
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* ロードマップセクション */}
         <section className="px-6 pb-8">
           <div className="trade-dark-panel mx-auto max-w-5xl rounded-[2rem] px-6 py-10 text-white lg:px-10">
@@ -780,7 +826,7 @@ export default function Home() {
 
         {/* フッター */}
         <footer className="border-t border-cyan-400/12 px-6 py-8">
-          <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-sm text-slate-300 md:flex-row">
+          <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 text-sm text-slate-300 md:flex-row">
             <div className="flex items-center gap-2">
               <div className="flex h-6 w-6 items-center justify-center rounded bg-indigo-600">
                 <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="h-3 w-3">
@@ -789,7 +835,13 @@ export default function Home() {
               </div>
               <span className="font-medium text-white">{APP_NAME}</span>
             </div>
-            <p className="text-sm leading-6 text-slate-200">
+            <div className="flex flex-wrap items-center gap-4 text-xs">
+              <Link href="/terms" className="text-slate-300 hover:text-white hover:underline">利用規約</Link>
+              <Link href="/privacy" className="text-slate-300 hover:text-white hover:underline">プライバシーポリシー</Link>
+              <Link href="/security" className="text-slate-300 hover:text-white hover:underline">セキュリティ</Link>
+              <Link href="/contact" className="text-slate-300 hover:text-white hover:underline">お問い合わせ</Link>
+            </div>
+            <p className="max-w-lg text-center text-xs leading-6 text-slate-400 md:text-right">
               本サービスは参考情報を提供するものであり、法令上の判断を代替するものではありません。
               最終的な輸出可否の判断は利用者自身の責任で実施してください。
             </p>

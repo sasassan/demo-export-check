@@ -137,7 +137,10 @@ export type AssessmentRecord = {
 
 export type AiConsultationRecord = {
   caseDraft?: Partial<CreateCaseInput>;
+  documentSummary?: string;
   fetchedUrlText?: string;
+  keywordHighlights?: string[];
+  relatedClauses?: string[];
   sourceFetchStatus?: "success" | "failed" | "not_requested";
   caseId?: string;
   id: string;

@@ -43,6 +43,18 @@ export function Header() {
             学習コンテンツ
           </Link>
           <Link
+            href="/security?v=nav"
+            className="flex-1 rounded-xl border border-white/12 bg-white/6 px-3 py-2 text-center text-sm font-semibold text-slate-100 shadow-sm hover:bg-white/10 sm:flex-none"
+          >
+            セキュリティ
+          </Link>
+          <Link
+            href="/training?v=nav"
+            className="flex-1 rounded-xl border border-white/12 bg-white/6 px-3 py-2 text-center text-sm font-semibold text-slate-100 shadow-sm hover:bg-white/10 sm:flex-none"
+          >
+            研修支援
+          </Link>
+          <Link
             href="/demo?v=nav"
             className="flex-1 rounded-xl border border-white/12 bg-white/6 px-3 py-2 text-center text-sm font-semibold text-slate-100 shadow-sm hover:bg-white/10 sm:flex-none"
           >

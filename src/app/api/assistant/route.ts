@@ -58,6 +58,54 @@ async function fetchUrlText(sourceUrl: string) {
   }
 }
 
+function splitSentences(text: string) {
+  return text
+    .split(/(?<=[。！？.!?])\s+|\n+/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function pickTopUnique(items: string[], limit: number) {
+  const seen = new Set<string>();
+  const result: string[] = [];
+
+  for (const item of items) {
+    const normalized = item.replace(/\s+/g, " ").trim();
+    if (!normalized) continue;
+    if (seen.has(normalized)) continue;
+    seen.add(normalized);
+    result.push(normalized);
+    if (result.length >= limit) break;
+  }
+
+  return result;
+}
+
+function extractClauseLikeSentences(text: string) {
+  const sentences = splitSentences(text);
+  return pickTopUnique(
+    sentences.filter((sentence) =>
+      /(条|項|号|規定|規程|法|施行令|通達|告示|ガイドライン|別表|対象|許可|禁止|義務|承認|確認)/i.test(
+        sentence,
+      ),
+    ),
+    4,
+  );
+}
+
+function extractKeywordHighlights(text: string) {
+  const matches = text.match(
+    /([A-Z]{2,}(?:\d{1,3})?|ECCN|EAR99|EAR|PEPs|UBO|OFAC|SDN|EUC|外為法|キャッチオール規制|再輸出禁止条項|最終需要者|用途確認書|第三国経由|軍事用途|社内規程|ガイドライン|通達)/gi,
+  );
+
+  return pickTopUnique(matches ?? [], 8);
+}
+
+function buildDocumentSummary(text: string) {
+  const sentences = splitSentences(text).filter((sentence) => sentence.length >= 18);
+  return pickTopUnique(sentences, 3).join(" ");
+}
+
 function buildDocumentSupportAnswer(input: {
   message: string;
   sourceText: string;
@@ -72,12 +120,16 @@ function buildDocumentSupportAnswer(input: {
   const hasMilitary = /(軍事|weapon|missile|defense|dual use|兵器)/i.test(analysisText);
   const hasCountryRisk = /(iran|russia|north korea|syria|中国|ロシア|イラン|北朝鮮)/i.test(analysisText);
   const hasEndUserGap = /(end user|最終需要者|用途不明|unknown use|再輸出)/i.test(analysisText);
+  const clauseLikeSentences = extractClauseLikeSentences(analysisText);
+  const keywordHighlights = extractKeywordHighlights(analysisText);
+  const documentSummary = buildDocumentSummary(analysisText);
 
   const extractedPoints = [
     excerpt ? `資料の中心テーマ: ${excerpt.slice(0, 80)}...` : "資料本文の具体的な抜粋は未入力です。",
     input.sourceUrl ? `参考URLが指定されています: ${input.sourceUrl}` : "参考URLは未指定です。",
     input.fetchedUrlText ? "URL本文を自動取得して要点整理に反映しました。" : "URL本文の自動取得は行っていません。",
     hasMilitary ? "軍事転用・デュアルユース関連の語句が含まれています。" : "軍事転用を直接示す語句は強く見えていません。",
+    clauseLikeSentences.length > 0 ? "条文・規程らしい記述を抽出して読解補助に反映しました。" : "条文形式の記述は多くありません。",
   ];
 
   const recommendedChecks = [
@@ -103,6 +155,8 @@ function buildDocumentSupportAnswer(input: {
       question: input.message,
       sourceText: input.sourceText || input.fetchedUrlText,
     }),
+    documentSummary:
+      documentSummary || "資料全体の要点を十分に抽出できなかったため、質問文と抜粋を中心に整理しています。",
     simpleExplanation:
       input.mode === "beginner-explain"
         ? "この文章を初心者向けに言い換えると、『何が規制対象になりやすく、どんな場合に追加確認が必要かを説明している資料』です。"
@@ -116,6 +170,14 @@ function buildDocumentSupportAnswer(input: {
         ? "用途リスク・国リスク・キャッチオール規制の観点が重要です。"
         : "相手先信用・用途確認・契約条件の整合性が主な確認ポイントです。",
     extractedPoints,
+    relatedClauses:
+      clauseLikeSentences.length > 0
+        ? clauseLikeSentences
+        : ["資料内の条文・規程らしい記述は少ないため、全体趣旨と実務影響を中心に整理しました。"],
+    keywordHighlights:
+      keywordHighlights.length > 0
+        ? keywordHighlights
+        : ["規制分類", "輸出先国", "相手先確認", "用途確認"],
     judgement,
     recommendedChecks,
     relatedFeatures: [
@@ -154,6 +216,7 @@ export async function POST(request: Request) {
           practicalUse: dictionaryHit.practicalUse,
           caution: dictionaryHit.caution,
           relatedRisk: dictionaryHit.relatedRisk,
+          documentSummary: `${dictionaryHit.term} に関する基本概念を短時間で理解するための辞典解説です。`,
           relatedFeatures: dictionaryHit.relatedFeatures,
           referenceLinks: dictionaryHit.referenceLinks ?? [],
         },
@@ -181,7 +244,10 @@ export async function POST(request: Request) {
           sourceFetchStatus: sourceUrl ? (fetchedUrlText ? "success" : "failed") : "not_requested",
           answerTitle: aiAnswer.title,
           answer: aiAnswer.simpleExplanation,
+          documentSummary: aiAnswer.documentSummary,
           judgement: aiAnswer.judgement,
+          relatedClauses: aiAnswer.relatedClauses,
+          keywordHighlights: aiAnswer.keywordHighlights,
           recommendedChecks: aiAnswer.recommendedChecks,
           caseDraft: aiAnswer.caseDraft ?? extractCaseDraftFromConsultation({ question: message, sourceText: effectiveSourceText || undefined }),
           createdAt: new Date().toISOString(),
@@ -211,7 +277,10 @@ export async function POST(request: Request) {
           sourceFetchStatus: sourceUrl ? (fetchedUrlText ? "success" : "failed") : "not_requested",
           answerTitle: fallbackAnswer.title,
           answer: fallbackAnswer.simpleExplanation,
+          documentSummary: fallbackAnswer.documentSummary,
           judgement: fallbackAnswer.judgement,
+          relatedClauses: fallbackAnswer.relatedClauses,
+          keywordHighlights: fallbackAnswer.keywordHighlights,
           recommendedChecks: fallbackAnswer.recommendedChecks,
           caseDraft: extractCaseDraftFromConsultation({ question: message, sourceText: effectiveSourceText || undefined }),
           createdAt: new Date().toISOString(),
@@ -233,6 +302,9 @@ export async function POST(request: Request) {
     const finalAnswer = {
         title: dictionaryHit?.term ?? "AI相談室の回答",
         caseDraft: extractCaseDraftFromConsultation({ question: message, sourceText: effectiveSourceText || undefined }),
+        documentSummary: effectiveSourceText
+          ? buildDocumentSummary(effectiveSourceText) || "資料本文の要点をもとに回答を整理しました。"
+          : undefined,
         simpleExplanation: answer,
         practicalUse:
           dictionaryHit?.practicalUse ?? "この文章が自社輸出に関係するかは、製品・輸出先・相手先・用途の4点で切り分けると判断しやすくなります。",
@@ -248,6 +320,8 @@ export async function POST(request: Request) {
               sourceUrl ? `参考URL: ${sourceUrl}` : "参考URLは未指定です。",
             ]
           : undefined,
+        relatedClauses: effectiveSourceText ? extractClauseLikeSentences(effectiveSourceText) : undefined,
+        keywordHighlights: effectiveSourceText ? extractKeywordHighlights(effectiveSourceText) : undefined,
         judgement: effectiveSourceText
           ? "資料本文があるため、案件への関係性をより具体的に整理できます。"
           : undefined,
@@ -275,7 +349,10 @@ export async function POST(request: Request) {
         sourceFetchStatus: sourceUrl ? (fetchedUrlText ? "success" : "failed") : "not_requested",
         answerTitle: finalAnswer.title,
         answer: finalAnswer.simpleExplanation,
+        documentSummary: finalAnswer.documentSummary,
         judgement: finalAnswer.judgement,
+        relatedClauses: finalAnswer.relatedClauses,
+        keywordHighlights: finalAnswer.keywordHighlights,
         recommendedChecks: finalAnswer.recommendedChecks,
         caseDraft: extractCaseDraftFromConsultation({ question: message, sourceText: effectiveSourceText || undefined }),
         createdAt: new Date().toISOString(),
@@ -283,7 +360,15 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ answer: finalAnswer });
-  } catch {
-    return NextResponse.json({ error: "invalid request" }, { status: 400 });
+  } catch (error) {
+    const isJsonError = error instanceof SyntaxError;
+    const message = isJsonError
+      ? "リクエストの形式が不正です"
+      : error instanceof Error
+        ? `処理中にエラーが発生しました: ${error.message}`
+        : "不明なエラーが発生しました";
+    const status = isJsonError ? 400 : 500;
+    console.error("[assistant route]", error);
+    return NextResponse.json({ error: message }, { status });
   }
 }
