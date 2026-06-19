@@ -173,7 +173,7 @@ export function PublicDemoSimulator() {
             <h2 className="mt-3 text-xl font-bold text-slate-900">
               公開デモで入力体験を再現
             </h2>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
+            <p className="mt-2 text-sm leading-6 text-slate-700">
               実案件データは公開していませんが、サンプルシナリオを使って
               「入力 → 論点整理 → 結果確認」の流れを体験できます。
             </p>
@@ -200,7 +200,7 @@ export function PublicDemoSimulator() {
                 <p className="text-sm font-semibold text-slate-900">
                   {scenario.label}
                 </p>
-                <p className="mt-1 text-xs text-slate-600">
+                <p className="mt-1 text-xs text-slate-700">
                   {scenario.productName} / {scenario.destinationCountry} /
                   総合 {scenario.overallGrade}
                 </p>
@@ -272,7 +272,7 @@ export function PublicDemoSimulator() {
           >
             {runState === "loading" ? "AIが判定中..." : "この条件でデモ判定を見る"}
           </button>
-          <p className="text-xs leading-6 text-slate-600">
+          <p className="text-xs leading-6 text-slate-700">
             実運用ではここから AI が論点整理、根拠要約、PDF レポート化を行います。
           </p>
         </div>
@@ -285,7 +285,7 @@ export function PublicDemoSimulator() {
             <h2 className="mt-3 text-xl font-bold text-slate-900">
               結果プレビュー
             </h2>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
+            <p className="mt-2 text-sm leading-6 text-slate-700">
               公開デモでは、Beta版で想定している出力イメージをサンプルで表示しています。
             </p>
           </div>
@@ -332,13 +332,13 @@ export function PublicDemoSimulator() {
                   key={dimension.label}
                   className={`rounded-lg border p-3 text-center ${gradeClassMap[dimension.grade]}`}
                 >
-                  <p className="text-[11px] font-medium text-slate-600">
+                  <p className="text-[11px] font-medium text-slate-700">
                     {dimension.label}
                   </p>
                   <p className="mt-1 text-xl font-bold">
                     {dimension.grade}
                   </p>
-                  <p className="text-[11px] text-slate-600">
+                  <p className="text-[11px] text-slate-700">
                     {dimension.score} 点
                   </p>
                 </div>
@@ -394,11 +394,11 @@ export function PublicDemoSimulator() {
                   <div className="mt-3 space-y-3">
                     <div className="rounded-md border border-slate-200 bg-slate-50 p-3">
                       <p className="text-sm font-semibold text-slate-900">1ページ目</p>
-                      <p className="mt-1 text-xs leading-5 text-slate-600">総合評価、カテゴリ別スコア、案件サマリー</p>
+                      <p className="mt-1 text-xs leading-5 text-slate-700">総合評価、カテゴリ別スコア、案件サマリー</p>
                     </div>
                     <div className="rounded-md border border-slate-200 bg-slate-50 p-3">
                       <p className="text-sm font-semibold text-slate-900">2ページ目</p>
-                      <p className="mt-1 text-xs leading-5 text-slate-600">推奨アクション、根拠、回収資料、免責事項</p>
+                      <p className="mt-1 text-xs leading-5 text-slate-700">推奨アクション、根拠、回収資料、免責事項</p>
                     </div>
                   </div>
                 </div>
@@ -411,7 +411,7 @@ export function PublicDemoSimulator() {
                   <p className="text-sm font-semibold text-slate-900">
                     この先の実運用イメージ
                   </p>
-                  <p className="mt-1 text-sm leading-6 text-slate-600">
+                  <p className="mt-1 text-sm leading-6 text-slate-700">
                     実案件では、ここからPDFレポート生成、案件保存、AI相談室への引き継ぎまで進められます。
                   </p>
                 </div>

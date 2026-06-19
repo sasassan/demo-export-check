@@ -174,10 +174,10 @@ export default function Home() {
             <span className="text-base font-bold text-slate-900">{APP_NAME}</span>
           </div>
           <div className="flex items-center gap-1">
-            <Link href="/about?v=lp-nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900">概要</Link>
-            <Link href="/glossary?v=lp-nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900">辞典</Link>
-            <Link href="/ai-room?v=lp-nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900">AI相談室</Link>
-            <Link href="/demo?v=lp-nav" className="hidden rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 md:inline-flex">デモ</Link>
+            <Link href="/about?v=lp-nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">概要</Link>
+            <Link href="/glossary?v=lp-nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">辞典</Link>
+            <Link href="/ai-room?v=lp-nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">AI相談室</Link>
+            <Link href="/demo?v=lp-nav" className="hidden rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 md:inline-flex">デモ</Link>
             <span className="mx-1 hidden h-5 w-px bg-slate-200 md:block" />
             <Link href="/contact?v=lp-nav" className="rounded-md bg-[#1e3a5f] px-4 py-2 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73]">お問い合わせ</Link>
           </div>
@@ -264,7 +264,7 @@ export default function Home() {
                         ["顧客企業名", "Hanoi Precision Robotics Co., Ltd."],
                       ].map(([label, value]) => (
                         <div key={label} className="rounded-md border border-slate-200 bg-white px-3 py-2.5">
-                          <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">{label}</p>
+                          <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-600">{label}</p>
                           <p className="mt-1 text-sm font-medium text-slate-800">{value}</p>
                         </div>
                       ))}
@@ -419,7 +419,7 @@ export default function Home() {
                     <div key={item.label} className={`rounded-lg border p-2 ${item.bg} ${item.border}`}>
                       <p className="text-[10px] text-slate-600">{item.label}</p>
                       <p className={`mt-0.5 text-lg font-bold ${item.text}`}>{item.grade}</p>
-                      <p className="text-[10px] text-slate-500">{item.score}点</p>
+                      <p className="text-[10px] text-slate-600">{item.score}点</p>
                     </div>
                   ))}
                 </div>
@@ -447,8 +447,8 @@ export default function Home() {
                     </ul>
                   </div>
                   <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
-                    <p className="text-xs font-bold text-slate-600">免責事項</p>
-                    <p className="mt-1 text-xs text-slate-600">本レポートは参考情報です。最終的な輸出可否の判断は利用者自身の責任で実施してください。</p>
+                    <p className="text-xs font-bold text-slate-800">免責事項</p>
+                    <p className="mt-1 text-xs text-slate-700">本レポートは参考情報です。最終的な輸出可否の判断は利用者自身の責任で実施してください。</p>
                   </div>
                 </div>
               </div>
@@ -625,18 +625,18 @@ export default function Home() {
                 <Link href="/demo?v=pricing" className="mt-6 flex w-full items-center justify-center rounded-lg bg-[#1e3a5f] py-2.5 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73]">デモで試す</Link>
               </div>
               <div className="rounded-xl border border-slate-200 bg-white p-7 shadow-sm">
-                <p className="text-sm font-semibold uppercase tracking-wider text-slate-500">正式版（準備中）</p>
+                <p className="text-sm font-semibold uppercase tracking-wider text-slate-600">正式版（準備中）</p>
                 <p className="mt-2 text-3xl font-bold text-slate-400">未定</p>
-                <p className="mt-1 text-sm text-slate-500">月額料金・プランは検討中です</p>
+                <p className="mt-1 text-sm text-slate-600">月額料金・プランは検討中です</p>
                 <ul className="mt-5 space-y-2.5">
                   {["Beta版の全機能", "企業情報・UBO詳細調査", "制裁リストリアルタイム照合", "チーム共有・管理機能", "API連携（開発者向け）"].map((item) => (
-                    <li key={item} className="flex items-center gap-2 text-sm text-slate-500">
+                    <li key={item} className="flex items-center gap-2 text-sm text-slate-600">
                       <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 shrink-0 text-slate-400"><path fillRule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clipRule="evenodd" /></svg>
                       {item}
                     </li>
                   ))}
                 </ul>
-                <Link href="/contact?v=pricing" className="mt-6 flex w-full items-center justify-center rounded-lg border border-slate-300 bg-white py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50">リリース通知を受け取る</Link>
+                <Link href="/contact?v=pricing" className="mt-6 flex w-full items-center justify-center rounded-lg border border-slate-300 bg-white py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50">リリース通知を受け取る</Link>
               </div>
             </div>
           </div>
@@ -720,17 +720,17 @@ export default function Home() {
               </div>
               <span className="font-semibold text-slate-900">{APP_NAME}</span>
             </div>
-            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-600">
-              <Link href="/terms" className="hover:text-slate-700 hover:underline">利用規約</Link>
-              <Link href="/privacy" className="hover:text-slate-700 hover:underline">プライバシーポリシー</Link>
-              <Link href="/security" className="hover:text-slate-700 hover:underline">セキュリティ</Link>
-              <Link href="/operator" className="hover:text-slate-700 hover:underline">運営情報</Link>
-              <Link href="/supervision" className="hover:text-slate-700 hover:underline">監修体制</Link>
-              <Link href="/evaluation-logic" className="hover:text-slate-700 hover:underline">評価ロジック</Link>
-              <Link href="/for-ai" className="hover:text-slate-700 hover:underline">AIレビュー用概要</Link>
-              <Link href="/contact" className="hover:text-slate-700 hover:underline">お問い合わせ</Link>
+            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-700">
+              <Link href="/terms" className="hover:text-slate-900 hover:underline">利用規約</Link>
+              <Link href="/privacy" className="hover:text-slate-900 hover:underline">プライバシーポリシー</Link>
+              <Link href="/security" className="hover:text-slate-900 hover:underline">セキュリティ</Link>
+              <Link href="/operator" className="hover:text-slate-900 hover:underline">運営情報</Link>
+              <Link href="/supervision" className="hover:text-slate-900 hover:underline">監修体制</Link>
+              <Link href="/evaluation-logic" className="hover:text-slate-900 hover:underline">評価ロジック</Link>
+              <Link href="/for-ai" className="hover:text-slate-900 hover:underline">AIレビュー用概要</Link>
+              <Link href="/contact" className="hover:text-slate-900 hover:underline">お問い合わせ</Link>
             </div>
-            <p className="max-w-md text-center text-xs leading-5 text-slate-500 md:text-right">
+            <p className="max-w-md text-center text-xs leading-5 text-slate-600 md:text-right">
               本サービスは参考情報を提供するものであり、法令上の判断を代替するものではありません。
             </p>
           </div>

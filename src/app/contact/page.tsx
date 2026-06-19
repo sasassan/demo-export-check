@@ -13,7 +13,7 @@ export default function ContactPage() {
         <section className="rounded-xl border border-slate-200 bg-white p-6 sm:p-8">
           <span className="trade-section-label">Contact</span>
           <h1 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">お問い合わせ</h1>
-          <p className="mt-3 text-base leading-7 text-slate-600">
+          <p className="mt-3 text-base leading-7 text-slate-700">
             Beta版へのご意見・利用相談・改善要望を受け付けています。フィードバックはサービス改善のために利用します。
           </p>
           <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
