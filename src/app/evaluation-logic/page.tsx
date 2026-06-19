@@ -126,6 +126,13 @@ export default function EvaluationLogicPage() {
         <section className="rounded-xl border border-slate-200 bg-white p-6">
           <span className="trade-section-label">How scoring works</span>
           <h2 className="mt-3 text-xl font-bold text-slate-900">ひと目で分かる判定フロー</h2>
+          <div className="mt-4 flex flex-wrap items-center gap-2 text-sm font-medium text-slate-500">
+            <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">8評価項目</span>
+            <span>→</span>
+            <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">4カテゴリ集約</span>
+            <span>→</span>
+            <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">総合A / B / C</span>
+          </div>
           <div className="mt-5 grid gap-4 lg:grid-cols-4">
             {flowSteps.map((step, index) => (
               <div key={step.title} className="rounded-lg border border-slate-200 bg-slate-50 p-5">

@@ -124,6 +124,12 @@ const gradeClassMap = {
   C: "border-rose-200 bg-rose-50 text-rose-700",
 } as const;
 
+const gradeDescriptionMap = {
+  A: "大きな懸念が少なく、標準確認を中心に進めやすい状態",
+  B: "営業単独で進めず、追加確認や社内レビューを挟みたい状態",
+  C: "重大論点があり、慎重な確認と上長・担当部門の関与が必要な状態",
+} as const;
+
 export function PublicDemoSimulator() {
   const [selectedId, setSelectedId] = useState<ScenarioId>("servo");
   const [runState, setRunState] = useState<"idle" | "loading" | "done">("done");
@@ -315,6 +321,9 @@ export function PublicDemoSimulator() {
               <p className="mt-2 text-sm leading-6 text-slate-700">
                 {selectedScenario.overallSummary}
               </p>
+              <div className={`mt-3 rounded-lg border px-3 py-2 text-xs font-medium ${gradeClassMap[selectedScenario.overallGrade]}`}>
+                {gradeDescriptionMap[selectedScenario.overallGrade]}
+              </div>
             </div>
 
             <div className="grid gap-3 sm:grid-cols-4">
@@ -365,6 +374,34 @@ export function PublicDemoSimulator() {
                     <li key={item}>- {item}</li>
                   ))}
                 </ul>
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                <div className="lg:max-w-[48%]">
+                  <p className="text-sm font-semibold text-slate-900">PDFレポートに含まれる内容</p>
+                  <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
+                    <li>- 総合A/B/C評価とカテゴリ別の結果</li>
+                    <li>- 判定理由と、どこが引っかかったかの要約</li>
+                    <li>- 回収すべき資料、確認すべき項目、社内共有用の根拠</li>
+                  </ul>
+                </div>
+                <div className="w-full rounded-lg border border-slate-200 bg-white p-4 lg:max-w-[44%]">
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-[#1e3a5f]">
+                    PDF sample preview
+                  </p>
+                  <div className="mt-3 space-y-3">
+                    <div className="rounded-md border border-slate-200 bg-slate-50 p-3">
+                      <p className="text-sm font-semibold text-slate-900">1ページ目</p>
+                      <p className="mt-1 text-xs leading-5 text-slate-600">総合評価、カテゴリ別スコア、案件サマリー</p>
+                    </div>
+                    <div className="rounded-md border border-slate-200 bg-slate-50 p-3">
+                      <p className="text-sm font-semibold text-slate-900">2ページ目</p>
+                      <p className="mt-1 text-xs leading-5 text-slate-600">推奨アクション、根拠、回収資料、免責事項</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 

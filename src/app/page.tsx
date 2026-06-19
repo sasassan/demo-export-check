@@ -76,6 +76,63 @@ const trustSignals = [
   },
 ];
 
+const roiHighlights = [
+  {
+    label: "従来の確認時間",
+    value: "約90分",
+    note: "情報収集、確認漏れ洗い出し、上司相談までを都度手作業",
+  },
+  {
+    label: "一次確認の目安",
+    value: "約5分",
+    note: "営業担当が商談前に論点整理できる状態を目指す",
+  },
+  {
+    label: "年間500件の想定",
+    value: "約700時間削減",
+    note: "85分短縮 × 500件で試算したBeta版の参考値",
+  },
+  {
+    label: "導入効果の見せ方",
+    value: "人件費換算しやすい",
+    note: "稟議では時間削減・確認漏れ防止・引き継ぎ効率で説明しやすい",
+  },
+];
+
+const uspPoints = [
+  {
+    title: "AIチャットではなく、輸出管理の一次確認導線",
+    body: "価値はAIを使うことではなく、輸出管理の専門知識がなくても営業担当者が初動確認を進められることです。",
+  },
+  {
+    title: "診断・辞典・AI相談室がつながっている",
+    body: "用語が分からない、条文の意味が難しい、確認ポイントを整理したい、という現場の流れを1つのサイト内で回せます。",
+  },
+  {
+    title: "商談前の5分確認を設計している",
+    body: "上司・法務・輸出管理に回す前の一次確認を、営業側で短時間に論点整理できることを重視しています。",
+  },
+];
+
+const targetProfiles = [
+  {
+    title: "輸出管理部門がない企業",
+    body: "専任部門がなく、営業や管理部門が初動確認を担っている会社向け。",
+  },
+  {
+    title: "海外営業担当",
+    body: "商談前に最低限の確認ポイントを整理し、社内相談をスムーズにしたい担当者向け。",
+  },
+  {
+    title: "初めて海外取引を行う中小製造業",
+    body: "輸出管理の土地勘が薄く、何を見ればよいか分からない企業向け。",
+  },
+  {
+    title: "社内規程を整備したい担当者",
+    body: "規程・条文・社内フローの理解を深めながら運用設計したい実務担当者向け。",
+  },
+];
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
@@ -146,14 +203,14 @@ export default function Home() {
             <div>
               <span className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5 text-sm font-medium text-[#1e3a5f]">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#1e3a5f]" />
-                営業担当者向け 輸出リスク一次確認ツール
+                輸出管理部門がない企業・海外営業向け
               </span>
               <h1 className="mt-6 text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
                 その輸出、<br />
                 <span className="text-[#1e3a5f]">本当に大丈夫</span>ですか？
               </h1>
               <p className="mt-4 text-lg font-medium text-[#1e3a5f]">
-                営業担当者が商談前に5分で一次確認できます。
+                輸出管理の専門知識がなくても、営業担当者が商談前に5分で一次確認できます。
               </p>
               <p className="mt-3 max-w-xl text-base leading-7 text-slate-600">
                 制裁リスト・企業信用・用途・国リスクについて、
@@ -252,6 +309,65 @@ export default function Home() {
                     <p className="mt-2 text-sm leading-6 text-slate-600">{item.body}</p>
                   </Link>
                 ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-slate-100 bg-slate-50 px-4 py-16 sm:px-6">
+          <div className="mx-auto max-w-6xl space-y-12">
+            <div className="text-center">
+              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-[#1e3a5f]">
+                導入効果と対象ユーザー
+              </span>
+              <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+                何が変わるのか、誰のためのサービスかを明確に
+              </h2>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-bold text-slate-900">導入効果の目安</h3>
+              <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                {roiHighlights.map((item) => (
+                  <div key={item.label} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                      {item.label}
+                    </p>
+                    <p className="mt-2 text-2xl font-bold text-[#1e3a5f]">{item.value}</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-600">{item.note}</p>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-3 text-xs leading-6 text-slate-500">
+                上記は公開版の参考試算です。実際の削減時間は案件難易度、社内承認フロー、確認対象の広さによって変動します。
+              </p>
+            </div>
+
+            <div className="grid gap-6 lg:grid-cols-2">
+              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                <span className="trade-section-label">USP</span>
+                <h3 className="mt-3 text-xl font-bold text-slate-900">競争力の中心は「AIであること」ではありません</h3>
+                <div className="mt-4 space-y-3">
+                  {uspPoints.map((item) => (
+                    <div key={item.title} className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                      <p className="text-sm font-semibold text-slate-900">{item.title}</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-600">{item.body}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                <span className="trade-section-label">Target users</span>
+                <h3 className="mt-3 text-xl font-bold text-slate-900">特に想定している利用者</h3>
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                  {targetProfiles.map((item) => (
+                    <div key={item.title} className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                      <p className="text-sm font-semibold text-slate-900">{item.title}</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-600">{item.body}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

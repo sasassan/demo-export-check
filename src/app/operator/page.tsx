@@ -36,6 +36,12 @@ const trustSignals = [
   "Beta版として、公開範囲と未公開範囲を分けて説明",
 ];
 
+const developmentBackground = [
+  "輸出管理部門を持たない企業でも、営業段階で最低限の確認を進められるようにしたいという課題意識を背景に設計しています。",
+  "単なるAIチャットではなく、診断・辞典・AI相談室・学習ページを横断して、理解しながら実務を進められる構成を目指しています。",
+  "現時点では個人名や法人詳細の全面公開よりも、公開デモ・評価ロジック・セキュリティ方針の説明責任を優先して整備しています。",
+];
+
 const disclosurePolicy = [
   "本Beta版では、サービス概要・公開デモ・AI相談室・辞典・学習・セキュリティ方針など、公開ページ上で確認できる情報を優先して開示しています。",
   "実顧客データ、ログイン後の案件一覧、案件ごとの内部判断記録、社内向けレポート詳細は一般公開していません。",
@@ -103,6 +109,21 @@ export default function OperatorPage() {
                 {item}
               </div>
             ))}
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-slate-200 bg-white p-6">
+          <span className="trade-section-label">Development background</span>
+          <h2 className="mt-3 text-xl font-bold text-slate-900">開発背景と公開方針</h2>
+          <div className="mt-5 grid gap-4 lg:grid-cols-3">
+            {developmentBackground.map((item) => (
+              <div key={item} className="rounded-lg border border-slate-200 bg-slate-50 p-5 text-sm leading-7 text-slate-700">
+                {item}
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 rounded-lg border border-blue-100 bg-blue-50 p-4 text-sm leading-7 text-slate-700">
+            Beta版のため、運営主体の詳細情報や契約条件などは導入相談時に追加開示する前提です。公開ページでは、まずプロダクトの説明責任と誤解防止の整備を優先しています。
           </div>
         </section>
 
