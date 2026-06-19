@@ -222,7 +222,7 @@ export default function Home() {
                   デモ画面を見る
                   <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" /></svg>
                 </Link>
-                <Link href="/about?v=hero" className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50">
+                <Link href="/about?v=hero" className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-sm hover:bg-slate-50">
                   サービス説明
                 </Link>
               </div>
@@ -424,7 +424,7 @@ export default function Home() {
                   ))}
                 </div>
                 <div className="mt-4 rounded-lg bg-slate-50 p-3">
-                  <p className="text-xs font-semibold text-slate-700">総合リスク概要</p>
+                  <p className="text-xs font-semibold text-slate-800">総合リスク概要</p>
                   <p className="mt-1 text-xs leading-5 text-slate-600">ベトナムは中程度の国リスク。企業の登記情報は確認済みだが、類似名称企業の存在を確認する必要あり。用途は産業機械として適切。</p>
                 </div>
               </div>
@@ -439,7 +439,7 @@ export default function Home() {
                     <p className="mt-1 text-xs text-amber-800">類似名称の別企業が同地域に存在。商標登記番号または法人番号を取引先に確認してください。</p>
                   </div>
                   <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
-                    <p className="text-xs font-bold text-slate-700">推奨アクション</p>
+                    <p className="text-xs font-bold text-slate-800">推奨アクション</p>
                     <ul className="mt-1 space-y-1 text-xs text-slate-600">
                       <li>- 取引先の法人登記証明書を入手</li>
                       <li>- 最終用途証明書（EUC）を取得</li>
@@ -616,7 +616,7 @@ export default function Home() {
                 <p className="mt-1 text-sm text-slate-600">Beta版期間中は全機能を無料でご利用いただけます</p>
                 <ul className="mt-5 space-y-2.5">
                   {["AI一次スクリーニング（8観点）", "A/B/C評価 + 判定理由表示", "PDFレポート出力", "案件管理（Beta版制限あり）"].map((item) => (
-                    <li key={item} className="flex items-center gap-2 text-sm text-slate-700">
+                    <li key={item} className="flex items-center gap-2 text-sm text-slate-800">
                       <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 shrink-0 text-[#1e3a5f]"><path fillRule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clipRule="evenodd" /></svg>
                       {item}
                     </li>
@@ -651,7 +651,7 @@ export default function Home() {
               <p className="mt-2 text-sm leading-6 text-slate-600">図面・仕様書をAIへ入力してよいか、技術提供に該当しないか。企業導入でよく出る懸念を整理したガイドラインを用意しています。</p>
               <div className="mt-4 flex gap-3">
                 <Link href="/security?v=lp" className="rounded-md bg-[#1e3a5f] px-4 py-2 text-sm font-semibold text-white hover:bg-[#2a4a73]">セキュリティ方針</Link>
-                <Link href="/ai-room?v=lp-security" className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">AI相談室で確認</Link>
+                <Link href="/ai-room?v=lp-security" className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50">AI相談室で確認</Link>
               </div>
             </div>
             <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -660,7 +660,7 @@ export default function Home() {
               <p className="mt-2 text-sm leading-6 text-slate-600">営業担当向け教育、外為法セミナー、法令改正時の定期講習、社内ルール策定支援など。</p>
               <div className="mt-4 flex gap-3">
                 <Link href="/training?v=lp" className="rounded-md bg-[#1e3a5f] px-4 py-2 text-sm font-semibold text-white hover:bg-[#2a4a73]">研修サービス</Link>
-                <Link href="/contact?v=lp-training" className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">導入相談</Link>
+                <Link href="/contact?v=lp-training" className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50">導入相談</Link>
               </div>
             </div>
           </div>
@@ -702,9 +702,9 @@ export default function Home() {
             <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">まずは1件、試してみてください</h2>
             <p className="mt-2 text-base text-slate-600">Beta版は無料。メールアドレスだけで開始できます。登録後すぐに案件確認フローを試せます。</p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <Link href="/demo?v=cta" className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">デモを見る</Link>
+              <Link href="/demo?v=cta" className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50">デモを見る</Link>
               <Link href="/contact?v=cta" className="rounded-lg bg-[#1e3a5f] px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#2a4a73]">導入について相談する</Link>
-              <Link href="/contact?v=cta-fb" className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">フィードバックを送る</Link>
+              <Link href="/contact?v=cta-fb" className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50">フィードバックを送る</Link>
             </div>
           </div>
         </section>

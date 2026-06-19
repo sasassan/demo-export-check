@@ -211,7 +211,7 @@ export function PublicDemoSimulator() {
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
           <label className="grid gap-2">
-            <span className="text-sm font-medium text-slate-700">商品名</span>
+            <span className="text-sm font-medium text-slate-800">商品名</span>
             <input
               value={formState.productName}
               onChange={(event) =>
@@ -224,7 +224,7 @@ export function PublicDemoSimulator() {
             />
           </label>
           <label className="grid gap-2">
-            <span className="text-sm font-medium text-slate-700">型番</span>
+            <span className="text-sm font-medium text-slate-800">型番</span>
             <input
               value={formState.modelNumber}
               onChange={(event) =>
@@ -237,7 +237,7 @@ export function PublicDemoSimulator() {
             />
           </label>
           <label className="grid gap-2">
-            <span className="text-sm font-medium text-slate-700">輸出先国</span>
+            <span className="text-sm font-medium text-slate-800">輸出先国</span>
             <input
               value={formState.destinationCountry}
               onChange={(event) =>
@@ -250,7 +250,7 @@ export function PublicDemoSimulator() {
             />
           </label>
           <label className="grid gap-2">
-            <span className="text-sm font-medium text-slate-700">顧客企業名</span>
+            <span className="text-sm font-medium text-slate-800">顧客企業名</span>
             <input
               value={formState.customerName}
               onChange={(event) =>
@@ -318,7 +318,7 @@ export function PublicDemoSimulator() {
                 {formState.productName} {formState.modelNumber} →{" "}
                 {formState.destinationCountry}
               </p>
-              <p className="mt-2 text-sm leading-6 text-slate-700">
+              <p className="mt-2 text-sm leading-6 text-slate-800">
                 {selectedScenario.overallSummary}
               </p>
               <div className={`mt-3 rounded-lg border px-3 py-2 text-xs font-medium ${gradeClassMap[selectedScenario.overallGrade]}`}>
@@ -359,7 +359,7 @@ export function PublicDemoSimulator() {
                 <p className="text-sm font-semibold text-slate-900">
                   推奨アクション
                 </p>
-                <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
+                <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-800">
                   {selectedScenario.actions.map((action) => (
                     <li key={action}>- {action}</li>
                   ))}
@@ -369,7 +369,7 @@ export function PublicDemoSimulator() {
                 <p className="text-sm font-semibold text-slate-900">
                   根拠サマリー
                 </p>
-                <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
+                <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-800">
                   {selectedScenario.evidence.map((item) => (
                     <li key={item}>- {item}</li>
                   ))}
@@ -381,7 +381,7 @@ export function PublicDemoSimulator() {
               <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                 <div className="lg:max-w-[48%]">
                   <p className="text-sm font-semibold text-slate-900">PDFレポートに含まれる内容</p>
-                  <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
+                  <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-800">
                     <li>- 総合A/B/C評価とカテゴリ別の結果</li>
                     <li>- 判定理由と、どこが引っかかったかの要約</li>
                     <li>- 回収すべき資料、確認すべき項目、社内共有用の根拠</li>
