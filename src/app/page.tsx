@@ -191,7 +191,7 @@ export default function Home() {
             {quickLinks.map((item) => (
               <Link key={item.label} href={item.href} className="group rounded-lg border border-slate-200 bg-white px-4 py-3 transition hover:border-slate-300 hover:shadow-sm">
                 <p className="text-sm font-semibold text-slate-900 group-hover:text-[#1e3a5f]">{item.label}</p>
-                <p className="mt-0.5 text-xs text-slate-500">{item.desc}</p>
+                <p className="mt-0.5 text-xs text-slate-600">{item.desc}</p>
               </Link>
             ))}
           </div>
@@ -226,7 +226,7 @@ export default function Home() {
                   サービス説明
                 </Link>
               </div>
-              <p className="mt-3 text-xs leading-6 text-slate-500">
+              <p className="mt-3 text-xs leading-6 text-slate-600">
                 まずは公開デモで入力〜結果確認の流れをご覧ください。導入相談・フィードバックは各ページ下部から受け付けています。
               </p>
               <div className="mt-8 grid grid-cols-3 gap-4">
@@ -236,7 +236,7 @@ export default function Home() {
                   ["出力形式", "PDF / 要約"],
                 ].map(([label, value]) => (
                   <div key={label} className="rounded-lg border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-3 shadow-sm">
-                    <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">{label}</p>
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-600">{label}</p>
                     <p className="mt-1 text-lg font-bold text-slate-900">{value}</p>
                   </div>
                 ))}
@@ -250,7 +250,7 @@ export default function Home() {
                     <span className="h-2.5 w-2.5 rounded-full bg-rose-300" />
                     <span className="h-2.5 w-2.5 rounded-full bg-amber-300" />
                     <span className="h-2.5 w-2.5 rounded-full bg-emerald-300" />
-                    <span className="ml-2 text-xs font-medium text-slate-500">公開デモの画面イメージ</span>
+                    <span className="ml-2 text-xs font-medium text-slate-600">公開デモの画面イメージ</span>
                   </div>
                 </div>
                 <div className="grid gap-4 p-5 lg:grid-cols-[0.95fr_1.05fr]">
@@ -264,7 +264,7 @@ export default function Home() {
                         ["顧客企業名", "Hanoi Precision Robotics Co., Ltd."],
                       ].map(([label, value]) => (
                         <div key={label} className="rounded-md border border-slate-200 bg-white px-3 py-2.5">
-                          <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">{label}</p>
+                          <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">{label}</p>
                           <p className="mt-1 text-sm font-medium text-slate-800">{value}</p>
                         </div>
                       ))}
@@ -276,17 +276,17 @@ export default function Home() {
                         <p className="text-xs font-semibold uppercase tracking-wider text-[#1e3a5f]">Result</p>
                         <p className="mt-1 text-sm font-semibold text-slate-900">高精度サーボモーター SRV-9800 → ベトナム</p>
                       </div>
-                      <span className="rounded-md border border-amber-200 bg-amber-50 px-3 py-1 text-sm font-bold text-amber-700">総合 B</span>
+                      <span className="rounded-md border border-amber-200 bg-amber-50 px-3 py-1 text-sm font-bold text-amber-800">総合 B</span>
                     </div>
                     <div className="mt-4 grid grid-cols-4 gap-2">
                       {[
                         { label: "制裁", grade: "A", bg: "bg-emerald-50", border: "border-emerald-200", text: "text-emerald-700" },
-                        { label: "企業信用", grade: "B", bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-700" },
-                        { label: "国リスク", grade: "B", bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-700" },
+                        { label: "企業信用", grade: "B", bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-800" },
+                        { label: "国リスク", grade: "B", bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-800" },
                         { label: "用途", grade: "A", bg: "bg-emerald-50", border: "border-emerald-200", text: "text-emerald-700" },
                       ].map((item) => (
                         <div key={item.label} className={`rounded-lg border p-2 text-center ${item.bg} ${item.border}`}>
-                          <p className="text-[10px] text-slate-500">{item.label}</p>
+                          <p className="text-[10px] text-slate-600">{item.label}</p>
                           <p className={`mt-0.5 text-lg font-bold ${item.text}`}>{item.grade}</p>
                         </div>
                       ))}
@@ -330,7 +330,7 @@ export default function Home() {
               <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                 {roiHighlights.map((item) => (
                   <div key={item.label} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-                    <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-600">
                       {item.label}
                     </p>
                     <p className="mt-2 text-2xl font-bold text-[#1e3a5f]">{item.value}</p>
@@ -338,7 +338,7 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-              <p className="mt-3 text-xs leading-6 text-slate-500">
+              <p className="mt-3 text-xs leading-6 text-slate-600">
                 上記は公開版の参考試算です。実際の削減時間は案件難易度、社内承認フロー、確認対象の広さによって変動します。
               </p>
             </div>
@@ -407,19 +407,19 @@ export default function Home() {
                     <p className="text-[11px] font-semibold uppercase tracking-wider text-[#1e3a5f]">診断レポート - 1ページ目</p>
                     <p className="mt-0.5 text-sm font-semibold text-slate-800">高精度サーボモーター SRV-9800 → ベトナム</p>
                   </div>
-                  <span className="rounded-md bg-amber-100 px-2.5 py-1 text-sm font-bold text-amber-700">B</span>
+                  <span className="rounded-md bg-amber-100 px-2.5 py-1 text-sm font-bold text-amber-800">B</span>
                 </div>
                 <div className="grid grid-cols-4 gap-2 text-center">
                   {[
                     { label: "制裁リスト", score: "95", grade: "A", bg: "bg-emerald-50", border: "border-emerald-200", text: "text-emerald-700" },
-                    { label: "企業信用", score: "72", grade: "B", bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-700" },
-                    { label: "国リスク", score: "68", grade: "B", bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-700" },
+                    { label: "企業信用", score: "72", grade: "B", bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-800" },
+                    { label: "国リスク", score: "68", grade: "B", bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-800" },
                     { label: "用途", score: "88", grade: "A", bg: "bg-emerald-50", border: "border-emerald-200", text: "text-emerald-700" },
                   ].map((item) => (
                     <div key={item.label} className={`rounded-lg border p-2 ${item.bg} ${item.border}`}>
-                      <p className="text-[10px] text-slate-500">{item.label}</p>
+                      <p className="text-[10px] text-slate-600">{item.label}</p>
                       <p className={`mt-0.5 text-lg font-bold ${item.text}`}>{item.grade}</p>
-                      <p className="text-[10px] text-slate-400">{item.score}点</p>
+                      <p className="text-[10px] text-slate-500">{item.score}点</p>
                     </div>
                   ))}
                 </div>
@@ -435,7 +435,7 @@ export default function Home() {
                 </div>
                 <div className="space-y-3">
                   <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
-                    <p className="text-xs font-bold text-amber-700">要確認：企業信用</p>
+                    <p className="text-xs font-bold text-amber-800">要確認：企業信用</p>
                     <p className="mt-1 text-xs text-amber-800">類似名称の別企業が同地域に存在。商標登記番号または法人番号を取引先に確認してください。</p>
                   </div>
                   <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
@@ -447,8 +447,8 @@ export default function Home() {
                     </ul>
                   </div>
                   <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
-                    <p className="text-xs font-bold text-slate-500">免責事項</p>
-                    <p className="mt-1 text-xs text-slate-500">本レポートは参考情報です。最終的な輸出可否の判断は利用者自身の責任で実施してください。</p>
+                    <p className="text-xs font-bold text-slate-600">免責事項</p>
+                    <p className="mt-1 text-xs text-slate-600">本レポートは参考情報です。最終的な輸出可否の判断は利用者自身の責任で実施してください。</p>
                   </div>
                 </div>
               </div>
@@ -466,9 +466,9 @@ export default function Home() {
         <section className="border-b border-slate-100 bg-[#1e3a5f] px-4 py-16 text-white sm:px-6">
           <div className="mx-auto max-w-5xl">
             <div className="text-center">
-              <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-semibold tracking-wider text-blue-100">判定の根拠</span>
+              <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-semibold tracking-wider text-blue-50">判定の根拠</span>
               <h2 className="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">何をもとに判定しているのか</h2>
-              <p className="mt-2 text-base text-blue-100">AIが一次スクリーニングに使用する情報源を公開しています。</p>
+              <p className="mt-2 text-base text-blue-50">AIが一次スクリーニングに使用する情報源を公開しています。</p>
             </div>
             <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {[
@@ -480,12 +480,12 @@ export default function Home() {
               ].map((src) => (
                 <div key={src.label} className="rounded-lg border border-white/15 bg-white/10 px-4 py-3">
                   <p className="text-sm font-semibold">{src.label}</p>
-                  <p className="mt-1 text-sm text-blue-100">{src.desc}</p>
+                  <p className="mt-1 text-sm text-blue-50">{src.desc}</p>
                 </div>
               ))}
               <div className="rounded-lg border border-white/10 bg-white/5 px-4 py-3">
-                <p className="text-sm font-semibold text-blue-200">免責事項</p>
-                <p className="mt-1 text-sm text-blue-200/80">本サービスは一次スクリーニング支援ツールです。法令上の最終判断を代替するものではありません。</p>
+                <p className="text-sm font-semibold text-blue-100">免責事項</p>
+                <p className="mt-1 text-sm text-blue-100/80">本サービスは一次スクリーニング支援ツールです。法令上の最終判断を代替するものではありません。</p>
               </div>
             </div>
           </div>
@@ -613,7 +613,7 @@ export default function Home() {
                 <span className="absolute -top-3 left-5 rounded-full bg-[#1e3a5f] px-3 py-0.5 text-xs font-bold text-white">現在公開中</span>
                 <p className="text-sm font-semibold uppercase tracking-wider text-[#1e3a5f]">Beta版</p>
                 <p className="mt-2 text-3xl font-bold text-slate-900">無料</p>
-                <p className="mt-1 text-sm text-slate-500">Beta版期間中は全機能を無料でご利用いただけます</p>
+                <p className="mt-1 text-sm text-slate-600">Beta版期間中は全機能を無料でご利用いただけます</p>
                 <ul className="mt-5 space-y-2.5">
                   {["AI一次スクリーニング（8観点）", "A/B/C評価 + 判定理由表示", "PDFレポート出力", "案件管理（Beta版制限あり）"].map((item) => (
                     <li key={item} className="flex items-center gap-2 text-sm text-slate-700">
@@ -625,13 +625,13 @@ export default function Home() {
                 <Link href="/demo?v=pricing" className="mt-6 flex w-full items-center justify-center rounded-lg bg-[#1e3a5f] py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#2a4a73]">デモで試す</Link>
               </div>
               <div className="rounded-xl border border-slate-200 bg-white p-7 shadow-sm">
-                <p className="text-sm font-semibold uppercase tracking-wider text-slate-400">正式版（準備中）</p>
-                <p className="mt-2 text-3xl font-bold text-slate-300">未定</p>
-                <p className="mt-1 text-sm text-slate-400">月額料金・プランは検討中です</p>
+                <p className="text-sm font-semibold uppercase tracking-wider text-slate-500">正式版（準備中）</p>
+                <p className="mt-2 text-3xl font-bold text-slate-400">未定</p>
+                <p className="mt-1 text-sm text-slate-500">月額料金・プランは検討中です</p>
                 <ul className="mt-5 space-y-2.5">
                   {["Beta版の全機能", "企業情報・UBO詳細調査", "制裁リストリアルタイム照合", "チーム共有・管理機能", "API連携（開発者向け）"].map((item) => (
-                    <li key={item} className="flex items-center gap-2 text-sm text-slate-400">
-                      <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 shrink-0 text-slate-300"><path fillRule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clipRule="evenodd" /></svg>
+                    <li key={item} className="flex items-center gap-2 text-sm text-slate-500">
+                      <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 shrink-0 text-slate-400"><path fillRule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clipRule="evenodd" /></svg>
                       {item}
                     </li>
                   ))}
@@ -670,21 +670,21 @@ export default function Home() {
         <section className="border-b border-slate-100 bg-[#1e3a5f] px-4 py-16 text-white sm:px-6">
           <div className="mx-auto max-w-5xl">
             <div className="text-center">
-              <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-semibold tracking-wider text-blue-100">ロードマップ</span>
+              <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-semibold tracking-wider text-blue-50">ロードマップ</span>
               <h2 className="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">中小企業向け輸出リスク判断支援プラットフォームへ</h2>
-              <p className="mt-2 text-base text-blue-100">単なるAIチャットではなく、輸出コンプライアンスの実務を支援するプラットフォームを目指しています。</p>
+              <p className="mt-2 text-base text-blue-50">単なるAIチャットではなく、輸出コンプライアンスの実務を支援するプラットフォームを目指しています。</p>
             </div>
             <div className="mt-10 grid gap-4 md:grid-cols-3">
               {roadmap.map((phase) => (
                 <div key={phase.phase} className={`rounded-lg border p-5 ${phase.active ? "border-white/20 bg-white/15" : "border-white/10 bg-white/5"}`}>
                   <div className="flex items-center justify-between">
-                    <p className="text-xs font-bold uppercase tracking-wider text-blue-200">{phase.phase}</p>
-                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${phase.active ? "bg-white/20 text-white" : "bg-white/10 text-blue-200"}`}>{phase.status}</span>
+                    <p className="text-xs font-bold uppercase tracking-wider text-blue-100">{phase.phase}</p>
+                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${phase.active ? "bg-white/20 text-white" : "bg-white/10 text-blue-100"}`}>{phase.status}</span>
                   </div>
                   <h3 className="mt-2 text-base font-bold">{phase.title}</h3>
                   <ul className="mt-3 space-y-1.5">
                     {phase.items.map((item) => (
-                      <li key={item} className="flex items-center gap-2 text-sm text-blue-100">
+                      <li key={item} className="flex items-center gap-2 text-sm text-blue-50">
                         <span className="h-1 w-1 rounded-full bg-blue-300" />
                         {item}
                       </li>
@@ -720,7 +720,7 @@ export default function Home() {
               </div>
               <span className="font-semibold text-slate-900">{APP_NAME}</span>
             </div>
-            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500">
+            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-600">
               <Link href="/terms" className="hover:text-slate-700 hover:underline">利用規約</Link>
               <Link href="/privacy" className="hover:text-slate-700 hover:underline">プライバシーポリシー</Link>
               <Link href="/security" className="hover:text-slate-700 hover:underline">セキュリティ</Link>
@@ -730,7 +730,7 @@ export default function Home() {
               <Link href="/for-ai" className="hover:text-slate-700 hover:underline">AIレビュー用概要</Link>
               <Link href="/contact" className="hover:text-slate-700 hover:underline">お問い合わせ</Link>
             </div>
-            <p className="max-w-md text-center text-xs leading-5 text-slate-400 md:text-right">
+            <p className="max-w-md text-center text-xs leading-5 text-slate-500 md:text-right">
               本サービスは参考情報を提供するものであり、法令上の判断を代替するものではありません。
             </p>
           </div>

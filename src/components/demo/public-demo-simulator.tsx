@@ -120,7 +120,7 @@ const scenarios: Scenario[] = [
 
 const gradeClassMap = {
   A: "border-emerald-200 bg-emerald-50 text-emerald-700",
-  B: "border-amber-200 bg-amber-50 text-amber-700",
+  B: "border-amber-300 bg-amber-50 text-amber-900",
   C: "border-rose-200 bg-rose-50 text-rose-700",
 } as const;
 
@@ -200,7 +200,7 @@ export function PublicDemoSimulator() {
                 <p className="text-sm font-semibold text-slate-900">
                   {scenario.label}
                 </p>
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-xs text-slate-600">
                   {scenario.productName} / {scenario.destinationCountry} /
                   総合 {scenario.overallGrade}
                 </p>
@@ -272,7 +272,7 @@ export function PublicDemoSimulator() {
           >
             {runState === "loading" ? "AIが判定中..." : "この条件でデモ判定を見る"}
           </button>
-          <p className="text-xs leading-6 text-slate-500">
+          <p className="text-xs leading-6 text-slate-600">
             実運用ではここから AI が論点整理、根拠要約、PDF レポート化を行います。
           </p>
         </div>
@@ -332,13 +332,13 @@ export function PublicDemoSimulator() {
                   key={dimension.label}
                   className={`rounded-lg border p-3 text-center ${gradeClassMap[dimension.grade]}`}
                 >
-                  <p className="text-[11px] font-medium text-slate-500">
+                  <p className="text-[11px] font-medium text-slate-600">
                     {dimension.label}
                   </p>
                   <p className="mt-1 text-xl font-bold">
                     {dimension.grade}
                   </p>
-                  <p className="text-[11px] text-slate-500">
+                  <p className="text-[11px] text-slate-600">
                     {dimension.score} 点
                   </p>
                 </div>

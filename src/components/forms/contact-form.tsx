@@ -57,7 +57,7 @@ export function ContactForm() {
   return (
     <form onSubmit={handleSubmit} className="grid gap-4">
       <label className="grid gap-2">
-        <span className="text-sm font-semibold text-slate-700">お問い合わせ種別 <span className="text-rose-500">*</span></span>
+        <span className="text-sm font-semibold text-slate-800">お問い合わせ種別 <span className="text-rose-500">*</span></span>
         <select
           value={purpose}
           onChange={(event) => setPurpose(event.target.value)}
@@ -72,7 +72,7 @@ export function ContactForm() {
         </select>
       </label>
       <label className="grid gap-2">
-        <span className="text-sm font-semibold text-slate-700">お名前 <span className="text-rose-500">*</span></span>
+        <span className="text-sm font-semibold text-slate-800">お名前 <span className="text-rose-500">*</span></span>
         <input
           value={name}
           onChange={(event) => setName(event.target.value)}
@@ -82,7 +82,7 @@ export function ContactForm() {
         />
       </label>
       <label className="grid gap-2">
-        <span className="text-sm font-semibold text-slate-700">メールアドレス <span className="text-rose-500">*</span></span>
+        <span className="text-sm font-semibold text-slate-800">メールアドレス <span className="text-rose-500">*</span></span>
         <input
           type="email"
           value={email}
@@ -93,7 +93,7 @@ export function ContactForm() {
         />
       </label>
       <label className="grid gap-2">
-        <span className="text-sm font-semibold text-slate-700">企業名</span>
+        <span className="text-sm font-semibold text-slate-800">企業名</span>
         <input
           value={company}
           onChange={(event) => setCompany(event.target.value)}
@@ -102,7 +102,7 @@ export function ContactForm() {
         />
       </label>
       <label className="grid gap-2">
-        <span className="text-sm font-semibold text-slate-700">お問い合わせ内容 <span className="text-rose-500">*</span></span>
+        <span className="text-sm font-semibold text-slate-800">お問い合わせ内容 <span className="text-rose-500">*</span></span>
         <textarea
           value={message}
           onChange={(event) => setMessage(event.target.value)}

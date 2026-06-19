@@ -15,19 +15,19 @@ export function Header() {
           <span className="text-sm font-bold text-slate-900 sm:text-base">{APP_NAME}</span>
         </Link>
         <nav className="flex items-center gap-1">
-          <Link href="/demo?v=nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900">
+          <Link href="/demo?v=nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">
             デモ
           </Link>
-          <Link href="/glossary?v=nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900">
+          <Link href="/glossary?v=nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">
             辞典
           </Link>
-          <Link href="/ai-room?v=nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900">
+          <Link href="/ai-room?v=nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">
             AI相談室
           </Link>
-          <Link href="/learning?v=nav" className="hidden rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 md:inline-flex">
+          <Link href="/learning?v=nav" className="hidden rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 md:inline-flex">
             学習
           </Link>
-          <Link href="/about?v=nav" className="hidden rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 md:inline-flex">
+          <Link href="/about?v=nav" className="hidden rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 md:inline-flex">
             概要
           </Link>
           <span className="mx-1 hidden h-5 w-px bg-slate-200 md:block" />
