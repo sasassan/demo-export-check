@@ -42,7 +42,7 @@ body {
   background:
     radial-gradient(circle at top, rgba(37, 99, 235, 0.05), transparent 28%),
     linear-gradient(180deg, #f8fbff 0%, #ffffff 22%, #f8fafc 100%);
-  color: var(--foreground);
+  color: #334155;
   font-family: Arial, Helvetica, sans-serif;
 }
 
