@@ -179,7 +179,7 @@ export default function Home() {
             <Link href="/ai-room?v=lp-nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900">AI相談室</Link>
             <Link href="/demo?v=lp-nav" className="hidden rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 md:inline-flex">デモ</Link>
             <span className="mx-1 hidden h-5 w-px bg-slate-200 md:block" />
-            <Link href="/contact?v=lp-nav" className="rounded-md bg-[#1e3a5f] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#2a4a73]">お問い合わせ</Link>
+            <Link href="/contact?v=lp-nav" className="rounded-md bg-[#1e3a5f] px-4 py-2 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73]">お問い合わせ</Link>
           </div>
         </div>
       </nav>
@@ -218,7 +218,7 @@ export default function Home() {
                 専門知識がなくても輸出コンプライアンスの初動確認を進められます。
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link href="/demo?v=hero" className="inline-flex items-center gap-2 rounded-lg bg-[#1e3a5f] px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#2a4a73]">
+                <Link href="/demo?v=hero" className="inline-flex items-center gap-2 rounded-lg bg-[#1e3a5f] px-5 py-2.5 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73]">
                   デモ画面を見る
                   <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" /></svg>
                 </Link>
@@ -382,7 +382,7 @@ export default function Home() {
           <div className="mx-auto mt-10 grid max-w-5xl gap-6 md:grid-cols-3">
             {steps.map((step) => (
               <div key={step.number} className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1e3a5f] text-sm font-bold text-white">{step.number}</div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1e3a5f] text-sm font-bold !text-white">{step.number}</div>
                 <h3 className="mt-4 text-base font-semibold text-slate-900">{step.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-600">{step.description}</p>
               </div>
@@ -454,7 +454,7 @@ export default function Home() {
               </div>
             </div>
             <div className="mt-8 text-center">
-              <Link href="/demo?v=report-sample" className="inline-flex items-center gap-2 rounded-lg bg-[#1e3a5f] px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#2a4a73]">
+              <Link href="/demo?v=report-sample" className="inline-flex items-center gap-2 rounded-lg bg-[#1e3a5f] px-5 py-2.5 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73]">
                 実際のデモを見る
                 <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" /></svg>
               </Link>
@@ -610,7 +610,7 @@ export default function Home() {
             </div>
             <div className="mt-10 grid gap-6 md:grid-cols-2">
               <div className="relative rounded-xl border-2 border-[#1e3a5f] bg-white p-7 shadow-sm">
-                <span className="absolute -top-3 left-5 rounded-full bg-[#1e3a5f] px-3 py-0.5 text-xs font-bold text-white">現在公開中</span>
+                <span className="absolute -top-3 left-5 rounded-full bg-[#1e3a5f] px-3 py-0.5 text-xs font-bold !text-white">現在公開中</span>
                 <p className="text-sm font-semibold uppercase tracking-wider text-[#1e3a5f]">Beta版</p>
                 <p className="mt-2 text-3xl font-bold text-slate-900">無料</p>
                 <p className="mt-1 text-sm text-slate-600">Beta版期間中は全機能を無料でご利用いただけます</p>
@@ -622,7 +622,7 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
-                <Link href="/demo?v=pricing" className="mt-6 flex w-full items-center justify-center rounded-lg bg-[#1e3a5f] py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#2a4a73]">デモで試す</Link>
+                <Link href="/demo?v=pricing" className="mt-6 flex w-full items-center justify-center rounded-lg bg-[#1e3a5f] py-2.5 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73]">デモで試す</Link>
               </div>
               <div className="rounded-xl border border-slate-200 bg-white p-7 shadow-sm">
                 <p className="text-sm font-semibold uppercase tracking-wider text-slate-500">正式版（準備中）</p>
@@ -650,7 +650,7 @@ export default function Home() {
               <h2 className="mt-3 text-lg font-bold text-slate-900">AI入力の不安に先回りして対応</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">図面・仕様書をAIへ入力してよいか、技術提供に該当しないか。企業導入でよく出る懸念を整理したガイドラインを用意しています。</p>
               <div className="mt-4 flex gap-3">
-                <Link href="/security?v=lp" className="rounded-md bg-[#1e3a5f] px-4 py-2 text-sm font-semibold text-white hover:bg-[#2a4a73]">セキュリティ方針</Link>
+                <Link href="/security?v=lp" className="rounded-md bg-[#1e3a5f] px-4 py-2 text-sm font-semibold !text-white hover:bg-[#2a4a73]">セキュリティ方針</Link>
                 <Link href="/ai-room?v=lp-security" className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50">AI相談室で確認</Link>
               </div>
             </div>
@@ -659,7 +659,7 @@ export default function Home() {
               <h2 className="mt-3 text-lg font-bold text-slate-900">AI導入だけでなく、運用教育まで支援</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">営業担当向け教育、外為法セミナー、法令改正時の定期講習、社内ルール策定支援など。</p>
               <div className="mt-4 flex gap-3">
-                <Link href="/training?v=lp" className="rounded-md bg-[#1e3a5f] px-4 py-2 text-sm font-semibold text-white hover:bg-[#2a4a73]">研修サービス</Link>
+                <Link href="/training?v=lp" className="rounded-md bg-[#1e3a5f] px-4 py-2 text-sm font-semibold !text-white hover:bg-[#2a4a73]">研修サービス</Link>
                 <Link href="/contact?v=lp-training" className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50">導入相談</Link>
               </div>
             </div>
@@ -703,7 +703,7 @@ export default function Home() {
             <p className="mt-2 text-base text-slate-600">Beta版は無料。メールアドレスだけで開始できます。登録後すぐに案件確認フローを試せます。</p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Link href="/demo?v=cta" className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50">デモを見る</Link>
-              <Link href="/contact?v=cta" className="rounded-lg bg-[#1e3a5f] px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#2a4a73]">導入について相談する</Link>
+              <Link href="/contact?v=cta" className="rounded-lg bg-[#1e3a5f] px-6 py-3 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73]">導入について相談する</Link>
               <Link href="/contact?v=cta-fb" className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50">フィードバックを送る</Link>
             </div>
           </div>

@@ -46,7 +46,7 @@ export function ContactForm() {
         <button
           type="button"
           onClick={() => setStatus("idle")}
-          className="mt-4 rounded-xl bg-emerald-700 px-5 py-2 text-sm font-semibold text-white hover:bg-emerald-800"
+          className="mt-4 rounded-xl bg-emerald-700 px-5 py-2 text-sm font-semibold !text-white hover:bg-emerald-800"
         >
           新しい問い合わせを送る
         </button>
@@ -122,7 +122,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="inline-flex items-center justify-center rounded-xl bg-[#1e3a5f] px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#2a4a73] disabled:opacity-60"
+        className="inline-flex items-center justify-center rounded-xl bg-[#1e3a5f] px-5 py-3 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73] disabled:opacity-60"
       >
         {status === "sending" ? "送信中..." : "送信する"}
       </button>

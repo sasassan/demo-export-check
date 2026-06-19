@@ -33,7 +33,7 @@ export function Header() {
           <span className="mx-1 hidden h-5 w-px bg-slate-200 md:block" />
           <Link
             href="/contact?v=nav"
-            className="rounded-md bg-[#1e3a5f] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#2a4a73]"
+            className="rounded-md bg-[#1e3a5f] px-4 py-2 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73]"
           >
             お問い合わせ
           </Link>
