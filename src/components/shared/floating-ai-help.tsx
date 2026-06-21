@@ -13,6 +13,9 @@ export function FloatingAiHelp() {
   return (
     <Link
       href="/ai-room"
+      data-cta-id="floating-ai-help"
+      data-cta-label="困ったらAI相談"
+      data-cta-target="/ai-room"
       className="fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full bg-[#1e3a5f] px-5 py-3 text-sm font-semibold !text-white shadow-lg transition hover:bg-[#2a4a73]"
     >
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4 w-4">

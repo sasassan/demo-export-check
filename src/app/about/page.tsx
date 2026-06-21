@@ -54,8 +54,8 @@ export default function AboutPage() {
                 営業・輸出管理・法務が共通の判断材料を持てるようにします。
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
-                <Link href="/demo" className="trade-primary-button">デモを見る</Link>
-                <Link href="/?v=about" className="trade-secondary-button">トップページに戻る</Link>
+                <Link href="/demo" data-cta-id="about-demo" data-cta-label="デモを見る" data-cta-target="/demo" className="trade-primary-button">デモを見る</Link>
+                <Link href="/?v=about" data-cta-id="about-home" data-cta-label="トップページに戻る" data-cta-target="/?v=about" className="trade-secondary-button">トップページに戻る</Link>
               </div>
             </div>
             <div className="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
@@ -146,6 +146,9 @@ export default function AboutPage() {
                 <p className="mt-2 text-sm leading-6 text-slate-600">{item.text}</p>
                 <Link
                   href={item.href}
+                  data-cta-id={`about-detail-${item.href.replace(/\//g, "-")}`}
+                  data-cta-label={`${item.title} 詳細を見る`}
+                  data-cta-target={item.href}
                   className="mt-4 inline-flex text-sm font-semibold text-[#1e3a5f] hover:underline"
                 >
                   詳細を見る
@@ -185,8 +188,8 @@ export default function AboutPage() {
               <p className="mt-2 text-sm leading-7 text-slate-600">まずはトップページで概要を確認し、ログイン後に案件登録からAI診断までを試すのがおすすめです。</p>
             </div>
             <div className="flex gap-3">
-              <Link href="/contact?v=about" className="trade-primary-button">導入について相談</Link>
-              <Link href="/?v=about" className="trade-secondary-button">トップページを見る</Link>
+              <Link href="/contact?v=about" data-cta-id="about-contact" data-cta-label="導入について相談" data-cta-target="/contact?v=about" className="trade-primary-button">導入について相談</Link>
+              <Link href="/?v=about" data-cta-id="about-home-bottom" data-cta-label="トップページを見る" data-cta-target="/?v=about" className="trade-secondary-button">トップページを見る</Link>
             </div>
           </div>
         </section>

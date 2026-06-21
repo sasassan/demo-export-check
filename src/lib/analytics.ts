@@ -68,3 +68,44 @@ export function buildAnalyticsPayload(input: {
 
   return { session, event };
 }
+
+export function buildAnalyticsClickPayload(input: {
+  sessionId: string;
+  visitorId: string;
+  path: string;
+  targetPath?: string;
+  userAgent: string;
+  label: string;
+  ctaId: string;
+}): AnalyticsCollectInput {
+  const now = new Date().toISOString();
+  const normalizedPath = normalizePath(input.path);
+  const normalizedTargetPath = input.targetPath ? normalizePath(input.targetPath) : undefined;
+
+  const session: AnalyticsSessionRecord = {
+    id: input.sessionId,
+    visitorId: input.visitorId,
+    entryPath: normalizedPath,
+    exitPath: normalizedPath,
+    deviceType: detectDeviceType(input.userAgent),
+    startedAt: now,
+    lastSeenAt: now,
+  };
+
+  const event: AnalyticsEventRecord = {
+    id: createId("evt"),
+    sessionId: input.sessionId,
+    visitorId: input.visitorId,
+    eventName: "cta_click",
+    path: normalizedPath,
+    toPath: normalizedTargetPath,
+    label: input.label,
+    meta: {
+      ctaId: input.ctaId,
+      targetPath: normalizedTargetPath,
+    },
+    createdAt: now,
+  };
+
+  return { session, event };
+}

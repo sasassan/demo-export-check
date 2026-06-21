@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { CtaClickTracker } from "@/components/analytics/cta-click-tracker";
 import { RouteTracker } from "@/components/analytics/route-tracker";
 import { BetaBanner } from "@/components/layout/beta-banner";
 
@@ -60,6 +61,7 @@ export default function RootLayout({
     >
       <body className="min-h-full bg-white">
         <RouteTracker />
+        <CtaClickTracker />
         <BetaBanner />
         {children}
       </body>

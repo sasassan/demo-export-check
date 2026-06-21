@@ -218,11 +218,11 @@ export default function Home() {
                 専門知識がなくても輸出コンプライアンスの初動確認を進められます。
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link href="/demo?v=hero" className="inline-flex items-center gap-2 rounded-lg bg-[#1e3a5f] px-5 py-2.5 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73]">
+                <Link href="/demo?v=hero" data-cta-id="hero-demo" data-cta-label="デモ画面を見る" data-cta-target="/demo?v=hero" className="inline-flex items-center gap-2 rounded-lg bg-[#1e3a5f] px-5 py-2.5 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73]">
                   デモ画面を見る
                   <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" /></svg>
                 </Link>
-                <Link href="/about?v=hero" className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-sm hover:bg-slate-50">
+                <Link href="/about?v=hero" data-cta-id="hero-about" data-cta-label="サービス説明" data-cta-target="/about?v=hero" className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-sm hover:bg-slate-50">
                   サービス説明
                 </Link>
               </div>
@@ -650,8 +650,8 @@ export default function Home() {
               <h2 className="mt-3 text-lg font-bold text-slate-900">AI入力の不安に先回りして対応</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">図面・仕様書をAIへ入力してよいか、技術提供に該当しないか。企業導入でよく出る懸念を整理したガイドラインを用意しています。</p>
               <div className="mt-4 flex gap-3">
-                <Link href="/security?v=lp" className="rounded-md bg-[#1e3a5f] px-4 py-2 text-sm font-semibold !text-white hover:bg-[#2a4a73]">セキュリティ方針</Link>
-                <Link href="/ai-room?v=lp-security" className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50">AI相談室で確認</Link>
+                <Link href="/security?v=lp" data-cta-id="trust-security" data-cta-label="セキュリティ方針" data-cta-target="/security?v=lp" className="rounded-md bg-[#1e3a5f] px-4 py-2 text-sm font-semibold !text-white hover:bg-[#2a4a73]">セキュリティ方針</Link>
+                <Link href="/ai-room?v=lp-security" data-cta-id="trust-ai-room" data-cta-label="AI相談室で確認" data-cta-target="/ai-room?v=lp-security" className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50">AI相談室で確認</Link>
               </div>
             </div>
             <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -659,8 +659,8 @@ export default function Home() {
               <h2 className="mt-3 text-lg font-bold text-slate-900">AI導入だけでなく、運用教育まで支援</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">営業担当向け教育、外為法セミナー、法令改正時の定期講習、社内ルール策定支援など。</p>
               <div className="mt-4 flex gap-3">
-                <Link href="/training?v=lp" className="rounded-md bg-[#1e3a5f] px-4 py-2 text-sm font-semibold !text-white hover:bg-[#2a4a73]">研修サービス</Link>
-                <Link href="/contact?v=lp-training" className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50">導入相談</Link>
+                <Link href="/training?v=lp" data-cta-id="training-service" data-cta-label="研修サービス" data-cta-target="/training?v=lp" className="rounded-md bg-[#1e3a5f] px-4 py-2 text-sm font-semibold !text-white hover:bg-[#2a4a73]">研修サービス</Link>
+                <Link href="/contact?v=lp-training" data-cta-id="training-contact" data-cta-label="導入相談" data-cta-target="/contact?v=lp-training" className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50">導入相談</Link>
               </div>
             </div>
           </div>
@@ -702,9 +702,9 @@ export default function Home() {
             <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">まずは1件、試してみてください</h2>
             <p className="mt-2 text-base text-slate-600">Beta版は無料。メールアドレスだけで開始できます。登録後すぐに案件確認フローを試せます。</p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <Link href="/demo?v=cta" className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50">デモを見る</Link>
-              <Link href="/contact?v=cta" className="rounded-lg bg-[#1e3a5f] px-6 py-3 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73]">導入について相談する</Link>
-              <Link href="/contact?v=cta-fb" className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50">フィードバックを送る</Link>
+              <Link href="/demo?v=cta" data-cta-id="footer-demo" data-cta-label="デモを見る" data-cta-target="/demo?v=cta" className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50">デモを見る</Link>
+              <Link href="/contact?v=cta" data-cta-id="footer-contact" data-cta-label="導入について相談する" data-cta-target="/contact?v=cta" className="rounded-lg bg-[#1e3a5f] px-6 py-3 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73]">導入について相談する</Link>
+              <Link href="/contact?v=cta-fb" data-cta-id="footer-feedback" data-cta-label="フィードバックを送る" data-cta-target="/contact?v=cta-fb" className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50">フィードバックを送る</Link>
             </div>
           </div>
         </section>

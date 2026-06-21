@@ -268,6 +268,8 @@ export function PublicDemoSimulator() {
           <button
             type="button"
             onClick={runDemo}
+            data-cta-id="public-demo-run"
+            data-cta-label="この条件でデモ判定を見る"
             className="trade-primary-button"
           >
             {runState === "loading" ? "AIが判定中..." : "この条件でデモ判定を見る"}
@@ -416,10 +418,10 @@ export function PublicDemoSimulator() {
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-3">
-                  <Link href="/evaluation-logic" className="trade-secondary-button">
+                  <Link href="/evaluation-logic" data-cta-id="demo-result-logic" data-cta-label="評価ロジックを見る" data-cta-target="/evaluation-logic" className="trade-secondary-button">
                     評価ロジックを見る
                   </Link>
-                  <Link href="/contact" className="trade-primary-button">
+                  <Link href="/contact" data-cta-id="demo-result-contact" data-cta-label="デモ相談をする" data-cta-target="/contact" className="trade-primary-button">
                     デモ相談をする
                   </Link>
                 </div>

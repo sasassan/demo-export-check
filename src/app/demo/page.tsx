@@ -41,8 +41,8 @@ export default function DemoPage() {
             実案件データ・顧客情報・社内案件一覧はBeta公開対象外として保護しています。
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/contact" className="trade-primary-button">導入について相談</Link>
-            <Link href="/about" className="trade-secondary-button">サービス説明を見る</Link>
+            <Link href="/contact" data-cta-id="demo-contact" data-cta-label="導入について相談" data-cta-target="/contact" className="trade-primary-button">導入について相談</Link>
+            <Link href="/about" data-cta-id="demo-about" data-cta-label="サービス説明を見る" data-cta-target="/about" className="trade-secondary-button">サービス説明を見る</Link>
           </div>
         </section>
 
