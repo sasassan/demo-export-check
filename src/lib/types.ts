@@ -243,3 +243,8 @@ export type AnalyticsEventRecord = {
   meta?: Record<string, unknown>;
   createdAt: string;
 };
+
+export type AnalyticsCollectInput = {
+  session: AnalyticsSessionRecord;
+  event: AnalyticsEventRecord;
+};

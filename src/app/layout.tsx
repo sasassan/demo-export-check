@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { RouteTracker } from "@/components/analytics/route-tracker";
 import { BetaBanner } from "@/components/layout/beta-banner";
 
 import "./globals.css";
@@ -58,6 +59,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-white">
+        <RouteTracker />
         <BetaBanner />
         {children}
       </body>
