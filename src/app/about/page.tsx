@@ -55,7 +55,7 @@ export default function AboutPage() {
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link href="/demo" className="trade-primary-button">デモを見る</Link>
-                <Link href="/?v=about" className="trade-secondary-button">LPに戻る</Link>
+                <Link href="/?v=about" className="trade-secondary-button">トップページに戻る</Link>
               </div>
             </div>
             <div className="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
@@ -182,11 +182,11 @@ export default function AboutPage() {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-xl font-bold text-slate-900">まず何を見ればいい？</h2>
-              <p className="mt-2 text-sm leading-7 text-slate-600">まずはLPで概要を確認し、ログイン後に案件登録からAI診断までを試すのがおすすめです。</p>
+              <p className="mt-2 text-sm leading-7 text-slate-600">まずはトップページで概要を確認し、ログイン後に案件登録からAI診断までを試すのがおすすめです。</p>
             </div>
             <div className="flex gap-3">
               <Link href="/contact?v=about" className="trade-primary-button">導入について相談</Link>
-              <Link href="/?v=about" className="trade-secondary-button">LPを見る</Link>
+              <Link href="/?v=about" className="trade-secondary-button">トップページを見る</Link>
             </div>
           </div>
         </section>
