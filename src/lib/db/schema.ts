@@ -14,6 +14,51 @@ export const users = pgTable("users", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
 });
 
+export const analyticsSessions = pgTable(
+  "analytics_sessions",
+  {
+    id: varchar("id", { length: 64 }).primaryKey(),
+    visitorId: varchar("visitor_id", { length: 128 }).notNull(),
+    userEmail: varchar("user_email", { length: 255 }),
+    entryPath: text("entry_path").notNull(),
+    exitPath: text("exit_path"),
+    referrer: text("referrer"),
+    utmSource: text("utm_source"),
+    utmMedium: text("utm_medium"),
+    utmCampaign: text("utm_campaign"),
+    deviceType: varchar("device_type", { length: 32 }).notNull(),
+    startedAt: timestamp("started_at", { withTimezone: true }).notNull(),
+    lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).notNull(),
+  },
+  (table) => [
+    index("analytics_sessions_visitor_id_idx").on(table.visitorId),
+    index("analytics_sessions_user_email_idx").on(table.userEmail),
+    index("analytics_sessions_started_at_idx").on(table.startedAt),
+  ],
+);
+
+export const analyticsEvents = pgTable(
+  "analytics_events",
+  {
+    id: varchar("id", { length: 64 }).primaryKey(),
+    sessionId: varchar("session_id", { length: 64 }).notNull(),
+    visitorId: varchar("visitor_id", { length: 128 }).notNull(),
+    userEmail: varchar("user_email", { length: 255 }),
+    eventName: varchar("event_name", { length: 64 }).notNull(),
+    path: text("path").notNull(),
+    fromPath: text("from_path"),
+    toPath: text("to_path"),
+    label: text("label"),
+    meta: jsonb("meta"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
+  },
+  (table) => [
+    index("analytics_events_session_id_idx").on(table.sessionId),
+    index("analytics_events_event_name_idx").on(table.eventName),
+    index("analytics_events_created_at_idx").on(table.createdAt),
+  ],
+);
+
 export const cases = pgTable(
   "cases",
   {

@@ -212,3 +212,34 @@ export type ProviderResult = {
   providerStatusLabel?: string;
   providerReason?: string;
 };
+
+export type AnalyticsDeviceType = "desktop" | "mobile" | "tablet" | "unknown";
+
+export type AnalyticsSessionRecord = {
+  id: string;
+  visitorId: string;
+  userEmail?: string;
+  entryPath: string;
+  exitPath?: string;
+  referrer?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  deviceType: AnalyticsDeviceType;
+  startedAt: string;
+  lastSeenAt: string;
+};
+
+export type AnalyticsEventRecord = {
+  id: string;
+  sessionId: string;
+  visitorId: string;
+  userEmail?: string;
+  eventName: string;
+  path: string;
+  fromPath?: string;
+  toPath?: string;
+  label?: string;
+  meta?: Record<string, unknown>;
+  createdAt: string;
+};

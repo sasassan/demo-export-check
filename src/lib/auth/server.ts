@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { SESSION_COOKIE_NAME } from "@/lib/constants";
+import { ADMIN_EMAILS, SESSION_COOKIE_NAME } from "@/lib/constants";
 
 const SESSION_SECRET = process.env.SESSION_SECRET ?? "dev-secret-change-in-production";
 
@@ -58,6 +58,18 @@ export async function requireSessionEmail(): Promise<string> {
   const email = await getSessionEmail();
   if (!email) {
     redirect("/login");
+  }
+  return email;
+}
+
+export function isAdminEmail(email: string): boolean {
+  return ADMIN_EMAILS.includes(email.trim().toLowerCase());
+}
+
+export async function requireAdminEmail(): Promise<string> {
+  const email = await requireSessionEmail();
+  if (!isAdminEmail(email)) {
+    redirect("/dashboard");
   }
   return email;
 }

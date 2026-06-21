@@ -1,10 +1,19 @@
 import { buildChecklistFromCase } from "@/lib/checklist/generator";
 import { getDbClient } from "@/lib/db/client";
-import { aiConsultations, cases, investigations, riskAssessments } from "@/lib/db/schema";
+import {
+  aiConsultations,
+  analyticsEvents,
+  analyticsSessions,
+  cases,
+  investigations,
+  riskAssessments,
+} from "@/lib/db/schema";
 import { createId } from "@/lib/utils";
 import { and, desc, eq } from "drizzle-orm";
 import type {
   AssessmentRecord,
+  AnalyticsEventRecord,
+  AnalyticsSessionRecord,
   AiConsultationRecord,
   CaseDetail,
   CaseRecord,
@@ -686,4 +695,53 @@ export async function updateConsultationFeedback(
   record.feedback = feedback;
   record.feedbackComment = feedbackComment;
   return record;
+}
+
+export async function createAnalyticsSession(
+  input: AnalyticsSessionRecord,
+): Promise<AnalyticsSessionRecord> {
+  const db = getDb();
+  if (db) {
+    await db.insert(analyticsSessions).values({
+      id: input.id,
+      visitorId: input.visitorId,
+      userEmail: input.userEmail ?? null,
+      entryPath: input.entryPath,
+      exitPath: input.exitPath ?? null,
+      referrer: input.referrer ?? null,
+      utmSource: input.utmSource ?? null,
+      utmMedium: input.utmMedium ?? null,
+      utmCampaign: input.utmCampaign ?? null,
+      deviceType: input.deviceType,
+      startedAt: new Date(input.startedAt),
+      lastSeenAt: new Date(input.lastSeenAt),
+    });
+    return input;
+  }
+
+  return input;
+}
+
+export async function saveAnalyticsEvent(
+  input: AnalyticsEventRecord,
+): Promise<AnalyticsEventRecord> {
+  const db = getDb();
+  if (db) {
+    await db.insert(analyticsEvents).values({
+      id: input.id,
+      sessionId: input.sessionId,
+      visitorId: input.visitorId,
+      userEmail: input.userEmail ?? null,
+      eventName: input.eventName,
+      path: input.path,
+      fromPath: input.fromPath ?? null,
+      toPath: input.toPath ?? null,
+      label: input.label ?? null,
+      meta: input.meta ?? null,
+      createdAt: new Date(input.createdAt),
+    });
+    return input;
+  }
+
+  return input;
 }

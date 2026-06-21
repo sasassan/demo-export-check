@@ -2,6 +2,10 @@ export const SESSION_COOKIE_NAME =
   process.env.SESSION_COOKIE_NAME ?? "ern_session_email";
 
 export const APP_NAME = "Export Risk Navi";
+export const ADMIN_EMAILS = (process.env.ADMIN_EMAILS ?? "")
+  .split(",")
+  .map((item) => item.trim().toLowerCase())
+  .filter(Boolean);
 
 export const RISK_DIMENSIONS = [
   "sanctions",
