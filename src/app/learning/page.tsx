@@ -60,7 +60,7 @@ export default function LearningPage() {
     >
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="rounded-xl border border-slate-200 bg-white p-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#1e3a5f]">Beginner guide</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-navy">Beginner guide</p>
           <h2 className="mt-2 text-xl font-bold text-slate-900">輸出初心者向けガイド</h2>
           <div className="mt-5 space-y-4">
             {guides.map((guide) => (
@@ -80,7 +80,7 @@ export default function LearningPage() {
                   ))}
                 </ul>
                 <div className="mt-4 flex gap-2">
-                  <Link href="/ai-room" className="rounded-lg bg-blue-50 px-3 py-2 text-xs font-semibold text-[#1e3a5f] hover:bg-blue-100">
+                  <Link href="/ai-room" className="rounded-lg bg-blue-50 px-3 py-2 text-xs font-semibold text-brand-navy hover:bg-blue-100">
                     AI相談室で深掘りする
                   </Link>
                   <Link href="/glossary" className="rounded-lg bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-200">
@@ -93,7 +93,7 @@ export default function LearningPage() {
         </div>
 
         <div className="rounded-xl border border-slate-200 bg-white p-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#1e3a5f]">Next action</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-navy">Next action</p>
           <h2 className="mt-2 text-xl font-bold text-slate-900">次にやること</h2>
           <div className="mt-4 space-y-3">
             {[
@@ -118,7 +118,7 @@ export default function LearningPage() {
       </section>
 
       <section className="rounded-xl border border-slate-200 bg-white p-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#1e3a5f]">Reading workflow</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-navy">Reading workflow</p>
         <h2 className="mt-2 text-xl font-bold text-slate-900">法令・規程の読解を進める手順</h2>
         <div className="mt-5 grid gap-3 md:grid-cols-4">
           {[

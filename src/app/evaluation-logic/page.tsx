@@ -88,6 +88,30 @@ const exampleCase = {
   ],
 };
 
+function ChevronIcon() {
+  return (
+    <svg viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5 text-brand-navy">
+      <path
+        fillRule="evenodd"
+        d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg viewBox="0 0 20 20" fill="currentColor" className="mt-0.5 h-4 w-4 shrink-0 text-brand-navy">
+      <path
+        fillRule="evenodd"
+        d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
+
 export default function EvaluationLogicPage() {
   return (
     <div className="min-h-screen bg-slate-50">
@@ -99,7 +123,7 @@ export default function EvaluationLogicPage() {
             評価ロジック
           </h1>
           <p className="mt-3 max-w-4xl text-base leading-7 text-slate-600">
-            {APP_NAME} では、輸出案件を 8つの観点で整理し、それぞれにスコアと A / B / C グレードを付与します。
+            {APP_NAME} では、輸出案件を <span className="font-bold text-brand-navy">8つ</span>の観点で整理し、それぞれにスコアと <span className="font-bold text-brand-navy">A / B / C</span> グレードを付与します。
             ここでのスコアは「高いほど安全」ではなく、
             <span className="font-semibold text-slate-900"> 高いほどリスクが強い </span>
             設計です。
@@ -110,9 +134,12 @@ export default function EvaluationLogicPage() {
           <h2 className="text-xl font-bold text-slate-900">スコアとグレードの対応</h2>
           <div className="mt-5 grid gap-4 md:grid-cols-3">
             {thresholdRows.map((row) => (
-              <div key={row.grade} className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+              <div
+                key={row.grade}
+                className="trade-hover-lift rounded-lg border border-slate-200 bg-slate-50 p-5"
+              >
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-semibold text-slate-900">{row.score}</p>
+                  <p className="text-sm font-bold text-brand-navy">{row.score}</p>
                   <span className="rounded-md border border-slate-300 bg-white px-2.5 py-1 text-sm font-bold text-slate-900">
                     {row.grade}
                   </span>
@@ -127,18 +154,26 @@ export default function EvaluationLogicPage() {
           <span className="trade-section-label">How scoring works</span>
           <h2 className="mt-3 text-xl font-bold text-slate-900">ひと目で分かる判定フロー</h2>
           <div className="mt-4 flex flex-wrap items-center gap-2 text-sm font-medium text-slate-500">
-            <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">8評価項目</span>
-            <span>→</span>
-            <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">4カテゴリ集約</span>
-            <span>→</span>
-            <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">総合A / B / C</span>
+            <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 font-bold text-brand-navy">8評価項目</span>
+            <ChevronIcon />
+            <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 font-bold text-brand-navy">4カテゴリ集約</span>
+            <ChevronIcon />
+            <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 font-bold text-brand-navy">総合A / B / C</span>
           </div>
           <div className="mt-5 grid gap-4 lg:grid-cols-4">
             {flowSteps.map((step, index) => (
-              <div key={step.title} className="rounded-lg border border-slate-200 bg-slate-50 p-5">
-                <p className="text-xs font-semibold uppercase tracking-wider text-[#1e3a5f]">
-                  Step {index + 1}
-                </p>
+              <div
+                key={step.title}
+                className="trade-hover-lift rounded-lg border border-slate-200 bg-slate-50 p-5"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-navy text-xs font-bold text-white">
+                    {index + 1}
+                  </span>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-brand-navy">
+                    Step {index + 1}
+                  </p>
+                </div>
                 <h3 className="mt-2 text-sm font-semibold text-slate-900">{step.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-600">{step.body}</p>
               </div>
@@ -150,8 +185,11 @@ export default function EvaluationLogicPage() {
           <h2 className="text-xl font-bold text-slate-900">8つの判定観点</h2>
           <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {dimensions.map((item) => (
-              <div key={item.key} className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-                <p className="text-xs font-semibold uppercase tracking-wider text-[#1e3a5f]">
+              <div
+                key={item.key}
+                className="trade-hover-lift rounded-lg border border-slate-200 bg-slate-50 p-4"
+              >
+                <p className="text-xs font-semibold uppercase tracking-wider text-brand-navy">
                   {item.key}
                 </p>
                 <h3 className="mt-2 text-sm font-semibold text-slate-900">{item.label}</h3>
@@ -165,7 +203,10 @@ export default function EvaluationLogicPage() {
           <h2 className="text-xl font-bold text-slate-900">カテゴリ別の集約方法</h2>
           <div className="mt-5 grid gap-4 lg:grid-cols-2">
             {categoryRows.map((row) => (
-              <div key={row.title} className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+              <div
+                key={row.title}
+                className="trade-hover-lift rounded-lg border border-slate-200 bg-slate-50 p-5"
+              >
                 <h3 className="text-sm font-semibold text-slate-900">{row.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-700">
                   <span className="font-semibold">集約方法:</span> {row.formula}
@@ -184,7 +225,10 @@ export default function EvaluationLogicPage() {
             <h2 className="mt-3 text-xl font-bold text-slate-900">推奨アクションの出し方</h2>
             <ul className="mt-4 space-y-2 text-sm leading-7 text-slate-700">
               {nextActionRules.map((item) => (
-                <li key={item}>- {item}</li>
+                <li key={item} className="flex items-start gap-2">
+                  <CheckIcon />
+                  <span>{item}</span>
+                </li>
               ))}
             </ul>
           </div>
@@ -203,15 +247,20 @@ export default function EvaluationLogicPage() {
           <span className="trade-section-label">Worked example</span>
           <h2 className="mt-3 text-xl font-bold text-slate-900">公開デモの具体例</h2>
           <div className="mt-5 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
-            <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+            <div className="trade-hover-lift rounded-lg border border-slate-200 bg-slate-50 p-5">
               <p className="text-sm font-semibold text-slate-900">{exampleCase.title}</p>
               <p className="mt-3 text-sm leading-7 text-slate-700">{exampleCase.summary}</p>
             </div>
-            <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
-              <p className="text-sm font-semibold text-slate-900">総合Bになる主な理由</p>
+            <div className="trade-hover-lift rounded-lg border border-slate-200 bg-slate-50 p-5">
+              <p className="text-sm font-semibold text-slate-900">
+                総合<span className="font-bold text-brand-navy">B</span>になる主な理由
+              </p>
               <ul className="mt-3 space-y-2 text-sm leading-7 text-slate-700">
                 {exampleCase.drivers.map((item) => (
-                  <li key={item}>- {item}</li>
+                  <li key={item} className="flex items-start gap-2">
+                    <CheckIcon />
+                    <span>{item}</span>
+                  </li>
                 ))}
               </ul>
             </div>

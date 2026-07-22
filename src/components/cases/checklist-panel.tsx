@@ -61,7 +61,7 @@ export function ChecklistPanel({
       </div>
 
       <div className="mt-4 h-2 overflow-hidden rounded-full bg-slate-200/60">
-        <div className="h-full rounded-full bg-gradient-to-r from-[#1e3a5f] to-[#2a4a73] transition-all" style={{ width: `${progress}%` }} />
+        <div className="h-full rounded-full bg-gradient-to-r from-brand-navy to-brand-navy-light transition-all" style={{ width: `${progress}%` }} />
       </div>
 
       <div className="mt-5 grid gap-3">
@@ -74,7 +74,7 @@ export function ChecklistPanel({
               type="checkbox"
               checked={item.completed}
               onChange={() => toggleItem(item.id)}
-              className="mt-1 h-4 w-4 rounded border-slate-300 text-[#1e3a5f] focus:ring-[#1e3a5f]"
+              className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-navy focus:ring-brand-navy"
             />
             <span className={item.completed ? "text-sm text-slate-500 line-through" : "text-sm text-slate-900"}>
               {item.label}
