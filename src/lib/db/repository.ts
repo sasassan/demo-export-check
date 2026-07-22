@@ -246,6 +246,7 @@ export async function getCaseDetail(caseId: string) {
             disagreementDimensions:
               (assessmentRow.disagreementDimensions as AssessmentRecord["disagreementDimensions"]) ??
               undefined,
+            crossReview: (assessmentRow.crossReview as AssessmentRecord["crossReview"]) ?? undefined,
             regulationUpdates:
               (assessmentRow.regulationUpdates as AssessmentRecord["regulationUpdates"]) ??
               undefined,
@@ -341,6 +342,7 @@ export async function saveAssessment(assessment: AssessmentRecord) {
         improvementSteps: assessment.improvementSteps ?? null,
         worstCaseScenarios: assessment.worstCaseScenarios ?? null,
         disagreementDimensions: assessment.disagreementDimensions ?? null,
+        crossReview: assessment.crossReview ?? null,
         regulationUpdates: assessment.regulationUpdates ?? null,
         createdAt: new Date(assessment.createdAt),
         updatedAt: now,
@@ -358,6 +360,7 @@ export async function saveAssessment(assessment: AssessmentRecord) {
           improvementSteps: assessment.improvementSteps ?? null,
           worstCaseScenarios: assessment.worstCaseScenarios ?? null,
           disagreementDimensions: assessment.disagreementDimensions ?? null,
+          crossReview: assessment.crossReview ?? null,
           regulationUpdates: assessment.regulationUpdates ?? null,
           updatedAt: now,
         },

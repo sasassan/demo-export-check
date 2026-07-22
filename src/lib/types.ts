@@ -118,6 +118,33 @@ export type ModelResult = {
   providerReason?: string;
 };
 
+export type CrossReviewVote = {
+  model: AiModel;
+  modelLabel: string;
+  score: number;
+  grade: Grade;
+};
+
+export type CrossReviewDimension = {
+  dimension: RiskDimension;
+  label: string;
+  votes: CrossReviewVote[];
+  consensusScore: number;
+  consensusGrade: Grade;
+  method: "single" | "unanimous" | "majority" | "tie-break";
+  hasDisagreement: boolean;
+};
+
+export type CrossReviewSummary = {
+  dimensions: CrossReviewDimension[];
+  overallConsensusGrade: Grade;
+  confidenceLevel: "高" | "中" | "低";
+  confidenceScore: number;
+  participatingProviders: AiModel[];
+  skippedProviders: AiModel[];
+  isFallbackOnly: boolean;
+};
+
 export type AssessmentRecord = {
   caseId: string;
   summary: ScoreSummary;
@@ -130,6 +157,7 @@ export type AssessmentRecord = {
   improvementSteps?: ImprovementStep[];
   worstCaseScenarios?: WorstCaseScenario[];
   disagreementDimensions?: string[];
+  crossReview?: CrossReviewSummary;
   regulationUpdates?: Array<{
     title: string;
     summary: string;

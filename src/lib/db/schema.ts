@@ -104,6 +104,7 @@ export const riskAssessments = pgTable("risk_assessments", {
   improvementSteps: jsonb("improvement_steps"),
   worstCaseScenarios: jsonb("worst_case_scenarios"),
   disagreementDimensions: jsonb("disagreement_dimensions"),
+  crossReview: jsonb("cross_review"),
   regulationUpdates: jsonb("regulation_updates"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull(),
