@@ -93,7 +93,7 @@ export default async function CaseDetailPage({
               />
             ) : (
               <div className="flex h-full items-center justify-center">
-                <div className="flex flex-col items-center gap-2 text-slate-400">
+                <div className="flex flex-col items-center gap-2 text-slate-500">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-10 w-10">
                     <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                   </svg>
@@ -124,7 +124,7 @@ export default async function CaseDetailPage({
               <RiskScoreCard
                 label="安全保障リスク"
                 grade={detail.assessment.summary.security}
-                description="制裁・エンドユーザー・用途・キャッチオールを統合"
+                description="制裁・エンドユーザー・用途・キャッチオール規制を統合"
               />
               <RiskScoreCard
                 label="信用リスク"
@@ -271,7 +271,7 @@ export default async function CaseDetailPage({
                     <div>
                       <h2 className="text-base font-semibold text-slate-900">マルチAIコンセンサス（詳細）</h2>
                       <p className="text-sm text-slate-500">
-                        {detail.assessment.crossReview.isFallbackOnly
+                        {detail.assessment.crossReview.isフォールバックOnly
                           ? "現在はモック応答で動作中です（APIキー未設定）"
                           : `${detail.assessment.crossReview.participatingProviders.length}件のAIによる統合評価・信頼度: ${detail.assessment.crossReview.confidenceLevel}（${detail.assessment.crossReview.confidenceScore}%）`}
                       </p>
@@ -320,8 +320,8 @@ export default async function CaseDetailPage({
                   ))}
                 </div>
 
-                {detail.assessment.crossReview.skippedProviders.length > 0 && !detail.assessment.crossReview.isFallbackOnly && (
-                  <p className="mt-3 text-[11px] text-slate-400">
+                {detail.assessment.crossReview.skippedProviders.length > 0 && !detail.assessment.crossReview.isフォールバックOnly && (
+                  <p className="mt-3 text-[11px] text-slate-500">
                     APIキー未設定のためスキップされたプロバイダー: {detail.assessment.crossReview.skippedProviders.join("、")}
                   </p>
                 )}
@@ -428,7 +428,7 @@ export default async function CaseDetailPage({
       ) : (
         <section className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center shadow-sm">
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-100">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-7 w-7 text-slate-400">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-7 w-7 text-slate-500">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
             </svg>
           </div>

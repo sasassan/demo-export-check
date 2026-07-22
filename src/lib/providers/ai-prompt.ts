@@ -56,7 +56,7 @@ export function buildAnalysisPrompt(caseRecord: CaseRecord): string {
 4. peps（PEPsリスク）: 政治的影響力のある人物との関連
 5. country（国リスク）: 輸出先国の政情・制裁・輸出規制の状況
 6. useCase（用途リスク）: 軍民両用・軍事転用の可能性
-7. catchAll（キャッチオール）: キャッチオール規制の該当可能性
+7. catchAll（キャッチオール規制）: キャッチオール規制の該当可能性
 8. reputation（風評リスク）: ブランド毀損・メディアリスク
 
 ## スコア基準

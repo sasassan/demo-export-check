@@ -61,7 +61,7 @@ export function CaseSummaryCard({ item }: { item: CaseRecord }) {
       </div>
       <div className="flex shrink-0 items-center gap-3 text-sm text-slate-500">
         <span className="hidden md:block">{formatDate(item.updatedAt)}</span>
-        <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 text-slate-400">
+        <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 text-slate-500">
           <path fillRule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
         </svg>
       </div>

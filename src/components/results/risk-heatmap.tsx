@@ -64,7 +64,7 @@ export function RiskHeatmap({ dimensions }: Props) {
                 className={`w-3 h-3 rounded-sm flex-shrink-0 ${COLORS[idx % COLORS.length]}`}
               />
               <span className="text-xs text-gray-600 truncate">{d.label}</span>
-              <span className="text-xs text-gray-400 ml-auto">
+              <span className="text-xs text-gray-500 ml-auto">
                 {pct.toFixed(0)}%
               </span>
             </div>

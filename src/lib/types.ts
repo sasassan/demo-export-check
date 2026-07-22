@@ -142,7 +142,7 @@ export type CrossReviewSummary = {
   confidenceScore: number;
   participatingProviders: AiModel[];
   skippedProviders: AiModel[];
-  isFallbackOnly: boolean;
+  isフォールバックOnly: boolean;
 };
 
 export type AssessmentRecord = {

@@ -2,7 +2,7 @@ import { createId } from "@/lib/utils";
 import type { EvidenceItem, InvestigationFinding, ProviderResult } from "@/lib/types";
 import type { RiskDimension } from "@/lib/constants";
 
-export function buildMockFinding(input: {
+export function buildモックFinding(input: {
   dimension: RiskDimension;
   label: string;
   baseScore: number;

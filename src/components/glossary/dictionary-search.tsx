@@ -67,7 +67,7 @@ export function DictionarySearch() {
           onChange={(event) => setQuery(event.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="調べたい用語を入力（Enterで検索）"
-          className="flex-1 rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-900 outline-none ring-0 placeholder:text-slate-400 focus:border-[#1e3a5f]"
+          className="flex-1 rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-900 outline-none ring-0 placeholder:text-slate-500 focus:border-[#1e3a5f]"
         />
         <button type="button" onClick={handleSearch} disabled={loading}
           className="trade-primary-button disabled:opacity-50">

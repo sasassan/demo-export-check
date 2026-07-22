@@ -1,8 +1,8 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { buildAnalysisPrompt, parseAiResponse } from "@/lib/providers/ai-prompt";
 import { buildProviderResult } from "@/lib/providers/mock/base";
-import { MockCountryProvider } from "@/lib/providers/mock/country";
-import { MockNewsProvider } from "@/lib/providers/mock/news";
+import { モックCountryProvider } from "@/lib/providers/mock/country";
+import { モックNewsProvider } from "@/lib/providers/mock/news";
 import type { InvestigationProvider } from "@/lib/providers/types";
 import type { CaseRecord, InvestigationFinding, EvidenceItem } from "@/lib/types";
 import { createId } from "@/lib/utils";
@@ -16,8 +16,8 @@ export class ClaudeProvider implements InvestigationProvider {
     const apiKey = runtime.apiKey;
     if (runtime.status !== "live" || !apiKey) {
       const fallback = await Promise.all([
-        new MockCountryProvider().run(caseRecord),
-        new MockNewsProvider().run(caseRecord),
+        new モックCountryProvider().run(caseRecord),
+        new モックNewsProvider().run(caseRecord),
       ]);
       const findings = fallback.flatMap((r) =>
         r.findings.map((f) => ({ ...f, aiModel: "mock" as const })),
@@ -85,7 +85,7 @@ export class ClaudeProvider implements InvestigationProvider {
       };
     } catch (error) {
       console.error("Claude provider error:", error);
-      const fallback = await new MockCountryProvider().run(caseRecord);
+      const fallback = await new モックCountryProvider().run(caseRecord);
       return {
         ...buildProviderResult("anthropic-claude", fallback.findings),
         status: "partial" as const,

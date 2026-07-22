@@ -13,7 +13,7 @@ type NarrativeInput = {
  * テンプレートベースのフォールバックナレーション。
  * APIキー未設定時・API呼び出し失敗時に使用する。
  */
-function buildFallbackNarrative(input: NarrativeInput): string {
+function buildフォールバックNarrative(input: NarrativeInput): string {
   const headline =
     input.overallGrade === "C"
       ? "高リスク案件として社内承認前提で確認が必要です。"
@@ -32,14 +32,14 @@ function buildFallbackNarrative(input: NarrativeInput): string {
 /**
  * レポートナレーション（案件詳細・レポートプレビュー・PDFで表示される補足説明）を生成する。
  * OpenAI APIキーが設定されていれば実APIで生成し、未設定・呼び出し失敗時は
- * buildFallbackNarrative によるテンプレート生成に安全にフォールバックする。
+ * buildフォールバックNarrative によるテンプレート生成に安全にフォールバックする。
  */
 export async function generateNarrative(input: NarrativeInput): Promise<string> {
   const runtime = getProviderRuntimeInfo("gpt-4o");
   const apiKey = runtime.apiKey;
 
   if (runtime.status !== "live" || !apiKey) {
-    return buildFallbackNarrative(input);
+    return buildフォールバックNarrative(input);
   }
 
   try {
@@ -73,6 +73,6 @@ export async function generateNarrative(input: NarrativeInput): Promise<string> 
     return text;
   } catch (error) {
     console.error("generateNarrative error:", error);
-    return buildFallbackNarrative(input);
+    return buildフォールバックNarrative(input);
   }
 }

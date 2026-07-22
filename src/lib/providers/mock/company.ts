@@ -1,11 +1,11 @@
 import type { InvestigationProvider } from "@/lib/providers/types";
-import { buildMockFinding, buildProviderResult } from "@/lib/providers/mock/base";
+import { buildモックFinding, buildProviderResult } from "@/lib/providers/mock/base";
 import type { CaseRecord } from "@/lib/types";
 
-export class MockCompanyProvider implements InvestigationProvider {
+export class モックCompanyProvider implements InvestigationProvider {
   async run(caseRecord: CaseRecord) {
     return buildProviderResult("mock-company", [
-      buildMockFinding({
+      buildモックFinding({
         dimension: "endUser",
         label: "エンドユーザーリスク",
         baseScore: 49,
@@ -17,14 +17,14 @@ export class MockCompanyProvider implements InvestigationProvider {
           {
             title: "企業実在性確認",
             summary: `${caseRecord.customerCompanyName} は一般的な事業実態が確認できる想定です。`,
-            sourceName: "Mock Company Intel",
+            sourceName: "モック Company Intel",
             sourceType: "company",
             confidence: 0.8,
             riskLevel: "low",
           },
         ],
       }),
-      buildMockFinding({
+      buildモックFinding({
         dimension: "ubo",
         label: "UBO調査",
         baseScore: 40,
@@ -36,14 +36,14 @@ export class MockCompanyProvider implements InvestigationProvider {
           {
             title: "株主情報の粒度不足",
             summary: "公開情報ベースでは最終支配者までは特定しきれていません。",
-            sourceName: "Mock Ownership Registry",
+            sourceName: "モック Ownership Registry",
             sourceType: "company",
             confidence: 0.68,
             riskLevel: "medium",
           },
         ],
       }),
-      buildMockFinding({
+      buildモックFinding({
         dimension: "peps",
         label: "PEPs調査",
         baseScore: 28,
@@ -55,7 +55,7 @@ export class MockCompanyProvider implements InvestigationProvider {
           {
             title: "PEPs一次検索",
             summary: "重大一致は確認されていません。",
-            sourceName: "Mock PEP Registry",
+            sourceName: "モック PEP Registry",
             sourceType: "company",
             confidence: 0.77,
             riskLevel: "low",

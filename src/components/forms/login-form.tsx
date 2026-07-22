@@ -39,7 +39,7 @@ export function LoginForm() {
           type="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-cyan-300 transition placeholder:text-slate-400 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100"
+          className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-cyan-300 transition placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100"
           placeholder="you@example.com"
           required
         />

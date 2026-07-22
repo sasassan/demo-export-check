@@ -626,12 +626,12 @@ export default function Home() {
               </div>
               <div className="rounded-xl border border-slate-200 bg-white p-7 shadow-sm">
                 <p className="text-sm font-semibold uppercase tracking-wider text-slate-600">正式版（準備中）</p>
-                <p className="mt-2 text-3xl font-bold text-slate-400">未定</p>
+                <p className="mt-2 text-3xl font-bold text-slate-500">未定</p>
                 <p className="mt-1 text-sm text-slate-600">月額料金・プランは検討中です</p>
                 <ul className="mt-5 space-y-2.5">
                   {["Beta版の全機能", "企業情報・UBO詳細調査", "制裁リストリアルタイム照合", "チーム共有・管理機能", "API連携（開発者向け）"].map((item) => (
                     <li key={item} className="flex items-center gap-2 text-sm text-slate-600">
-                      <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 shrink-0 text-slate-400"><path fillRule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clipRule="evenodd" /></svg>
+                      <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 shrink-0 text-slate-500"><path fillRule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clipRule="evenodd" /></svg>
                       {item}
                     </li>
                   ))}

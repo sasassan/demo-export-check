@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { buildAnalysisPrompt, parseAiResponse } from "@/lib/providers/ai-prompt";
 import { buildProviderResult } from "@/lib/providers/mock/base";
-import { MockCountryProvider } from "@/lib/providers/mock/country";
+import { モックCountryProvider } from "@/lib/providers/mock/country";
 import type { InvestigationProvider } from "@/lib/providers/types";
 import type { CaseRecord, InvestigationFinding, EvidenceItem } from "@/lib/types";
 import { createId } from "@/lib/utils";
@@ -14,7 +14,7 @@ export class GeminiProvider implements InvestigationProvider {
     const runtime = getProviderRuntimeInfo("gemini");
     const apiKey = runtime.apiKey;
     if (runtime.status !== "live" || !apiKey) {
-      const fallback = await new MockCountryProvider().run(caseRecord);
+      const fallback = await new モックCountryProvider().run(caseRecord);
       const findings = fallback.findings.map((f) => ({
         ...f,
         aiModel: "mock" as const,
@@ -77,7 +77,7 @@ export class GeminiProvider implements InvestigationProvider {
       };
     } catch (error) {
       console.error("Gemini provider error:", error);
-      const fallback = await new MockCountryProvider().run(caseRecord);
+      const fallback = await new モックCountryProvider().run(caseRecord);
       return {
         ...buildProviderResult("google-gemini", fallback.findings),
         status: "partial" as const,

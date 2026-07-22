@@ -1,5 +1,5 @@
 import type { InvestigationProvider } from "@/lib/providers/types";
-import { buildMockFinding, buildProviderResult } from "@/lib/providers/mock/base";
+import { buildモックFinding, buildProviderResult } from "@/lib/providers/mock/base";
 import type { CaseRecord } from "@/lib/types";
 
 const countryRiskScoreMap: Record<string, number> = {
@@ -10,12 +10,12 @@ const countryRiskScoreMap: Record<string, number> = {
   ミャンマー: 86,
 };
 
-export class MockCountryProvider implements InvestigationProvider {
+export class モックCountryProvider implements InvestigationProvider {
   async run(caseRecord: CaseRecord) {
     const countryScore = countryRiskScoreMap[caseRecord.destinationCountry] ?? 52;
 
     return buildProviderResult("mock-country", [
-      buildMockFinding({
+      buildモックFinding({
         dimension: "country",
         label: "国リスク",
         baseScore: countryScore,
@@ -27,14 +27,14 @@ export class MockCountryProvider implements InvestigationProvider {
           {
             title: "国別安定性の確認",
             summary: `${caseRecord.destinationCountry} は一定の事業機会がある一方、規制変化の監視が必要です。`,
-            sourceName: "Mock Country Risk Index",
+            sourceName: "モック Country Risk Index",
             sourceType: "country",
             confidence: 0.74,
             riskLevel: countryScore >= 70 ? "high" : "medium",
           },
         ],
       }),
-      buildMockFinding({
+      buildモックFinding({
         dimension: "useCase",
         label: "用途リスク",
         baseScore: 54,
@@ -46,7 +46,7 @@ export class MockCountryProvider implements InvestigationProvider {
           {
             title: "高精度部品の転用余地",
             summary: "高精度駆動部品はドローンや自動制御用途との切り分け確認が重要です。",
-            sourceName: "Mock Dual-use Bulletin",
+            sourceName: "モック Dual-use Bulletin",
             sourceType: "country",
             confidence: 0.79,
             riskLevel: "medium",

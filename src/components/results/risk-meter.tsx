@@ -92,7 +92,7 @@ export function RiskMeter({ dimensions }: Props) {
               </div>
 
               {/* カテゴリ平均 */}
-              <p className="text-xs text-gray-400 mt-1.5">
+              <p className="text-xs text-gray-500 mt-1.5">
                 カテゴリ平均スコア: {Math.round(avgScore)}点
               </p>
             </div>

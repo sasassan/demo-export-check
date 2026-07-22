@@ -293,7 +293,7 @@ export function AiRoomPanel({
                   </span>
                   <span
                     className={`text-[10px] ${
-                      entry.role === "user" ? "text-blue-200" : "text-slate-400"
+                      entry.role === "user" ? "text-blue-200" : "text-slate-500"
                     }`}
                   >
                     {entry.timestamp}
@@ -619,7 +619,7 @@ export function AiRoomPanel({
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeyDown}
             rows={3}
-            className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm leading-7 text-slate-900 outline-none placeholder:text-slate-400 focus:border-[#1e3a5f]"
+            className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm leading-7 text-slate-900 outline-none placeholder:text-slate-500 focus:border-[#1e3a5f]"
             placeholder={
               thread.length > 0
                 ? "前の回答を踏まえて追加で質問できます"
@@ -638,7 +638,7 @@ export function AiRoomPanel({
               <input
                 value={sourceUrl}
                 onChange={(e) => setSourceUrl(e.target.value)}
-                className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-[#1e3a5f]"
+                className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-500 focus:border-[#1e3a5f]"
                 placeholder="https://example.com/regulation"
               />
             </div>
@@ -651,7 +651,7 @@ export function AiRoomPanel({
                 value={sourceText}
                 onChange={(e) => setSourceText(e.target.value)}
                 rows={4}
-                className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm leading-7 text-slate-900 outline-none placeholder:text-slate-400 focus:border-[#1e3a5f]"
+                className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm leading-7 text-slate-900 outline-none placeholder:text-slate-500 focus:border-[#1e3a5f]"
                 placeholder="規制資料、法令テキスト、社内規程をここに貼り付け"
               />
               <div className="mt-3 rounded-2xl border border-dashed border-cyan-300/60 bg-cyan-50/70 p-4">

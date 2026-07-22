@@ -20,7 +20,7 @@ const checkItems = [
   { icon: "🔍", label: "エンドユーザー実在性" },
   { icon: "🏢", label: "UBO / PEPs" },
   { icon: "🌏", label: "国リスク" },
-  { icon: "⚙️", label: "用途 / キャッチオール" },
+  { icon: "⚙️", label: "用途 / キャッチオール規制" },
   { icon: "📰", label: "ブランド毀損リスク" },
 ];
 
@@ -173,7 +173,7 @@ export function CaseForm({
               商品名 <span className="text-rose-500">*</span>
             </span>
             <input
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-400 focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
+              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
               value={form.productName}
               onChange={(event) => updateField("productName", event.target.value)}
               placeholder="例: 高精度サーボモーター"
@@ -185,7 +185,7 @@ export function CaseForm({
               型番 <span className="text-rose-500">*</span>
             </span>
             <input
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-400 focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
+              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
               value={form.modelNumber}
               onChange={(event) => updateField("modelNumber", event.target.value)}
               placeholder="例: SRV-9800"
@@ -200,7 +200,7 @@ export function CaseForm({
               輸出先国 <span className="text-rose-500">*</span>
             </span>
             <input
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-400 focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
+              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
               value={form.destinationCountry}
               onChange={(event) => updateField("destinationCountry", event.target.value)}
               placeholder="例: ベトナム"
@@ -212,7 +212,7 @@ export function CaseForm({
               顧客企業名 <span className="text-rose-500">*</span>
             </span>
             <input
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-400 focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
+              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
               value={form.customerCompanyName}
               onChange={(event) => updateField("customerCompanyName", event.target.value)}
               placeholder="例: Saigon Precision Parts Ltd."
@@ -224,11 +224,11 @@ export function CaseForm({
         <div className="flex flex-col gap-2">
           <span className="text-sm font-medium text-slate-700">商品画像（任意）</span>
           <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 px-4 py-8 transition hover:bg-slate-100">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-8 w-8 text-slate-400">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-8 w-8 text-slate-500">
               <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
             </svg>
             <p className="text-sm text-slate-500">クリックして画像を選択</p>
-            <p className="text-xs text-slate-400">PNG, JPG, GIF （最大 10MB）</p>
+            <p className="text-xs text-slate-500">PNG, JPG, GIF （最大 10MB）</p>
             <input type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
           </label>
         </div>

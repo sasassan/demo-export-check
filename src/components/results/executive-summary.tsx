@@ -38,7 +38,7 @@ export function ExecutiveSummary({ caseRecord, assessment }: Props) {
       {/* ヘッダー */}
       <div className="bg-gradient-to-r from-slate-800 to-slate-700 px-6 py-4 flex items-center justify-between">
         <div>
-          <p className="text-slate-300 text-xs font-medium uppercase tracking-wider">
+          <p className="text-slate-500 text-xs font-medium uppercase tracking-wider">
             輸出リスク評価レポート
           </p>
           <h2 className="text-white text-lg font-bold mt-0.5">
@@ -133,7 +133,7 @@ export function ExecutiveSummary({ caseRecord, assessment }: Props) {
               >
                 {agreementRate}%
               </p>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-gray-500">
                 {agreementRate >= 80 ? "高信頼" : agreementRate >= 60 ? "中信頼" : "要検討"}
               </p>
             </div>

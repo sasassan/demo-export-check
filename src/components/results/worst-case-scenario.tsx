@@ -64,7 +64,7 @@ export function WorstCaseScenarioCard({ scenarios }: Props) {
         ))}
       </div>
 
-      <p className="mt-4 text-xs text-gray-400 border-t border-gray-100 pt-3">
+      <p className="mt-4 text-xs text-gray-500 border-t border-gray-100 pt-3">
         ※ これらはAIによる仮定シナリオです。実際の判断は輸出管理担当者・法務部門にご確認ください。
       </p>
     </div>

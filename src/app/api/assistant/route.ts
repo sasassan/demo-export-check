@@ -81,7 +81,7 @@ async function fetchUrlText(sourceUrl: string) {
 
 /* ---------- fallback answer builder ---------- */
 
-function buildSmartFallback(input: {
+function buildSmartフォールバック(input: {
   message: string;
   mode: string;
   sourceText?: string;
@@ -95,7 +95,7 @@ function buildSmartFallback(input: {
   const hasMilitary = /(軍事|weapon|missile|defense|dual use|兵器|デュアルユース)/i.test(analysisText);
   const hasCountryRisk = /(iran|russia|north korea|syria|中国|ロシア|イラン|北朝鮮|キューバ|ミャンマー)/i.test(analysisText);
   const hasEndUserGap = /(end user|最終需要者|用途不明|unknown use|再輸出|用途確認)/i.test(analysisText);
-  const hasRegulation = /(外為法|EAR|ECCN|キャッチオール|輸出令|別表|規制)/i.test(analysisText);
+  const hasRegulation = /(外為法|EAR|ECCN|キャッチオール規制|輸出令|別表|規制)/i.test(analysisText);
 
   const clauseSentences = extractClauseLikeSentences(analysisText);
   const keywordHighlights = extractKeywordHighlights(analysisText);
@@ -180,7 +180,7 @@ function buildSmartFallback(input: {
     relatedRisk: hasMilitary
       ? "軍事転用・デュアルユースリスクが高いため、用途確認を優先してください。"
       : hasCountryRisk
-        ? "国リスクが高い地域への輸出です。制裁規制・輸出許可要件を確認してください。"
+        ? "国リスクが高い地域への輸出です。制裁リスト・輸出許可要件を確認してください。"
         : "相手先信用・用途確認・契約条件の整合性が主な確認ポイントです。",
     extractedPoints: [
       sourceText ? "貼り付けられた資料本文をもとに回答しています。" : fetchedUrlText ? "URL本文を自動取得して回答しています。" : "質問内容をもとに回答しています。",
@@ -401,7 +401,7 @@ export async function POST(request: Request) {
       };
     } else {
       // AI failed or no API key - smart fallback
-      finalAnswer = buildSmartFallback({
+      finalAnswer = buildSmartフォールバック({
         message, mode, sourceText, fetchedUrlText: fetchedUrlText ?? undefined,
         sourceUrl, dictionaryHit,
       });

@@ -105,7 +105,7 @@ const dictionary: DictionaryEntry[] = [
   },
   {
     term: "SDNリスト（Specially Designated Nationals）",
-    simpleExplanation: "OFACが公開する制裁対象リスト。このリストに掲載された個人・企業とは取引が禁止されます。",
+    simpleExplanation: "OFACが公開する制裁リスト。このリストに掲載された個人・企業とは取引が禁止されます。",
     practicalUse: "取引開始前にSDNリストとの照合を行い、該当がないことを確認します。",
     caution: "リストは頻繁に更新されるため、定期的なスクリーニングが必要です。",
     relatedRisk: "制裁対象者との取引による罰則、米国との取引停止リスク。",

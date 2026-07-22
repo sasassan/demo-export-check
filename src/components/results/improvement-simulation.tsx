@@ -27,7 +27,7 @@ export function ImprovementSimulation({ steps, baseScore }: Props) {
         <div className="flex items-center gap-3">
           <div className="w-16 text-right">
             <span className="text-lg font-black text-gray-700">{baseScore}</span>
-            <span className="text-xs text-gray-400">点</span>
+            <span className="text-xs text-gray-500">点</span>
           </div>
           <div className="flex-1 relative h-10 flex items-center">
             <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
@@ -75,7 +75,7 @@ export function ImprovementSimulation({ steps, baseScore }: Props) {
                   <span className="text-lg font-black text-gray-800">
                     {pct}
                   </span>
-                  <span className="text-xs text-gray-400">点</span>
+                  <span className="text-xs text-gray-500">点</span>
                 </div>
                 <div className="flex-1 h-10 flex items-center">
                   <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden">
@@ -110,7 +110,7 @@ export function ImprovementSimulation({ steps, baseScore }: Props) {
           全アクション実施で{" "}
           <span className="font-bold text-emerald-600">{maxScore}点</span> に改善可能
         </div>
-        <div className="text-xs text-gray-400">
+        <div className="text-xs text-gray-500">
           現在比 +{maxScore - baseScore}点
         </div>
       </div>

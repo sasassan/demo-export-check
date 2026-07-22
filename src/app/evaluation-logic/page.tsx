@@ -37,7 +37,7 @@ const dimensions = [
   { key: "peps", label: "PEPsリスク", note: "政治的影響力のある人物との関係性リスク" },
   { key: "country", label: "国リスク", note: "輸出先国の制裁、紛争、政情、輸出規制の観点" },
   { key: "useCase", label: "用途リスク", note: "用途説明の整合性、最終用途、軍民転用懸念" },
-  { key: "catchAll", label: "キャッチオール観点", note: "大量破壊兵器・軍事転用等の追加確認観点" },
+  { key: "catchAll", label: "キャッチオール規制観点", note: "大量破壊兵器・軍事転用等の追加確認観点" },
   { key: "reputation", label: "企業信用・評判", note: "不審情報、風評、公開情報上の違和感" },
 ];
 
@@ -50,7 +50,7 @@ const categoryRows = [
   {
     title: "安全保障リスク",
     formula: "sanctions / endUser / catchAll / useCase の最大グレード",
-    example: "制裁A・用途B・キャッチオールA → 安全保障リスクはB",
+    example: "制裁A・用途B・キャッチオール規制A → 安全保障リスクはB",
   },
   {
     title: "信用リスク",
@@ -71,7 +71,7 @@ const nextActionRules = [
 ];
 
 const flowSteps = [
-  { title: "8観点で確認", body: "制裁、相手先、UBO、PEPs、国、用途、キャッチオール、企業信用を観点別に整理" },
+  { title: "8観点で確認", body: "制裁、相手先、UBO、PEPs、国、用途、キャッチオール規制、企業信用を観点別に整理" },
   { title: "スコア化", body: "各観点を 0〜100 のリスクスコアに変換し、A / B / C にマッピング" },
   { title: "カテゴリ集約", body: "安全保障 / 信用 / 地政学などのカテゴリへ最大グレードで集約" },
   { title: "総合判定", body: "最も重いグレードを総合判定として採用し、推奨アクションを提示" },

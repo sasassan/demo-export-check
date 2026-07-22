@@ -1,8 +1,8 @@
 import OpenAI from "openai";
 import { buildAnalysisPrompt, parseAiResponse } from "@/lib/providers/ai-prompt";
 import { buildProviderResult } from "@/lib/providers/mock/base";
-import { MockSanctionsProvider } from "@/lib/providers/mock/sanctions";
-import { MockCompanyProvider } from "@/lib/providers/mock/company";
+import { モックSanctionsProvider } from "@/lib/providers/mock/sanctions";
+import { モックCompanyProvider } from "@/lib/providers/mock/company";
 import type { InvestigationProvider } from "@/lib/providers/types";
 import type { CaseRecord, InvestigationFinding, EvidenceItem } from "@/lib/types";
 import { createId } from "@/lib/utils";
@@ -16,8 +16,8 @@ export class OpenAIProvider implements InvestigationProvider {
     const apiKey = runtime.apiKey;
     if (runtime.status !== "live" || !apiKey) {
       const fallback = await Promise.all([
-        new MockSanctionsProvider().run(caseRecord),
-        new MockCompanyProvider().run(caseRecord),
+        new モックSanctionsProvider().run(caseRecord),
+        new モックCompanyProvider().run(caseRecord),
       ]);
       const findings = fallback.flatMap((r) =>
         r.findings.map((f) => ({ ...f, aiModel: "mock" as const })),
@@ -88,7 +88,7 @@ export class OpenAIProvider implements InvestigationProvider {
       };
     } catch (error) {
       console.error("OpenAI provider error:", error);
-      const fallback = await new MockSanctionsProvider().run(caseRecord);
+      const fallback = await new モックSanctionsProvider().run(caseRecord);
       return {
         ...buildProviderResult("openai-gpt4o", fallback.findings),
         status: "partial" as const,

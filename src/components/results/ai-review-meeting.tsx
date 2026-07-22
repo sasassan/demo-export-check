@@ -60,7 +60,7 @@ export function AiReviewMeeting({
           >
             {agreementRate}%
           </p>
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-gray-500">
             {agreementRate >= 80
               ? "高信頼性"
               : agreementRate >= 60
@@ -111,7 +111,7 @@ export function AiReviewMeeting({
               {/* 矢印（最後以外） */}
               {idx < reviewMeeting.length - 1 && (
                 <div className="absolute left-5 bottom-0 translate-y-full flex items-center justify-center w-10 pt-1">
-                  <span className="text-gray-300 text-lg">↓</span>
+                  <span className="text-gray-500 text-lg">↓</span>
                 </div>
               )}
             </div>

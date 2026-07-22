@@ -308,7 +308,7 @@ function findDisagreementDimensions(results: ProviderResult[]): string[] {
 function buildCrossReview(
   allResults: ProviderResult[],
   liveResults: ProviderResult[],
-  usedFallback: boolean,
+  usedフォールバック: boolean,
 ): CrossReviewSummary {
   const participatingProviders = liveResults.map(
     (r) => PROVIDER_MODEL_MAP[r.providerName] ?? ("mock" as AiModel),
@@ -403,7 +403,7 @@ function buildCrossReview(
     confidenceScore,
     participatingProviders,
     skippedProviders,
-    isFallbackOnly: usedFallback,
+    isフォールバックOnly: usedフォールバック,
   };
 }
 
@@ -471,8 +471,8 @@ export async function runInvestigation(caseId: string, userEmail: string) {
     // キー未設定/無効なプロバイダーは自動的にスキップする。全件フォールバックの場合は
     // 従来通り全結果（mock含む）を使用する。
     const liveResults = results.filter((r) => r.providerStatus === "live");
-    const usedFallback = liveResults.length === 0;
-    const effectiveResults = usedFallback ? results : liveResults;
+    const usedフォールバック = liveResults.length === 0;
+    const effectiveResults = usedフォールバック ? results : liveResults;
 
     // モデル別結果（UI比較表示用、全プロバイダーを表示しフォールバック中である旨も可視化）
     const modelResults = buildModelResults(results);
@@ -496,7 +496,7 @@ export async function runInvestigation(caseId: string, userEmail: string) {
     const disagreementDimensions = findDisagreementDimensions(effectiveResults);
 
     // マルチAIコンセンサス（多数決/重み付け集計、参考情報として公式グレードとは別に保持）
-    const crossReview = buildCrossReview(results, effectiveResults, usedFallback);
+    const crossReview = buildCrossReview(results, effectiveResults, usedフォールバック);
 
     // レポートナレーション生成（OpenAI APIキーがあれば実API呼び出し、なければテンプレートにフォールバック）
     const reportNarrative = await generateNarrative({
