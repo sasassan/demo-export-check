@@ -29,10 +29,13 @@ export class GeminiProvider implements InvestigationProvider {
 
     try {
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({
-        model: "gemini-1.5-flash",
-        generationConfig: { responseMimeType: "application/json" },
-      });
+      const model = genAI.getGenerativeModel(
+        {
+          model: runtime.modelName,
+          generationConfig: { responseMimeType: "application/json" },
+        },
+        { timeout: runtime.timeoutMs },
+      );
 
       const result = await model.generateContent(buildAnalysisPrompt(caseRecord));
       const text = result.response.text();

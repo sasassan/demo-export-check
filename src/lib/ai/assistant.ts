@@ -135,9 +135,9 @@ export async function askAssistant(input: AskAssistantInput) {
   messages.push({ role: "user", content: userContent });
 
   try {
-    const client = new OpenAI({ apiKey });
+    const client = new OpenAI({ apiKey, timeout: openaiInfo.timeoutMs });
     const completion = await client.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: openaiInfo.modelName,
       messages,
       temperature: 0.3,
       max_tokens: 2500,

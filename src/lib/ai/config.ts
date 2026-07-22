@@ -12,6 +12,7 @@ export type ProviderRuntimeInfo = {
   label: string;
   enabled: boolean;
   apiKey?: string;
+  modelName: string;
   timeoutMs: number;
   status: ProviderRuntimeStatus;
   statusLabel: string;
@@ -26,6 +27,7 @@ type ProviderConfigDefinition = {
   label: string;
   envKey: string;
   enabled: boolean;
+  modelName: string;
   timeoutMs: number;
 };
 
@@ -60,6 +62,7 @@ const providerDefinitions: ProviderConfigDefinition[] = [
     label: "GPT-4o",
     envKey: "OPENAI_API_KEY",
     enabled: enabledProviderSet.has("gpt-4o"),
+    modelName: process.env.OPENAI_MODEL || "gpt-4o-mini",
     timeoutMs: Number(process.env.OPENAI_TIMEOUT_MS ?? "8000"),
   },
   {
@@ -68,6 +71,7 @@ const providerDefinitions: ProviderConfigDefinition[] = [
     label: "Claude",
     envKey: "ANTHROPIC_API_KEY",
     enabled: enabledProviderSet.has("claude"),
+    modelName: process.env.ANTHROPIC_MODEL || "claude-3-haiku-20240307",
     timeoutMs: Number(process.env.ANTHROPIC_TIMEOUT_MS ?? "8000"),
   },
   {
@@ -76,6 +80,7 @@ const providerDefinitions: ProviderConfigDefinition[] = [
     label: "Gemini",
     envKey: "GOOGLE_GENERATIVE_AI_API_KEY",
     enabled: enabledProviderSet.has("gemini"),
+    modelName: process.env.GOOGLE_MODEL || "gemini-1.5-flash",
     timeoutMs: Number(process.env.GOOGLE_TIMEOUT_MS ?? "8000"),
   },
 ];
@@ -88,6 +93,7 @@ export function getProviderRuntimeInfo(model: AiModel): ProviderRuntimeInfo {
       providerName: model,
       label: model,
       enabled: false,
+      modelName: model,
       timeoutMs: 8000,
       status: "fallback-disabled",
       statusLabel: "無効",

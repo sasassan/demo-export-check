@@ -31,9 +31,9 @@ export class ClaudeProvider implements InvestigationProvider {
     }
 
     try {
-      const client = new Anthropic({ apiKey });
+      const client = new Anthropic({ apiKey, timeout: runtime.timeoutMs });
       const response = await client.messages.create({
-        model: "claude-3-haiku-20240307",
+        model: runtime.modelName,
         max_tokens: 4096,
         system:
           "あなたは輸出コンプライアンスの専門アナリストです。JSON形式のみで回答してください。余分なテキストは一切含めないでください。",
