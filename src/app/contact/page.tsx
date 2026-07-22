@@ -47,7 +47,7 @@ export default function ContactPage() {
             </div>
           </div>
           <div className="mt-6">
-            <Link href="/" className="text-sm font-semibold text-[#1e3a5f] hover:underline">トップページへ戻る</Link>
+            <Link href="/" className="text-sm font-semibold text-brand-navy hover:underline">トップページへ戻る</Link>
           </div>
         </section>
       </main>

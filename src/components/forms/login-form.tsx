@@ -57,7 +57,7 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="flex items-center justify-center gap-2 rounded-xl bg-[#1e3a5f] px-4 py-3 text-sm font-semibold !text-white shadow-sm transition hover:bg-[#2a4a73] disabled:opacity-60"
+        className="flex items-center justify-center gap-2 rounded-xl bg-brand-navy px-4 py-3 text-sm font-semibold !text-white shadow-sm transition hover:bg-brand-navy-light disabled:opacity-60"
       >
         {isSubmitting ? (
           <>
@@ -78,8 +78,8 @@ export function LoginForm() {
         初期版ではメールを入力するとそのまま利用開始できます。将来的に Magic Link に置き換えやすい構成です。
         </p>
         <div className="mt-3 flex flex-wrap gap-3 text-xs font-medium text-slate-600">
-          <a href="/terms" className="text-[#1e3a5f] hover:underline">利用規約</a>
-          <a href="/privacy" className="text-[#1e3a5f] hover:underline">プライバシーポリシー</a>
+          <a href="/terms" className="text-brand-navy hover:underline">利用規約</a>
+          <a href="/privacy" className="text-brand-navy hover:underline">プライバシーポリシー</a>
         </div>
       </div>
     </form>

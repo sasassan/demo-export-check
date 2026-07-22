@@ -9,7 +9,7 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen bg-slate-50">
       {/* 左パネル */}
-      <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden bg-[#1e3a5f] p-12 lg:flex">
+      <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden bg-brand-navy p-12 lg:flex">
         <div className="absolute inset-0">
           <Image
             src="/login-trade-hero.png"
@@ -19,7 +19,7 @@ export default function LoginPage() {
             priority
             unoptimized
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-[#1e3a5f]/90 to-[#2a4a73]/85" />
+          <div className="absolute inset-0 bg-gradient-to-br from-brand-navy/90 to-brand-navy-light/85" />
         </div>
 
         <div className="relative flex items-center gap-3">
@@ -79,7 +79,7 @@ export default function LoginPage() {
       <div className="flex w-full items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:w-1/2">
         <div className="w-full max-w-md">
           <div className="mb-8 flex items-center gap-3 lg:hidden">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1e3a5f]">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-navy">
               <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="h-4 w-4">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.955 11.955 0 0 0 3 10.5c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.572-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Z" />
               </svg>
