@@ -23,6 +23,10 @@ import type {
   ReviewMeetingEntry,
   ImprovementStep,
   WorstCaseScenario,
+  CrossReviewSummary,
+  CrossReviewDimension,
+  CrossReviewVote,
+  Grade,
 } from "@/lib/types";
 import { scoreToGrade } from "@/lib/risk/rules";
 import { RISK_DIMENSIONS, type RiskDimension } from "@/lib/constants";
@@ -33,6 +37,18 @@ const MODEL_LABELS: Record<string, string> = {
   "anthropic-claude": "Claude",
   "google-gemini": "Gemini",
 };
+
+const PROVIDER_MODEL_MAP: Record<string, AiModel> = {
+  "openai-gpt4o": "gpt-4o",
+  "anthropic-claude": "claude",
+  "google-gemini": "gemini",
+};
+
+const GRADE_ORDER: Grade[] = ["A", "B", "C"];
+
+function worseGrade(a: Grade, b: Grade): Grade {
+  return GRADE_ORDER.indexOf(a) >= GRADE_ORDER.indexOf(b) ? a : b;
+}
 
 /**
  * 複数AIモデルのfindingsを次元ごとに集約する。
@@ -283,11 +299,136 @@ function findDisagreementDimensions(results: ProviderResult[]): string[] {
   return disagreed;
 }
 
+/**
+ * 「利用可能なAIプロバイダーのみ」を対象に、次元ごとの多数決/重み付けコンセンサスを算出する。
+ * - consensusGrade: グレードの多数決。1件のみ参加時はそのまま採用。同数タイの場合は安全側（最悪グレード）に倒す
+ * - consensusScore: 参加プロバイダーの重み付け平均（現状は等重み）
+ * - いずれかのAIが「C」判定した次元は、多数決の結果に関わらずhasDisagreementをtrueにして見落としを防ぐ
+ */
+function buildCrossReview(
+  allResults: ProviderResult[],
+  liveResults: ProviderResult[],
+  usedFallback: boolean,
+): CrossReviewSummary {
+  const participatingProviders = liveResults.map(
+    (r) => PROVIDER_MODEL_MAP[r.providerName] ?? ("mock" as AiModel),
+  );
+  const skippedProviders = allResults
+    .filter((r) => !liveResults.includes(r))
+    .map((r) => PROVIDER_MODEL_MAP[r.providerName] ?? ("mock" as AiModel));
+
+  const dimensions: CrossReviewDimension[] = [];
+
+  for (const dim of RISK_DIMENSIONS) {
+    const dimFindings = liveResults
+      .map((r) => ({ result: r, finding: r.findings.find((f) => f.dimension === dim) }))
+      .filter(
+        (entry): entry is { result: ProviderResult; finding: InvestigationFinding } =>
+          entry.finding !== undefined,
+      );
+
+    if (dimFindings.length === 0) continue;
+
+    const votes: CrossReviewVote[] = dimFindings.map(({ result, finding }) => ({
+      model: PROVIDER_MODEL_MAP[result.providerName] ?? ("mock" as AiModel),
+      modelLabel: MODEL_LABELS[result.providerName] ?? result.providerName,
+      score: finding.baseScore,
+      grade: scoreToGrade(finding.baseScore),
+    }));
+
+    const consensusScore = Math.round(
+      votes.reduce((sum, v) => sum + v.score, 0) / votes.length,
+    );
+
+    const gradeCounts = new Map<Grade, number>();
+    for (const v of votes) {
+      gradeCounts.set(v.grade, (gradeCounts.get(v.grade) ?? 0) + 1);
+    }
+    const maxCount = Math.max(...gradeCounts.values());
+    const topGrades = [...gradeCounts.entries()]
+      .filter(([, count]) => count === maxCount)
+      .map(([grade]) => grade);
+
+    let consensusGrade: Grade;
+    let method: CrossReviewDimension["method"];
+    if (votes.length === 1) {
+      consensusGrade = votes[0].grade;
+      method = "single";
+    } else if (topGrades.length === 1 && maxCount === votes.length) {
+      consensusGrade = topGrades[0];
+      method = "unanimous";
+    } else if (topGrades.length === 1) {
+      consensusGrade = topGrades[0];
+      method = "majority";
+    } else {
+      // タイ（多数決が決まらない）→ 安全側の最悪グレードを採用
+      consensusGrade = topGrades.reduce((a, b) => worseGrade(a, b));
+      method = "tie-break";
+    }
+
+    const hasAnyCGrade = votes.some((v) => v.grade === "C");
+    const hasDisagreement =
+      new Set(votes.map((v) => v.grade)).size > 1 || (hasAnyCGrade && consensusGrade !== "C");
+
+    dimensions.push({
+      dimension: dim,
+      label: dimFindings[0].finding.label,
+      votes,
+      consensusScore,
+      consensusGrade,
+      method,
+      hasDisagreement,
+    });
+  }
+
+  const overallConsensusGrade = dimensions.reduce<Grade>(
+    (acc, d) => worseGrade(acc, d.consensusGrade),
+    "A",
+  );
+
+  const confidenceScore = calcAgreementRate(liveResults);
+  const confidenceLevel: CrossReviewSummary["confidenceLevel"] =
+    liveResults.length <= 1
+      ? "低"
+      : confidenceScore >= 80
+        ? "高"
+        : confidenceScore >= 50
+          ? "中"
+          : "低";
+
+  return {
+    dimensions,
+    overallConsensusGrade,
+    confidenceLevel,
+    confidenceScore,
+    participatingProviders,
+    skippedProviders,
+    isFallbackOnly: usedFallback,
+  };
+}
+
 const aiProviders = [
   new OpenAIProvider(),
   new ClaudeProvider(),
   new GeminiProvider(),
 ];
+
+const INVESTIGATION_TOTAL_TIMEOUT_MS = Number(
+  process.env.INVESTIGATION_TOTAL_TIMEOUT_MS ?? "45000",
+);
+
+/**
+ * 個別プロバイダーのSDKタイムアウトが何らかの理由で機能しなかった場合の保険として、
+ * 調査全体の上限時間（デフォルト45秒、Vercelのmaxduration=60s以内）で強制的に失敗させる。
+ */
+function withOverallTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) => {
+      setTimeout(() => reject(new Error(`investigation timed out after ${ms}ms`)), ms);
+    }),
+  ]);
+}
 
 export async function runInvestigation(caseId: string, userEmail: string) {
   const detail = await assertCaseOwner(caseId, userEmail);
@@ -302,9 +443,11 @@ export async function runInvestigation(caseId: string, userEmail: string) {
   });
 
   try {
-    // 3つのAIプロバイダーを並列実行（部分成功対応）
+    // 3つのAIプロバイダーを並列実行（部分成功対応、全体タイムアウト付き）
     const settled = await Promise.allSettled(
-      aiProviders.map((provider) => provider.run(detail.case)),
+      aiProviders.map((provider) =>
+        withOverallTimeout(provider.run(detail.case), INVESTIGATION_TOTAL_TIMEOUT_MS),
+      ),
     );
 
     const results = settled
@@ -324,26 +467,36 @@ export async function runInvestigation(caseId: string, userEmail: string) {
       throw new Error("全てのAIプロバイダーが応答に失敗しました。");
     }
 
-    // モデル別結果（UI比較表示用）
+    // 実APIキーが有効なプロバイダーのみを抽出。1件以上あればそれらのみで集計し、
+    // キー未設定/無効なプロバイダーは自動的にスキップする。全件フォールバックの場合は
+    // 従来通り全結果（mock含む）を使用する。
+    const liveResults = results.filter((r) => r.providerStatus === "live");
+    const usedFallback = liveResults.length === 0;
+    const effectiveResults = usedFallback ? results : liveResults;
+
+    // モデル別結果（UI比較表示用、全プロバイダーを表示しフォールバック中である旨も可視化）
     const modelResults = buildModelResults(results);
 
-    // 次元ごとに集約（最悪ケードスコアで統一）
-    const findings: InvestigationFinding[] = aggregateFindings(results);
+    // 次元ごとに集約（最悪ケースのスコアで統一、公式グレードは無変更）
+    const findings: InvestigationFinding[] = aggregateFindings(effectiveResults);
     const dimensions = buildDimensionScores(findings);
     const summary = buildScoreSummary(dimensions);
-    const evidence = collectEvidence(results);
+    const evidence = collectEvidence(effectiveResults);
 
     // 平均リスクスコア
     const avgScore = dimensions.length > 0
       ? Math.round(dimensions.reduce((s, d) => s + d.score, 0) / dimensions.length)
       : 50;
 
-    // 新集約フィールド
-    const agreementRate = calcAgreementRate(results);
+    // 新集約フィールド（利用可能なプロバイダーのみを対象に算出）
+    const agreementRate = calcAgreementRate(effectiveResults);
     const reviewMeeting = buildReviewMeeting(results);
-    const improvementSteps = buildImprovementSteps(results, avgScore);
-    const worstCaseScenarios = buildWorstCaseScenarios(results);
-    const disagreementDimensions = findDisagreementDimensions(results);
+    const improvementSteps = buildImprovementSteps(effectiveResults, avgScore);
+    const worstCaseScenarios = buildWorstCaseScenarios(effectiveResults);
+    const disagreementDimensions = findDisagreementDimensions(effectiveResults);
+
+    // マルチAIコンセンサス（多数決/重み付け集計、参考情報として公式グレードとは別に保持）
+    const crossReview = buildCrossReview(results, effectiveResults, usedFallback);
 
     // レポートナレーション生成（OpenAI APIキーがあれば実API呼び出し、なければテンプレートにフォールバック）
     const reportNarrative = await generateNarrative({
@@ -370,6 +523,7 @@ export async function runInvestigation(caseId: string, userEmail: string) {
       improvementSteps,
       worstCaseScenarios,
       disagreementDimensions,
+      crossReview,
       regulationUpdates: getRegulationUpdatesForCase({
         destinationCountry: detail.case.destinationCountry,
         productName: detail.case.productName,
