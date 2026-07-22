@@ -40,7 +40,7 @@ export function CaseSummaryCard({ item }: { item: CaseRecord }) {
   return (
     <Link
       href={`/cases/${item.id}`}
-      className="flex items-center justify-between gap-4 rounded-[1.5rem] border border-slate-200 bg-white/95 px-6 py-4 shadow-[0_12px_30px_rgba(15,23,42,0.06)] transition hover:border-slate-300 hover:shadow-[0_16px_40px_rgba(15,23,42,0.1)]"
+      className="trade-hover-lift flex items-center justify-between gap-4 rounded-[1.5rem] border border-slate-200 bg-white/95 px-6 py-4 shadow-[0_12px_30px_rgba(15,23,42,0.06)] transition hover:border-brand-navy/30"
     >
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-3">
@@ -57,7 +57,7 @@ export function CaseSummaryCard({ item }: { item: CaseRecord }) {
           <span className="hidden sm:inline">·</span>
           <span>輸出先: {item.destinationCountry}</span>
         </div>
-        <p className="mt-2 text-xs text-[#1e3a5f]/70">{quickHint}</p>
+        <p className="mt-2 text-xs text-brand-navy/70">{quickHint}</p>
       </div>
       <div className="flex shrink-0 items-center gap-3 text-sm text-slate-500">
         <span className="hidden md:block">{formatDate(item.updatedAt)}</span>

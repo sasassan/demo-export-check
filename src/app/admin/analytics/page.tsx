@@ -1,6 +1,7 @@
 import { Shell } from "@/components/layout/shell";
 import { requireAdminEmail } from "@/lib/auth/server";
 import { getAnalyticsSummary } from "@/lib/db/repository";
+import { EmptyState } from "@/components/ui/empty-state";
 
 export const dynamic = "force-dynamic";
 
@@ -13,9 +14,9 @@ const DEVICE_LABELS: Record<string, string> = {
 
 function SummaryCard({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div className="trade-hover-lift rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
       <p className="text-xs font-semibold text-slate-500">{label}</p>
-      <p className="mt-2 text-2xl font-bold text-slate-900">{value}</p>
+      <p className="mt-2 text-2xl font-bold text-brand-navy">{value}</p>
     </div>
   );
 }
@@ -47,7 +48,7 @@ export default async function AdminAnalyticsPage() {
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
           <p className="text-sm font-semibold text-slate-900">ページ別ビュー数（上位10件）</p>
           {summary.topPaths.length === 0 ? (
-            <p className="mt-4 text-sm text-slate-500">まだデータがありません。</p>
+            <EmptyState title="まだデータがありません" description="アクセスが蓄積すると、ここに集計結果が表示されます。" />
           ) : (
             <ul className="mt-4 space-y-2">
               {summary.topPaths.map((item) => (
@@ -66,7 +67,7 @@ export default async function AdminAnalyticsPage() {
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
           <p className="text-sm font-semibold text-slate-900">CTAクリック（上位10件）</p>
           {summary.topCtas.length === 0 ? (
-            <p className="mt-4 text-sm text-slate-500">まだデータがありません。</p>
+            <EmptyState title="まだデータがありません" description="アクセスが蓄積すると、ここに集計結果が表示されます。" />
           ) : (
             <ul className="mt-4 space-y-2">
               {summary.topCtas.map((item) => (
@@ -85,7 +86,7 @@ export default async function AdminAnalyticsPage() {
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm md:col-span-2">
           <p className="text-sm font-semibold text-slate-900">デバイス内訳</p>
           {summary.deviceBreakdown.length === 0 ? (
-            <p className="mt-4 text-sm text-slate-500">まだデータがありません。</p>
+            <EmptyState title="まだデータがありません" description="アクセスが蓄積すると、ここに集計結果が表示されます。" />
           ) : (
             <ul className="mt-4 flex flex-wrap gap-4">
               {summary.deviceBreakdown.map((item) => (

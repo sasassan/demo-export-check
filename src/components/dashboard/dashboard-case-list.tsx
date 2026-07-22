@@ -67,7 +67,7 @@ export function DashboardCaseList({ items }: { items: CaseRecord[] }) {
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="商品名・型番・顧客名・輸出先国で検索"
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
+              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             />
           </label>
 
@@ -78,7 +78,7 @@ export function DashboardCaseList({ items }: { items: CaseRecord[] }) {
               onChange={(event) =>
                 setStatus(event.target.value as (typeof statusOptions)[number]["value"])
               }
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
+              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             >
               {statusOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -93,7 +93,7 @@ export function DashboardCaseList({ items }: { items: CaseRecord[] }) {
             <select
               value={sortKey}
               onChange={(event) => setSortKey(event.target.value as SortKey)}
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
+              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             >
               <option value="updated-desc">更新日が新しい順</option>
               <option value="updated-asc">更新日が古い順</option>
