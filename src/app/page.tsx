@@ -166,7 +166,7 @@ export default function Home() {
       <nav className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/92 shadow-[0_10px_24px_rgba(15,23,42,0.04)] backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1e3a5f]">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-navy">
               <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="h-4 w-4">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.955 11.955 0 0 0 3 10.5c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.572-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Z" />
               </svg>
@@ -179,7 +179,7 @@ export default function Home() {
             <Link href="/ai-room?v=lp-nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">AI相談室</Link>
             <Link href="/demo?v=lp-nav" className="hidden rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 md:inline-flex">デモ</Link>
             <span className="mx-1 hidden h-5 w-px bg-slate-200 md:block" />
-            <Link href="/contact?v=lp-nav" className="rounded-md bg-[#1e3a5f] px-4 py-2 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73]">お問い合わせ</Link>
+            <Link href="/contact?v=lp-nav" className="rounded-md bg-brand-navy px-4 py-2 text-sm font-semibold !text-white shadow-sm hover:bg-brand-navy-light">お問い合わせ</Link>
           </div>
         </div>
       </nav>
@@ -189,8 +189,8 @@ export default function Home() {
         <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-blue-50/50 px-4 py-4 sm:px-6">
           <div className="mx-auto grid max-w-6xl grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
             {quickLinks.map((item) => (
-              <Link key={item.label} href={item.href} className="group rounded-lg border border-slate-200 bg-white px-4 py-3 transition hover:border-slate-300 hover:shadow-sm">
-                <p className="text-sm font-semibold text-slate-900 group-hover:text-[#1e3a5f]">{item.label}</p>
+              <Link key={item.label} href={item.href} className="group trade-hover-lift rounded-lg border border-slate-200 bg-white px-4 py-3 transition hover:border-brand-navy/40">
+                <p className="text-sm font-semibold text-slate-900 group-hover:text-brand-navy">{item.label}</p>
                 <p className="mt-0.5 text-xs text-slate-600">{item.desc}</p>
               </Link>
             ))}
@@ -198,18 +198,20 @@ export default function Home() {
         </section>
 
         {/* ヒーローセクション */}
-        <section className="border-b border-slate-100 bg-gradient-to-b from-white via-white to-slate-50/70 px-4 py-16 sm:px-6 sm:py-20">
-          <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2">
-            <div>
-              <span className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5 text-sm font-medium text-[#1e3a5f]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#1e3a5f]" />
+        <section className="relative overflow-hidden border-b border-slate-100 bg-gradient-to-b from-white via-white to-slate-50/70 px-4 py-16 sm:px-6 sm:py-20">
+          <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-blue-200/30 blur-3xl" />
+          <div className="pointer-events-none absolute -right-24 top-40 h-80 w-80 rounded-full bg-teal-200/25 blur-3xl" />
+          <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2">
+            <div className="trade-fade-in-up">
+              <span className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5 text-sm font-medium text-brand-navy">
+                <span className="h-1.5 w-1.5 rounded-full bg-brand-navy" />
                 輸出管理部門がない企業・海外営業向け
               </span>
               <h1 className="mt-6 text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
                 その輸出、<br />
-                <span className="text-[#1e3a5f]">本当に大丈夫</span>ですか？
+                <span className="bg-gradient-to-r from-brand-navy to-blue-600 bg-clip-text text-transparent">本当に大丈夫</span>ですか？
               </h1>
-              <p className="mt-4 text-lg font-medium text-[#1e3a5f]">
+              <p className="mt-4 text-lg font-medium text-brand-navy">
                 輸出管理の専門知識がなくても、営業担当者が商談前に5分で一次確認できます。
               </p>
               <p className="mt-3 max-w-xl text-base leading-7 text-slate-600">
@@ -218,11 +220,11 @@ export default function Home() {
                 専門知識がなくても輸出コンプライアンスの初動確認を進められます。
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link href="/demo?v=hero" data-cta-id="hero-demo" data-cta-label="デモ画面を見る" data-cta-target="/demo?v=hero" className="inline-flex items-center gap-2 rounded-lg bg-[#1e3a5f] px-5 py-2.5 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73]">
+                <Link href="/demo?v=hero" data-cta-id="hero-demo" data-cta-label="デモ画面を見る" data-cta-target="/demo?v=hero" className="group inline-flex items-center gap-2 rounded-lg bg-brand-navy px-5 py-2.5 text-sm font-semibold !text-white shadow-lg shadow-brand-navy/20 transition hover:-translate-y-0.5 hover:bg-brand-navy-light hover:shadow-xl hover:shadow-brand-navy/30">
                   デモ画面を見る
-                  <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" /></svg>
+                  <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 transition group-hover:translate-x-0.5"><path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" /></svg>
                 </Link>
-                <Link href="/about?v=hero" data-cta-id="hero-about" data-cta-label="サービス説明" data-cta-target="/about?v=hero" className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-sm hover:bg-slate-50">
+                <Link href="/about?v=hero" data-cta-id="hero-about" data-cta-label="サービス説明" data-cta-target="/about?v=hero" className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-navy hover:text-brand-navy">
                   サービス説明
                 </Link>
               </div>
@@ -235,7 +237,7 @@ export default function Home() {
                   ["AI診断観点", "8項目"],
                   ["出力形式", "PDF / 要約"],
                 ].map(([label, value]) => (
-                  <div key={label} className="rounded-lg border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-3 shadow-sm">
+                  <div key={label} className="trade-hover-lift rounded-lg border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-3 shadow-sm">
                     <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-600">{label}</p>
                     <p className="mt-1 text-lg font-bold text-slate-900">{value}</p>
                   </div>
@@ -243,8 +245,8 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="space-y-4">
-              <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
+            <div className="trade-fade-in-up space-y-4" style={{ animationDelay: "0.15s" }}>
+              <div className="trade-float overflow-hidden rounded-xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/10">
                 <div className="border-b border-slate-200 bg-slate-50 px-4 py-3">
                   <div className="flex items-center gap-2">
                     <span className="h-2.5 w-2.5 rounded-full bg-rose-300" />
@@ -255,7 +257,7 @@ export default function Home() {
                 </div>
                 <div className="grid gap-4 p-5 lg:grid-cols-[0.95fr_1.05fr]">
                   <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-[#1e3a5f]">入力情報</p>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-brand-navy">入力情報</p>
                     <div className="mt-3 space-y-3">
                       {[
                         ["商品名", "高精度サーボモーター"],
@@ -273,7 +275,7 @@ export default function Home() {
                   <div className="rounded-lg border border-slate-200 bg-white p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-xs font-semibold uppercase tracking-wider text-[#1e3a5f]">診断結果</p>
+                        <p className="text-xs font-semibold uppercase tracking-wider text-brand-navy">診断結果</p>
                         <p className="mt-1 text-sm font-semibold text-slate-900">高精度サーボモーター SRV-9800 → ベトナム</p>
                       </div>
                       <span className="rounded-md border border-amber-200 bg-amber-50 px-3 py-1 text-sm font-bold text-amber-800">総合 B</span>
@@ -303,7 +305,7 @@ export default function Home() {
                   <Link
                     key={item.title}
                     href={item.href}
-                    className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition hover:border-slate-300 hover:shadow-md"
+                    className="trade-hover-lift rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
                   >
                     <p className="text-sm font-semibold text-slate-900">{item.title}</p>
                     <p className="mt-2 text-sm leading-6 text-slate-600">{item.body}</p>
@@ -317,7 +319,7 @@ export default function Home() {
         <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-blue-50/40 px-4 py-16 sm:px-6">
           <div className="mx-auto max-w-6xl space-y-12">
             <div className="text-center">
-              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-[#1e3a5f]">
+              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">
                 導入効果と対象ユーザー
               </span>
               <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
@@ -333,7 +335,7 @@ export default function Home() {
                     <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-600">
                       {item.label}
                     </p>
-                    <p className="mt-2 text-2xl font-bold text-[#1e3a5f]">{item.value}</p>
+                    <p className="mt-2 text-2xl font-bold text-brand-navy">{item.value}</p>
                     <p className="mt-2 text-sm leading-6 text-slate-600">{item.note}</p>
                   </div>
                 ))}
@@ -382,7 +384,7 @@ export default function Home() {
           <div className="mx-auto mt-10 grid max-w-5xl gap-6 md:grid-cols-3">
             {steps.map((step) => (
               <div key={step.number} className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1e3a5f] text-sm font-bold !text-white">{step.number}</div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-navy text-sm font-bold !text-white">{step.number}</div>
                 <h3 className="mt-4 text-base font-semibold text-slate-900">{step.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-600">{step.description}</p>
               </div>
@@ -394,7 +396,7 @@ export default function Home() {
         <section className="border-b border-slate-100 px-4 py-16 sm:px-6">
           <div className="mx-auto max-w-5xl">
             <div className="text-center">
-              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-[#1e3a5f]">
+              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">
                 診断レポートサンプル
               </span>
               <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">入力したら何が出るのか</h2>
@@ -404,7 +406,7 @@ export default function Home() {
               <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
                 <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-3">
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-wider text-[#1e3a5f]">診断レポート - 1ページ目</p>
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-brand-navy">診断レポート - 1ページ目</p>
                     <p className="mt-0.5 text-sm font-semibold text-slate-800">高精度サーボモーター SRV-9800 → ベトナム</p>
                   </div>
                   <span className="rounded-md bg-amber-100 px-2.5 py-1 text-sm font-bold text-amber-800">B</span>
@@ -430,7 +432,7 @@ export default function Home() {
               </div>
               <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
                 <div className="mb-4 border-b border-slate-100 pb-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-wider text-[#1e3a5f]">診断レポート - 2ページ目</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-brand-navy">診断レポート - 2ページ目</p>
                   <p className="mt-0.5 text-sm font-semibold text-slate-800">判定理由・確認ポイント・推奨対応</p>
                 </div>
                 <div className="space-y-3">
@@ -454,7 +456,7 @@ export default function Home() {
               </div>
             </div>
             <div className="mt-8 text-center">
-              <Link href="/demo?v=report-sample" className="inline-flex items-center gap-2 rounded-lg bg-[#1e3a5f] px-5 py-2.5 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73]">
+              <Link href="/demo?v=report-sample" className="inline-flex items-center gap-2 rounded-lg bg-brand-navy px-5 py-2.5 text-sm font-semibold !text-white shadow-sm hover:bg-brand-navy-light">
                 実際のデモを見る
                 <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" /></svg>
               </Link>
@@ -463,7 +465,7 @@ export default function Home() {
         </section>
 
         {/* 判定根拠セクション */}
-        <section className="border-b border-slate-100 bg-[#1e3a5f] px-4 py-16 text-white sm:px-6">
+        <section className="border-b border-slate-100 bg-brand-navy px-4 py-16 text-white sm:px-6">
           <div className="mx-auto max-w-5xl">
             <div className="text-center">
               <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-semibold tracking-wider text-blue-50">判定の根拠</span>
@@ -494,7 +496,7 @@ export default function Home() {
         <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-blue-50/30 px-4 py-16 sm:px-6">
           <div className="mx-auto max-w-5xl">
             <div className="text-center">
-              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-[#1e3a5f]">
+              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">
                 信頼性と公開方針
               </span>
               <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
@@ -530,7 +532,7 @@ export default function Home() {
           <div className="mx-auto max-w-5xl">
             <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
               <div>
-                <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-[#1e3a5f]">AI診断機能</span>
+                <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">AI診断機能</span>
                 <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">AIが案件の危険信号を解説</h2>
                 <p className="mt-3 text-base leading-7 text-slate-600">単にA/B/Cを返すだけでなく、なぜその評価になったか、営業担当が次に何を確認すべきかを、わかりやすい日本語で提示します。</p>
               </div>
@@ -556,14 +558,14 @@ export default function Home() {
           <div className="mx-auto max-w-5xl">
             <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
               <div>
-                <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-[#1e3a5f]">サービスについて</span>
+                <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">サービスについて</span>
                 <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">誰が、なぜ作っているのか</h2>
                 <p className="mt-3 text-base leading-7 text-slate-600">輸出管理・海外業務の実務経験を背景に、「中小企業の営業担当者でも一次確認ができる」ツールを目指して開発しています。</p>
                 <p className="mt-2 text-base leading-7 text-slate-600">大企業には専任の輸出管理部門があります。しかし中小企業の現場では、営業担当者が輸出コンプライアンスの初動判断を迫られることが多くあります。</p>
               </div>
               <div className="space-y-3">
                 {[
-                  { title: "輸出管理部門がなくても使える", desc: "専門知識不要。商品と取引先の基本情報を入力するだけで一次確認を進められます。", border: "border-l-[#1e3a5f]" },
+                  { title: "輸出管理部門がなくても使える", desc: "専門知識不要。商品と取引先の基本情報を入力するだけで一次確認を進められます。", border: "border-l-brand-navy" },
                   { title: "営業担当者が商談前に確認できる", desc: "5分で完了するスクリーニングで、商談前のリスク把握が可能です。", border: "border-l-[#0d9488]" },
                   { title: "判断根拠を可視化して共有", desc: "評価理由と根拠をPDFで出力し、上司・法務担当へスムーズに連携できます。", border: "border-l-[#2563eb]" },
                 ].map((item) => (
@@ -586,9 +588,9 @@ export default function Home() {
             </div>
             <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {features.map((f) => (
-                <div key={f.title} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-[#1e3a5f]">
+                <div key={f.title} className="trade-hover-lift rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-brand-navy">
                       <path strokeLinecap="round" strokeLinejoin="round" d={f.icon} />
                     </svg>
                   </div>
@@ -604,25 +606,25 @@ export default function Home() {
         <section className="border-b border-slate-100 px-4 py-16 sm:px-6">
           <div className="mx-auto max-w-4xl">
             <div className="text-center">
-              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-[#1e3a5f]">料金プラン</span>
+              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">料金プラン</span>
               <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">シンプルな料金体系</h2>
               <p className="mt-2 text-base text-slate-600">Beta版は無料でご利用いただけます。正式版の料金は準備中です。</p>
             </div>
             <div className="mt-10 grid gap-6 md:grid-cols-2">
-              <div className="relative rounded-xl border-2 border-[#1e3a5f] bg-white p-7 shadow-sm">
-                <span className="absolute -top-3 left-5 rounded-full bg-[#1e3a5f] px-3 py-0.5 text-xs font-bold !text-white">現在公開中</span>
-                <p className="text-sm font-semibold uppercase tracking-wider text-[#1e3a5f]">Beta版</p>
+              <div className="relative rounded-xl border-2 border-brand-navy bg-white p-7 shadow-sm">
+                <span className="absolute -top-3 left-5 rounded-full bg-brand-navy px-3 py-0.5 text-xs font-bold !text-white">現在公開中</span>
+                <p className="text-sm font-semibold uppercase tracking-wider text-brand-navy">Beta版</p>
                 <p className="mt-2 text-3xl font-bold text-slate-900">無料</p>
                 <p className="mt-1 text-sm text-slate-600">Beta版期間中は全機能を無料でご利用いただけます</p>
                 <ul className="mt-5 space-y-2.5">
                   {["AI一次スクリーニング（8観点）", "A/B/C評価 + 判定理由表示", "PDFレポート出力", "案件管理（Beta版制限あり）"].map((item) => (
                     <li key={item} className="flex items-center gap-2 text-sm text-slate-800">
-                      <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 shrink-0 text-[#1e3a5f]"><path fillRule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clipRule="evenodd" /></svg>
+                      <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 shrink-0 text-brand-navy"><path fillRule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clipRule="evenodd" /></svg>
                       {item}
                     </li>
                   ))}
                 </ul>
-                <Link href="/demo?v=pricing" className="mt-6 flex w-full items-center justify-center rounded-lg bg-[#1e3a5f] py-2.5 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73]">デモで試す</Link>
+                <Link href="/demo?v=pricing" className="mt-6 flex w-full items-center justify-center rounded-lg bg-brand-navy py-2.5 text-sm font-semibold !text-white shadow-sm hover:bg-brand-navy-light">デモで試す</Link>
               </div>
               <div className="rounded-xl border border-slate-200 bg-white p-7 shadow-sm">
                 <p className="text-sm font-semibold uppercase tracking-wider text-slate-600">正式版（準備中）</p>
@@ -646,20 +648,20 @@ export default function Home() {
         <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-blue-50/40 px-4 py-12 sm:px-6">
           <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-2">
             <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-2.5 py-1 text-[10px] font-semibold tracking-wider text-[#1e3a5f]">信頼とセキュリティ</span>
+              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-2.5 py-1 text-[10px] font-semibold tracking-wider text-brand-navy">信頼とセキュリティ</span>
               <h2 className="mt-3 text-lg font-bold text-slate-900">AI入力の不安に先回りして対応</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">図面・仕様書をAIへ入力してよいか、技術提供に該当しないか。企業導入でよく出る懸念を整理したガイドラインを用意しています。</p>
               <div className="mt-4 flex gap-3">
-                <Link href="/security?v=lp" data-cta-id="trust-security" data-cta-label="セキュリティ方針" data-cta-target="/security?v=lp" className="rounded-md bg-[#1e3a5f] px-4 py-2 text-sm font-semibold !text-white hover:bg-[#2a4a73]">セキュリティ方針</Link>
+                <Link href="/security?v=lp" data-cta-id="trust-security" data-cta-label="セキュリティ方針" data-cta-target="/security?v=lp" className="rounded-md bg-brand-navy px-4 py-2 text-sm font-semibold !text-white hover:bg-brand-navy-light">セキュリティ方針</Link>
                 <Link href="/ai-room?v=lp-security" data-cta-id="trust-ai-room" data-cta-label="AI相談室で確認" data-cta-target="/ai-room?v=lp-security" className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50">AI相談室で確認</Link>
               </div>
             </div>
             <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-2.5 py-1 text-[10px] font-semibold tracking-wider text-[#1e3a5f]">研修サービス</span>
+              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-2.5 py-1 text-[10px] font-semibold tracking-wider text-brand-navy">研修サービス</span>
               <h2 className="mt-3 text-lg font-bold text-slate-900">AI導入だけでなく、運用教育まで支援</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">営業担当向け教育、外為法セミナー、法令改正時の定期講習、社内ルール策定支援など。</p>
               <div className="mt-4 flex gap-3">
-                <Link href="/training?v=lp" data-cta-id="training-service" data-cta-label="研修サービス" data-cta-target="/training?v=lp" className="rounded-md bg-[#1e3a5f] px-4 py-2 text-sm font-semibold !text-white hover:bg-[#2a4a73]">研修サービス</Link>
+                <Link href="/training?v=lp" data-cta-id="training-service" data-cta-label="研修サービス" data-cta-target="/training?v=lp" className="rounded-md bg-brand-navy px-4 py-2 text-sm font-semibold !text-white hover:bg-brand-navy-light">研修サービス</Link>
                 <Link href="/contact?v=lp-training" data-cta-id="training-contact" data-cta-label="導入相談" data-cta-target="/contact?v=lp-training" className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50">導入相談</Link>
               </div>
             </div>
@@ -667,7 +669,7 @@ export default function Home() {
         </section>
 
         {/* ロードマップ */}
-        <section className="border-b border-slate-100 bg-[#1e3a5f] px-4 py-16 text-white sm:px-6">
+        <section className="border-b border-slate-100 bg-brand-navy px-4 py-16 text-white sm:px-6">
           <div className="mx-auto max-w-5xl">
             <div className="text-center">
               <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-semibold tracking-wider text-blue-50">ロードマップ</span>
@@ -698,41 +700,60 @@ export default function Home() {
 
         {/* CTA */}
         <section className="px-4 py-16 sm:px-6">
-          <div className="mx-auto max-w-3xl rounded-xl border border-slate-200 bg-white p-10 text-center shadow-sm">
-            <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">まずは1件、試してみてください</h2>
-            <p className="mt-2 text-base text-slate-600">Beta版は無料。メールアドレスだけで開始できます。登録後すぐに案件確認フローを試せます。</p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <Link href="/demo?v=cta" data-cta-id="footer-demo" data-cta-label="デモを見る" data-cta-target="/demo?v=cta" className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50">デモを見る</Link>
-              <Link href="/contact?v=cta" data-cta-id="footer-contact" data-cta-label="導入について相談する" data-cta-target="/contact?v=cta" className="rounded-lg bg-[#1e3a5f] px-6 py-3 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73]">導入について相談する</Link>
-              <Link href="/contact?v=cta-fb" data-cta-id="footer-feedback" data-cta-label="フィードバックを送る" data-cta-target="/contact?v=cta-fb" className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50">フィードバックを送る</Link>
+          <div className="relative mx-auto max-w-3xl overflow-hidden rounded-2xl bg-gradient-to-br from-brand-navy via-brand-navy to-blue-800 p-10 text-center shadow-2xl shadow-brand-navy/20">
+            <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-white/10 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-20 -left-10 h-56 w-56 rounded-full bg-teal-400/10 blur-3xl" />
+            <div className="relative">
+              <h2 className="text-2xl font-bold text-white sm:text-3xl">まずは1件、試してみてください</h2>
+              <p className="mt-2 text-base text-blue-50">Beta版は無料。メールアドレスだけで開始できます。登録後すぐに案件確認フローを試せます。</p>
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+                <Link href="/demo?v=cta" data-cta-id="footer-demo" data-cta-label="デモを見る" data-cta-target="/demo?v=cta" className="rounded-lg border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20">デモを見る</Link>
+                <Link href="/contact?v=cta" data-cta-id="footer-contact" data-cta-label="導入について相談する" data-cta-target="/contact?v=cta" className="rounded-lg bg-white px-6 py-3 text-sm font-semibold text-brand-navy shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl">導入について相談する</Link>
+                <Link href="/contact?v=cta-fb" data-cta-id="footer-feedback" data-cta-label="フィードバックを送る" data-cta-target="/contact?v=cta-fb" className="rounded-lg border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20">フィードバックを送る</Link>
+              </div>
             </div>
           </div>
         </section>
 
         {/* フッター */}
-        <footer className="border-t border-slate-200 bg-gradient-to-b from-slate-50 to-white px-4 py-8 sm:px-6">
-          <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 text-sm md:flex-row">
-            <div className="flex items-center gap-2">
-              <div className="flex h-6 w-6 items-center justify-center rounded bg-[#1e3a5f]">
-                <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="h-3 w-3">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.955 11.955 0 0 0 3 10.5c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.572-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Z" />
-                </svg>
+        <footer className="border-t border-slate-200 bg-gradient-to-b from-slate-50 to-white px-4 py-12 sm:px-6">
+          <div className="mx-auto max-w-6xl">
+            <div className="grid gap-8 md:grid-cols-4">
+              <div className="md:col-span-2">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-navy">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="h-3.5 w-3.5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.955 11.955 0 0 0 3 10.5c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.572-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Z" />
+                    </svg>
+                  </div>
+                  <span className="text-base font-bold text-slate-900">{APP_NAME}</span>
+                </div>
+                <p className="mt-4 max-w-sm text-xs leading-6 text-slate-500">
+                  本サービスは参考情報を提供するものであり、法令上の判断を代替するものではありません。
+                </p>
               </div>
-              <span className="font-semibold text-slate-900">{APP_NAME}</span>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">サービス</p>
+                <ul className="mt-3 space-y-2 text-sm text-slate-600">
+                  <li><Link href="/operator" className="transition hover:text-brand-navy hover:underline">運営情報</Link></li>
+                  <li><Link href="/supervision" className="transition hover:text-brand-navy hover:underline">監修体制</Link></li>
+                  <li><Link href="/evaluation-logic" className="transition hover:text-brand-navy hover:underline">評価ロジック</Link></li>
+                  <li><Link href="/for-ai" className="transition hover:text-brand-navy hover:underline">AIレビュー用概要</Link></li>
+                </ul>
+              </div>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">規約・お問い合わせ</p>
+                <ul className="mt-3 space-y-2 text-sm text-slate-600">
+                  <li><Link href="/terms" className="transition hover:text-brand-navy hover:underline">利用規約</Link></li>
+                  <li><Link href="/privacy" className="transition hover:text-brand-navy hover:underline">プライバシーポリシー</Link></li>
+                  <li><Link href="/security" className="transition hover:text-brand-navy hover:underline">セキュリティ</Link></li>
+                  <li><Link href="/contact" className="transition hover:text-brand-navy hover:underline">お問い合わせ</Link></li>
+                </ul>
+              </div>
             </div>
-            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-700">
-              <Link href="/terms" className="hover:text-slate-900 hover:underline">利用規約</Link>
-              <Link href="/privacy" className="hover:text-slate-900 hover:underline">プライバシーポリシー</Link>
-              <Link href="/security" className="hover:text-slate-900 hover:underline">セキュリティ</Link>
-              <Link href="/operator" className="hover:text-slate-900 hover:underline">運営情報</Link>
-              <Link href="/supervision" className="hover:text-slate-900 hover:underline">監修体制</Link>
-              <Link href="/evaluation-logic" className="hover:text-slate-900 hover:underline">評価ロジック</Link>
-              <Link href="/for-ai" className="hover:text-slate-900 hover:underline">AIレビュー用概要</Link>
-              <Link href="/contact" className="hover:text-slate-900 hover:underline">お問い合わせ</Link>
+            <div className="mt-10 border-t border-slate-200 pt-6 text-center text-xs text-slate-400">
+              &copy; {APP_NAME}
             </div>
-            <p className="max-w-md text-center text-xs leading-5 text-slate-700 md:text-right">
-              本サービスは参考情報を提供するものであり、法令上の判断を代替するものではありません。
-            </p>
           </div>
         </footer>
       </main>
