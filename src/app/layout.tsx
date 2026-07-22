@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Suspense } from "react";
 
 import { CtaClickTracker } from "@/components/analytics/cta-click-tracker";
 import { RouteTracker } from "@/components/analytics/route-tracker";
 import { BetaBanner } from "@/components/layout/beta-banner";
 
 import "./globals.css";
-
-export const dynamic = "force-static";
 
 const rawAppUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 const appUrl = rawAppUrl.replace(/\/$/, "");
@@ -60,7 +59,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-white">
-        <RouteTracker />
+        <Suspense fallback={null}>
+          <RouteTracker />
+        </Suspense>
         <CtaClickTracker />
         <BetaBanner />
         {children}

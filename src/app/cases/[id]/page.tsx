@@ -16,7 +16,7 @@ import { Shell } from "@/components/layout/shell";
 import { requireSessionEmail } from "@/lib/auth/server";
 import { assertCaseOwner } from "@/lib/db/repository";
 
-export const dynamic = "force-static";
+export const dynamic = "force-dynamic";
 
 export default async function CaseDetailPage({
   params,
