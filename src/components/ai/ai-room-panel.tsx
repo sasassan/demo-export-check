@@ -251,8 +251,8 @@ export function AiRoomPanel({
     <div className="rounded-xl border border-slate-200 bg-white p-6">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#1e3a5f]">
-            AI consultation
+          <p className="text-xs font-semibold uppercase tracking-wider text-[#1e3a5f]">
+            AI相談室
           </p>
           <h2 className="mt-2 text-xl font-bold text-slate-900">AI相談室</h2>
         </div>

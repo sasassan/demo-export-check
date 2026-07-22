@@ -7,7 +7,7 @@ export const dynamic = "force-static";
 const features = [
   {
     title: "制裁リスト調査",
-    description: "国連・米国OFAC・EUなどの制裁対象リストに顧客企業・担当者が該当しないかをチェックします。",
+    description: "国連・米国OFAC・EUなどの制裁リストに顧客企業・担当者が該当しないかをチェックします。",
     icon: "M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.955 11.955 0 0 0 3 10.5c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.572-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Z",
   },
   {
@@ -255,7 +255,7 @@ export default function Home() {
                 </div>
                 <div className="grid gap-4 p-5 lg:grid-cols-[0.95fr_1.05fr]">
                   <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-[#1e3a5f]">Input</p>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-[#1e3a5f]">入力情報</p>
                     <div className="mt-3 space-y-3">
                       {[
                         ["商品名", "高精度サーボモーター"],
@@ -273,7 +273,7 @@ export default function Home() {
                   <div className="rounded-lg border border-slate-200 bg-white p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-xs font-semibold uppercase tracking-wider text-[#1e3a5f]">Result</p>
+                        <p className="text-xs font-semibold uppercase tracking-wider text-[#1e3a5f]">診断結果</p>
                         <p className="mt-1 text-sm font-semibold text-slate-900">高精度サーボモーター SRV-9800 → ベトナム</p>
                       </div>
                       <span className="rounded-md border border-amber-200 bg-amber-50 px-3 py-1 text-sm font-bold text-amber-800">総合 B</span>
@@ -358,7 +358,7 @@ export default function Home() {
               </div>
 
               <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <span className="trade-section-label">Target users</span>
+                <span className="trade-section-label">対象ユーザー</span>
                 <h3 className="mt-3 text-xl font-bold text-slate-900">特に想定している利用者</h3>
                 <div className="mt-4 grid gap-3 sm:grid-cols-2">
                   {targetProfiles.map((item) => (
@@ -472,7 +472,7 @@ export default function Home() {
             </div>
             <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {[
-                { label: "国際制裁情報", desc: "国連・米国OFAC・EU・英国HMTなどの制裁対象リスト" },
+                { label: "国際制裁情報", desc: "国連・米国OFAC・EU・英国HMTなどの制裁リスト" },
                 { label: "輸出規制情報", desc: "日本の外為法・EAR（米国輸出管理規則）などの規制情報" },
                 { label: "企業公開情報", desc: "企業登記・所在地・事業内容などの公開データ" },
                 { label: "国リスク情報", desc: "政情・紛争・地政学リスクに関する公開情報" },
@@ -556,7 +556,7 @@ export default function Home() {
           <div className="mx-auto max-w-5xl">
             <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
               <div>
-                <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-[#1e3a5f]">About This Service</span>
+                <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-[#1e3a5f]">サービスについて</span>
                 <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">誰が、なぜ作っているのか</h2>
                 <p className="mt-3 text-base leading-7 text-slate-600">輸出管理・海外業務の実務経験を背景に、「中小企業の営業担当者でも一次確認ができる」ツールを目指して開発しています。</p>
                 <p className="mt-2 text-base leading-7 text-slate-600">大企業には専任の輸出管理部門があります。しかし中小企業の現場では、営業担当者が輸出コンプライアンスの初動判断を迫られることが多くあります。</p>
@@ -646,7 +646,7 @@ export default function Home() {
         <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-blue-50/40 px-4 py-12 sm:px-6">
           <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-2">
             <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-2.5 py-1 text-[10px] font-semibold tracking-wider text-[#1e3a5f]">TRUST & SECURITY</span>
+              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-2.5 py-1 text-[10px] font-semibold tracking-wider text-[#1e3a5f]">信頼とセキュリティ</span>
               <h2 className="mt-3 text-lg font-bold text-slate-900">AI入力の不安に先回りして対応</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">図面・仕様書をAIへ入力してよいか、技術提供に該当しないか。企業導入でよく出る懸念を整理したガイドラインを用意しています。</p>
               <div className="mt-4 flex gap-3">
@@ -655,7 +655,7 @@ export default function Home() {
               </div>
             </div>
             <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-2.5 py-1 text-[10px] font-semibold tracking-wider text-[#1e3a5f]">TRAINING SERVICE</span>
+              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-2.5 py-1 text-[10px] font-semibold tracking-wider text-[#1e3a5f]">研修サービス</span>
               <h2 className="mt-3 text-lg font-bold text-slate-900">AI導入だけでなく、運用教育まで支援</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">営業担当向け教育、外為法セミナー、法令改正時の定期講習、社内ルール策定支援など。</p>
               <div className="mt-4 flex gap-3">

@@ -11,7 +11,7 @@ export default function ContactPage() {
       <Header />
       <main className="mx-auto flex max-w-4xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-10">
         <section className="rounded-xl border border-slate-200 bg-white p-6 sm:p-8">
-          <span className="trade-section-label">Contact</span>
+          <span className="trade-section-label">お問い合わせ</span>
           <h1 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">お問い合わせ</h1>
           <p className="mt-3 text-base leading-7 text-slate-700">
             Beta版へのご意見・利用相談・改善要望を受け付けています。フィードバックはサービス改善のために利用します。

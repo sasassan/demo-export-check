@@ -136,7 +136,7 @@ export default function GlossaryPage() {
       <DictionarySearch />
 
       <div className="border border-slate-200 bg-white rounded-xl p-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#1e3a5f]">How to use with AI</p>
+        <p className="text-xs font-semibold uppercase tracking-wider text-[#1e3a5f]">AIの活用方法</p>
         <h2 className="mt-2 text-xl font-bold text-slate-900">用語辞典と資料読解補助を組み合わせる</h2>
         <div className="mt-4 grid gap-3 md:grid-cols-3">
           {[

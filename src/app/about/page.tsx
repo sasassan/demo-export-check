@@ -46,7 +46,7 @@ export default function AboutPage() {
         <section className="overflow-hidden rounded-xl border border-slate-200 bg-white p-6 sm:p-8">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
             <div>
-              <span className="trade-section-label">Service Overview</span>
+              <span className="trade-section-label">サービス概要</span>
               <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">{APP_NAME} とは？</h1>
               <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
                 {APP_NAME} は、輸出案件の一次確認をスピーディに進めるための、AIベースの輸出リスク確認サービスです。
@@ -74,7 +74,7 @@ export default function AboutPage() {
         </section>
 
         <section className="rounded-xl border border-slate-200 bg-white p-6">
-          <span className="trade-section-label">Knowledge Assistant</span>
+          <span className="trade-section-label">ナレッジアシスタント</span>
           <h2 className="mt-3 text-xl font-bold text-slate-900">判定AIだけでなく、理解を助けるAIへ</h2>
           <div className="mt-5 grid gap-4 lg:grid-cols-2">
             <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
@@ -99,7 +99,7 @@ export default function AboutPage() {
         </section>
 
         <section className="rounded-xl border border-slate-200 bg-white p-6">
-          <span className="trade-section-label">Trust signals</span>
+          <span className="trade-section-label">信頼性について</span>
           <h2 className="mt-3 text-xl font-bold text-slate-900">公開ページで伝えている信頼ポイント</h2>
           <div className="mt-5 grid gap-4 lg:grid-cols-3">
             {trustPoints.map((item) => (
@@ -112,7 +112,7 @@ export default function AboutPage() {
         </section>
 
         <section className="rounded-xl border border-slate-200 bg-white p-6">
-          <span className="trade-section-label">Current limitations</span>
+          <span className="trade-section-label">現在の制限</span>
           <h2 className="mt-3 text-xl font-bold text-slate-900">現時点での公開上の制限</h2>
           <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-900">
             実顧客データを含む案件一覧、社内向けの調査履歴、実運用のPDFレポート詳細は一般公開していません。
@@ -121,7 +121,7 @@ export default function AboutPage() {
         </section>
 
         <section className="rounded-xl border border-slate-200 bg-white p-6">
-          <span className="trade-section-label">More details</span>
+          <span className="trade-section-label">詳細情報</span>
           <h2 className="mt-3 text-xl font-bold text-slate-900">詳細ページ</h2>
           <div className="mt-5 grid gap-4 md:grid-cols-3">
             {[
@@ -168,7 +168,7 @@ export default function AboutPage() {
             </div>
           </section>
           <section className="rounded-xl border border-slate-200 bg-white p-6">
-            <span className="trade-section-label">Recommended Scenes</span>
+            <span className="trade-section-label">推奨シーン</span>
             <h2 className="mt-3 text-xl font-bold text-slate-900">こんな場面で役立ちます</h2>
             <ul className="mt-4 space-y-2">
               {useCases.map((item) => (

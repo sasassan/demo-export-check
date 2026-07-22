@@ -73,7 +73,7 @@ export function LoginForm() {
       </button>
 
       <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-700">Login note</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-700">ログインに関する注意事項</p>
         <p className="mt-2 text-xs leading-6 text-slate-600">
         初期版ではメールを入力するとそのまま利用開始できます。将来的に Magic Link に置き換えやすい構成です。
         </p>

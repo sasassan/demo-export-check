@@ -30,7 +30,7 @@ export default function LoginPage() {
           </div>
           <div className="flex flex-col">
             <span className="text-lg font-semibold text-white">{APP_NAME}</span>
-            <span className="text-[10px] uppercase tracking-widest text-white/60">Sanctions & Export Review</span>
+            <span className="text-[10px] uppercase tracking-widest text-white/60">制裁および輸出審査</span>
           </div>
         </div>
 
@@ -44,9 +44,9 @@ export default function LoginPage() {
           </p>
           <div className="mt-8 space-y-2.5">
             {[
-              ["審査対象", "Sanctions / End-user / Country"],
+              ["審査対象", "制裁 / エンドユーザー / 国リスク"],
               ["処理時間", "平均 約5分"],
-              ["共有形式", "PDF / AI要約 / Checklist"],
+              ["共有形式", "PDF / AI要約 / チェックリスト"],
             ].map(([label, value]) => (
               <div key={label} className="rounded-lg border border-white/15 bg-white/10 px-4 py-2.5">
                 <p className="text-[10px] font-semibold uppercase tracking-wider text-white/60">{label}</p>
@@ -88,11 +88,11 @@ export default function LoginPage() {
           </div>
 
           <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-            <span className="trade-section-label">Secure Sign-in</span>
+            <span className="trade-section-label">安全なサインイン</span>
             <h2 className="mt-3 text-2xl font-bold text-slate-900">ログイン</h2>
             <p className="mt-2 text-sm leading-6 text-slate-600">メールアドレスを入力してすぐに利用開始できます。</p>
             <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Access Scope</p>
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">アクセス範囲</p>
               <p className="mt-0.5 text-sm text-slate-700">案件一覧 / AI診断 / PDFレポート / チェックリスト管理</p>
             </div>
             <div className="mt-6">

@@ -169,7 +169,7 @@ export function PublicDemoSimulator() {
       <section className="rounded-xl border border-slate-200 bg-white p-6">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <span className="trade-section-label">Interactive mock</span>
+            <span className="trade-section-label">対話型モック</span>
             <h2 className="mt-3 text-xl font-bold text-slate-900">
               公開デモで入力体験を再現
             </h2>
@@ -283,7 +283,7 @@ export function PublicDemoSimulator() {
       <section ref={resultRef} className="rounded-xl border border-slate-200 bg-white p-6">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <span className="trade-section-label">Sample result</span>
+            <span className="trade-section-label">サンプル結果</span>
             <h2 className="mt-3 text-xl font-bold text-slate-900">
               結果プレビュー
             </h2>
@@ -391,7 +391,7 @@ export function PublicDemoSimulator() {
                 </div>
                 <div className="w-full rounded-lg border border-slate-200 bg-white p-4 lg:max-w-[44%]">
                   <p className="text-[11px] font-semibold uppercase tracking-wider text-[#1e3a5f]">
-                    PDF sample preview
+                    PDFサンプルプレビュー
                   </p>
                   <div className="mt-3 space-y-3">
                     <div className="rounded-md border border-slate-200 bg-slate-50 p-3">

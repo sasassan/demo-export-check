@@ -70,7 +70,7 @@ export function ConsultationHistory() {
 
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-6">
-      <p className="trade-section-label">Consultation History</p>
+      <p className="trade-section-label">相談履歴</p>
       <h2 className="mt-3 text-xl font-bold text-slate-900">相談履歴</h2>
       <p className="mt-2 text-sm leading-7 text-slate-600">
         これまでAI相談室で確認した内容を一覧で振り返れます。
