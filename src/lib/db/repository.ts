@@ -9,7 +9,7 @@ import {
   riskAssessments,
 } from "@/lib/db/schema";
 import { createId } from "@/lib/utils";
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, gte } from "drizzle-orm";
 import type {
   AssessmentRecord,
   AnalyticsEventRecord,
@@ -27,6 +27,8 @@ type RepositoryState = {
   investigations: InvestigationRecord[];
   assessments: AssessmentRecord[];
   consultations: AiConsultationRecord[];
+  analyticsSessions: AnalyticsSessionRecord[];
+  analyticsEvents: AnalyticsEventRecord[];
 };
 
 declare global {
@@ -72,6 +74,8 @@ function getState(): RepositoryState {
       ],
       assessments: [],
       consultations: [],
+      analyticsSessions: [],
+      analyticsEvents: [],
     };
   }
 
@@ -715,8 +719,24 @@ export async function createAnalyticsSession(
       deviceType: input.deviceType,
       startedAt: new Date(input.startedAt),
       lastSeenAt: new Date(input.lastSeenAt),
+    })
+    .onConflictDoUpdate({
+      target: analyticsSessions.id,
+      set: {
+        exitPath: input.exitPath ?? null,
+        lastSeenAt: new Date(input.lastSeenAt),
+        userEmail: input.userEmail ?? null,
+      },
     });
     return input;
+  }
+
+  const state = getState();
+  const existing = state.analyticsSessions.find((item) => item.id === input.id);
+  if (existing) {
+    Object.assign(existing, input);
+  } else {
+    state.analyticsSessions.unshift(input);
   }
 
   return input;
@@ -743,5 +763,117 @@ export async function saveAnalyticsEvent(
     return input;
   }
 
+  const state = getState();
+  state.analyticsEvents.unshift(input);
+
   return input;
+}
+
+export type AnalyticsSummary = {
+  rangeDays: number;
+  totalSessions: number;
+  totalPageViews: number;
+  totalCtaClicks: number;
+  uniqueVisitors: number;
+  deviceBreakdown: Array<{ deviceType: string; count: number }>;
+  topPaths: Array<{ path: string; count: number }>;
+  topCtas: Array<{ ctaId: string; label: string; count: number }>;
+};
+
+export async function getAnalyticsSummary(rangeDays = 30): Promise<AnalyticsSummary> {
+  const since = new Date(Date.now() - rangeDays * 24 * 60 * 60 * 1000);
+  const db = getDb();
+
+  let sessions: AnalyticsSessionRecord[];
+  let events: AnalyticsEventRecord[];
+
+  if (db) {
+    const sessionRows = await db
+      .select()
+      .from(analyticsSessions)
+      .where(gte(analyticsSessions.startedAt, since));
+    const eventRows = await db
+      .select()
+      .from(analyticsEvents)
+      .where(gte(analyticsEvents.createdAt, since));
+
+    sessions = sessionRows.map((row) => ({
+      id: row.id,
+      visitorId: row.visitorId,
+      userEmail: row.userEmail ?? undefined,
+      entryPath: row.entryPath,
+      exitPath: row.exitPath ?? undefined,
+      referrer: row.referrer ?? undefined,
+      utmSource: row.utmSource ?? undefined,
+      utmMedium: row.utmMedium ?? undefined,
+      utmCampaign: row.utmCampaign ?? undefined,
+      deviceType: row.deviceType as AnalyticsSessionRecord["deviceType"],
+      startedAt: row.startedAt.toISOString(),
+      lastSeenAt: row.lastSeenAt.toISOString(),
+    }));
+
+    events = eventRows.map((row) => ({
+      id: row.id,
+      sessionId: row.sessionId,
+      visitorId: row.visitorId,
+      userEmail: row.userEmail ?? undefined,
+      eventName: row.eventName,
+      path: row.path,
+      fromPath: row.fromPath ?? undefined,
+      toPath: row.toPath ?? undefined,
+      label: row.label ?? undefined,
+      meta: (row.meta as Record<string, unknown>) ?? undefined,
+      createdAt: row.createdAt.toISOString(),
+    }));
+  } else {
+    const state = getState();
+    sessions = state.analyticsSessions.filter(
+      (item) => new Date(item.startedAt).getTime() >= since.getTime(),
+    );
+    events = state.analyticsEvents.filter(
+      (item) => new Date(item.createdAt).getTime() >= since.getTime(),
+    );
+  }
+
+  const pageViewEvents = events.filter((item) => item.eventName === "page_view");
+  const ctaClickEvents = events.filter((item) => item.eventName === "cta_click");
+
+  const deviceCounts = new Map<string, number>();
+  for (const session of sessions) {
+    deviceCounts.set(session.deviceType, (deviceCounts.get(session.deviceType) ?? 0) + 1);
+  }
+
+  const pathCounts = new Map<string, number>();
+  for (const event of pageViewEvents) {
+    pathCounts.set(event.path, (pathCounts.get(event.path) ?? 0) + 1);
+  }
+
+  const ctaCounts = new Map<string, { label: string; count: number }>();
+  for (const event of ctaClickEvents) {
+    const ctaId = (event.meta?.ctaId as string | undefined) ?? event.label ?? "unknown";
+    const label = event.label ?? ctaId;
+    const current = ctaCounts.get(ctaId);
+    ctaCounts.set(ctaId, { label, count: (current?.count ?? 0) + 1 });
+  }
+
+  const uniqueVisitors = new Set(sessions.map((item) => item.visitorId)).size;
+
+  return {
+    rangeDays,
+    totalSessions: sessions.length,
+    totalPageViews: pageViewEvents.length,
+    totalCtaClicks: ctaClickEvents.length,
+    uniqueVisitors,
+    deviceBreakdown: Array.from(deviceCounts.entries())
+      .map(([deviceType, count]) => ({ deviceType, count }))
+      .sort((a, b) => b.count - a.count),
+    topPaths: Array.from(pathCounts.entries())
+      .map(([path, count]) => ({ path, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10),
+    topCtas: Array.from(ctaCounts.entries())
+      .map(([ctaId, value]) => ({ ctaId, label: value.label, count: value.count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10),
+  };
 }
