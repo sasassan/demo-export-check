@@ -7,7 +7,7 @@ type Props = {
 };
 
 const COLORS = [
-  "bg-red-500",
+  "bg-rose-500",
   "bg-orange-400",
   "bg-amber-400",
   "bg-yellow-300",
@@ -25,10 +25,10 @@ export function RiskHeatmap({ dimensions }: Props) {
   const sorted = [...dimensions].sort((a, b) => b.score - a.score);
 
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+    <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
       <div className="mb-4">
-        <h3 className="text-base font-bold text-gray-900">リスクヒートマップ</h3>
-        <p className="text-xs text-gray-500 mt-0.5">
+        <h3 className="text-base font-bold text-slate-900">リスクヒートマップ</h3>
+        <p className="text-xs text-slate-500 mt-0.5">
           リスクスコアの分布（面積=リスクの大きさ）
         </p>
       </div>
@@ -63,8 +63,8 @@ export function RiskHeatmap({ dimensions }: Props) {
               <span
                 className={`w-3 h-3 rounded-sm flex-shrink-0 ${COLORS[idx % COLORS.length]}`}
               />
-              <span className="text-xs text-gray-600 truncate">{d.label}</span>
-              <span className="text-xs text-gray-500 ml-auto">
+              <span className="text-xs text-slate-600 truncate">{d.label}</span>
+              <span className="text-xs text-slate-500 ml-auto">
                 {pct.toFixed(0)}%
               </span>
             </div>
@@ -74,8 +74,8 @@ export function RiskHeatmap({ dimensions }: Props) {
 
       {/* リスク集中度コメント */}
       {sorted[0] && (
-        <p className="mt-3 pt-3 border-t border-gray-100 text-xs text-gray-500">
-          最大リスク: <span className="font-semibold text-gray-700">{sorted[0].label}</span>{" "}
+        <p className="mt-3 pt-3 border-t border-slate-100 text-xs text-slate-500">
+          最大リスク: <span className="font-semibold text-slate-700">{sorted[0].label}</span>{" "}
           （全体の{((sorted[0].score / total) * 100).toFixed(0)}%）
         </p>
       )}

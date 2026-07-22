@@ -5,7 +5,7 @@ import type { CaseRecord, AssessmentRecord } from "@/lib/types";
 const gradeColor: Record<string, string> = {
   A: "bg-emerald-100 text-emerald-800 border-emerald-300",
   B: "bg-amber-100 text-amber-800 border-amber-300",
-  C: "bg-red-100 text-red-800 border-red-300",
+  C: "bg-rose-100 text-rose-800 border-rose-300",
 };
 
 const gradeLabel: Record<string, string> = {
@@ -34,7 +34,7 @@ export function ExecutiveSummary({ caseRecord, assessment }: Props) {
   const safetyScore = Math.max(0, 100 - avgScore);
 
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden print:shadow-none">
+    <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden print:shadow-none">
       {/* ヘッダー */}
       <div className="bg-gradient-to-r from-slate-800 to-slate-700 px-6 py-4 flex items-center justify-between">
         <div>
@@ -68,8 +68,8 @@ export function ExecutiveSummary({ caseRecord, assessment }: Props) {
               },
             ].map(({ label, value }) => (
               <div key={label}>
-                <p className="text-xs text-gray-500 font-medium">{label}</p>
-                <p className="text-sm text-gray-900 font-semibold mt-0.5">
+                <p className="text-xs text-slate-500 font-medium">{label}</p>
+                <p className="text-sm text-slate-900 font-semibold mt-0.5">
                   {value}
                 </p>
               </div>
@@ -78,8 +78,8 @@ export function ExecutiveSummary({ caseRecord, assessment }: Props) {
 
           {/* 判定理由・注意事項 */}
           <div>
-            <p className="text-xs text-gray-500 font-medium mb-1">判定サマリー</p>
-            <p className="text-sm text-gray-700 leading-relaxed">
+            <p className="text-xs text-slate-500 font-medium mb-1">判定サマリー</p>
+            <p className="text-sm text-slate-700 leading-relaxed">
               {summary.summary}
             </p>
           </div>
@@ -114,26 +114,26 @@ export function ExecutiveSummary({ caseRecord, assessment }: Props) {
 
           {/* スコア */}
           <div className="text-center">
-            <p className="text-3xl font-bold text-gray-900">{safetyScore}</p>
-            <p className="text-xs text-gray-500">/ 100点</p>
+            <p className="text-3xl font-bold text-slate-900">{safetyScore}</p>
+            <p className="text-xs text-slate-500">/ 100点</p>
           </div>
 
           {/* 一致率 */}
           {agreementRate !== undefined && modelResults && modelResults.length >= 2 && (
             <div className="text-center">
-              <p className="text-xs text-gray-500">AI一致率</p>
+              <p className="text-xs text-slate-500">AI一致率</p>
               <p
                 className={`text-lg font-bold ${
                   agreementRate >= 80
                     ? "text-emerald-600"
                     : agreementRate >= 60
                       ? "text-amber-600"
-                      : "text-red-600"
+                      : "text-rose-600"
                 }`}
               >
                 {agreementRate}%
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-slate-500">
                 {agreementRate >= 80 ? "高信頼" : agreementRate >= 60 ? "中信頼" : "要検討"}
               </p>
             </div>

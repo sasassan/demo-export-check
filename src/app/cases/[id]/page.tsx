@@ -66,7 +66,7 @@ export default async function CaseDetailPage({
               <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
                 <Link
                   href={`/api/reports/${detail.case.id}/pdf`}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#1e3a5f] px-4 py-2 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73]"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-navy px-4 py-2 text-sm font-semibold !text-white shadow-sm hover:bg-brand-navy-light"
                   target="_blank"
                 >
                   <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
@@ -165,8 +165,8 @@ export default async function CaseDetailPage({
                 </div>
                 {detail.assessment.agreementRate !== undefined && (
                   <div className="text-right">
-                    <p className="text-xs text-gray-500">一致率</p>
-                    <p className={`text-2xl font-black ${detail.assessment.agreementRate >= 80 ? "text-emerald-600" : detail.assessment.agreementRate >= 60 ? "text-amber-500" : "text-red-600"}`}>
+                    <p className="text-xs text-slate-500">一致率</p>
+                    <p className={`text-2xl font-black ${detail.assessment.agreementRate >= 80 ? "text-emerald-600" : detail.assessment.agreementRate >= 60 ? "text-amber-500" : "text-rose-600"}`}>
                       {detail.assessment.agreementRate}%
                     </p>
                   </div>
@@ -360,7 +360,7 @@ export default async function CaseDetailPage({
             <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
               <div className="flex items-center gap-3 mb-4">
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-[#1e3a5f]">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-brand-navy">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z" />
                   </svg>
                 </div>
@@ -384,10 +384,21 @@ export default async function CaseDetailPage({
               </div>
               <ul className="space-y-2">
                 {detail.assessment.summary.nextActions.map((action, idx) => {
-                  const stars = "★".repeat(Math.max(1, 5 - idx));
+                  const starCount = Math.max(1, 5 - idx);
                   return (
                     <li key={action} className="flex items-start gap-3 rounded-xl border border-slate-200 bg-blue-50/50 px-4 py-3">
-                      <span className="text-amber-400 text-sm flex-shrink-0">{stars}</span>
+                      <span className="flex shrink-0 gap-0.5 pt-0.5">
+                        {Array.from({ length: 5 }).map((_, starIdx) => (
+                          <svg
+                            key={starIdx}
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            className={`h-3.5 w-3.5 ${starIdx < starCount ? "text-amber-400" : "text-slate-200"}`}
+                          >
+                            <path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l1.83 4.401 4.753.381c1.164.093 1.636 1.545.749 2.305l-3.622 3.104 1.106 4.637c.271 1.136-.964 2.033-1.96 1.425L12 16.951l-4.068 2.512c-.996.608-2.231-.289-1.96-1.425l1.106-4.637-3.622-3.104c-.887-.76-.415-2.212.749-2.305l4.753-.38 1.83-4.402Z" />
+                          </svg>
+                        ))}
+                      </span>
                       <span className="text-sm text-slate-700 leading-relaxed">{action}</span>
                     </li>
                   );
@@ -409,14 +420,14 @@ export default async function CaseDetailPage({
           </section>
 
           {/* ⑫ AI相談ボタン */}
-          <section className="rounded-xl border border-slate-200 bg-gradient-to-r from-[#1e3a5f] to-[#2a4a73] p-6 text-white text-center">
+          <section className="rounded-xl border border-slate-200 bg-gradient-to-r from-brand-navy to-brand-navy-light p-6 text-white text-center">
             <h2 className="text-lg font-bold mb-2">この案件についてAIへ質問する</h2>
             <p className="text-sm text-blue-100 mb-4">
               「なぜB評価？」「中国へ輸出すると？」など、このレポートの内容を踏まえてAIに直接相談できます。
             </p>
             <Link
               href={`/cases/${detail.case.id}/chat`}
-              className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-bold text-[#1e3a5f] shadow-lg hover:bg-blue-50 transition-colors"
+              className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-bold text-brand-navy shadow-lg hover:bg-blue-50 transition-colors"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />

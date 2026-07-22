@@ -10,9 +10,9 @@ type Props = {
 };
 
 const modelIcon: Record<string, string> = {
-  "gpt-4o": "G",
+  "gpt-4o": "O",
   claude: "C",
-  gemini: "✦",
+  gemini: "G",
   mock: "?",
 };
 
@@ -20,13 +20,13 @@ const modelColor: Record<string, string> = {
   "gpt-4o": "bg-emerald-600",
   claude: "bg-violet-600",
   gemini: "bg-blue-600",
-  mock: "bg-gray-500",
+  mock: "bg-slate-500",
 };
 
 const gradeColor: Record<string, string> = {
   A: "text-emerald-700 bg-emerald-50 border-emerald-200",
   B: "text-amber-700 bg-amber-50 border-amber-200",
-  C: "text-red-700 bg-red-50 border-red-200",
+  C: "text-rose-700 bg-rose-50 border-rose-200",
 };
 
 export function AiReviewMeeting({
@@ -38,29 +38,29 @@ export function AiReviewMeeting({
   if (!reviewMeeting || reviewMeeting.length === 0) return null;
 
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+    <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
       {/* ヘッダー */}
       <div className="flex items-center justify-between mb-5">
         <div>
-          <h3 className="text-base font-bold text-gray-900">AIレビュー会議</h3>
-          <p className="text-xs text-gray-500 mt-0.5">
+          <h3 className="text-base font-bold text-slate-900">AIレビュー会議</h3>
+          <p className="text-xs text-slate-500 mt-0.5">
             3つのAIが独立して評価し、議論した結果です
           </p>
         </div>
         <div className="text-right">
-          <p className="text-xs text-gray-500">AI評価一致率</p>
+          <p className="text-xs text-slate-500">AI評価一致率</p>
           <p
             className={`text-2xl font-black ${
               agreementRate >= 80
                 ? "text-emerald-600"
                 : agreementRate >= 60
                   ? "text-amber-500"
-                  : "text-red-600"
+                  : "text-rose-600"
             }`}
           >
             {agreementRate}%
           </p>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-slate-500">
             {agreementRate >= 80
               ? "高信頼性"
               : agreementRate >= 60
@@ -73,22 +73,22 @@ export function AiReviewMeeting({
       {/* タイムライン */}
       <div className="relative">
         {/* 縦線 */}
-        <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-gray-100" />
+        <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-slate-100" />
 
         <div className="space-y-4">
           {reviewMeeting.map((entry, idx) => (
             <div key={entry.model} className="relative flex gap-4">
               {/* アイコン */}
               <div
-                className={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0 ${modelColor[entry.model] ?? "bg-gray-500"}`}
+                className={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0 ${modelColor[entry.model] ?? "bg-slate-500"}`}
               >
                 {modelIcon[entry.model] ?? "?"}
               </div>
 
               {/* コンテンツ */}
-              <div className="flex-1 bg-gray-50 rounded-xl p-4 border border-gray-100">
+              <div className="flex-1 bg-slate-50 rounded-xl p-4 border border-slate-100 trade-hover-lift">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-bold text-gray-800">
+                  <span className="text-sm font-bold text-slate-800">
                     {entry.modelLabel}
                   </span>
                   <span
@@ -97,21 +97,23 @@ export function AiReviewMeeting({
                     判定: {entry.overallGrade}
                   </span>
                 </div>
-                <p className="text-sm text-gray-700 leading-relaxed">
+                <p className="text-sm text-slate-700 leading-relaxed">
                   {entry.reviewComment}
                 </p>
                 <div className="mt-2 flex items-start gap-1.5">
-                  <span className="text-xs font-semibold text-red-600 flex-shrink-0">
+                  <span className="text-xs font-semibold text-rose-600 flex-shrink-0">
                     主なリスク:
                   </span>
-                  <span className="text-xs text-gray-600">{entry.keyRisk}</span>
+                  <span className="text-xs text-slate-600">{entry.keyRisk}</span>
                 </div>
               </div>
 
               {/* 矢印（最後以外） */}
               {idx < reviewMeeting.length - 1 && (
                 <div className="absolute left-5 bottom-0 translate-y-full flex items-center justify-center w-10 pt-1">
-                  <span className="text-gray-500 text-lg">↓</span>
+                  <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 text-slate-400">
+                    <path fillRule="evenodd" d="M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z" clipRule="evenodd" />
+                  </svg>
                 </div>
               )}
             </div>
@@ -119,8 +121,10 @@ export function AiReviewMeeting({
 
           {/* 統合判定 */}
           <div className="relative flex gap-4">
-            <div className="relative z-10 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0 bg-slate-800">
-              ★
+            <div className="relative z-10 w-10 h-10 rounded-full flex items-center justify-center text-white flex-shrink-0 bg-brand-navy">
+              <svg viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
+                <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.005 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354l-4.627 2.824c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.005Z" clipRule="evenodd" />
+              </svg>
             </div>
             <div className="flex-1 bg-slate-50 rounded-xl p-4 border border-slate-200">
               <p className="text-sm font-bold text-slate-800 mb-1">統合判定</p>
