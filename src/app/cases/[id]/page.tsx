@@ -262,6 +262,73 @@ export default async function CaseDetailPage({
             </section>
           )}
 
+          {/* ④-2 マルチAIコンセンサス（多数決/重み付け集計、詳細は展開して確認） */}
+          {detail.assessment.crossReview && detail.assessment.crossReview.dimensions.length > 0 && (
+            <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+              <details>
+                <summary className="cursor-pointer list-none">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h2 className="text-base font-semibold text-slate-900">マルチAIコンセンサス（詳細）</h2>
+                      <p className="text-sm text-slate-500">
+                        {detail.assessment.crossReview.isFallbackOnly
+                          ? "現在はモック応答で動作中です（APIキー未設定）"
+                          : `${detail.assessment.crossReview.participatingProviders.length}件のAIによる統合評価・信頼度: ${detail.assessment.crossReview.confidenceLevel}（${detail.assessment.crossReview.confidenceScore}%）`}
+                      </p>
+                    </div>
+                    <span
+                      className={`rounded-full border px-3 py-1 text-sm font-bold ${
+                        detail.assessment.crossReview.overallConsensusGrade === "C"
+                          ? "text-red-600 bg-red-50 border-red-200"
+                          : detail.assessment.crossReview.overallConsensusGrade === "B"
+                            ? "text-amber-600 bg-amber-50 border-amber-200"
+                            : "text-emerald-600 bg-emerald-50 border-emerald-200"
+                      }`}
+                    >
+                      {detail.assessment.crossReview.overallConsensusGrade}
+                    </span>
+                  </div>
+                </summary>
+
+                <div className="mt-4 space-y-2">
+                  {detail.assessment.crossReview.dimensions.map((dim) => (
+                    <div
+                      key={dim.dimension}
+                      className={`rounded-lg border px-3 py-2 ${
+                        dim.hasDisagreement ? "border-amber-200 bg-amber-50" : "border-slate-100 bg-slate-50"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="text-xs font-semibold text-slate-800">{dim.label}</p>
+                        <span className="text-xs font-bold text-slate-600">
+                          多数決: {dim.consensusGrade}（{dim.consensusScore}点）
+                        </span>
+                      </div>
+                      <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-slate-500">
+                        {dim.votes.map((vote) => (
+                          <span key={vote.model}>
+                            {vote.modelLabel}: {vote.grade}（{vote.score}）
+                          </span>
+                        ))}
+                      </div>
+                      {dim.hasDisagreement && (
+                        <p className="mt-1 text-[11px] font-semibold text-amber-700">
+                          AIの評価が分かれています（要確認）
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {detail.assessment.crossReview.skippedProviders.length > 0 && !detail.assessment.crossReview.isFallbackOnly && (
+                  <p className="mt-3 text-[11px] text-slate-400">
+                    APIキー未設定のためスキップされたプロバイダー: {detail.assessment.crossReview.skippedProviders.join("、")}
+                  </p>
+                )}
+              </details>
+            </section>
+          )}
+
           {/* ⑤ AIレビュー会議タイムライン */}
           {detail.assessment.reviewMeeting && detail.assessment.reviewMeeting.length > 0 && (
             <AiReviewMeeting
