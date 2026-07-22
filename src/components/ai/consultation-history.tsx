@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { buildCaseDraftLink } from "@/lib/ai/extract-case-draft";
+import { EmptyState } from "@/components/ui/empty-state";
+import { SkeletonLines } from "@/components/ui/skeleton";
 import type { AiConsultationRecord } from "@/lib/types";
 
 export function ConsultationHistory() {
@@ -101,12 +103,21 @@ export function ConsultationHistory() {
         <div className="rounded-2xl border border-cyan-100 bg-cyan-50/60 px-4 py-3 text-xs leading-6 text-cyan-900">相談内容は検索・モード・案件化状態で絞り込みできます。案件化済みの履歴はそのまま案件詳細へ戻れます。</div>
 
         {loading ? (
-          <div className="trade-soft-block p-4 text-sm text-slate-500">読み込み中...</div>
+          <div className="space-y-3">
+            {Array.from({ length: 3 }).map((_, idx) => (
+              <div key={idx} className="trade-soft-block p-4">
+                <SkeletonLines count={3} />
+              </div>
+            ))}
+          </div>
         ) : filteredItems.length === 0 ? (
-          <div className="trade-soft-block p-4 text-sm text-slate-500">該当する相談履歴はありません。</div>
+          <EmptyState
+            title="該当する相談履歴はありません"
+            description="キーワードやモード・案件化状態の絞り込みを変更してみてください。"
+          />
         ) : (
           filteredItems.map((item) => (
-            <div key={item.id} className="trade-soft-block p-4">
+            <div key={item.id} className="trade-soft-block p-4 trade-hover-lift">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <p className="text-sm font-semibold text-slate-900">{item.answerTitle}</p>
                 <div className="flex items-center gap-2">
@@ -116,7 +127,7 @@ export function ConsultationHistory() {
                   </span>
                 </div>
               </div>
-              <p className="mt-2 text-xs font-medium text-[#1e3a5f]">質問: {item.question || "（資料読解のみ）"}</p>
+              <p className="mt-2 text-xs font-medium text-brand-navy">質問: {item.question || "（資料読解のみ）"}</p>
               <p className="mt-2 text-sm leading-7 text-slate-600">{item.answer}</p>
 
               {(item.sourceUrl || item.fetchedUrlText || item.sourceFetchStatus) && (
@@ -136,7 +147,7 @@ export function ConsultationHistory() {
                 </p>
               ) : null}
               {item.confidenceLabel ? (
-                <p className="mt-2 text-xs font-semibold text-[#1e3a5f]">
+                <p className="mt-2 text-xs font-semibold text-brand-navy">
                   回答信頼度: {item.confidenceLabel}
                 </p>
               ) : null}
@@ -185,7 +196,7 @@ export function ConsultationHistory() {
                     type="button"
                     onClick={() => createCaseFromConsultation(item)}
                     disabled={creatingId === item.id}
-                    className="rounded-lg bg-gradient-to-r from-[#1e3a5f] to-sky-500 px-3 py-2 text-xs font-semibold text-white shadow-sm disabled:opacity-60"
+                    className="rounded-lg bg-gradient-to-r from-brand-navy to-sky-500 px-3 py-2 text-xs font-semibold text-white shadow-sm disabled:opacity-60"
                   >
                     {creatingId === item.id ? "案件化中..." : "この相談から案件を作成"}
                   </button>

@@ -17,7 +17,7 @@ export default function AiRoomPage() {
         </div>
         <div className="space-y-6">
           <div className="rounded-xl border border-slate-200 bg-white p-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#1e3a5f]">What you can ask</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-navy">What you can ask</p>
             <h2 className="mt-2 text-xl font-bold text-slate-900">こんな相談に対応</h2>
             <div className="mt-4 space-y-3">
               {[
@@ -37,7 +37,7 @@ export default function AiRoomPage() {
           </div>
 
           <div className="rounded-xl border border-blue-100 bg-gradient-to-br from-slate-50 to-blue-50 p-6 shadow-sm">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#1e3a5f]">Document support</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-navy">Document support</p>
             <h2 className="mt-2 text-xl font-bold text-slate-900">法令・規程読解補助の使い方</h2>
             <ol className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
               <li>1. 法令・通達・ガイドライン・社内規程PDFを用意</li>
@@ -48,7 +48,7 @@ export default function AiRoomPage() {
           </div>
 
           <div className="rounded-xl border border-slate-200 bg-white p-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#1e3a5f]">Reading support</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-navy">Reading support</p>
             <h2 className="mt-2 text-xl font-bold text-slate-900">AIが補助できる読解ポイント</h2>
             <div className="mt-4 grid gap-3">
               {[
@@ -65,7 +65,7 @@ export default function AiRoomPage() {
           </div>
 
           <div className="rounded-xl border border-slate-200 bg-white p-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#1e3a5f]">Reliability</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-navy">Reliability</p>
             <h2 className="mt-2 text-xl font-bold text-slate-900">今回強化したAI機能</h2>
             <div className="mt-4 grid gap-3">
               {[

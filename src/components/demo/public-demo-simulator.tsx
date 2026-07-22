@@ -193,7 +193,7 @@ export function PublicDemoSimulator() {
                 onClick={() => switchScenario(scenario)}
                 className={`rounded-lg border px-4 py-3 text-left transition ${
                   isActive
-                    ? "border-[#1e3a5f] bg-blue-50"
+                    ? "border-brand-navy bg-blue-50"
                     : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50"
                 }`}
               >
@@ -220,7 +220,7 @@ export function PublicDemoSimulator() {
                   productName: event.target.value,
                 }))
               }
-              className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
+              className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             />
           </label>
           <label className="grid gap-2">
@@ -233,7 +233,7 @@ export function PublicDemoSimulator() {
                   modelNumber: event.target.value,
                 }))
               }
-              className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
+              className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             />
           </label>
           <label className="grid gap-2">
@@ -246,7 +246,7 @@ export function PublicDemoSimulator() {
                   destinationCountry: event.target.value,
                 }))
               }
-              className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
+              className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             />
           </label>
           <label className="grid gap-2">
@@ -259,7 +259,7 @@ export function PublicDemoSimulator() {
                   customerName: event.target.value,
                 }))
               }
-              className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-[#1e3a5f] focus:ring-4 focus:ring-blue-100"
+              className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             />
           </label>
         </div>
@@ -300,7 +300,7 @@ export function PublicDemoSimulator() {
 
         {runState === "loading" ? (
           <div className="mt-5 space-y-4">
-            <div className="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm font-medium text-[#1e3a5f]">
+            <div className="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm font-medium text-brand-navy">
               条件をもとに論点を整理しています。実運用ではこの間に AI が確認ポイントと推奨アクションを生成します。
             </div>
             <div className="grid gap-3 sm:grid-cols-4">
@@ -390,7 +390,7 @@ export function PublicDemoSimulator() {
                   </ul>
                 </div>
                 <div className="w-full rounded-lg border border-slate-200 bg-white p-4 lg:max-w-[44%]">
-                  <p className="text-[11px] font-semibold uppercase tracking-wider text-[#1e3a5f]">
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-brand-navy">
                     PDFサンプルプレビュー
                   </p>
                   <div className="mt-3 space-y-3">

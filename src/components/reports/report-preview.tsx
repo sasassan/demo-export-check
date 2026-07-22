@@ -27,7 +27,7 @@ export function ReportPreview({ detail }: { detail: CaseDetail }) {
       <div className="flex flex-col gap-4 border-b border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-[#1e3a5f]">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-brand-navy">
               <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
             </svg>
           </div>
@@ -38,7 +38,7 @@ export function ReportPreview({ detail }: { detail: CaseDetail }) {
         </div>
         <Link
           href={`/api/reports/${detail.case.id}/pdf`}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#1e3a5f] px-4 py-2 text-sm font-semibold !text-white shadow-sm hover:bg-[#2a4a73] sm:w-auto"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-navy px-4 py-2 text-sm font-semibold !text-white shadow-sm hover:bg-brand-navy-light sm:w-auto"
           target="_blank"
         >
           <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
