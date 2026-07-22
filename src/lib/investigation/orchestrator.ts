@@ -345,7 +345,7 @@ export async function runInvestigation(caseId: string, userEmail: string) {
     const worstCaseScenarios = buildWorstCaseScenarios(results);
     const disagreementDimensions = findDisagreementDimensions(results);
 
-    // レポートナレーション生成（OpenAI APIキーがあれば実行、なければモック）
+    // レポートナレーション生成（OpenAI APIキーがあれば実API呼び出し、なければテンプレートにフォールバック）
     const reportNarrative = await generateNarrative({
       productName: detail.case.productName,
       destinationCountry: detail.case.destinationCountry,
