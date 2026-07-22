@@ -28,6 +28,14 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-navy-light: var(--brand-navy-light);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-teal: var(--brand-teal);
+  --color-brand-amber: var(--brand-amber);
+  --color-brand-amber-light: var(--brand-amber-light);
+  --color-brand-emerald: var(--brand-emerald);
+  --color-brand-emerald-light: var(--brand-emerald-light);
 }
 
 * {
@@ -43,7 +51,7 @@ body {
     radial-gradient(circle at top, rgba(37, 99, 235, 0.05), transparent 28%),
     linear-gradient(180deg, #f8fbff 0%, #ffffff 22%, #f8fafc 100%);
   color: #334155;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), -apple-system, "Hiragino Sans", "Noto Sans JP", Arial, sans-serif;
 }
 
 a {
@@ -143,4 +151,41 @@ a {
 
 .trade-grid {
   background: none;
+}
+
+@keyframes trade-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.trade-fade-in-up {
+  animation: trade-fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes trade-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.trade-float {
+  animation: trade-float 6s ease-in-out infinite;
+}
+
+.trade-hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.trade-hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
 }
