@@ -13,6 +13,13 @@ import { saveAiConsultation } from "@/lib/db/repository";
 import { searchDictionary, getAllTerms } from "@/lib/export-dictionary";
 import { createId } from "@/lib/utils";
 
+/**
+ * AI相談室のchatタイムアウト(既定値: OPENAI_CHAT_TIMEOUT_MS等、デフォルト30秒。
+ * src/lib/ai/config.tsのTIMEOUT_DEFAULTS.chat参照)がVercelの関数実行時間上限
+ * より先に切れるよう、上限を明示的に確保しておく。
+ */
+export const maxDuration = 45;
+
 /* ---------- helpers ---------- */
 
 function splitSentences(text: string) {

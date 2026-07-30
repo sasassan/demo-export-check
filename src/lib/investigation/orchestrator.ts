@@ -414,12 +414,18 @@ const aiProviders = [
 ];
 
 const INVESTIGATION_TOTAL_TIMEOUT_MS = Number(
-  process.env.INVESTIGATION_TOTAL_TIMEOUT_MS ?? "45000",
+  process.env.INVESTIGATION_TOTAL_TIMEOUT_MS ?? "50000",
 );
 
 /**
- * 個別プロバイダーのSDKタイムアウトが何らかの理由で機能しなかった場合の保険として、
- * 調査全体の上限時間（デフォルト45秒、Vercelのmaxduration=60s以内）で強制的に失敗させる。
+ * 個別プロバイダーのSDKタイムアウト(既定値: OPENAI_ANALYSIS_TIMEOUT_MS等、
+ * デフォルト45秒。src/lib/ai/config.tsのTIMEOUT_DEFAULTS.analysis参照)が
+ * 何らかの理由で機能しなかった場合の保険として、調査全体の上限時間
+ * （デフォルト50秒）で強制的に失敗させる。
+ * 個別タイムアウト(45s) < 全体タイムアウト(50s) < Vercelのmaxduration(60s、
+ * src/app/api/investigations/[id]/run/route.ts参照) の順で必ず短くすること。
+ * この大小関係が崩れると、内側のタイムアウトが機能する前に外側が先に
+ * 切れてしまい、個別設定が意味を失う。
  */
 function withOverallTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   return Promise.race([

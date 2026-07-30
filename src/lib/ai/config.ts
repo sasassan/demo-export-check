@@ -6,6 +6,14 @@ export type ProviderRuntimeStatus =
   | "fallback-disabled"
   | "fallback-error";
 
+/**
+ * 呼び出し用途。用途ごとに要求されるタイムアウト特性が異なるため区別する。
+ * - health: 管理画面の疎通診断。極小プロンプトで応答が速いため短くてよい。遅いと管理画面が固まる
+ * - analysis: リスク調査・ナラティブ生成。長文の構造化JSON出力を要求するため時間がかかる
+ * - chat: AI相談室。ユーザーが待機するインタラクティブUIのため中間的な値
+ */
+export type AiCallPurpose = "health" | "analysis" | "chat";
+
 export type ProviderRuntimeInfo = {
   model: AiModel;
   providerName: string;
@@ -32,11 +40,33 @@ type ProviderConfigDefinition = {
   envKey: string;
   enabled: boolean;
   modelName: string;
-  timeoutMs: number;
+  /** 用途別タイムアウトを解決する関数。共通timeoutMs(後方互換)はデフォルトとしてここに集約 */
+  resolveTimeoutMs: (purpose: AiCallPurpose) => number;
   orgId?: string;
   projectId?: string;
   baseUrl?: string;
 };
+
+/**
+ * 用途別タイムアウトを解決する。優先順位:
+ * 1. 用途別env（例: OPENAI_ANALYSIS_TIMEOUT_MS）
+ * 2. 共通env（例: OPENAI_TIMEOUT_MS）— 後方互換のための全用途一律上書き
+ * 3. 用途別デフォルト値
+ */
+function resolveTimeoutForPurpose(
+  providerPrefix: string,
+  purpose: AiCallPurpose,
+  defaults: { health: number; analysis: number; chat: number },
+): number {
+  const purposeEnvKey = `${providerPrefix}_${purpose.toUpperCase()}_TIMEOUT_MS`;
+  const purposeValue = readOptionalEnv(purposeEnvKey);
+  if (purposeValue) return Number(purposeValue);
+
+  const commonValue = readOptionalEnv(`${providerPrefix}_TIMEOUT_MS`);
+  if (commonValue) return Number(commonValue);
+
+  return defaults[purpose];
+}
 
 /**
  * 環境変数の値を取得する。空文字は「未設定」として扱う（誤って空文字を
@@ -85,6 +115,23 @@ const enabledProviderSet = new Set(
   parseEnabledProviders(process.env.ENABLED_AI_PROVIDERS),
 );
 
+/**
+ * 用途別タイムアウトのデフォルト値（ミリ秒）。
+ * - health: 管理画面の診断表示が固まらないよう短く保つ
+ * - analysis: gpt-4o等が長文の構造化JSONを返すのに要する時間を考慮し大幅に延長。
+ *   ただし調査APIルート(src/app/api/investigations/[id]/run/route.ts)の
+ *   maxDuration=60秒、および調査全体タイムアウト(INVESTIGATION_TOTAL_TIMEOUT_MS,
+ *   デフォルト50秒)を超えないよう45秒に設定している。これより長くする場合は
+ *   両方の値も合わせて引き上げること
+ * - chat: インタラクティブなAI相談室向けの中間値
+ * 実測に基づく暫定値のため、必要に応じて用途別envで上書きすること。
+ */
+const TIMEOUT_DEFAULTS = {
+  health: 8000,
+  analysis: 45000,
+  chat: 30000,
+} as const;
+
 const providerDefinitions: ProviderConfigDefinition[] = [
   {
     model: "gpt-4o",
@@ -93,7 +140,8 @@ const providerDefinitions: ProviderConfigDefinition[] = [
     envKey: "OPENAI_API_KEY",
     enabled: enabledProviderSet.has("gpt-4o"),
     modelName: process.env.OPENAI_MODEL || "gpt-4o-mini",
-    timeoutMs: Number(process.env.OPENAI_TIMEOUT_MS ?? "8000"),
+    resolveTimeoutMs: (purpose) =>
+      resolveTimeoutForPurpose("OPENAI", purpose, TIMEOUT_DEFAULTS),
     orgId: readOptionalEnv("OPENAI_ORG_ID"),
     projectId: readOptionalEnv("OPENAI_PROJECT_ID"),
     baseUrl: readOptionalEnv("OPENAI_BASE_URL"),
@@ -105,7 +153,8 @@ const providerDefinitions: ProviderConfigDefinition[] = [
     envKey: "ANTHROPIC_API_KEY",
     enabled: enabledProviderSet.has("claude"),
     modelName: process.env.ANTHROPIC_MODEL || "claude-3-haiku-20240307",
-    timeoutMs: Number(process.env.ANTHROPIC_TIMEOUT_MS ?? "8000"),
+    resolveTimeoutMs: (purpose) =>
+      resolveTimeoutForPurpose("ANTHROPIC", purpose, TIMEOUT_DEFAULTS),
     // Anthropicはキー発行時にWorkspace単位でスコープが確定するため、
     // 追加のOrganization/Project識別ヘッダーは不要（docs/account-migration.md参照）。
     baseUrl: readOptionalEnv("ANTHROPIC_BASE_URL"),
@@ -117,14 +166,18 @@ const providerDefinitions: ProviderConfigDefinition[] = [
     envKey: "GOOGLE_GENERATIVE_AI_API_KEY",
     enabled: enabledProviderSet.has("gemini"),
     modelName: process.env.GOOGLE_MODEL || "gemini-1.5-flash",
-    timeoutMs: Number(process.env.GOOGLE_TIMEOUT_MS ?? "8000"),
+    resolveTimeoutMs: (purpose) =>
+      resolveTimeoutForPurpose("GOOGLE", purpose, TIMEOUT_DEFAULTS),
     // AI StudioキーはGCPプロジェクトに暗黙的に紐づく。Vertex AI移行時は
     // GOOGLE_VERTEX_PROJECT_ID/GOOGLE_VERTEX_LOCATION等の別経路になる想定（未実装・予約のみ）。
     projectId: readOptionalEnv("GOOGLE_CLOUD_PROJECT_ID"),
   },
 ];
 
-export function getProviderRuntimeInfo(model: AiModel): ProviderRuntimeInfo {
+export function getProviderRuntimeInfo(
+  model: AiModel,
+  purpose: AiCallPurpose = "analysis",
+): ProviderRuntimeInfo {
   const definition = providerDefinitions.find((item) => item.model === model);
   if (!definition) {
     return {
@@ -133,7 +186,7 @@ export function getProviderRuntimeInfo(model: AiModel): ProviderRuntimeInfo {
       label: model,
       enabled: false,
       modelName: model,
-      timeoutMs: 8000,
+      timeoutMs: TIMEOUT_DEFAULTS[purpose],
       status: "fallback-disabled",
       statusLabel: "無効",
       reason: "設定未定義",
@@ -141,11 +194,23 @@ export function getProviderRuntimeInfo(model: AiModel): ProviderRuntimeInfo {
   }
 
   const apiKey = process.env[definition.envKey];
+  const timeoutMs = definition.resolveTimeoutMs(purpose);
+  const definitionRest = {
+    model: definition.model,
+    providerName: definition.providerName,
+    label: definition.label,
+    enabled: definition.enabled,
+    modelName: definition.modelName,
+    orgId: definition.orgId,
+    projectId: definition.projectId,
+    baseUrl: definition.baseUrl,
+  };
 
   if (!definition.enabled) {
     return {
-      ...definition,
+      ...definitionRest,
       apiKey,
+      timeoutMs,
       status: "fallback-disabled",
       statusLabel: "無効",
       reason: "ENABLED_AI_PROVIDERSで無効化",
@@ -154,8 +219,9 @@ export function getProviderRuntimeInfo(model: AiModel): ProviderRuntimeInfo {
 
   if (!apiKey) {
     return {
-      ...definition,
+      ...definitionRest,
       apiKey,
+      timeoutMs,
       status: "fallback-no-key",
       statusLabel: "APIキー未設定",
       reason: `${definition.envKey} が未設定`,
@@ -163,8 +229,9 @@ export function getProviderRuntimeInfo(model: AiModel): ProviderRuntimeInfo {
   }
 
   return {
-    ...definition,
+    ...definitionRest,
     apiKey,
+    timeoutMs,
     status: "live",
     statusLabel: "実API",
   };
@@ -176,6 +243,10 @@ export function getEnabledAiModels(): AiModel[] {
     .map((item) => item.model);
 }
 
-export function getAllProviderRuntimeInfo(): ProviderRuntimeInfo[] {
-  return providerDefinitions.map((item) => getProviderRuntimeInfo(item.model));
+export function getAllProviderRuntimeInfo(
+  purpose: AiCallPurpose = "analysis",
+): ProviderRuntimeInfo[] {
+  return providerDefinitions.map((item) =>
+    getProviderRuntimeInfo(item.model, purpose),
+  );
 }

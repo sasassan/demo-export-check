@@ -73,7 +73,7 @@ export async function GET() {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const runtimeInfos = getAllProviderRuntimeInfo();
+  const runtimeInfos = getAllProviderRuntimeInfo("health");
 
   const results: ProviderHealth[] = await Promise.all(
     runtimeInfos.map(async (info): Promise<ProviderHealth> => {

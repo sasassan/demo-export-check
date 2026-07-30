@@ -36,7 +36,7 @@ function buildフォールバックNarrative(input: NarrativeInput): string {
  * buildフォールバックNarrative によるテンプレート生成に安全にフォールバックする。
  */
 export async function generateNarrative(input: NarrativeInput): Promise<string> {
-  const runtime = getProviderRuntimeInfo("gpt-4o");
+  const runtime = getProviderRuntimeInfo("gpt-4o", "analysis");
   const apiKey = runtime.apiKey;
 
   if (runtime.status !== "live" || !apiKey) {

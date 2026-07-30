@@ -14,7 +14,7 @@ import { createOpenAiClient } from "@/lib/ai/client-factory";
 
 export class OpenAIProvider implements InvestigationProvider {
   async run(caseRecord: CaseRecord) {
-    const runtime = getProviderRuntimeInfo("gpt-4o");
+    const runtime = getProviderRuntimeInfo("gpt-4o", "analysis");
     const apiKey = runtime.apiKey;
     if (runtime.status !== "live" || !apiKey) {
       const fallback = await Promise.all([

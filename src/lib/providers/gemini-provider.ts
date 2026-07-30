@@ -12,7 +12,7 @@ import { callWithRetry, logAiError } from "@/lib/ai/error-handling";
 
 export class GeminiProvider implements InvestigationProvider {
   async run(caseRecord: CaseRecord) {
-    const runtime = getProviderRuntimeInfo("gemini");
+    const runtime = getProviderRuntimeInfo("gemini", "analysis");
     const apiKey = runtime.apiKey;
     if (runtime.status !== "live" || !apiKey) {
       const fallback = await new モックCountryProvider().run(caseRecord);

@@ -94,7 +94,7 @@ export type AskAssistantResult =
 
 /* ---------- main function ---------- */
 export async function askAssistant(input: AskAssistantInput): Promise<AskAssistantResult> {
-  const openaiInfo = getProviderRuntimeInfo("gpt-4o");
+  const openaiInfo = getProviderRuntimeInfo("gpt-4o", "chat");
   const apiKey = openaiInfo.apiKey;
 
   if (!apiKey) {

@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export default async function DashboardPage() {
   const userEmail = await requireSessionEmail();
   const items = await listCasesByUser(userEmail);
-  const providerRuntimeInfo = getAllProviderRuntimeInfo();
+  const providerRuntimeInfo = getAllProviderRuntimeInfo("health");
 
   const completed = items.filter((i) => i.status === "completed").length;
   const investigating = items.filter((i) => i.status === "investigating").length;

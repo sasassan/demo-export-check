@@ -13,7 +13,7 @@ import { createAnthropicClient } from "@/lib/ai/client-factory";
 
 export class ClaudeProvider implements InvestigationProvider {
   async run(caseRecord: CaseRecord) {
-    const runtime = getProviderRuntimeInfo("claude");
+    const runtime = getProviderRuntimeInfo("claude", "analysis");
     const apiKey = runtime.apiKey;
     if (runtime.status !== "live" || !apiKey) {
       const fallback = await Promise.all([
