@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import OpenAI from "openai";
-import Anthropic from "@anthropic-ai/sdk";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 import { getSessionEmail, isAdminEmail } from "@/lib/auth/server";
-import { getAllProviderRuntimeInfo } from "@/lib/ai/config";
+import { getAllProviderRuntimeInfo, maskScopeId } from "@/lib/ai/config";
 import { classifyAiError, logAiError } from "@/lib/ai/error-handling";
+import { createOpenAiClient, createAnthropicClient } from "@/lib/ai/client-factory";
+import type { ProviderRuntimeInfo } from "@/lib/ai/config";
 
 export const dynamic = "force-dynamic";
 
@@ -16,15 +16,18 @@ type ProviderHealth = {
   reachable: boolean;
   latencyMs: number | null;
   error?: string;
+  /** Organization/Projectスコープのキーを識別するための情報。値は常にマスク済み。未設定はnull。 */
+  orgId: string | null;
+  projectId: string | null;
 };
 
 /** 各プロバイダーに極小のping的プロンプトを送り、疎通確認する。APIキーの値は返さない。 */
-async function pingOpenAi(apiKey: string, model: string, timeoutMs: number): Promise<{ reachable: boolean; latencyMs: number; error?: string }> {
+async function pingOpenAi(runtime: ProviderRuntimeInfo): Promise<{ reachable: boolean; latencyMs: number; error?: string }> {
   const start = Date.now();
   try {
-    const client = new OpenAI({ apiKey, timeout: timeoutMs });
+    const client = createOpenAiClient(runtime);
     await client.chat.completions.create({
-      model,
+      model: runtime.modelName,
       messages: [{ role: "user", content: "ping" }],
       max_tokens: 1,
     });
@@ -35,12 +38,12 @@ async function pingOpenAi(apiKey: string, model: string, timeoutMs: number): Pro
   }
 }
 
-async function pingClaude(apiKey: string, model: string, timeoutMs: number): Promise<{ reachable: boolean; latencyMs: number; error?: string }> {
+async function pingClaude(runtime: ProviderRuntimeInfo): Promise<{ reachable: boolean; latencyMs: number; error?: string }> {
   const start = Date.now();
   try {
-    const client = new Anthropic({ apiKey, timeout: timeoutMs });
+    const client = createAnthropicClient(runtime);
     await client.messages.create({
-      model,
+      model: runtime.modelName,
       max_tokens: 1,
       messages: [{ role: "user", content: "ping" }],
     });
@@ -75,6 +78,8 @@ export async function GET() {
   const results: ProviderHealth[] = await Promise.all(
     runtimeInfos.map(async (info): Promise<ProviderHealth> => {
       const configured = info.status === "live" && Boolean(info.apiKey);
+      const orgId = maskScopeId(info.orgId);
+      const projectId = maskScopeId(info.projectId);
 
       if (!configured || !info.apiKey) {
         return {
@@ -83,15 +88,17 @@ export async function GET() {
           model: info.modelName,
           reachable: false,
           latencyMs: null,
+          orgId,
+          projectId,
         };
       }
 
       let pingResult: { reachable: boolean; latencyMs: number; error?: string };
       try {
         if (info.model === "gpt-4o") {
-          pingResult = await pingOpenAi(info.apiKey, info.modelName, info.timeoutMs);
+          pingResult = await pingOpenAi(info);
         } else if (info.model === "claude") {
-          pingResult = await pingClaude(info.apiKey, info.modelName, info.timeoutMs);
+          pingResult = await pingClaude(info);
         } else if (info.model === "gemini") {
           pingResult = await pingGemini(info.apiKey, info.modelName, info.timeoutMs);
         } else {
@@ -109,6 +116,8 @@ export async function GET() {
         reachable: pingResult.reachable,
         latencyMs: pingResult.latencyMs,
         error: pingResult.error,
+        orgId,
+        projectId,
       };
     }),
   );

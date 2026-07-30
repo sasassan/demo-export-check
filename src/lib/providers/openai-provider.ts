@@ -1,4 +1,4 @@
-import OpenAI from "openai";
+import type OpenAI from "openai";
 import { buildAnalysisPrompt, parseAiResponse } from "@/lib/providers/ai-prompt";
 import { buildProviderResult } from "@/lib/providers/mock/base";
 import { モックSanctionsProvider } from "@/lib/providers/mock/sanctions";
@@ -10,6 +10,7 @@ import type { RiskDimension } from "@/lib/constants";
 import { RISK_DIMENSIONS } from "@/lib/constants";
 import { getProviderRuntimeInfo } from "@/lib/ai/config";
 import { callWithRetry, logAiError } from "@/lib/ai/error-handling";
+import { createOpenAiClient } from "@/lib/ai/client-factory";
 
 export class OpenAIProvider implements InvestigationProvider {
   async run(caseRecord: CaseRecord) {
@@ -32,7 +33,7 @@ export class OpenAIProvider implements InvestigationProvider {
     }
 
     try {
-      const client = new OpenAI({ apiKey, timeout: runtime.timeoutMs });
+      const client = createOpenAiClient(runtime);
       const messages: OpenAI.ChatCompletionMessageParam[] = [
         {
           role: "system",

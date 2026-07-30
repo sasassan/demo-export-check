@@ -1,6 +1,6 @@
-import OpenAI from "openai";
 import { getProviderRuntimeInfo } from "@/lib/ai/config";
 import { callWithRetry, logAiError } from "@/lib/ai/error-handling";
+import { createOpenAiClient } from "@/lib/ai/client-factory";
 
 type NarrativeInput = {
   productName: string;
@@ -44,7 +44,7 @@ export async function generateNarrative(input: NarrativeInput): Promise<string> 
   }
 
   try {
-    const client = new OpenAI({ apiKey, timeout: runtime.timeoutMs });
+    const client = createOpenAiClient(runtime);
     const response = await callWithRetry(
       () =>
         client.chat.completions.create({

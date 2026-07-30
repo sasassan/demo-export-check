@@ -17,6 +17,10 @@ export type ProviderRuntimeInfo = {
   status: ProviderRuntimeStatus;
   statusLabel: string;
   reason?: string;
+  /** Organization/Projectスコープのキーを識別するための任意情報（法人アカウント移行用）。値そのものは常にマスクして扱うこと。 */
+  orgId?: string;
+  projectId?: string;
+  baseUrl?: string;
 };
 
 type EnabledAiModel = "gpt-4o" | "claude" | "gemini";
@@ -29,7 +33,33 @@ type ProviderConfigDefinition = {
   enabled: boolean;
   modelName: string;
   timeoutMs: number;
+  orgId?: string;
+  projectId?: string;
+  baseUrl?: string;
 };
+
+/**
+ * 環境変数の値を取得する。空文字は「未設定」として扱う（誤って空文字を
+ * SDK/ヘッダーに渡し、個人アカウントの現状動作を壊さないようにするため）。
+ */
+function readOptionalEnv(key: string): string | undefined {
+  const value = process.env[key];
+  return value && value.trim().length > 0 ? value : undefined;
+}
+
+/**
+ * Organization ID / Project ID などのスコープ識別子をマスクして返す。
+ * APIキーそのものではないが、念のため先頭数文字以外は伏せる。
+ * 例: "org-1234567890" -> "org-****7890"
+ */
+export function maskScopeId(value?: string): string | null {
+  if (!value) return null;
+  if (value.length <= 8) return `${value.slice(0, 2)}****`;
+  const prefixMatch = value.match(/^[a-zA-Z]+[-_]/);
+  const prefix = prefixMatch ? prefixMatch[0] : value.slice(0, 4);
+  const suffix = value.slice(-4);
+  return `${prefix}****${suffix}`;
+}
 
 const DEFAULT_PROVIDER_ORDER: EnabledAiModel[] = ["gpt-4o", "claude", "gemini"];
 
@@ -64,6 +94,9 @@ const providerDefinitions: ProviderConfigDefinition[] = [
     enabled: enabledProviderSet.has("gpt-4o"),
     modelName: process.env.OPENAI_MODEL || "gpt-4o-mini",
     timeoutMs: Number(process.env.OPENAI_TIMEOUT_MS ?? "8000"),
+    orgId: readOptionalEnv("OPENAI_ORG_ID"),
+    projectId: readOptionalEnv("OPENAI_PROJECT_ID"),
+    baseUrl: readOptionalEnv("OPENAI_BASE_URL"),
   },
   {
     model: "claude",
@@ -73,6 +106,9 @@ const providerDefinitions: ProviderConfigDefinition[] = [
     enabled: enabledProviderSet.has("claude"),
     modelName: process.env.ANTHROPIC_MODEL || "claude-3-haiku-20240307",
     timeoutMs: Number(process.env.ANTHROPIC_TIMEOUT_MS ?? "8000"),
+    // Anthropicはキー発行時にWorkspace単位でスコープが確定するため、
+    // 追加のOrganization/Project識別ヘッダーは不要（docs/account-migration.md参照）。
+    baseUrl: readOptionalEnv("ANTHROPIC_BASE_URL"),
   },
   {
     model: "gemini",
@@ -82,6 +118,9 @@ const providerDefinitions: ProviderConfigDefinition[] = [
     enabled: enabledProviderSet.has("gemini"),
     modelName: process.env.GOOGLE_MODEL || "gemini-1.5-flash",
     timeoutMs: Number(process.env.GOOGLE_TIMEOUT_MS ?? "8000"),
+    // AI StudioキーはGCPプロジェクトに暗黙的に紐づく。Vertex AI移行時は
+    // GOOGLE_VERTEX_PROJECT_ID/GOOGLE_VERTEX_LOCATION等の別経路になる想定（未実装・予約のみ）。
+    projectId: readOptionalEnv("GOOGLE_CLOUD_PROJECT_ID"),
   },
 ];
 

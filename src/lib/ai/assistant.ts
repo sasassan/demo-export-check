@@ -1,7 +1,8 @@
-import OpenAI from "openai";
+import type OpenAI from "openai";
 
 import { getProviderRuntimeInfo } from "@/lib/ai/config";
 import { callWithRetry, logAiError } from "@/lib/ai/error-handling";
+import { createOpenAiClient } from "@/lib/ai/client-factory";
 
 /* ---------- mode-specific system prompts ---------- */
 const BASE_ROLE =
@@ -141,7 +142,7 @@ export async function askAssistant(input: AskAssistantInput): Promise<AskAssista
   messages.push({ role: "user", content: userContent });
 
   try {
-    const client = new OpenAI({ apiKey, timeout: openaiInfo.timeoutMs });
+    const client = createOpenAiClient(openaiInfo);
     const callOnce = () =>
       callWithRetry(
         () =>
