@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 import { getSessionEmail, isAdminEmail } from "@/lib/auth/server";
-import { getAllProviderRuntimeInfo, maskScopeId } from "@/lib/ai/config";
+import { getAllProviderRuntimeInfo, getApiKeyFingerprint, maskScopeId } from "@/lib/ai/config";
 import { classifyAiError, logAiError } from "@/lib/ai/error-handling";
 import { createOpenAiClient, createAnthropicClient } from "@/lib/ai/client-factory";
 import type { ProviderRuntimeInfo } from "@/lib/ai/config";
@@ -19,6 +19,12 @@ type ProviderHealth = {
   /** Organization/Projectスコープのキーを識別するための情報。値は常にマスク済み。未設定はnull。 */
   orgId: string | null;
   projectId: string | null;
+  /**
+   * 実行時にロードされているAPIキーのsha256フィンガープリント(先頭12文字)。
+   * キー差し替え後に「意図したキーが実際に読まれているか」を確認するための診断用。
+   * キー未設定ならnull。値そのものからは復元不可能。
+   */
+  keyFingerprint: string | null;
 };
 
 /** 各プロバイダーに極小のping的プロンプトを送り、疎通確認する。APIキーの値は返さない。 */
@@ -80,6 +86,7 @@ export async function GET() {
       const configured = info.status === "live" && Boolean(info.apiKey);
       const orgId = maskScopeId(info.orgId);
       const projectId = maskScopeId(info.projectId);
+      const keyFingerprint = getApiKeyFingerprint(info.apiKey);
 
       if (!configured || !info.apiKey) {
         return {
@@ -90,6 +97,7 @@ export async function GET() {
           latencyMs: null,
           orgId,
           projectId,
+          keyFingerprint,
         };
       }
 
@@ -118,6 +126,7 @@ export async function GET() {
         error: pingResult.error,
         orgId,
         projectId,
+        keyFingerprint,
       };
     }),
   );
