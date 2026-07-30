@@ -263,17 +263,25 @@ export default async function CaseDetailPage({
           )}
 
           {/* ④-2 マルチAIコンセンサス（多数決/重み付け集計、詳細は展開して確認） */}
-          {detail.assessment.crossReview && detail.assessment.crossReview.dimensions.length > 0 && (
+          {/* 有効なAIプロバイダーが1社のみの場合は「多数決」「コンセンサス」という表現を使わず、
+              単一プロバイダーによる分析結果である旨を明示する（誤解防止） */}
+          {detail.assessment.crossReview && detail.assessment.crossReview.dimensions.length > 0 && (() => {
+            const isSingleProvider = detail.assessment.crossReview.participatingProviders.length === 1;
+            return (
             <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
               <details>
                 <summary className="cursor-pointer list-none">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h2 className="text-base font-semibold text-slate-900">マルチAIコンセンサス（詳細）</h2>
+                      <h2 className="text-base font-semibold text-slate-900">
+                        {isSingleProvider ? "AI分析結果（詳細）" : "マルチAIコンセンサス（詳細）"}
+                      </h2>
                       <p className="text-sm text-slate-500">
                         {detail.assessment.crossReview.isフォールバックOnly
                           ? "現在はモック応答で動作中です（APIキー未設定）"
-                          : `${detail.assessment.crossReview.participatingProviders.length}件のAIによる統合評価・信頼度: ${detail.assessment.crossReview.confidenceLevel}（${detail.assessment.crossReview.confidenceScore}%）`}
+                          : isSingleProvider
+                            ? "現在は1社のAIのみが有効です。他プロバイダーのAPIキーが未設定のため、多数決・コンセンサスではなく単独の分析結果として表示しています。"
+                            : `${detail.assessment.crossReview.participatingProviders.length}件のAIによる統合評価・信頼度: ${detail.assessment.crossReview.confidenceLevel}（${detail.assessment.crossReview.confidenceScore}%）`}
                       </p>
                     </div>
                     <span
@@ -301,7 +309,7 @@ export default async function CaseDetailPage({
                       <div className="flex items-center justify-between gap-2">
                         <p className="text-xs font-semibold text-slate-800">{dim.label}</p>
                         <span className="text-xs font-bold text-slate-600">
-                          多数決: {dim.consensusGrade}（{dim.consensusScore}点）
+                          {isSingleProvider ? "評価" : "多数決"}: {dim.consensusGrade}（{dim.consensusScore}点）
                         </span>
                       </div>
                       <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-slate-500">
@@ -311,7 +319,7 @@ export default async function CaseDetailPage({
                           </span>
                         ))}
                       </div>
-                      {dim.hasDisagreement && (
+                      {!isSingleProvider && dim.hasDisagreement && (
                         <p className="mt-1 text-[11px] font-semibold text-amber-700">
                           AIの評価が分かれています（要確認）
                         </p>
@@ -327,7 +335,8 @@ export default async function CaseDetailPage({
                 )}
               </details>
             </section>
-          )}
+            );
+          })()}
 
           {/* ⑤ AIレビュー会議タイムライン */}
           {detail.assessment.reviewMeeting && detail.assessment.reviewMeeting.length > 0 && (
