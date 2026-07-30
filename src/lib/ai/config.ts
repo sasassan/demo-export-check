@@ -202,7 +202,11 @@ const providerDefinitions: ProviderConfigDefinition[] = [
     label: "Claude",
     envKey: "ANTHROPIC_API_KEY",
     enabled: enabledProviderSet.has("claude"),
-    modelName: process.env.ANTHROPIC_MODEL || "claude-3-haiku-20240307",
+    // 2026-07-30時点の確認: claude-3-haiku-20240307 は2026-04-20付でRetired済み
+    // （Anthropic公式モデル一覧より）。現在この値のままではAPI呼び出しが失敗する。
+    // 後継として稼働中の最安クラスモデル claude-haiku-4-5-20251001（Haiku 4.5、
+    // 入力$1/MTok・出力$5/MTok）に更新。
+    modelName: process.env.ANTHROPIC_MODEL || "claude-haiku-4-5-20251001",
     resolveTimeoutMs: (purpose) =>
       resolveTimeoutForPurpose("ANTHROPIC", purpose, TIMEOUT_DEFAULTS),
     // Anthropicはキー発行時にWorkspace単位でスコープが確定するため、
