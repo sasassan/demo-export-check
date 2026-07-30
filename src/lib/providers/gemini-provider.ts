@@ -55,6 +55,13 @@ export class GeminiProvider implements InvestigationProvider {
       }
       if (!parsed) throw new Error("Gemini: JSON parse failed after retry");
 
+      // 注意: @google/generative-ai SDKのレスポンス(GenerateContentResponse)には
+      // OpenAI/Anthropicと異なり実際に解決されたモデル名を返すフィールドが
+      // 存在しない（usageMetadataのみ）。そのため設定値(runtime.modelName)を
+      // そのまま使う。"gemini-flash-latest"等のエイリアス使用時は、実際に
+      // 解決される具体的なモデルバージョンは判別できない点に留意。
+      const actualModelName = runtime.modelName;
+
       const findings: InvestigationFinding[] = parsed.dimensions
         .filter((d) => RISK_DIMENSIONS.includes(d.dimension as RiskDimension))
         .map((d) => ({
@@ -87,6 +94,7 @@ export class GeminiProvider implements InvestigationProvider {
         rawWorstCaseScenarios: parsed.worstCaseScenarios,
         providerStatus: runtime.status,
         providerStatusLabel: runtime.statusLabel,
+        actualModelName,
       };
     } catch (error) {
       const classified = logAiError("google-gemini", error);

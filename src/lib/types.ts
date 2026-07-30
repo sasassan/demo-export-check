@@ -102,6 +102,8 @@ export type WorstCaseScenario = {
 export type ReviewMeetingEntry = {
   model: AiModel;
   modelLabel: string;
+  /** 実際にAPIが呼び出したモデル名（例: "gpt-4o-mini"）。APIレスポンスから取得した実測値。 */
+  actualModelName?: string;
   reviewComment: string;
   keyRisk: string;
   overallGrade: Grade;
@@ -110,6 +112,8 @@ export type ReviewMeetingEntry = {
 export type ModelResult = {
   model: AiModel;
   modelLabel: string;
+  /** 実際にAPIが呼び出したモデル名（例: "gpt-4o-mini"）。APIレスポンスから取得した実測値。 */
+  actualModelName?: string;
   dimensions: DimensionScore[];
   reviewComment?: string;
   keyRisk?: string;
@@ -239,6 +243,13 @@ export type ProviderResult = {
   providerStatus?: "live" | "fallback-no-key" | "fallback-disabled" | "fallback-error";
   providerStatusLabel?: string;
   providerReason?: string;
+  /**
+   * 実際にAPIが呼び出したモデル名（例: "gpt-4o-mini-2024-07-18"）。
+   * 設定上の想定モデル名（runtime.modelName）ではなく、APIレスポンスに
+   * 含まれる実測値を使う。表示ラベル（"GPT-4o"等）が固定文言のため、
+   * 実際に使われた廉価モデルと誤認させないための補足情報として利用する。
+   */
+  actualModelName?: string;
 };
 
 export type AnalyticsDeviceType = "desktop" | "mobile" | "tablet" | "unknown";

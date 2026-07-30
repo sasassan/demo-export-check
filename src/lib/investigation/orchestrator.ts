@@ -130,6 +130,7 @@ function buildModelResults(results: ProviderResult[]): ModelResult[] {
     return {
       model,
       modelLabel,
+      actualModelName: result.actualModelName,
       dimensions,
       reviewComment: result.reviewComment,
       keyRisk: result.keyRisk,
@@ -199,6 +200,7 @@ function buildReviewMeeting(results: ProviderResult[]): ReviewMeetingEntry[] {
       return {
         model: model as AiModel,
         modelLabel,
+        actualModelName: r.actualModelName,
         reviewComment: r.reviewComment ?? "評価を実施しました。",
         keyRisk: r.keyRisk ?? "特記事項なし",
         overallGrade,

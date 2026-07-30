@@ -100,6 +100,11 @@ export function AiReviewMeeting({
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-bold text-slate-800">
                     {entry.modelLabel}
+                    {entry.actualModelName && (
+                      <span className="ml-1 font-normal text-slate-400">
+                        ({entry.actualModelName})
+                      </span>
+                    )}
                   </span>
                   <span
                     className={`text-xs font-bold px-2 py-0.5 rounded-full border ${gradeColor[entry.overallGrade]}`}

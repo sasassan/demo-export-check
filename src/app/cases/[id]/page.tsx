@@ -168,7 +168,7 @@ export default async function CaseDetailPage({
                   </div>
                   <div>
                     <h2 className="text-base font-semibold text-slate-900">
-                      {isSingleRespondingModel ? "AI個別評価" : "3AI個別評価"}
+                      {isSingleRespondingModel ? "AI個別評価" : `${respondingModelCount}AI個別評価`}
                     </h2>
                     <p className="text-sm text-slate-500">
                       {isSingleRespondingModel
@@ -199,6 +199,13 @@ export default async function CaseDetailPage({
                     "mock": { label: "モック", badge: "border-slate-200 bg-slate-50 text-slate-500" },
                   };
                   const meta = modelMeta[modelResult.model] ?? modelMeta["mock"];
+                  // 表示ラベル（"GPT-4o"等）は内部識別子に基づく固定文言であり、
+                  // 実際にAPIが呼び出した具体的なモデル名（例: gpt-4o-mini）とは
+                  // 異なる場合がある。実測値がある場合は括弧書きで併記し、
+                  // 廉価モデルを上位モデルと誤認させないようにする。
+                  const actualModelSuffix = modelResult.actualModelName
+                    ? ` (${modelResult.actualModelName})`
+                    : "";
                   const overallGrade = modelResult.dimensions.reduce<"A" | "B" | "C">((worst, d) => {
                     if (d.grade === "C") return "C";
                     if (d.grade === "B" && worst !== "C") return "B";
@@ -211,6 +218,7 @@ export default async function CaseDetailPage({
                       <div className="flex items-center justify-between mb-3">
                         <span className={`rounded-full border px-3 py-1 text-xs font-bold ${meta.badge}`}>
                           {meta.label}
+                          {actualModelSuffix}
                         </span>
                         <span className={`rounded-full border px-3 py-1 text-sm font-bold ${gradeStyle}`}>
                           {overallGrade}

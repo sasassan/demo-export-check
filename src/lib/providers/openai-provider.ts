@@ -70,6 +70,11 @@ export class OpenAIProvider implements InvestigationProvider {
       }
       if (!parsed) throw new Error("GPT-4o: JSON parse failed after retry");
 
+      // 実際にAPIが呼び出したモデル名（例: "gpt-4o-mini-2024-07-18"）。
+      // runtime.modelName（設定値）ではなく、APIレスポンス自体が返す値を使うことで
+      // 表示ラベルの固定文言("GPT-4o")と実モデルの乖離をUIで補足できるようにする。
+      const actualModelName = response.model;
+
       const findings: InvestigationFinding[] = parsed.dimensions
         .filter((d) => RISK_DIMENSIONS.includes(d.dimension as RiskDimension))
         .map((d) => ({
@@ -102,6 +107,7 @@ export class OpenAIProvider implements InvestigationProvider {
         rawWorstCaseScenarios: parsed.worstCaseScenarios,
         providerStatus: runtime.status,
         providerStatusLabel: runtime.statusLabel,
+        actualModelName,
       };
     } catch (error) {
       const classified = logAiError("openai-gpt4o", error);

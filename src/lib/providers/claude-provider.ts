@@ -62,6 +62,10 @@ export class ClaudeProvider implements InvestigationProvider {
       }
       if (!parsed) throw new Error("Claude: JSON parse failed after retry");
 
+      // 実際にAPIが呼び出したモデル名。runtime.modelName（設定値）ではなく
+      // APIレスポンス自体が返す値を使う（表示ラベル固定文言との乖離を補足するため）。
+      const actualModelName = response.model;
+
       const findings: InvestigationFinding[] = parsed.dimensions
         .filter((d) => RISK_DIMENSIONS.includes(d.dimension as RiskDimension))
         .map((d) => ({
@@ -94,6 +98,7 @@ export class ClaudeProvider implements InvestigationProvider {
         rawWorstCaseScenarios: parsed.worstCaseScenarios,
         providerStatus: runtime.status,
         providerStatusLabel: runtime.statusLabel,
+        actualModelName,
       };
     } catch (error) {
       const classified = logAiError("anthropic-claude", error);
