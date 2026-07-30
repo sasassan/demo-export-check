@@ -202,11 +202,19 @@ const providerDefinitions: ProviderConfigDefinition[] = [
     label: "Claude",
     envKey: "ANTHROPIC_API_KEY",
     enabled: enabledProviderSet.has("claude"),
-    // 2026-07-30時点の確認: claude-3-haiku-20240307 は2026-04-20付でRetired済み
-    // （Anthropic公式モデル一覧より）。現在この値のままではAPI呼び出しが失敗する。
-    // 後継として稼働中の最安クラスモデル claude-haiku-4-5-20251001（Haiku 4.5、
-    // 入力$1/MTok・出力$5/MTok）に更新。
-    modelName: process.env.ANTHROPIC_MODEL || "claude-haiku-4-5-20251001",
+    // 2026-07-30時点の公式確認（platform.claude.com/docs/en/about-claude/models/overview
+    // および .../pricing、一次情報）: claude-3-haiku-20240307 は既にRetired済みで、
+    // 一時的な後継としていた claude-haiku-4-5-20251001（最速・最安クラス、
+    // 入力$1/MTok・出力$5/MTok）から、精度優先の方針（輸出管理という法令判断の
+    // 支援であり原価0.25円は制約にならないとの経営判断）に基づき
+    // claude-sonnet-5（Claude API ID、日付なしpinned snapshot）へ変更した。
+    // 公式が「speed and intelligenceのベストバランス」と位置付け、価格は
+    // 2026-08-31まで導入価格$2/MTok(入力)・$10/MTok(出力)、9/1以降は
+    // 標準価格$3/$15に切り替わる。最上位のClaude Opus 5($5/$25)は公式が
+    // 「複雑なagentic coding・enterprise向け」として案内しているが、本用途は
+    // 対話的なチャット・レポート生成でOpus 5ほどの複雑性を要さないと判断し、
+    // 精度とコストのバランス点としてSonnet 5を選定した。
+    modelName: process.env.ANTHROPIC_MODEL || "claude-sonnet-5",
     resolveTimeoutMs: (purpose) =>
       resolveTimeoutForPurpose("ANTHROPIC", purpose, TIMEOUT_DEFAULTS),
     // Anthropicはキー発行時にWorkspace単位でスコープが確定するため、
@@ -219,15 +227,23 @@ const providerDefinitions: ProviderConfigDefinition[] = [
     label: "Gemini",
     envKey: "GOOGLE_GENERATIVE_AI_API_KEY",
     enabled: enabledProviderSet.has("gemini"),
-    // 2026-07-30時点の実測: v1beta ListModels APIで確認したところ
-    // gemini-1.5-flash は提供終了済み（generateContent呼び出しで404 not_found）。
-    // 続けて gemini-2.0-flash を実際に呼び出したところ 429 RESOURCE_EXHAUSTED
-    // （無料枠クォータ超過。AQ.形式の新方式APIキーは無料枠に紐づくため）、
-    // gemini-2.5-flash / gemini-2.5-flash-lite はモデル一覧には存在するものの
-    // generateContent呼び出しで404 NOT_FOUNDとなった（プレビュー版アクセス制限の可能性）。
-    // 実際にgenerateContentの呼び出しが成功したのは gemini-flash-latest のみ
-    // （常に現行の安定版Flashモデルを指すエイリアスで、将来のモデル切り替えにも自動追従する）。
-    modelName: process.env.GOOGLE_MODEL || "gemini-flash-latest",
+    // 2026-07-30時点の実測（課金アカウント紐付け済みの新APIキーで再検証）:
+    // gemini-1.5-flash / gemini-2.0-flash は共に廃止済みで404 NOT_FOUND
+    // （公式ドキュメント ai.google.dev/gemini-api/docs/models/gemini-2.0-flash にも
+    // "shut down June 1, 2026" と明記。旧キーで観測した429は無料枠クォータ超過が
+    // モデル解決より先に評価されていたためで、モデル自体は既に廃止方向だった）。
+    // gemini-2.5-flash / gemini-2.5-pro / gemini-3-pro-preview も404 NOT_FOUND、
+    // gemini-pro-latest / gemini-3.5-flash は503 UNAVAILABLE。
+    // 実際にgenerateContentが成功したのは gemini-flash-latest / gemini-3.6-flash /
+    // gemini-3.1-pro-preview / gemini-3-flash-preview の4つ。
+    // このうち gemini-3.6-flash を既定に採用した理由:
+    // (1) 公式モデル一覧ページで「Stable」カテゴリの代表例として明記されており
+    //     preview版ではない、(2) gemini-flash-latest 等の「Latest」エイリアスは
+    //     将来のリリースで無告知にホットスワップされる仕様のため、輸出管理という
+    //     法令判断の監査可能性・再現性の観点で採用を避けた、(3) 実測でHTTP 200を
+    //     複数回確認済み。単価は公式Pricingページ(ai.google.dev/gemini-api/docs/pricing)
+    //     で入力$1.50/MTok・出力$7.50/MTok(thinking込み)を確認済み。
+    modelName: process.env.GOOGLE_MODEL || "gemini-3.6-flash",
     resolveTimeoutMs: (purpose) =>
       resolveTimeoutForPurpose("GOOGLE", purpose, TIMEOUT_DEFAULTS),
     // AI StudioキーはGCPプロジェクトに暗黙的に紐づく。Vertex AI移行時は

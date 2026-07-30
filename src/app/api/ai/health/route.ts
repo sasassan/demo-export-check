@@ -16,6 +16,13 @@ type ProviderHealth = {
   reachable: boolean;
   latencyMs: number | null;
   error?: string;
+  /**
+   * true の場合、疎通失敗の原因がモデル自体の廃止(404 NOT_FOUND)であることを示す。
+   * 認証エラー(401)・レート制限(429)・タイムアウト等の一時的/設定起因の疎通失敗と
+   * 区別するためのフラグ。2026-07-30に gemini-1.5-flash → gemini-2.0-flash と
+   * 2回連続でモデル廃止事故を踏んだため、health診断で明示的に検知できるようにした。
+   */
+  modelDeprecated: boolean;
   /** Organization/Projectスコープのキーを識別するための情報。値は常にマスク済み。未設定はnull。 */
   orgId: string | null;
   projectId: string | null;
@@ -27,8 +34,10 @@ type ProviderHealth = {
   keyFingerprint: string | null;
 };
 
+type PingResult = { reachable: boolean; latencyMs: number; error?: string; modelDeprecated: boolean };
+
 /** 各プロバイダーに極小のping的プロンプトを送り、疎通確認する。APIキーの値は返さない。 */
-async function pingOpenAi(runtime: ProviderRuntimeInfo): Promise<{ reachable: boolean; latencyMs: number; error?: string }> {
+async function pingOpenAi(runtime: ProviderRuntimeInfo): Promise<PingResult> {
   const start = Date.now();
   try {
     const client = createOpenAiClient(runtime);
@@ -37,14 +46,19 @@ async function pingOpenAi(runtime: ProviderRuntimeInfo): Promise<{ reachable: bo
       messages: [{ role: "user", content: "ping" }],
       max_tokens: 1,
     });
-    return { reachable: true, latencyMs: Date.now() - start };
+    return { reachable: true, latencyMs: Date.now() - start, modelDeprecated: false };
   } catch (error) {
     const classified = logAiError("health-openai", error);
-    return { reachable: false, latencyMs: Date.now() - start, error: `${classified.kind} (status: ${classified.status ?? "n/a"})` };
+    return {
+      reachable: false,
+      latencyMs: Date.now() - start,
+      error: `${classified.kind} (status: ${classified.status ?? "n/a"})`,
+      modelDeprecated: classified.kind === "not_found",
+    };
   }
 }
 
-async function pingClaude(runtime: ProviderRuntimeInfo): Promise<{ reachable: boolean; latencyMs: number; error?: string }> {
+async function pingClaude(runtime: ProviderRuntimeInfo): Promise<PingResult> {
   const start = Date.now();
   try {
     const client = createAnthropicClient(runtime);
@@ -53,23 +67,33 @@ async function pingClaude(runtime: ProviderRuntimeInfo): Promise<{ reachable: bo
       max_tokens: 1,
       messages: [{ role: "user", content: "ping" }],
     });
-    return { reachable: true, latencyMs: Date.now() - start };
+    return { reachable: true, latencyMs: Date.now() - start, modelDeprecated: false };
   } catch (error) {
     const classified = logAiError("health-claude", error);
-    return { reachable: false, latencyMs: Date.now() - start, error: `${classified.kind} (status: ${classified.status ?? "n/a"})` };
+    return {
+      reachable: false,
+      latencyMs: Date.now() - start,
+      error: `${classified.kind} (status: ${classified.status ?? "n/a"})`,
+      modelDeprecated: classified.kind === "not_found",
+    };
   }
 }
 
-async function pingGemini(apiKey: string, model: string, timeoutMs: number): Promise<{ reachable: boolean; latencyMs: number; error?: string }> {
+async function pingGemini(apiKey: string, model: string, timeoutMs: number): Promise<PingResult> {
   const start = Date.now();
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
     const genModel = genAI.getGenerativeModel({ model }, { timeout: timeoutMs });
     await genModel.generateContent("ping");
-    return { reachable: true, latencyMs: Date.now() - start };
+    return { reachable: true, latencyMs: Date.now() - start, modelDeprecated: false };
   } catch (error) {
     const classified = logAiError("health-gemini", error);
-    return { reachable: false, latencyMs: Date.now() - start, error: `${classified.kind} (status: ${classified.status ?? "n/a"})` };
+    return {
+      reachable: false,
+      latencyMs: Date.now() - start,
+      error: `${classified.kind} (status: ${classified.status ?? "n/a"})`,
+      modelDeprecated: classified.kind === "not_found",
+    };
   }
 }
 
@@ -95,13 +119,14 @@ export async function GET() {
           model: info.modelName,
           reachable: false,
           latencyMs: null,
+          modelDeprecated: false,
           orgId,
           projectId,
           keyFingerprint,
         };
       }
 
-      let pingResult: { reachable: boolean; latencyMs: number; error?: string };
+      let pingResult: PingResult;
       try {
         if (info.model === "gpt-4o") {
           pingResult = await pingOpenAi(info);
@@ -110,11 +135,16 @@ export async function GET() {
         } else if (info.model === "gemini") {
           pingResult = await pingGemini(info.apiKey, info.modelName, info.timeoutMs);
         } else {
-          pingResult = { reachable: false, latencyMs: 0, error: "unsupported provider" };
+          pingResult = { reachable: false, latencyMs: 0, error: "unsupported provider", modelDeprecated: false };
         }
       } catch (error) {
         const classified = classifyAiError(error);
-        pingResult = { reachable: false, latencyMs: 0, error: `${classified.kind} (status: ${classified.status ?? "n/a"})` };
+        pingResult = {
+          reachable: false,
+          latencyMs: 0,
+          error: `${classified.kind} (status: ${classified.status ?? "n/a"})`,
+          modelDeprecated: classified.kind === "not_found",
+        };
       }
 
       return {
@@ -124,6 +154,7 @@ export async function GET() {
         reachable: pingResult.reachable,
         latencyMs: pingResult.latencyMs,
         error: pingResult.error,
+        modelDeprecated: pingResult.modelDeprecated,
         orgId,
         projectId,
         keyFingerprint,
