@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 import type { AiModel } from "@/lib/types";
 
 export type ProviderRuntimeStatus =
@@ -91,6 +93,18 @@ export function maskScopeId(value?: string): string | null {
   return `${prefix}****${suffix}`;
 }
 
+/**
+ * APIキーの実行時フィンガープリントを算出する（診断用）。
+ * sha256ハッシュの先頭12文字のみを返し、キー本体は絶対に露出しない。
+ * 「差し替え後に意図したキーが実際にロードされているか」を確認するための
+ * 恒久的な診断機能。値は不可逆なハッシュのため復元不可能。
+ * キー未設定の場合はnullを返す。
+ */
+export function getApiKeyFingerprint(apiKey?: string): string | null {
+  if (!apiKey) return null;
+  return createHash("sha256").update(apiKey).digest("hex").slice(0, 12);
+}
+
 const DEFAULT_PROVIDER_ORDER: EnabledAiModel[] = ["gpt-4o", "claude", "gemini"];
 
 function parseEnabledProviders(value?: string): EnabledAiModel[] {
@@ -119,16 +133,20 @@ const enabledProviderSet = new Set(
  * 用途別タイムアウトのデフォルト値（ミリ秒）。
  * - health: 管理画面の診断表示が固まらないよう短く保つ
  * - analysis: gpt-4o等が長文の構造化JSONを返すのに要する時間を考慮し大幅に延長。
+ *   実測値: gpt-4o-miniでの1件調査（3プロバイダー並列呼び出しのうちOpenAI単体)で
+ *   約37.9秒かかった実績があり、旧デフォルト45秒では余裕が約8秒(17%)しかなく
+ *   実運用でタイムアウトが発生するリスクが高いと判断し50秒に引き上げた。
  *   ただし調査APIルート(src/app/api/investigations/[id]/run/route.ts)の
- *   maxDuration=60秒、および調査全体タイムアウト(INVESTIGATION_TOTAL_TIMEOUT_MS,
- *   デフォルト50秒)を超えないよう45秒に設定している。これより長くする場合は
- *   両方の値も合わせて引き上げること
+ *   maxDuration=60秒、および調査エンドツーエンド総予算(INVESTIGATION_TOTAL_TIMEOUT_MS,
+ *   デフォルト55秒)との整合性が必要なため、analysisタイムアウトは
+ *   INVESTIGATION_TOTAL_TIMEOUT_MSより短い50秒に設定している。これより長くする
+ *   場合は両方の値も合わせて引き上げること
  * - chat: インタラクティブなAI相談室向けの中間値
  * 実測に基づく暫定値のため、必要に応じて用途別envで上書きすること。
  */
 const TIMEOUT_DEFAULTS = {
   health: 8000,
-  analysis: 45000,
+  analysis: 50000,
   chat: 30000,
 } as const;
 

@@ -2,7 +2,7 @@ import { getProviderRuntimeInfo } from "@/lib/ai/config";
 import { callWithRetry, logAiError } from "@/lib/ai/error-handling";
 import { createOpenAiClient } from "@/lib/ai/client-factory";
 
-type NarrativeInput = {
+export type NarrativeInput = {
   productName: string;
   destinationCountry: string;
   customerCompanyName: string;
@@ -13,8 +13,10 @@ type NarrativeInput = {
 /**
  * テンプレートベースのフォールバックナレーション。
  * APIキー未設定時・API呼び出し失敗時に使用する。
+ * orchestrator側でnarrative呼び出しが残り予算内に完了しなかった場合にも
+ * この関数を再利用してフォールバックする。
  */
-function buildフォールバックNarrative(input: NarrativeInput): string {
+export function buildフォールバックNarrative(input: NarrativeInput): string {
   const headline =
     input.overallGrade === "C"
       ? "高リスク案件として社内承認前提で確認が必要です。"

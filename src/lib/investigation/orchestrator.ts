@@ -1,6 +1,6 @@
 import { buildChecklistFromAssessment } from "@/lib/checklist/generator";
 import { mergeChecklistItems } from "@/lib/checklist/merge";
-import { generateNarrative } from "@/lib/providers/openai";
+import { generateNarrative, buildフォールバックNarrative } from "@/lib/providers/openai";
 import { OpenAIProvider } from "@/lib/providers/openai-provider";
 import { ClaudeProvider } from "@/lib/providers/claude-provider";
 import { GeminiProvider } from "@/lib/providers/gemini-provider";
@@ -414,18 +414,40 @@ const aiProviders = [
 ];
 
 const INVESTIGATION_TOTAL_TIMEOUT_MS = Number(
-  process.env.INVESTIGATION_TOTAL_TIMEOUT_MS ?? "50000",
+  process.env.INVESTIGATION_TOTAL_TIMEOUT_MS ?? "55000",
+);
+
+/**
+ * レポートナレーション生成(generateNarrative)に最低限確保する時間。
+ * 調査フェーズ(3プロバイダー並列)が総予算をほぼ使い切った場合でも、
+ * narrative呼び出しが即座にタイムアウトして毎回フォールバック文になって
+ * しまわないよう、下限を設ける。環境変数で上書き可能。
+ */
+const NARRATIVE_MIN_TIMEOUT_MS = Number(
+  process.env.NARRATIVE_MIN_TIMEOUT_MS ?? "12000",
 );
 
 /**
  * 個別プロバイダーのSDKタイムアウト(既定値: OPENAI_ANALYSIS_TIMEOUT_MS等、
  * デフォルト45秒。src/lib/ai/config.tsのTIMEOUT_DEFAULTS.analysis参照)が
  * 何らかの理由で機能しなかった場合の保険として、調査全体の上限時間
- * （デフォルト50秒）で強制的に失敗させる。
- * 個別タイムアウト(45s) < 全体タイムアウト(50s) < Vercelのmaxduration(60s、
- * src/app/api/investigations/[id]/run/route.ts参照) の順で必ず短くすること。
- * この大小関係が崩れると、内側のタイムアウトが機能する前に外側が先に
- * 切れてしまい、個別設定が意味を失う。
+ * （デフォルト55秒）で強制的に失敗させる。
+ *
+ * 重要: INVESTIGATION_TOTAL_TIMEOUT_MSは「3プロバイダー並列調査」と
+ * 「その後直列実行されるnarrative生成」を合わせた"調査エンドツーエンドの
+ * 総予算"である。この関数はまず調査フェーズ(withOverallTimeout(provider.run(...),
+ * INVESTIGATION_TOTAL_TIMEOUT_MS))に適用され、narrative呼び出しには
+ * 「総予算 - 調査フェーズの実経過時間」を残り予算として別途 withOverallTimeout で
+ * 適用する（runInvestigation内を参照）。
+ *
+ * 各値の大小関係は必ず以下を維持すること。崩れると内側のタイムアウトが
+ * 機能する前に外側が先に切れてしまい、個別設定が意味を失う。
+ *   個別プロバイダーanalysisタイムアウト(45s)
+ *     < 調査エンドツーエンド総予算 INVESTIGATION_TOTAL_TIMEOUT_MS(55s)
+ *     < Vercelのmaxduration(60s、src/app/api/investigations/[id]/run/route.ts参照)
+ *
+ * 55s(総予算) と 60s(maxDuration) の差5秒は、DB保存・チェックリスト生成等
+ * AI呼び出し以外の処理時間のためのバッファ。
  */
 function withOverallTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   return Promise.race([
@@ -437,6 +459,7 @@ function withOverallTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
 }
 
 export async function runInvestigation(caseId: string, userEmail: string) {
+  const investigationStartedAt = Date.now();
   const detail = await assertCaseOwner(caseId, userEmail);
 
   if (!detail) {
@@ -505,15 +528,42 @@ export async function runInvestigation(caseId: string, userEmail: string) {
     const crossReview = buildCrossReview(results, effectiveResults, usedフォールバック);
 
     // レポートナレーション生成（OpenAI APIキーがあれば実API呼び出し、なければテンプレートにフォールバック）
-    const reportNarrative = await generateNarrative({
-      productName: detail.case.productName,
-      destinationCountry: detail.case.destinationCountry,
-      customerCompanyName: detail.case.customerCompanyName,
-      overallGrade: summary.overall,
-      highlights: dimensions
-        .filter((item) => item.grade !== "A")
-        .slice(0, 3)
-        .map((item) => item.label),
+    // 注意: 上のPromise.allSettledによる各プロバイダー調査は並列実行だが、
+    // このnarrative生成は直列で「その後」に実行される。そのためnarrative呼び出し自体にも
+    // 調査開始時刻からの残り予算でタイムアウトを掛け、調査+narrativeの合計が
+    // INVESTIGATION_TOTAL_TIMEOUT_MSおよびmaxDuration=60を超えないようにする。
+    // 残り予算が極端に短い場合でも最低NARRATIVE_MIN_TIMEOUT_MSは確保し、
+    // 即時タイムアウトによる無駄な失敗を避ける。
+    const elapsedMs = Date.now() - investigationStartedAt;
+    const remainingBudgetMs = INVESTIGATION_TOTAL_TIMEOUT_MS - elapsedMs;
+    const narrativeTimeoutMs = Math.max(remainingBudgetMs, NARRATIVE_MIN_TIMEOUT_MS);
+    const reportNarrative = await withOverallTimeout(
+      generateNarrative({
+        productName: detail.case.productName,
+        destinationCountry: detail.case.destinationCountry,
+        customerCompanyName: detail.case.customerCompanyName,
+        overallGrade: summary.overall,
+        highlights: dimensions
+          .filter((item) => item.grade !== "A")
+          .slice(0, 3)
+          .map((item) => item.label),
+      }),
+      narrativeTimeoutMs,
+    ).catch((error) => {
+      console.warn(
+        `[orchestrator] narrative生成が残り予算(${narrativeTimeoutMs}ms)内に完了しませんでした。フォールバック文を使用します。`,
+        error,
+      );
+      return buildフォールバックNarrative({
+        productName: detail.case.productName,
+        destinationCountry: detail.case.destinationCountry,
+        customerCompanyName: detail.case.customerCompanyName,
+        overallGrade: summary.overall,
+        highlights: dimensions
+          .filter((item) => item.grade !== "A")
+          .slice(0, 3)
+          .map((item) => item.label),
+      });
     });
 
     const now = new Date().toISOString();
