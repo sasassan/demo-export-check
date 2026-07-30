@@ -37,37 +37,47 @@ export function AiReviewMeeting({
 }: Props) {
   if (!reviewMeeting || reviewMeeting.length === 0) return null;
 
+  // 有効なAIプロバイダーが1社のみの場合、比較対象がなく「一致率」「議論」
+  // という表現が成立しないため、単独評価である旨を明示する。
+  const isSingleProvider = reviewMeeting.length === 1;
+
   return (
     <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
       {/* ヘッダー */}
       <div className="flex items-center justify-between mb-5">
         <div>
-          <h3 className="text-base font-bold text-slate-900">AIレビュー会議</h3>
+          <h3 className="text-base font-bold text-slate-900">
+            {isSingleProvider ? "AI分析結果" : "AIレビュー会議"}
+          </h3>
           <p className="text-xs text-slate-500 mt-0.5">
-            3つのAIが独立して評価し、議論した結果です
+            {isSingleProvider
+              ? "現在有効なAIプロバイダーは1社のみです。他社はAPIキー未設定のため、単独の分析結果として表示しています。"
+              : "3つのAIが独立して評価し、議論した結果です"}
           </p>
         </div>
-        <div className="text-right">
-          <p className="text-xs text-slate-500">AI評価一致率</p>
-          <p
-            className={`text-2xl font-black ${
-              agreementRate >= 80
-                ? "text-emerald-600"
+        {!isSingleProvider && (
+          <div className="text-right">
+            <p className="text-xs text-slate-500">AI評価一致率</p>
+            <p
+              className={`text-2xl font-black ${
+                agreementRate >= 80
+                  ? "text-emerald-600"
+                  : agreementRate >= 60
+                    ? "text-amber-500"
+                    : "text-rose-600"
+              }`}
+            >
+              {agreementRate}%
+            </p>
+            <p className="text-xs text-slate-500">
+              {agreementRate >= 80
+                ? "高信頼性"
                 : agreementRate >= 60
-                  ? "text-amber-500"
-                  : "text-rose-600"
-            }`}
-          >
-            {agreementRate}%
-          </p>
-          <p className="text-xs text-slate-500">
-            {agreementRate >= 80
-              ? "高信頼性"
-              : agreementRate >= 60
-                ? "中程度の一致"
-                : "評価が割れています"}
-          </p>
-        </div>
+                  ? "中程度の一致"
+                  : "評価が割れています"}
+            </p>
+          </div>
+        )}
       </div>
 
       {/* タイムライン */}

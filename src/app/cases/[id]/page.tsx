@@ -149,7 +149,15 @@ export default async function CaseDetailPage({
           </div>
 
           {/* ④ AIモデル別診断（3列グリッド） */}
-          {detail.assessment.modelResults && detail.assessment.modelResults.length > 0 && (
+          {detail.assessment.modelResults && detail.assessment.modelResults.length > 0 && (() => {
+            // 実際にAPIキーが設定されlive応答したプロバイダー数。
+            // Claude/Geminiは未設定時もモック用のdimensionsを保持しているため、
+            // dimensions.lengthではなくproviderStatus === "live"で判定する。
+            const respondingModelCount = detail.assessment.modelResults.filter(
+              (m) => m.providerStatus === "live",
+            ).length;
+            const isSingleRespondingModel = respondingModelCount <= 1;
+            return (
             <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-3">
@@ -159,11 +167,20 @@ export default async function CaseDetailPage({
                     </svg>
                   </div>
                   <div>
-                    <h2 className="text-base font-semibold text-slate-900">3AI個別評価</h2>
-                    <p className="text-sm text-slate-500">各AIが独立して評価した詳細結果</p>
+                    <h2 className="text-base font-semibold text-slate-900">
+                      {isSingleRespondingModel ? "AI個別評価" : "3AI個別評価"}
+                    </h2>
+                    <p className="text-sm text-slate-500">
+                      {isSingleRespondingModel
+                        ? "現在有効なAIプロバイダーは1社のみです（他社はAPIキー未設定）"
+                        : "各AIが独立して評価した詳細結果"}
+                    </p>
                   </div>
                 </div>
-                {detail.assessment.agreementRate !== undefined && (
+                {/* 一致率は複数プロバイダーの評価が比較できる場合のみ表示する。
+                    単一プロバイダー時は比較対象がなく「一致率100%」が誤解を
+                    招くため非表示にする。 */}
+                {!isSingleRespondingModel && detail.assessment.agreementRate !== undefined && (
                   <div className="text-right">
                     <p className="text-xs text-slate-500">一致率</p>
                     <p className={`text-2xl font-black ${detail.assessment.agreementRate >= 80 ? "text-emerald-600" : detail.assessment.agreementRate >= 60 ? "text-amber-500" : "text-rose-600"}`}>
@@ -248,8 +265,8 @@ export default async function CaseDetailPage({
                 })}
               </div>
 
-              {/* 相違点ハイライト */}
-              {detail.assessment.disagreementDimensions && detail.assessment.disagreementDimensions.length > 0 && (
+              {/* 相違点ハイライト（複数プロバイダーが応答した場合のみ意味を持つ） */}
+              {!isSingleRespondingModel && detail.assessment.disagreementDimensions && detail.assessment.disagreementDimensions.length > 0 && (
                 <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3">
                   <p className="text-xs font-semibold text-amber-800">
                     評価が割れた項目: {detail.assessment.disagreementDimensions.join("、")}
@@ -260,7 +277,8 @@ export default async function CaseDetailPage({
                 </div>
               )}
             </section>
-          )}
+            );
+          })()}
 
           {/* ④-2 マルチAIコンセンサス（多数決/重み付け集計、詳細は展開して確認） */}
           {/* 有効なAIプロバイダーが1社のみの場合は「多数決」「コンセンサス」という表現を使わず、
