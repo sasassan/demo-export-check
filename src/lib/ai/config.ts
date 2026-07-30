@@ -50,10 +50,31 @@ type ProviderConfigDefinition = {
 };
 
 /**
+ * タイムアウトenvが安全に使える値かどうかを検証する下限バリデーション。
+ * 誤って極端に小さい値（例: 検証作業で1msを設定したまま消し忘れる等）や
+ * 数値でない文字列が本番envに紛れ込むと、その用途のAPI呼び出しが
+ * 常に即時タイムアウトし機能が停止するため、安全側に倒して無視する。
+ * 最小許容値は500ms（health診断の疎通確認が現実的に成立する下限の目安）。
+ */
+const MIN_SAFE_TIMEOUT_MS = 500;
+
+function parseTimeoutEnvValue(rawValue: string, envKeyForWarning: string): number | undefined {
+  const parsed = Number(rawValue);
+  if (!Number.isFinite(parsed) || parsed < MIN_SAFE_TIMEOUT_MS) {
+    console.warn(
+      `[AI:config] ${envKeyForWarning}="${rawValue}" は不正または小さすぎる値のため無視し、デフォルト値にフォールバックします（最小許容値: ${MIN_SAFE_TIMEOUT_MS}ms）`,
+    );
+    return undefined;
+  }
+  return parsed;
+}
+
+/**
  * 用途別タイムアウトを解決する。優先順位:
  * 1. 用途別env（例: OPENAI_ANALYSIS_TIMEOUT_MS）
  * 2. 共通env（例: OPENAI_TIMEOUT_MS）— 後方互換のための全用途一律上書き
  * 3. 用途別デフォルト値
+ * いずれの段階でも、0以下・極端に小さい値・数値でない値は無視し次の優先順位へフォールバックする。
  */
 function resolveTimeoutForPurpose(
   providerPrefix: string,
@@ -62,10 +83,17 @@ function resolveTimeoutForPurpose(
 ): number {
   const purposeEnvKey = `${providerPrefix}_${purpose.toUpperCase()}_TIMEOUT_MS`;
   const purposeValue = readOptionalEnv(purposeEnvKey);
-  if (purposeValue) return Number(purposeValue);
+  if (purposeValue) {
+    const parsed = parseTimeoutEnvValue(purposeValue, purposeEnvKey);
+    if (parsed !== undefined) return parsed;
+  }
 
-  const commonValue = readOptionalEnv(`${providerPrefix}_TIMEOUT_MS`);
-  if (commonValue) return Number(commonValue);
+  const commonEnvKey = `${providerPrefix}_TIMEOUT_MS`;
+  const commonValue = readOptionalEnv(commonEnvKey);
+  if (commonValue) {
+    const parsed = parseTimeoutEnvValue(commonValue, commonEnvKey);
+    if (parsed !== undefined) return parsed;
+  }
 
   return defaults[purpose];
 }
