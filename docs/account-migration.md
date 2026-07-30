@@ -221,6 +221,7 @@ flowchart TD
 - [ ] `GET /api/ai/health` で全プロバイダー（GPT-4o / Claude / Gemini）が `reachable: true`
 - [ ] `/api/ai/health` の `orgId` / `projectId` が、意図した法人アカウントのマスク済み値と一致している（例: OpenAIなら新しい`org-...`のマスク値、`proj_...`のマスク値が表示されること）
 - [ ] `/api/ai/health` のレスポンスにAPIキーの実値が含まれていないことを目視確認
+- [ ] OpenAIダッシュボード（[Data Controls / Sharing](https://platform.openai.com/settings/organization/data-controls/sharing)）で「Share inputs and outputs with OpenAI」が **Disabled** のままであることを目視確認（詳細は5.2節参照）
 - [ ] ログイン機能の疎通確認（既存ユーザーでログインできる）
 - [ ] 案件登録機能の疎通確認（新規案件が登録できる）
 - [ ] AI調査機能の疎通確認（GPT-4o / Claude / Geminiそれぞれで調査結果が返る）
@@ -248,6 +249,19 @@ flowchart TD
 - **OpenAI**: 商用API（Business Data）はデフォルトで学習に使用されない（[Enterprise privacy at OpenAI](https://openai.com/enterprise-privacy/)）
 - **Anthropic**: 商用製品（Claude for Work、APIなど）の入力・出力はデフォルトで学習に使用されない。フィードバックボタン経由で明示的に許可した場合のみ例外（[Is my data used for model training?](https://privacy.claude.com/en/articles/7996868-is-my-data-used-for-model-training)）
 - **Google**: **重要な注意点** — AI StudioのUnpaid Servicesでは学習に使われる可能性がある。**Paid Services（Cloud Billing紐付き）にしない限り、個人アカウントと同じ学習利用リスクが残る**（[Gemini API Additional Terms of Service](https://ai.google.dev/gemini-api/terms)）。法人としてB2B顧客データを扱うなら、Paid Services化は必須と考えるべき
+
+#### OpenAIの「データ共有プログラム（Share inputs and outputs with OpenAI）」について【重要・必ず無効のまま維持】
+
+OpenAIダッシュボード（`Settings → Organization → Data Controls → Sharing`）には、**API入出力をOpenAIと共有する代わりに無料トークンを得られる「Share inputs and outputs with OpenAI」設定**が存在する（画面上は「無料トークンを獲得しよう」等のプロモーション文言で表示されることがある）。
+
+- 公式ヘルプセンターで明記されている事実（[Sharing feedback, evaluation and fine-tuning data, and API inputs and outputs with OpenAI](https://help.openai.com/en/articles/10306912-sharing-feedback-evaluation-and-fine-tuning-data-and-api-inputs-and-outputs-with-openai)）:
+  - **「デフォルトでは、ChatGPT Business/Enterprise・APIを含むすべてのビジネス利用者について、入出力をモデル改善に使用しない」**（"By default, we don't use any inputs or outputs from our products for business users, including ChatGPT Business, ChatGPT Enterprise, and the API, to improve our models."）
+  - 「Share inputs and outputs with OpenAI」は**すべての組織でデフォルト無効（disabled）**。有効化しない限り共有は発生しない
+  - 有効化すると、対象プロジェクトの入出力がOpenAIに共有され、利用パターンの把握・モデル品質評価・将来の評価/学習に使われる
+  - 有効化の権限は**Organization Ownerのみ**
+  - 無料トークン特典はTier・モデルによって条件が異なり（1日あたり最大1M〜10Mトークン等）、恒久的な制度ではなく事前通知の上で終了しうる
+- **本サービスとしての方針**: 顧客企業の輸出取引情報という機密情報を扱うため、**この「Share inputs and outputs with OpenAI」設定は絶対に有効化しない**。無料トークンという経済的インセンティブよりも、顧客データの非共有を優先する
+- 確認場所: [OpenAI Platform - Data Controls / Sharing](https://platform.openai.com/settings/organization/data-controls/sharing)（法人アカウント移行後、初回セットアップ時に**必ず「Disabled」になっていることを目視確認**すること。デフォルトはDisabledだが、法人アカウント作成時の初期設定や他メンバーの誤操作で変更される可能性はゼロではないため、定期確認が望ましい）
 
 ### 5.3 レート制限とTierの考え方
 
