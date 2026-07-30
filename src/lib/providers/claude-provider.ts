@@ -9,6 +9,7 @@ import { createId } from "@/lib/utils";
 import type { RiskDimension } from "@/lib/constants";
 import { RISK_DIMENSIONS } from "@/lib/constants";
 import { getProviderRuntimeInfo } from "@/lib/ai/config";
+import { callWithRetry, logAiError } from "@/lib/ai/error-handling";
 
 export class ClaudeProvider implements InvestigationProvider {
   async run(caseRecord: CaseRecord) {
@@ -32,23 +33,34 @@ export class ClaudeProvider implements InvestigationProvider {
 
     try {
       const client = new Anthropic({ apiKey, timeout: runtime.timeoutMs });
-      const response = await client.messages.create({
-        model: runtime.modelName,
-        max_tokens: 4096,
-        system:
-          "あなたは輸出コンプライアンスの専門アナリストです。JSON形式のみで回答してください。余分なテキストは一切含めないでください。",
-        messages: [
-          {
-            role: "user",
-            content: buildAnalysisPrompt(caseRecord),
-          },
-        ],
-      });
+      const callOnce = () =>
+        callWithRetry(
+          () =>
+            client.messages.create({
+              model: runtime.modelName,
+              max_tokens: 4096,
+              system:
+                "あなたは輸出コンプライアンスの専門アナリストです。JSON形式のみで回答してください。余分なテキストは一切含めないでください。",
+              messages: [
+                {
+                  role: "user",
+                  content: buildAnalysisPrompt(caseRecord),
+                },
+              ],
+            }),
+          { providerLabel: "anthropic-claude" },
+        );
 
-      const text =
-        response.content[0]?.type === "text" ? response.content[0].text : "";
-      const parsed = parseAiResponse(text);
-      if (!parsed) throw new Error("Claude: JSON parse failed");
+      let response = await callOnce();
+      let text = response.content[0]?.type === "text" ? response.content[0].text : "";
+      let parsed = parseAiResponse(text);
+      if (!parsed) {
+        console.error("[AI:anthropic-claude] JSONパース失敗のため1回リトライします");
+        response = await callOnce();
+        text = response.content[0]?.type === "text" ? response.content[0].text : "";
+        parsed = parseAiResponse(text);
+      }
+      if (!parsed) throw new Error("Claude: JSON parse failed after retry");
 
       const findings: InvestigationFinding[] = parsed.dimensions
         .filter((d) => RISK_DIMENSIONS.includes(d.dimension as RiskDimension))
@@ -84,15 +96,15 @@ export class ClaudeProvider implements InvestigationProvider {
         providerStatusLabel: runtime.statusLabel,
       };
     } catch (error) {
-      console.error("Claude provider error:", error);
+      const classified = logAiError("anthropic-claude", error);
       const fallback = await new モックCountryProvider().run(caseRecord);
       return {
         ...buildProviderResult("anthropic-claude", fallback.findings),
         status: "partial" as const,
-        errors: [error instanceof Error ? error.message : "Claude error"],
+        errors: [classified.message],
         providerStatus: "fallback-error" as const,
-        providerStatusLabel: "フォールバック",
-        providerReason: error instanceof Error ? error.message : "Claude error",
+        providerStatusLabel: "AI応答に失敗したため簡易判定を表示しています",
+        providerReason: `${classified.kind} (status: ${classified.status ?? "n/a"}) ${classified.message}`,
       };
     }
   }

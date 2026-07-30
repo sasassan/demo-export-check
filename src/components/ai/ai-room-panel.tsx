@@ -4,6 +4,8 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 
 type Answer = {
+  answerSource?: "live" | "fallback-no-key" | "fallback-error";
+  answerSourceLabel?: string;
   confidenceLabel?: "高" | "中" | "低";
   title: string;
   caseDraft?: {
@@ -306,6 +308,18 @@ export function AiRoomPanel({
                 >
                   {entry.content}
                 </p>
+
+                {entry.answer?.answerSourceLabel && entry.answer.answerSource !== "live" && (
+                  <div
+                    className={`mt-2 inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-semibold ${
+                      entry.answer.answerSource === "fallback-error"
+                        ? "border-rose-300 bg-rose-50 text-rose-700"
+                        : "border-amber-300 bg-amber-50 text-amber-700"
+                    }`}
+                  >
+                    {entry.answer.answerSourceLabel}
+                  </div>
+                )}
 
                 {entry.answer && (
                   <div className="mt-3 space-y-2">

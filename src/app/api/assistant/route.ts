@@ -299,6 +299,8 @@ export async function POST(request: Request) {
     // If pure dictionary hit with no AI needed
     if (dictionaryHit && mode === "dictionary" && !sourceText && !sourceUrl) {
       const answer: AssistantAnswer = {
+        answerSource: "fallback-no-key",
+        answerSourceLabel: "辞典データベースからの回答",
         title: dictionaryHit.term,
         simpleExplanation: dictionaryHit.simpleExplanation,
         practicalUse: dictionaryHit.practicalUse,
@@ -352,34 +354,37 @@ export async function POST(request: Request) {
 
     let finalAnswer: AssistantAnswer;
 
-    if (aiResult) {
+    if (aiResult.ok) {
       // AI succeeded - merge with dictionary if available
+      const aiData = aiResult.data as Partial<AssistantAnswer> & Record<string, unknown>;
       finalAnswer = {
-        title: aiResult.title ?? dictionaryHit?.term ?? "AI相談室の回答",
-        confidenceLabel: aiResult.confidenceLabel ?? confidenceLabel,
-        caseDraft: aiResult.caseDraft ?? extractCaseDraftFromConsultation({ question: message, sourceText: effectiveSourceText || undefined }),
-        documentSummary: aiResult.documentSummary ?? (effectiveSourceText ? buildDocumentSummary(effectiveSourceText) : undefined),
-        simpleExplanation: aiResult.simpleExplanation ?? "回答の生成に問題がありました。",
-        practicalUse: aiResult.practicalUse ?? dictionaryHit?.practicalUse ?? "製品・輸出先・相手先・用途の4点で判断しやすくなります。",
-        caution: aiResult.caution ?? dictionaryHit?.caution ?? "最終判断は社内の輸出管理担当者に確認してください。",
-        relatedRisk: aiResult.relatedRisk ?? dictionaryHit?.relatedRisk ?? "規制該当性・相手先信用・用途不明確さが典型的な論点です。",
-        extractedPoints: aiResult.extractedPoints ?? undefined,
+        answerSource: "live",
+        answerSourceLabel: "実AI回答",
+        title: (aiData.title as string) ?? dictionaryHit?.term ?? "AI相談室の回答",
+        confidenceLabel: aiData.confidenceLabel ?? confidenceLabel,
+        caseDraft: aiData.caseDraft ?? extractCaseDraftFromConsultation({ question: message, sourceText: effectiveSourceText || undefined }),
+        documentSummary: (aiData.documentSummary as string) ?? (effectiveSourceText ? buildDocumentSummary(effectiveSourceText) : undefined),
+        simpleExplanation: (aiData.simpleExplanation as string) ?? "回答の生成に問題がありました。",
+        practicalUse: (aiData.practicalUse as string) ?? dictionaryHit?.practicalUse ?? "製品・輸出先・相手先・用途の4点で判断しやすくなります。",
+        caution: (aiData.caution as string) ?? dictionaryHit?.caution ?? "最終判断は社内の輸出管理担当者に確認してください。",
+        relatedRisk: (aiData.relatedRisk as string) ?? dictionaryHit?.relatedRisk ?? "規制該当性・相手先信用・用途不明確さが典型的な論点です。",
+        extractedPoints: (aiData.extractedPoints as string[]) ?? undefined,
         factHighlights:
-          aiResult.factHighlights ??
+          (aiData.factHighlights as string[]) ??
           relevantChunks.slice(0, 2).map((chunk) => chunk.text.slice(0, 90)),
         assumptionHighlights:
-          aiResult.assumptionHighlights ??
+          (aiData.assumptionHighlights as string[]) ??
           ["資料に記載されていない条件や契約上の制約は別途確認が必要です。"],
-        relatedClauses: aiResult.relatedClauses ?? (effectiveSourceText ? extractClauseLikeSentences(effectiveSourceText) : undefined),
-        keywordHighlights: aiResult.keywordHighlights ?? (effectiveSourceText ? extractKeywordHighlights(effectiveSourceText) : undefined),
+        relatedClauses: (aiData.relatedClauses as string[]) ?? (effectiveSourceText ? extractClauseLikeSentences(effectiveSourceText) : undefined),
+        keywordHighlights: (aiData.keywordHighlights as string[]) ?? (effectiveSourceText ? extractKeywordHighlights(effectiveSourceText) : undefined),
         followUpQuestions:
-          aiResult.followUpQuestions ??
+          (aiData.followUpQuestions as string[]) ??
           [
             "この回答を踏まえて、次に社内で何を確認すべきですか？",
             "用途確認書や契約条件の追加確認は必要ですか？",
           ],
         citations:
-          aiResult.citations ??
+          (aiData.citations as AssistantAnswer["citations"]) ??
           (fallbackCitations.length > 0
             ? fallbackCitations
             : dictionaryHit
@@ -391,20 +396,30 @@ export async function POST(request: Request) {
                   },
                 ]
               : undefined),
-        judgement: aiResult.judgement ?? undefined,
-        recommendedChecks: aiResult.recommendedChecks ?? undefined,
-        relatedFeatures: aiResult.relatedFeatures ?? [
+        judgement: (aiData.judgement as string) ?? undefined,
+        recommendedChecks: (aiData.recommendedChecks as string[]) ?? undefined,
+        relatedFeatures: (aiData.relatedFeatures as AssistantAnswer["relatedFeatures"]) ?? [
           { label: "輸出辞典を見る", href: "/glossary" },
           { label: "AI診断で案件を確認", href: "/cases/new" },
         ],
-        referenceLinks: aiResult.referenceLinks ?? dictionaryHit?.referenceLinks ?? [],
+        referenceLinks: (aiData.referenceLinks as AssistantAnswer["referenceLinks"]) ?? dictionaryHit?.referenceLinks ?? [],
       };
     } else {
       // AI failed or no API key - smart fallback
+      if (aiResult.reason === "error") {
+        console.error(
+          `[assistant route] AI呼び出しが失敗したためフォールバックを使用します: ${aiResult.errorMessage}`,
+        );
+      }
       finalAnswer = buildSmartフォールバック({
         message, mode, sourceText, fetchedUrlText: fetchedUrlText ?? undefined,
         sourceUrl, dictionaryHit,
       });
+      finalAnswer.answerSource = aiResult.reason === "error" ? "fallback-error" : "fallback-no-key";
+      finalAnswer.answerSourceLabel =
+        aiResult.reason === "error"
+          ? "AI応答に失敗したため簡易判定を表示しています"
+          : "APIキー未設定のため簡易判定を表示しています";
     }
 
     const consultationId = await saveConsultation({

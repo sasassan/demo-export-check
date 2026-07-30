@@ -1,6 +1,7 @@
 import OpenAI from "openai";
 
 import { getProviderRuntimeInfo } from "@/lib/ai/config";
+import { callWithRetry, logAiError } from "@/lib/ai/error-handling";
 
 /* ---------- mode-specific system prompts ---------- */
 const BASE_ROLE =
@@ -85,13 +86,18 @@ export type AskAssistantInput = {
   history?: ConversationMessage[];
 };
 
+/* ---------- result types ---------- */
+export type AskAssistantResult =
+  | { ok: true; data: Record<string, unknown> }
+  | { ok: false; reason: "no-key" | "error"; errorMessage?: string };
+
 /* ---------- main function ---------- */
-export async function askAssistant(input: AskAssistantInput) {
+export async function askAssistant(input: AskAssistantInput): Promise<AskAssistantResult> {
   const openaiInfo = getProviderRuntimeInfo("gpt-4o");
   const apiKey = openaiInfo.apiKey;
 
   if (!apiKey) {
-    return null; // caller handles fallback
+    return { ok: false, reason: "no-key" }; // caller handles fallback
   }
 
   const systemPrompt = MODE_PROMPTS[input.mode] ?? MODE_PROMPTS.general;
@@ -136,19 +142,41 @@ export async function askAssistant(input: AskAssistantInput) {
 
   try {
     const client = new OpenAI({ apiKey, timeout: openaiInfo.timeoutMs });
-    const completion = await client.chat.completions.create({
-      model: openaiInfo.modelName,
-      messages,
-      temperature: 0.3,
-      max_tokens: 2500,
-      response_format: { type: "json_object" },
-    });
+    const callOnce = () =>
+      callWithRetry(
+        () =>
+          client.chat.completions.create({
+            model: openaiInfo.modelName,
+            messages,
+            temperature: 0.3,
+            max_tokens: 2500,
+            response_format: { type: "json_object" },
+          }),
+        { providerLabel: "assistant-gpt4o" },
+      );
 
-    const raw = completion.choices[0]?.message?.content ?? "";
-    const parsed = JSON.parse(raw);
-    return parsed;
+    let completion = await callOnce();
+    let raw = completion.choices[0]?.message?.content ?? "";
+    let parsed: Record<string, unknown> | null = null;
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      console.error("[AI:assistant-gpt4o] JSONパース失敗のため1回リトライします");
+      completion = await callOnce();
+      raw = completion.choices[0]?.message?.content ?? "";
+      try {
+        parsed = JSON.parse(raw);
+      } catch {
+        parsed = null;
+      }
+    }
+
+    if (!parsed) {
+      return { ok: false, reason: "error", errorMessage: "JSON parse failed after retry" };
+    }
+    return { ok: true, data: parsed };
   } catch (error) {
-    console.error("[askAssistant] AI call failed:", error);
-    return null;
+    const classified = logAiError("assistant-gpt4o", error);
+    return { ok: false, reason: "error", errorMessage: classified.message };
   }
 }

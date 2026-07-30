@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import { getProviderRuntimeInfo } from "@/lib/ai/config";
+import { callWithRetry, logAiError } from "@/lib/ai/error-handling";
 
 type NarrativeInput = {
   productName: string;
@@ -44,35 +45,39 @@ export async function generateNarrative(input: NarrativeInput): Promise<string> 
 
   try {
     const client = new OpenAI({ apiKey, timeout: runtime.timeoutMs });
-    const response = await client.chat.completions.create({
-      model: runtime.modelName,
-      messages: [
-        {
-          role: "system",
-          content:
-            "あなたは輸出コンプライアンスレポートのナレーション作成者です。営業担当者にも分かりやすい日本語で、3〜5文程度の簡潔な補足説明を作成してください。専門用語は避け、法的助言ではなく社内確認を促す文体にしてください。",
-        },
-        {
-          role: "user",
-          content: [
-            `商品名: ${input.productName}`,
-            `輸出先国: ${input.destinationCountry}`,
-            `取引先企業名: ${input.customerCompanyName}`,
-            `総合リスクグレード: ${input.overallGrade}`,
-            `注目すべき確認事項: ${input.highlights.join("、") || "特になし"}`,
-            "上記の案件について、調査結果の補足説明・要約を作成してください。",
-          ].join("\n"),
-        },
-      ],
-      temperature: 0.3,
-      max_tokens: 400,
-    });
+    const response = await callWithRetry(
+      () =>
+        client.chat.completions.create({
+          model: runtime.modelName,
+          messages: [
+            {
+              role: "system",
+              content:
+                "あなたは輸出コンプライアンスレポートのナレーション作成者です。営業担当者にも分かりやすい日本語で、3〜5文程度の簡潔な補足説明を作成してください。専門用語は避け、法的助言ではなく社内確認を促す文体にしてください。",
+            },
+            {
+              role: "user",
+              content: [
+                `商品名: ${input.productName}`,
+                `輸出先国: ${input.destinationCountry}`,
+                `取引先企業名: ${input.customerCompanyName}`,
+                `総合リスクグレード: ${input.overallGrade}`,
+                `注目すべき確認事項: ${input.highlights.join("、") || "特になし"}`,
+                "上記の案件について、調査結果の補足説明・要約を作成してください。",
+              ].join("\n"),
+            },
+          ],
+          temperature: 0.3,
+          max_tokens: 400,
+        }),
+      { providerLabel: "narrative-gpt4o" },
+    );
 
     const text = response.choices[0]?.message?.content?.trim();
     if (!text) throw new Error("generateNarrative: empty response");
     return text;
   } catch (error) {
-    console.error("generateNarrative error:", error);
+    logAiError("narrative-gpt4o", error);
     return buildフォールバックNarrative(input);
   }
 }

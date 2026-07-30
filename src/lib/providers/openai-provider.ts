@@ -9,6 +9,7 @@ import { createId } from "@/lib/utils";
 import type { RiskDimension } from "@/lib/constants";
 import { RISK_DIMENSIONS } from "@/lib/constants";
 import { getProviderRuntimeInfo } from "@/lib/ai/config";
+import { callWithRetry, logAiError } from "@/lib/ai/error-handling";
 
 export class OpenAIProvider implements InvestigationProvider {
   async run(caseRecord: CaseRecord) {
@@ -32,26 +33,41 @@ export class OpenAIProvider implements InvestigationProvider {
 
     try {
       const client = new OpenAI({ apiKey, timeout: runtime.timeoutMs });
-      const response = await client.chat.completions.create({
-        model: runtime.modelName,
-        messages: [
-          {
-            role: "system",
-            content:
-              "あなたは輸出コンプライアンスの専門アナリストです。JSON形式のみで回答してください。",
-          },
-          {
-            role: "user",
-            content: buildAnalysisPrompt(caseRecord),
-          },
-        ],
-        response_format: { type: "json_object" },
-        temperature: 0.2,
-      });
+      const messages: OpenAI.ChatCompletionMessageParam[] = [
+        {
+          role: "system",
+          content:
+            "あなたは輸出コンプライアンスの専門アナリストです。JSON形式のみで回答してください。",
+        },
+        {
+          role: "user",
+          content: buildAnalysisPrompt(caseRecord),
+        },
+      ];
 
-      const text = response.choices[0]?.message?.content ?? "";
-      const parsed = parseAiResponse(text);
-      if (!parsed) throw new Error("GPT-4o: JSON parse failed");
+      const callOnce = () =>
+        callWithRetry(
+          () =>
+            client.chat.completions.create({
+              model: runtime.modelName,
+              messages,
+              response_format: { type: "json_object" },
+              temperature: 0.2,
+            }),
+          { providerLabel: "openai-gpt4o" },
+        );
+
+      let response = await callOnce();
+      let text = response.choices[0]?.message?.content ?? "";
+      let parsed = parseAiResponse(text);
+      if (!parsed) {
+        // JSONパース失敗時は1回だけリトライしてからフォールバックへ
+        console.error("[AI:openai-gpt4o] JSONパース失敗のため1回リトライします");
+        response = await callOnce();
+        text = response.choices[0]?.message?.content ?? "";
+        parsed = parseAiResponse(text);
+      }
+      if (!parsed) throw new Error("GPT-4o: JSON parse failed after retry");
 
       const findings: InvestigationFinding[] = parsed.dimensions
         .filter((d) => RISK_DIMENSIONS.includes(d.dimension as RiskDimension))
@@ -87,15 +103,15 @@ export class OpenAIProvider implements InvestigationProvider {
         providerStatusLabel: runtime.statusLabel,
       };
     } catch (error) {
-      console.error("OpenAI provider error:", error);
+      const classified = logAiError("openai-gpt4o", error);
       const fallback = await new モックSanctionsProvider().run(caseRecord);
       return {
         ...buildProviderResult("openai-gpt4o", fallback.findings),
         status: "partial" as const,
-        errors: [error instanceof Error ? error.message : "OpenAI error"],
+        errors: [classified.message],
         providerStatus: "fallback-error" as const,
-        providerStatusLabel: "フォールバック",
-        providerReason: error instanceof Error ? error.message : "OpenAI error",
+        providerStatusLabel: "AI応答に失敗したため簡易判定を表示しています",
+        providerReason: `${classified.kind} (status: ${classified.status ?? "n/a"}) ${classified.message}`,
       };
     }
   }

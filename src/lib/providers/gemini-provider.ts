@@ -8,6 +8,7 @@ import { createId } from "@/lib/utils";
 import type { RiskDimension } from "@/lib/constants";
 import { RISK_DIMENSIONS } from "@/lib/constants";
 import { getProviderRuntimeInfo } from "@/lib/ai/config";
+import { callWithRetry, logAiError } from "@/lib/ai/error-handling";
 
 export class GeminiProvider implements InvestigationProvider {
   async run(caseRecord: CaseRecord) {
@@ -37,10 +38,22 @@ export class GeminiProvider implements InvestigationProvider {
         { timeout: runtime.timeoutMs },
       );
 
-      const result = await model.generateContent(buildAnalysisPrompt(caseRecord));
-      const text = result.response.text();
-      const parsed = parseAiResponse(text);
-      if (!parsed) throw new Error("Gemini: JSON parse failed");
+      const callOnce = () =>
+        callWithRetry(
+          () => model.generateContent(buildAnalysisPrompt(caseRecord)),
+          { providerLabel: "google-gemini" },
+        );
+
+      let result = await callOnce();
+      let text = result.response.text();
+      let parsed = parseAiResponse(text);
+      if (!parsed) {
+        console.error("[AI:google-gemini] JSONパース失敗のため1回リトライします");
+        result = await callOnce();
+        text = result.response.text();
+        parsed = parseAiResponse(text);
+      }
+      if (!parsed) throw new Error("Gemini: JSON parse failed after retry");
 
       const findings: InvestigationFinding[] = parsed.dimensions
         .filter((d) => RISK_DIMENSIONS.includes(d.dimension as RiskDimension))
@@ -76,15 +89,15 @@ export class GeminiProvider implements InvestigationProvider {
         providerStatusLabel: runtime.statusLabel,
       };
     } catch (error) {
-      console.error("Gemini provider error:", error);
+      const classified = logAiError("google-gemini", error);
       const fallback = await new モックCountryProvider().run(caseRecord);
       return {
         ...buildProviderResult("google-gemini", fallback.findings),
         status: "partial" as const,
-        errors: [error instanceof Error ? error.message : "Gemini error"],
+        errors: [classified.message],
         providerStatus: "fallback-error" as const,
-        providerStatusLabel: "フォールバック",
-        providerReason: error instanceof Error ? error.message : "Gemini error",
+        providerStatusLabel: "AI応答に失敗したため簡易判定を表示しています",
+        providerReason: `${classified.kind} (status: ${classified.status ?? "n/a"}) ${classified.message}`,
       };
     }
   }

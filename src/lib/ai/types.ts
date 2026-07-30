@@ -1,4 +1,7 @@
 export type AssistantAnswer = {
+  /** 回答が実際のAI呼び出しによるものか、簡易フォールバックかを示す */
+  answerSource?: "live" | "fallback-no-key" | "fallback-error";
+  answerSourceLabel?: string;
   confidenceLabel?: "高" | "中" | "低";
   caseDraft?: {
     productName?: string;
