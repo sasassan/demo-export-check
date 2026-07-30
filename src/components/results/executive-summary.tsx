@@ -22,6 +22,8 @@ type Props = {
 export function ExecutiveSummary({ caseRecord, assessment }: Props) {
   const { summary, agreementRate, modelResults } = assessment;
   const grade = summary.overall;
+  const liveModelCount =
+    modelResults?.filter((m) => m.providerStatus === "live").length ?? 0;
 
   // 総合スコアを次元の平均から計算
   const avgScore =
@@ -118,8 +120,8 @@ export function ExecutiveSummary({ caseRecord, assessment }: Props) {
             <p className="text-xs text-slate-500">/ 100点</p>
           </div>
 
-          {/* 一致率 */}
-          {agreementRate !== undefined && modelResults && modelResults.length >= 2 && (
+          {/* 一致率（実際に応答した有効プロバイダーが2社以上の場合のみ表示） */}
+          {agreementRate !== undefined && liveModelCount >= 2 && (
             <div className="text-center">
               <p className="text-xs text-slate-500">AI一致率</p>
               <p
@@ -136,6 +138,12 @@ export function ExecutiveSummary({ caseRecord, assessment }: Props) {
               <p className="text-xs text-slate-500">
                 {agreementRate >= 80 ? "高信頼" : agreementRate >= 60 ? "中信頼" : "要検討"}
               </p>
+            </div>
+          )}
+          {liveModelCount === 1 && (
+            <div className="text-center">
+              <p className="text-xs text-slate-500">分析AI</p>
+              <p className="text-sm font-semibold text-slate-700">1社の分析結果</p>
             </div>
           )}
         </div>
