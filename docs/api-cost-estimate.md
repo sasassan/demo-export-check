@@ -1,11 +1,12 @@
 # AI API コスト試算（1案件あたりの原価分析）
 
-作成日: 2026-07-30（Gemini実測反映のため更新）
+作成日: 2026-07-30（Gemini実測反映のため更新、モデル選定再評価の最新単価情報を追記）
 目的: B2B SaaS としての価格設計に必要な、案件1件あたりのAI API原価を確定する。
 
 > **重要な注記**: 本ドキュメントの数値は「実測値」と「推定値」を明確に区別して記載する。
 > 推定値は将来の実測により置き換えが必要である。
 > **2026-07-30追記**: OpenAI + Google Gemini の2社構成での実測が完了した。Claude（Anthropic）は引き続きAPIキー未設定のため推定のまま。
+> **2026-07-30追記2**: モデル選定再評価のため、Gemini 3.x系（3.5 Flash-Lite / 3.5 Flash / 3.1 Pro Preview）およびClaude最新ラインナップ（Sonnet 5 / Sonnet 4.6 / Opus 5）の公式単価を一次ソースで確認し反映した。ただしこれら上位候補モデルは単価確認のみで、本アプリのAPIキーでの実疎通は未検証（[13章](#13-残課題要確認事項)参照）。
 
 ---
 
@@ -133,6 +134,7 @@ AI相談室のusageは実測データが存在しない（同様にログ出力�
 |---|---|---|---|---|
 | Claude 3 Haiku (`claude-3-haiku-20240307`)（旧デフォルト） | $0.25 | $1.25 | **Retired（2026-04-20）・使用不可** | [Anthropic公式Pricing](https://www.anthropic.com/pricing) |
 | **Claude Haiku 4.5 (`claude-haiku-4-5-20251001`)（新デフォルト・現行）** | **$1.00** | **$5.00** | Active | [Anthropic公式Pricing](https://www.anthropic.com/pricing) |
+| Claude Sonnet 5（参考・上位モデル、2026年8月31日までの導入価格） | $2.00 | $10.00 | Active（導入価格・9/1以降$3.00/$15.00に変更予定） | 同上 |
 | Claude Sonnet 4.6（参考・上位モデル、Legacy扱い） | $3.00 | $15.00 | Active（Legacy） | 同上 |
 | Claude Opus 5（参考・最上位モデル） | $5.00 | $25.00 | Active | 同上 |
 
@@ -142,15 +144,19 @@ AI相談室のusageは実測データが存在しない（同様にログ出力�
 
 コード上の設定モデル名を`gemini-2.0-flash`（提供終了確認済み）から`gemini-flash-latest`（実測で`generateContent`成功を確認したエイリアス）へ更新済み（`config.ts`, `.env.example`）。
 
-| モデル | 入力 (per 1M tokens) | 出力 (per 1M tokens、thinking込み) | 参照 |
-|---|---|---|---|
-| **Gemini 2.5 Flash**（`gemini-flash-latest`が実体として指す可能性が高い世代） | $0.30 | $2.50 | [Gemini API Pricing](https://ai.google.dev/gemini-api/docs/pricing)（複数独立ソースでも一致確認: [metacto](https://www.metacto.com/blogs/the-true-cost-of-google-gemini-a-guide-to-api-pricing-and-integration), [cloudzero](https://www.cloudzero.com/blog/gemini-pricing/)） |
-| Gemini 2.5 Flash-Lite（参考・より安価な下位モデル） | $0.10 | $0.40 | 同上 |
-| Gemini 3.5 Flash（参考・最新世代） | $0.75 | $4.50 | 同上 |
+| モデル | 入力 (per 1M tokens) | 出力 (per 1M tokens、thinking込み) | 状態 | 参照 |
+|---|---|---|---|---|
+| Gemini 2.5 Flash-Lite | $0.10 | $0.40 | Active | [Gemini API Pricing](https://ai.google.dev/gemini-api/docs/pricing) |
+| **Gemini 2.5 Flash**（`gemini-flash-latest`が実体として指す可能性が高い世代の一つ） | $0.30 | $2.50 | Active | 同上（複数独立ソースでも一致確認: [metacto](https://www.metacto.com/blogs/the-true-cost-of-google-gemini-a-guide-to-api-pricing-and-integration), [cloudzero](https://www.cloudzero.com/blog/gemini-pricing/)） |
+| **Gemini 3.5 Flash-Lite**（`gemini-3.5-flash-lite`、2026年7月GA・Free Tier対応） | $0.30 | $2.50 | Active（GA） | 同上 |
+| **Gemini 3.5 Flash**（`gemini-3.5-flash`、最新安定世代） | $0.75 | $4.50 | Active | 同上 |
+| **Gemini 3.1 Pro Preview**（`gemini-3.1-pro-preview`、最上位・Free Tier対応） | $2.70 | $13.50〜$16.20（コンテキスト長で変動） | Active（Preview） | 同上 |
 
-> **`gemini-flash-latest`の実体特定について**: Gemini APIのモデル情報エンドポイント（`models/gemini-flash-latest`）を実際に照会したが、`displayName: "Gemini Flash Latest"`、`description: "Latest release of Gemini Flash"`と表示されるのみで、内部的にどのバージョン番号（2.5 / 3.5等）を指しているかは公式には明記されていない。ただし実測した`usageMetadata`に`thoughtsTokenCount`（推論トークン）が含まれていたことから、thinking機能を持つ現行世代（Gemini 2.5系以降）に該当すると判断し、**Gemini 2.5 Flashの単価（$0.30/$2.50）を採用する**。これは断定ではなく「最も近い現行世代」としての推定である点に注意。
+> **`gemini-flash-latest`の実体特定について**: Gemini APIのモデル情報エンドポイント（`models/gemini-flash-latest`）を実際に照会したが、`displayName: "Gemini Flash Latest"`、`description: "Latest release of Gemini Flash"`と表示されるのみで、内部的にどのバージョン番号（2.5 / 3.5等）を指しているかは公式には明記されていない。ただし実測した`usageMetadata`に`thoughtsTokenCount`（推論トークン）が含まれていたことから、thinking機能を持つ現行世代に該当すると判断し、**Gemini 2.5 Flash相当の単価（$0.30/$2.50）を採用する**。これは断定ではなく「最も近い現行世代」としての推定である点に注意（Gemini 3.5 Flash-Liteも同一単価帯であり、仮にエイリアスが3.5世代に切り替わっていたとしても本試算の単価はほぼ変わらない）。
 >
 > **重要な訂正**: 前回ドキュメント作成時点で「`gemini-2.0-flash`は提供終了(Shut down)」「`gemini-2.5-flash`はgenerateContentで404」と記載していたが、404だったのはAPIキーの無料枠アクセス制限によるものであり、`gemini-flash-latest`エイリアス経由では2.5 Flash相当のモデルに正常にアクセスできることを実測で確認した。
+>
+> **2026-07-30追加確認**: Gemini 3系（3.5 Flash-Lite / 3.5 Flash / 3.1 Pro Preview）の単価をGemini API公式Pricingページで確認済み。3.5 Flash-Liteは2.5 Flashと同一単価（$0.30/$2.50）でGA・Free Tier対応のため、精度を重視するなら次点の実用的な選択肢になりうる（詳細は[12章](#12-価格設計への示唆)参照）。
 
 ---
 
@@ -300,8 +306,12 @@ AI相談室のusageは実測データが存在しない（同様にログ出力�
 | プロバイダー | 現行デフォルト（本セッション反映後） | 上位候補 | 単価差（上位/デフォルト） | 参照 |
 |---|---|---|---|---|
 | OpenAI | `gpt-4o-mini`（$0.15/$0.60） | `gpt-4o`（$2.50/$10.00） | 入力 約16.7倍・出力 約16.7倍 | [OpenAI Pricing](https://developers.openai.com/api/docs/pricing) |
-| Anthropic | `claude-haiku-4-5-20251001`（$1.00/$5.00） | `Claude Sonnet 4.6`（$3.00/$15.00） | 入力・出力とも3倍 | [Anthropic Pricing](https://www.anthropic.com/pricing) |
-| Google | `gemini-flash-latest`≈2.5 Flash（$0.30/$2.50） | `gemini-2.5-pro`（$1.50/$7.50） | 入力・出力とも5倍 | [Gemini API Pricing](https://ai.google.dev/gemini-api/docs/pricing) |
+| Anthropic | `claude-haiku-4-5-20251001`（$1.00/$5.00） | `Claude Sonnet 5`（$2.00/$10.00、2026年8月末までの導入価格）/ `Claude Sonnet 4.6`（$3.00/$15.00） | Sonnet 5: 入力・出力とも2倍／Sonnet 4.6: 入力・出力とも3倍 | [Anthropic Pricing](https://www.anthropic.com/pricing) |
+| Google | `gemini-flash-latest`≈2.5 Flash相当（$0.30/$2.50） | `gemini-3.5-flash`（$0.75/$4.50、最新安定世代）/ `gemini-3.1-pro-preview`（$2.70/$13.50〜$16.20、最上位） | 3.5 Flash: 入力2.5倍・出力1.8倍／3.1 Pro Preview: 入力9倍・出力5.4〜6.5倍 | [Gemini API Pricing](https://ai.google.dev/gemini-api/docs/pricing) |
+
+> **2026-07-30追加確認・重要な訂正**: 前回セッションでは「上位候補」として`gemini-2.5-pro`を挙げていたが、これは価格ページに掲載されているものの前回実測ではアクセス制限（プレビュー版）で404が返っており、本アプリのAPIキーで実際に呼び出せるかは未確認である。一方、今回一次ソースで確認した`gemini-3.5-flash`（GA・最新安定世代、$0.75/$4.50）と`gemini-3.1-pro-preview`（最上位、$2.70/$13.50〜$16.20）は、現行世代の実在モデルとして価格ページに明記されている。**「安いから」ではなく実在確認できた現行世代から選ぶ**という原則に立てば、精度重視の上位候補としては`gemini-3.5-flash`（バランス型）または`gemini-3.1-pro-preview`（最上位・法令判断の精度を最優先する場合）が妥当な候補である。ただし実際にこのアプリのAPIキーで`generateContent`が成功するかは別途実測が必要（`gemini-flash-latest`以外は前回未検証）。
+>
+> 同様にAnthropicも、旧報告の`Claude Sonnet 4.6`固定ではなく、2026年8月31日までの導入価格が適用される`Claude Sonnet 5`（$2.00/$10.00）が現時点でのコストパフォーマンスに優れた上位候補である点を追記する（9月以降は$3.00/$15.00に変更予定のため、価格設計時はこの変更タイミングも考慮すべき）。
 
 1案件あたりの原価差で見ても、3社すべてを上位モデルに切り替えた場合の追加コストは1案件あたり数円〜十数円のオーダーに留まると見込まれる（詳細な実測比較は未実施）。原価が数円単位でしか変わらない一方、誤判定時の顧客側リスク（法令違反・刑事罰）は原価差と比較にならないほど大きい。**「なぜ廉価モデルを選ぶのか」を明確な理由なしに正当化することはできず、少なくとも法令判断に関わる分析本体は上位モデルへの切り替えを検討すべき**、というのが本調査の結論である。ただし本セッションでは出力品質の定量比較（同一入力での`gpt-4o-mini` vs `gpt-4o`等の実行比較）までは実施していないため、切り替えの最終判断には別途品質比較の実施を推奨する。
 
@@ -317,3 +327,4 @@ AI相談室のusageは実測データが存在しない（同様にログ出力�
 - **Geminiのthinkingトークンを無効化できるか未調査**: 無効化オプションがあれば大幅なコスト削減が可能な余地がある。今後の確認事項とする
 - **AI相談室のトークン消費傾向が未実測**: 会話履歴の送信方法（毎回全履歴を送るか、直近のみか）によってコスト特性が大きく変わるため、`src/lib/ai/assistant.ts`の実装を確認した上での実測が望ましい
 - **為替レートは目安値**: 精緻な原価計算・価格設定時は都度最新レートを参照すること
+- **Gemini 3.x系・Claude Sonnet 5等の上位候補モデルは単価確認のみで実疎通未検証**: 本アプリのAPIキー・エンドポイント経由で`gemini-3.5-flash` / `gemini-3.1-pro-preview` / `claude-sonnet-5`系の`generateContent`/`messages`呼び出しが実際に成功するかは未実測（`gemini-flash-latest`と`claude-haiku-4-5-20251001`のみ疎通確認済み）。上位モデルへの切り替えを決定する前に、必ず実際のAPIキーでの疎通確認を行うこと
