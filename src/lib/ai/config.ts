@@ -187,7 +187,10 @@ const providerDefinitions: ProviderConfigDefinition[] = [
     label: "Gemini",
     envKey: "GOOGLE_GENERATIVE_AI_API_KEY",
     enabled: enabledProviderSet.has("gemini"),
-    modelName: process.env.GOOGLE_MODEL || "gemini-1.5-flash",
+    // 2026-07-30時点の実測: v1beta ListModels APIで確認したところ
+    // gemini-1.5-flash は提供終了済み（generateContent呼び出しで404 not_found）。
+    // 現行の安定版エイリアスである gemini-2.0-flash に更新。
+    modelName: process.env.GOOGLE_MODEL || "gemini-2.0-flash",
     resolveTimeoutMs: (purpose) =>
       resolveTimeoutForPurpose("GOOGLE", purpose, TIMEOUT_DEFAULTS),
     // AI StudioキーはGCPプロジェクトに暗黙的に紐づく。Vertex AI移行時は
