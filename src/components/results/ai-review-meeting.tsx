@@ -52,7 +52,7 @@ export function AiReviewMeeting({
           <p className="text-xs text-slate-500 mt-0.5">
             {isSingleProvider
               ? "現在有効なAIプロバイダーは1社のみです。他社はAPIキー未設定のため、単独の分析結果として表示しています。"
-              : "3つのAIが独立して評価し、議論した結果です"}
+              : `${reviewMeeting.length}つのAIが独立して評価し、議論した結果です`}
           </p>
         </div>
         {!isSingleProvider && (

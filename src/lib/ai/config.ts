@@ -217,8 +217,13 @@ const providerDefinitions: ProviderConfigDefinition[] = [
     enabled: enabledProviderSet.has("gemini"),
     // 2026-07-30時点の実測: v1beta ListModels APIで確認したところ
     // gemini-1.5-flash は提供終了済み（generateContent呼び出しで404 not_found）。
-    // 現行の安定版エイリアスである gemini-2.0-flash に更新。
-    modelName: process.env.GOOGLE_MODEL || "gemini-2.0-flash",
+    // 続けて gemini-2.0-flash を実際に呼び出したところ 429 RESOURCE_EXHAUSTED
+    // （無料枠クォータ超過。AQ.形式の新方式APIキーは無料枠に紐づくため）、
+    // gemini-2.5-flash / gemini-2.5-flash-lite はモデル一覧には存在するものの
+    // generateContent呼び出しで404 NOT_FOUNDとなった（プレビュー版アクセス制限の可能性）。
+    // 実際にgenerateContentの呼び出しが成功したのは gemini-flash-latest のみ
+    // （常に現行の安定版Flashモデルを指すエイリアスで、将来のモデル切り替えにも自動追従する）。
+    modelName: process.env.GOOGLE_MODEL || "gemini-flash-latest",
     resolveTimeoutMs: (purpose) =>
       resolveTimeoutForPurpose("GOOGLE", purpose, TIMEOUT_DEFAULTS),
     // AI StudioキーはGCPプロジェクトに暗黙的に紐づく。Vertex AI移行時は
