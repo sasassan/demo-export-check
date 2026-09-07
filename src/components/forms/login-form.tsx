@@ -3,23 +3,30 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { loginWithEmail } from "@/lib/auth/client";
+import { loginWithEmail, verifyLoginCode } from "@/lib/auth/client";
 
 export function LoginForm() {
   const router = useRouter();
+  const [stage, setStage] = useState<"email" | "code">("email");
   const [email, setEmail] = useState("demo@example.com");
+  const [code, setCode] = useState("");
+  const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleEmailSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsSubmitting(true);
     setError(null);
 
     try {
-      await loginWithEmail(email);
-      router.push("/dashboard");
-      router.refresh();
+      const result = await loginWithEmail(email);
+      if (result?.verificationRequired) {
+        setStage("code");
+      } else {
+        router.push("/dashboard");
+        router.refresh();
+      }
     } catch (submissionError) {
       setError(
         submissionError instanceof Error
@@ -31,8 +38,92 @@ export function LoginForm() {
     }
   }
 
+  async function handleCodeSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      await verifyLoginCode(email, code, password || undefined);
+      router.push("/dashboard");
+      router.refresh();
+    } catch (submissionError) {
+      setError(
+        submissionError instanceof Error
+          ? submissionError.message
+          : "確認コードの検証に失敗しました。",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  if (stage === "code") {
+    return (
+      <form onSubmit={handleCodeSubmit} className="flex flex-col gap-5">
+        <p className="text-sm text-slate-600">
+          <span className="font-medium text-slate-900">{email}</span> 宛に確認コードを送信しました。メールに記載された6桁のコードを入力してください。
+        </p>
+
+        <label className="flex flex-col gap-2">
+          <span className="text-sm font-medium text-slate-700">確認コード（6桁）</span>
+          <input
+            type="text"
+            inputMode="numeric"
+            pattern="\d{6}"
+            maxLength={6}
+            value={code}
+            onChange={(event) => setCode(event.target.value.replace(/\D/g, ""))}
+            className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-cyan-300 transition placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100"
+            placeholder="123456"
+            required
+          />
+        </label>
+
+        <label className="flex flex-col gap-2">
+          <span className="text-sm font-medium text-slate-700">
+            管理者パスワード（管理者アカウントの場合のみ入力）
+          </span>
+          <input
+            type="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-cyan-300 transition placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100"
+            placeholder="管理者以外は空欄のままで構いません"
+          />
+        </label>
+
+        {error ? (
+          <div className="flex items-start gap-3 rounded-xl border border-rose-300 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+            {error}
+          </div>
+        ) : null}
+
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="flex items-center justify-center gap-2 rounded-xl bg-brand-navy px-4 py-3 text-sm font-semibold !text-white shadow-sm transition hover:bg-brand-navy-light disabled:opacity-60"
+        >
+          {isSubmitting ? "確認中..." : "コードを確認してログイン"}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            setStage("email");
+            setCode("");
+            setError(null);
+          }}
+          className="text-xs font-medium text-slate-500 hover:underline"
+        >
+          メールアドレスを変更する
+        </button>
+      </form>
+    );
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+    <form onSubmit={handleEmailSubmit} className="flex flex-col gap-5">
       <label className="flex flex-col gap-2">
         <span className="text-sm font-medium text-slate-700">メールアドレス</span>
         <input
@@ -65,17 +156,17 @@ export function LoginForm() {
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
-            ログイン中...
+            送信中...
           </>
         ) : (
-          "メールでログイン"
+          "確認コードを送信"
         )}
       </button>
 
       <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
         <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-700">ログインに関する注意事項</p>
         <p className="mt-2 text-xs leading-6 text-slate-600">
-        初期版ではメールを入力するとそのまま利用開始できます。将来的に Magic Link に置き換えやすい構成です。
+        入力したメールアドレス宛に確認コードを送信します。コードを入力するとログインが完了します。
         </p>
         <div className="mt-3 flex flex-wrap gap-3 text-xs font-medium text-slate-600">
           <a href="/terms" className="text-brand-navy hover:underline">利用規約</a>

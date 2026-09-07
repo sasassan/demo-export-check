@@ -8,6 +8,13 @@
       "when": 1788785172202,
       "tag": "0000_shocking_daredevil",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1788790001923,
+      "tag": "0001_rich_hulk",
+      "breakpoints": true
     }
   ]
 }

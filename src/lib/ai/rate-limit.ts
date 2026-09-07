@@ -217,7 +217,13 @@ async function incrementBucketDb(bucketKey: string, expiresAtMs: number): Promis
   return rows[0]?.count ?? 1;
 }
 
-async function incrementBucket(bucketKey: string, expiresAtMs: number, now: number): Promise<number> {
+/**
+ * 固定窓(fixed window)方式のカウンタをインクリメントする汎用ヘルパー。
+ * AI実行APIのレート制限専用ではなく、他の用途（ログインOTP送信のレート制限等）でも
+ * 同じ`ai_rate_limit_buckets`テーブル/インメモリストアを再利用できるよう公開する
+ * （bucketKeyの名前空間を分ければ用途間で衝突しない。詳細は src/lib/auth/otp.ts 参照）。
+ */
+export async function incrementBucket(bucketKey: string, expiresAtMs: number, now: number): Promise<number> {
   const db = getDbClient();
   if (db) {
     return incrementBucketDb(bucketKey, expiresAtMs);

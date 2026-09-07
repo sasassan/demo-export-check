@@ -42,7 +42,8 @@ export type PreflightCategory =
   | "admin"
   | "rate-limit"
   | "ai-provider"
-  | "database";
+  | "database"
+  | "mail";
 
 export type PreflightFinding = {
   /** 問題のある設定名（環境変数名）。値そのものは含めない。 */
@@ -262,6 +263,65 @@ function checkDatabaseUrl(env: NodeJS.ProcessEnv, isProduction: boolean): Prefli
 }
 
 /**
+ * SMTP設定の検証。
+ * 本アプリはログイン時にメール確認コード（OTP）を送信する（src/app/api/auth/login参照）。
+ * 本番でSMTPが未設定の場合、ログインAPI自身がfail-closedで新規ログインを拒否する
+ * （検証なしのセッション発行を防ぐため）。つまりSMTP未設定は「ログイン機能が
+ * 事実上停止している」ことと同義であり、severityはblockingとする。
+ */
+function checkSmtpConfig(env: NodeJS.ProcessEnv, isProduction: boolean): PreflightFinding[] {
+  const configuredKeys = ["SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS"] as const;
+  const missing = configuredKeys.filter((key) => !env[key]?.trim());
+
+  if (missing.length === 0) {
+    return [];
+  }
+
+  return [
+    {
+      key: missing.join(" / "),
+      category: "mail",
+      severity: isProduction ? "blocking" : "info",
+      issueType: "missing-in-production",
+      issue:
+        "SMTP設定（SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASS）の一部または全部が未設定です。" +
+        "本番ではメール確認コード（OTP）を送信できないため、ログインAPIは新規ログインを" +
+        "fail-closedで拒否します（検証なしログインを許可しないための安全側の挙動です）。",
+      remediation:
+        "Gmail想定の場合はsmtp.gmail.com:587と、送信に使うGoogleアカウントのメールアドレス・" +
+        "アプリパスワードをSMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASSに設定してください。",
+    },
+  ];
+}
+
+/**
+ * ADMIN_PASSWORDの検証。
+ * 管理者メールでのログインはOTP検証に加えてADMIN_PASSWORDの一致を要求する（二要素化）。
+ * 本番でADMIN_PASSWORD未設定の場合、検証ルートがfail-closedで管理者ログインを拒否するため、
+ * 「管理者が誰もログインできない」状態になる。設定漏れの検知として重要なためblockingとする。
+ */
+function checkAdminPassword(env: NodeJS.ProcessEnv, isProduction: boolean): PreflightFinding[] {
+  const value = env.ADMIN_PASSWORD?.trim();
+  if (value) return [];
+
+  return [
+    {
+      key: "ADMIN_PASSWORD",
+      category: "admin",
+      severity: isProduction ? "blocking" : "info",
+      issueType: "missing-in-production",
+      issue:
+        "ADMIN_PASSWORDが未設定です。管理者メールでのログインはOTP検証に加えて" +
+        "ADMIN_PASSWORDの一致を要求する二要素構成のため、未設定の間は管理者ログインAPIが" +
+        "fail-closedで拒否し、誰も管理者としてログインできません。",
+      remediation:
+        "macOSのターミナルで `openssl rand -base64 32` を実行し、出力された値を" +
+        "ADMIN_PASSWORDに設定してください。",
+    },
+  ];
+}
+
+/**
  * 設定プリフライトチェックを実行する。値そのものは一切含めない。
  * 呼び出し側（APIルート・管理画面等）で管理者権限チェックを行った上で使うこと
  * （本関数自体は認可判定を持たない）。
@@ -275,6 +335,8 @@ export function runConfigPreflight(env: NodeJS.ProcessEnv = process.env): Prefli
     ...checkRateLimitHashSecret(env, isProduction),
     ...checkApiKeys(env, isProduction),
     ...checkDatabaseUrl(env, isProduction),
+    ...checkSmtpConfig(env, isProduction),
+    ...checkAdminPassword(env, isProduction),
   ];
 
   return {

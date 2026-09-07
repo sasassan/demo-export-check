@@ -11,7 +11,7 @@ import {
   riskAssessments,
 } from "@/lib/db/schema";
 import { createId } from "@/lib/utils";
-import { and, desc, eq, gte, isNotNull, isNull } from "drizzle-orm";
+import { and, desc, eq, gte, isNotNull, isNull, ne } from "drizzle-orm";
 import type {
   AssessmentRecord,
   AnalyticsEventRecord,
@@ -341,6 +341,68 @@ export async function updateInvestigationStatus(
   });
 
   return record;
+}
+
+export type StartInvestigationResult = "started" | "already_running" | "not_found";
+
+/**
+ * 同一案件に対する調査の並列実行を防ぐための、原子的な「開始権の取得」。
+ *
+ * 競合状態対策（本番E2Eで発見されたMajor①への対応）:
+ * 以前は「調査を開始する」と「statusをrunningに書き換える」が分離しており、
+ * 並列でPOSTされた複数のrunリクエストが同時にstatus読み取り→書き込みを行うと
+ * 二重実行や不整合な状態遷移が起こり得た。
+ * DB経路では `UPDATE ... WHERE case_id = ? AND status != 'running'` という
+ * 単一の原子的UPDATE文を使い、「running以外の状態からrunningへの遷移」を
+ * 1回のSQL文でCAS(compare-and-swap)的に行う。同時に複数リクエストが来ても
+ * このUPDATEを実際に適用できるのは1件だけであり、他のリクエストは
+ * affected rows = 0 となるため "already_running" を返せる
+ * （SELECTしてから書き込む2ステップ方式では防げないレースを、DB側のロックに委ねて防ぐ）。
+ * インメモリ経路（DATABASE_URL未設定時）は元々シングルスレッドなので、
+ * 同様のチェックを同期的に行うだけで十分。
+ */
+export async function tryStartInvestigation(caseId: string): Promise<StartInvestigationResult> {
+  const db = getDb();
+  if (db) {
+    const now = new Date();
+    const updated = await db
+      .update(investigations)
+      .set({ status: "running", startedAt: now, updatedAt: now })
+      .where(and(eq(investigations.caseId, caseId), ne(investigations.status, "running")))
+      .returning({ id: investigations.id });
+
+    if (updated.length > 0) {
+      return "started";
+    }
+
+    const existing = (
+      await db
+        .select({ status: investigations.status })
+        .from(investigations)
+        .where(eq(investigations.caseId, caseId))
+        .limit(1)
+    )[0];
+
+    return existing ? "already_running" : "not_found";
+  }
+
+  const state = getState();
+  const record = state.investigations.find((item) => item.caseId === caseId);
+
+  if (!record) {
+    return "not_found";
+  }
+
+  if (record.status === "running") {
+    return "already_running";
+  }
+
+  const now = new Date().toISOString();
+  record.status = "running";
+  record.startedAt = now;
+  record.updatedAt = now;
+
+  return "started";
 }
 
 export async function saveAssessment(assessment: AssessmentRecord) {

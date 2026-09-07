@@ -31,6 +31,11 @@ const SAFE_ENV = {
   ANTHROPIC_API_KEY: undefined,
   GOOGLE_GENERATIVE_AI_API_KEY: undefined,
   DATABASE_URL: "postgres://user:pass@host:5432/db",
+  SMTP_HOST: "smtp.gmail.com",
+  SMTP_PORT: "587",
+  SMTP_USER: "ops@acme-example-corp.com",
+  SMTP_PASS: "example-app-password",
+  ADMIN_PASSWORD: "c".repeat(32),
 };
 
 test("runConfigPreflight: fully safe production config yields no findings", () => {
@@ -182,6 +187,46 @@ test("runConfigPreflight: development environment downgrades placeholder issues 
       assert.equal(report.hasBlockingIssues, false);
     },
   );
+});
+
+test("runConfigPreflight: blocks when SMTP is not configured in production", () => {
+  withEnv({ ...SAFE_ENV, SMTP_HOST: undefined, SMTP_USER: undefined, SMTP_PASS: undefined }, () => {
+    const report = runConfigPreflight();
+    const finding = report.findings.find((f) => f.category === "mail");
+    assert.ok(finding);
+    assert.equal(finding?.severity, "blocking");
+    assert.equal(finding?.issueType, "missing-in-production");
+    assert.equal(report.hasBlockingIssues, true);
+  });
+});
+
+test("runConfigPreflight: SMTP partially configured (missing SMTP_PASS only) is still blocking", () => {
+  withEnv({ ...SAFE_ENV, SMTP_PASS: undefined }, () => {
+    const report = runConfigPreflight();
+    const finding = report.findings.find((f) => f.category === "mail");
+    assert.ok(finding);
+    assert.equal(finding?.severity, "blocking");
+  });
+});
+
+test("runConfigPreflight: SMTP missing in development is only info-level (fail-closed login is prod-only)", () => {
+  withEnv({ ...SAFE_ENV, NODE_ENV: "development", SMTP_HOST: undefined }, () => {
+    const report = runConfigPreflight();
+    const finding = report.findings.find((f) => f.category === "mail");
+    assert.ok(finding);
+    assert.equal(finding?.severity, "info");
+    assert.equal(report.hasBlockingIssues, false);
+  });
+});
+
+test("runConfigPreflight: blocks when ADMIN_PASSWORD is missing in production", () => {
+  withEnv({ ...SAFE_ENV, ADMIN_PASSWORD: undefined }, () => {
+    const report = runConfigPreflight();
+    const finding = report.findings.find((f) => f.key === "ADMIN_PASSWORD");
+    assert.ok(finding);
+    assert.equal(finding?.severity, "blocking");
+    assert.equal(report.hasBlockingIssues, true);
+  });
 });
 
 test("runConfigPreflight: findings never include raw secret/env values in any field", () => {

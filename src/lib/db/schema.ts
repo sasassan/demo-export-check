@@ -229,6 +229,31 @@ export const aiRateLimitBuckets = pgTable("ai_rate_limit_buckets", {
 });
 
 /**
+ * メール確認コード（OTP）。ログイン時のメール確認・管理者ログイン強化に使用する。
+ * codeHashはコードそのものではなく、サーバー秘密鍵によるHMAC-SHA256ハッシュを保存する
+ * （DBを閲覧できる者がコードをそのまま読み取れないようにするため）。
+ * 1コード1回限り（consumedAtが入ったら再利用不可）、expiresAtを過ぎたコードも無効。
+ * attemptsは誤入力の試行回数で、一定回数を超えたら無効化する（総当たり対策）。
+ * 詳細は src/lib/auth/otp.ts を参照。
+ */
+export const otpCodes = pgTable(
+  "otp_codes",
+  {
+    id: varchar("id", { length: 64 }).primaryKey(),
+    email: varchar("email", { length: 255 }).notNull(),
+    purpose: varchar("purpose", { length: 32 }).notNull(),
+    codeHash: varchar("code_hash", { length: 128 }).notNull(),
+    attempts: integer("attempts").notNull().default(0),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    consumedAt: timestamp("consumed_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
+  },
+  (table) => [
+    index("otp_codes_email_purpose_idx").on(table.email, table.purpose),
+  ],
+);
+
+/**
  * 重要操作（案件削除・復元など）の監査ログ。
  * 「誰が・いつ・何に対して何をしたか」を残すための汎用テーブルであり、
  * 将来的に削除以外の重要操作（編集・再生成等）にも同じ仕組みを流用できる。
