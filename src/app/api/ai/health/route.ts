@@ -32,21 +32,39 @@ type ProviderHealth = {
    * キー未設定ならnull。値そのものからは復元不可能。
    */
   keyFingerprint: string | null;
+  /**
+   * 疎通確認が成功した場合に、APIレスポンス自体が返す実際のモデル名
+   * （例: "gpt-4o-mini-2024-07-18"）。設定値(model)と実際に解決されたモデルの
+   * 乖離を検知するための診断用フィールド。疎通失敗時やSDKがモデル名を返さない
+   * 場合（Gemini）はnull。
+   */
+  actualModelName: string | null;
 };
 
-type PingResult = { reachable: boolean; latencyMs: number; error?: string; modelDeprecated: boolean };
+type PingResult = {
+  reachable: boolean;
+  latencyMs: number;
+  error?: string;
+  modelDeprecated: boolean;
+  actualModelName: string | null;
+};
 
 /** 各プロバイダーに極小のping的プロンプトを送り、疎通確認する。APIキーの値は返さない。 */
 async function pingOpenAi(runtime: ProviderRuntimeInfo): Promise<PingResult> {
   const start = Date.now();
   try {
     const client = createOpenAiClient(runtime);
-    await client.chat.completions.create({
+    const response = await client.chat.completions.create({
       model: runtime.modelName,
       messages: [{ role: "user", content: "ping" }],
       max_tokens: 1,
     });
-    return { reachable: true, latencyMs: Date.now() - start, modelDeprecated: false };
+    return {
+      reachable: true,
+      latencyMs: Date.now() - start,
+      modelDeprecated: false,
+      actualModelName: response.model ?? null,
+    };
   } catch (error) {
     const classified = logAiError("health-openai", error);
     return {
@@ -54,6 +72,7 @@ async function pingOpenAi(runtime: ProviderRuntimeInfo): Promise<PingResult> {
       latencyMs: Date.now() - start,
       error: `${classified.kind} (status: ${classified.status ?? "n/a"})`,
       modelDeprecated: classified.kind === "not_found",
+      actualModelName: null,
     };
   }
 }
@@ -62,12 +81,17 @@ async function pingClaude(runtime: ProviderRuntimeInfo): Promise<PingResult> {
   const start = Date.now();
   try {
     const client = createAnthropicClient(runtime);
-    await client.messages.create({
+    const response = await client.messages.create({
       model: runtime.modelName,
       max_tokens: 1,
       messages: [{ role: "user", content: "ping" }],
     });
-    return { reachable: true, latencyMs: Date.now() - start, modelDeprecated: false };
+    return {
+      reachable: true,
+      latencyMs: Date.now() - start,
+      modelDeprecated: false,
+      actualModelName: response.model ?? null,
+    };
   } catch (error) {
     const classified = logAiError("health-claude", error);
     return {
@@ -75,6 +99,7 @@ async function pingClaude(runtime: ProviderRuntimeInfo): Promise<PingResult> {
       latencyMs: Date.now() - start,
       error: `${classified.kind} (status: ${classified.status ?? "n/a"})`,
       modelDeprecated: classified.kind === "not_found",
+      actualModelName: null,
     };
   }
 }
@@ -85,7 +110,9 @@ async function pingGemini(apiKey: string, model: string, timeoutMs: number): Pro
     const genAI = new GoogleGenerativeAI(apiKey);
     const genModel = genAI.getGenerativeModel({ model }, { timeout: timeoutMs });
     await genModel.generateContent("ping");
-    return { reachable: true, latencyMs: Date.now() - start, modelDeprecated: false };
+    // Gemini SDKのレスポンスには実際に解決されたモデル名を返すフィールドが
+    // 存在しないため、設定値(model)をそのまま使う（gemini-provider.tsと同じ方針）。
+    return { reachable: true, latencyMs: Date.now() - start, modelDeprecated: false, actualModelName: model };
   } catch (error) {
     const classified = logAiError("health-gemini", error);
     return {
@@ -93,6 +120,7 @@ async function pingGemini(apiKey: string, model: string, timeoutMs: number): Pro
       latencyMs: Date.now() - start,
       error: `${classified.kind} (status: ${classified.status ?? "n/a"})`,
       modelDeprecated: classified.kind === "not_found",
+      actualModelName: null,
     };
   }
 }
@@ -123,6 +151,7 @@ export async function GET() {
           orgId,
           projectId,
           keyFingerprint,
+          actualModelName: null,
         };
       }
 
@@ -135,7 +164,13 @@ export async function GET() {
         } else if (info.model === "gemini") {
           pingResult = await pingGemini(info.apiKey, info.modelName, info.timeoutMs);
         } else {
-          pingResult = { reachable: false, latencyMs: 0, error: "unsupported provider", modelDeprecated: false };
+          pingResult = {
+            reachable: false,
+            latencyMs: 0,
+            error: "unsupported provider",
+            modelDeprecated: false,
+            actualModelName: null,
+          };
         }
       } catch (error) {
         const classified = classifyAiError(error);
@@ -144,6 +179,7 @@ export async function GET() {
           latencyMs: 0,
           error: `${classified.kind} (status: ${classified.status ?? "n/a"})`,
           modelDeprecated: classified.kind === "not_found",
+          actualModelName: null,
         };
       }
 
@@ -158,6 +194,7 @@ export async function GET() {
         orgId,
         projectId,
         keyFingerprint,
+        actualModelName: pingResult.actualModelName,
       };
     }),
   );
