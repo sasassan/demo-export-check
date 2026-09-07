@@ -265,13 +265,17 @@ function checkDatabaseUrl(env: NodeJS.ProcessEnv, isProduction: boolean): Prefli
 /**
  * SMTP設定の検証。
  * 本アプリはログイン時にメール確認コード（OTP）を送信する（src/app/api/auth/login参照）。
- * 本番でSMTPが未設定の場合、ログインAPI自身がfail-closedで新規ログインを拒否する
- * （検証なしのセッション発行を防ぐため）。つまりSMTP未設定は「ログイン機能が
+ * SMTP_HOST/SMTP_PORTはコード側（src/lib/mail/sender.ts）にGmail想定の既定値
+ * （smtp.gmail.com:587）を持つため必須ではない。送信元アカウントの認証情報である
+ * SMTP_USER/SMTP_PASSのみ、既定値を持てないため必須とする
+ * （isSmtpConfigured()の判定基準と一致させる）。
+ * 本番でSMTP_USER/SMTP_PASSが未設定の場合、ログインAPI自身がfail-closedで新規ログインを
+ * 拒否する（検証なしのセッション発行を防ぐため）。つまり未設定は「ログイン機能が
  * 事実上停止している」ことと同義であり、severityはblockingとする。
  */
 function checkSmtpConfig(env: NodeJS.ProcessEnv, isProduction: boolean): PreflightFinding[] {
-  const configuredKeys = ["SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS"] as const;
-  const missing = configuredKeys.filter((key) => !env[key]?.trim());
+  const requiredKeys = ["SMTP_USER", "SMTP_PASS"] as const;
+  const missing = requiredKeys.filter((key) => !env[key]?.trim());
 
   if (missing.length === 0) {
     return [];
@@ -284,12 +288,14 @@ function checkSmtpConfig(env: NodeJS.ProcessEnv, isProduction: boolean): Preflig
       severity: isProduction ? "blocking" : "info",
       issueType: "missing-in-production",
       issue:
-        "SMTP設定（SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASS）の一部または全部が未設定です。" +
+        "SMTP認証情報（SMTP_USER/SMTP_PASS）の一部または全部が未設定です。" +
         "本番ではメール確認コード（OTP）を送信できないため、ログインAPIは新規ログインを" +
-        "fail-closedで拒否します（検証なしログインを許可しないための安全側の挙動です）。",
+        "fail-closedで拒否します（検証なしログインを許可しないための安全側の挙動です）。" +
+        "SMTP_HOST/SMTP_PORTはコード側にGmail想定の既定値があるため未設定でも動作します。",
       remediation:
-        "Gmail想定の場合はsmtp.gmail.com:587と、送信に使うGoogleアカウントのメールアドレス・" +
-        "アプリパスワードをSMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASSに設定してください。",
+        "Gmailアカウントの場合、2段階認証を有効化した上でアプリパスワードを発行し、" +
+        "送信元メールアドレスをSMTP_USER、アプリパスワードをSMTP_PASSに設定してください" +
+        "（通常のログインパスワードはSMTP認証では拒否されます）。",
     },
   ];
 }

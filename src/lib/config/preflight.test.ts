@@ -189,8 +189,8 @@ test("runConfigPreflight: development environment downgrades placeholder issues 
   );
 });
 
-test("runConfigPreflight: blocks when SMTP is not configured in production", () => {
-  withEnv({ ...SAFE_ENV, SMTP_HOST: undefined, SMTP_USER: undefined, SMTP_PASS: undefined }, () => {
+test("runConfigPreflight: blocks when SMTP credentials are not configured in production", () => {
+  withEnv({ ...SAFE_ENV, SMTP_USER: undefined, SMTP_PASS: undefined }, () => {
     const report = runConfigPreflight();
     const finding = report.findings.find((f) => f.category === "mail");
     assert.ok(finding);
@@ -209,8 +209,17 @@ test("runConfigPreflight: SMTP partially configured (missing SMTP_PASS only) is 
   });
 });
 
-test("runConfigPreflight: SMTP missing in development is only info-level (fail-closed login is prod-only)", () => {
-  withEnv({ ...SAFE_ENV, NODE_ENV: "development", SMTP_HOST: undefined }, () => {
+test("runConfigPreflight: Gmail SMTP host and port defaults do not require environment variables", () => {
+  withEnv({ ...SAFE_ENV, SMTP_HOST: undefined, SMTP_PORT: undefined }, () => {
+    const report = runConfigPreflight();
+    const finding = report.findings.find((f) => f.category === "mail");
+    assert.equal(finding, undefined);
+    assert.equal(report.hasBlockingIssues, false);
+  });
+});
+
+test("runConfigPreflight: missing SMTP credentials in development is only info-level", () => {
+  withEnv({ ...SAFE_ENV, NODE_ENV: "development", SMTP_USER: undefined, SMTP_PASS: undefined }, () => {
     const report = runConfigPreflight();
     const finding = report.findings.find((f) => f.category === "mail");
     assert.ok(finding);
