@@ -9,31 +9,37 @@ const features = [
     title: "制裁リスト調査",
     description: "国連・米国OFAC・EUなどの制裁リストに顧客企業・担当者が該当しないかをチェックします。",
     icon: "M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.955 11.955 0 0 0 3 10.5c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.572-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Z",
+    tint: "bg-blue-50 text-brand-navy",
   },
   {
     title: "エンドユーザー実在性確認",
     description: "輸出先企業の実在性・事業内容・所在地を調査し、架空企業や不審な転売業者でないか確認します。",
     icon: "M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z",
+    tint: "bg-teal-50 text-brand-teal",
   },
   {
     title: "UBO / PEPs確認",
     description: "実質的支配者（UBO）や政治的影響力のある人物（PEPs）への関与がないか調査します。",
     icon: "M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21",
+    tint: "bg-violet-50 text-violet-600",
   },
   {
     title: "国リスク評価",
     description: "輸出先国の政情・紛争・制裁・輸出規制の状況を確認し、地政学的リスクを数値化します。",
     icon: "M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418",
+    tint: "bg-sky-50 text-sky-700",
   },
   {
     title: "用途リスク / キャッチオール規制",
     description: "軍事転用・大量破壊兵器への利用が疑われる用途でないかを確認し、規制該当可能性を評価します。",
     icon: "M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z",
+    tint: "bg-amber-50 text-amber-700",
   },
   {
     title: "PDFレポート出力",
     description: "調査結果・評価理由・根拠資料をA4形式でまとめ、上司提出・社内決裁に使えるレポートを生成します。",
     icon: "M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z",
+    tint: "bg-emerald-50 text-brand-emerald",
   },
 ];
 
@@ -50,12 +56,48 @@ const roadmap = [
 ];
 
 const quickLinks = [
-  { href: "/demo", label: "デモ画面", desc: "実際の診断フローを体験" },
-  { href: "/glossary", label: "輸出辞典", desc: "専門用語を検索・解説" },
-  { href: "/ai-room", label: "AI相談室", desc: "規制資料の読み方を相談" },
-  { href: "/learning", label: "学習コンテンツ", desc: "失敗例・注意事項を確認" },
-  { href: "/security", label: "セキュリティ", desc: "AI入力ガイドライン" },
-  { href: "/training", label: "研修支援", desc: "営業教育・社内ルール整備" },
+  {
+    href: "/demo",
+    label: "デモ画面",
+    desc: "実際の診断フローを体験",
+    icon: "M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 0 1 0 1.971l-11.54 6.347a1.125 1.125 0 0 1-1.667-.985V5.653Z",
+    tint: "bg-blue-50 text-brand-navy",
+  },
+  {
+    href: "/glossary",
+    label: "輸出辞典",
+    desc: "専門用語を検索・解説",
+    icon: "M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25",
+    tint: "bg-teal-50 text-brand-teal",
+  },
+  {
+    href: "/ai-room",
+    label: "AI相談室",
+    desc: "規制資料の読み方を相談",
+    icon: "M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z",
+    tint: "bg-violet-50 text-violet-600",
+  },
+  {
+    href: "/learning",
+    label: "学習コンテンツ",
+    desc: "失敗例・注意事項を確認",
+    icon: "M12 14.25c-4.142 0-7.5-1.5-7.5-1.5v6c0 .621 3.358 1.5 7.5 1.5s7.5-.879 7.5-1.5v-6s-3.358 1.5-7.5 1.5Zm0-9L4.5 8.25 12 12.75l7.5-4.5L12 3.75Z",
+    tint: "bg-amber-50 text-amber-700",
+  },
+  {
+    href: "/security",
+    label: "セキュリティ",
+    desc: "AI入力ガイドライン",
+    icon: "M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.955 11.955 0 0 0 3 10.5c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.572-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Z",
+    tint: "bg-emerald-50 text-brand-emerald",
+  },
+  {
+    href: "/training",
+    label: "研修支援",
+    desc: "営業教育・社内ルール整備",
+    icon: "M4.26 10.147a60.436 60.436 0 0 0-.491 6.347A48.627 48.627 0 0 1 12 20.904a48.627 48.627 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.57 50.57 0 0 0-2.658-.813A59.905 59.905 0 0 1 12 3.493a59.902 59.902 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5",
+    tint: "bg-rose-50 text-rose-600",
+  },
 ];
 
 const trustSignals = [
@@ -186,12 +228,23 @@ export default function Home() {
 
       <main>
         {/* クイックリンク */}
-        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-blue-50/50 px-4 py-4 sm:px-6">
+        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-blue-50/50 px-4 py-5 sm:px-6">
           <div className="mx-auto grid max-w-6xl grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
             {quickLinks.map((item) => (
-              <Link key={item.label} href={item.href} className="group trade-hover-lift rounded-lg border border-slate-200 bg-white px-4 py-3 transition hover:border-brand-navy/40">
-                <p className="text-sm font-semibold text-slate-900 group-hover:text-brand-navy">{item.label}</p>
-                <p className="mt-0.5 text-xs text-slate-600">{item.desc}</p>
+              <Link
+                key={item.label}
+                href={item.href}
+                className="group trade-hover-lift flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3.5 transition hover:border-brand-navy/40"
+              >
+                <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${item.tint}`}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
+                  </svg>
+                </div>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold text-slate-900 group-hover:text-brand-navy">{item.label}</p>
+                  <p className="mt-0.5 text-xs leading-4 text-slate-600">{item.desc}</p>
+                </div>
               </Link>
             ))}
           </div>
@@ -589,8 +642,8 @@ export default function Home() {
             <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {features.map((f) => (
                 <div key={f.title} className="trade-hover-lift rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-brand-navy">
+                  <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${f.tint}`}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
                       <path strokeLinecap="round" strokeLinejoin="round" d={f.icon} />
                     </svg>
                   </div>

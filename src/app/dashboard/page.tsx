@@ -49,8 +49,6 @@ export default async function DashboardPage() {
         </Link>
       </div>
 
-      <AiProviderStatusPanel providers={providerRuntimeInfo} />
-
       <div className="grid gap-4 md:grid-cols-3">
         <div className="trade-hover-lift rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
@@ -137,6 +135,27 @@ export default async function DashboardPage() {
       ) : (
         <DashboardCaseList items={items} />
       )}
+
+      <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <details>
+          <summary className="cursor-pointer list-none">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-base font-semibold text-slate-900">AI構成・稼働状況</h2>
+                <p className="mt-1 text-sm text-slate-500">
+                  どのAIが実APIで動作し、どれがフォールバック中かを確認できます（運用者向け）。
+                </p>
+              </div>
+              <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600">
+                詳細を見る
+              </span>
+            </div>
+          </summary>
+          <div className="mt-4">
+            <AiProviderStatusPanel providers={providerRuntimeInfo} />
+          </div>
+        </details>
+      </section>
 
       <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
         <details>
