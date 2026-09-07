@@ -1,14 +1,16 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { test } from "node:test";
 
 import {
   __resetAiRateLimitMemoryStoreForTests,
+  __resetRateLimitHashSecretWarningForTests,
   checkAiRateLimit,
   hashIdentitySecret,
   resolveAiRateLimitIdentity,
 } from "./rate-limit";
 
-function withEnv(overrides: Record<string, string | undefined>, fn: () => void | Promise<void>) {
+function withEnv<T = void>(overrides: Record<string, string | undefined>, fn: () => T | Promise<T>) {
   const previous: Record<string, string | undefined> = {};
   for (const key of Object.keys(overrides)) {
     previous[key] = process.env[key];
@@ -40,6 +42,65 @@ test("resolveAiRateLimitIdentity: falls back to hashed IP for anonymous requests
   assert.equal(identity.key, hashIdentitySecret("203.0.113.5"));
   // Raw IP must never be used as-is (only its hash).
   assert.notEqual(identity.key, "203.0.113.5");
+});
+
+test("hashIdentitySecret: uses RATE_LIMIT_HASH_SECRET when set (HMAC keyed hash, not plain sha256)", async () => {
+  await withEnv(
+    { RATE_LIMIT_HASH_SECRET: "secret-a", SESSION_SECRET: undefined },
+    () => {
+      const hashA = hashIdentitySecret("203.0.113.5");
+      const plainSha256 = createHash("sha256").update("203.0.113.5").digest("hex").slice(0, 32);
+      // Must not equal a simple unsalted/unkeyed sha256 of the raw value.
+      assert.notEqual(hashA, plainSha256);
+    },
+  );
+});
+
+test("hashIdentitySecret: different secrets produce different hashes for the same input", async () => {
+  const hashWithSecretA = await withEnv(
+    { RATE_LIMIT_HASH_SECRET: "secret-a", SESSION_SECRET: undefined },
+    () => hashIdentitySecret("203.0.113.5"),
+  );
+  const hashWithSecretB = await withEnv(
+    { RATE_LIMIT_HASH_SECRET: "secret-b", SESSION_SECRET: undefined },
+    () => hashIdentitySecret("203.0.113.5"),
+  );
+  assert.notEqual(hashWithSecretA, hashWithSecretB);
+});
+
+test("hashIdentitySecret: falls back to SESSION_SECRET when RATE_LIMIT_HASH_SECRET is unset", async () => {
+  const hashViaSession = await withEnv(
+    { RATE_LIMIT_HASH_SECRET: undefined, SESSION_SECRET: "session-secret-value" },
+    () => hashIdentitySecret("203.0.113.5"),
+  );
+  const hashViaDedicated = await withEnv(
+    { RATE_LIMIT_HASH_SECRET: "session-secret-value", SESSION_SECRET: undefined },
+    () => hashIdentitySecret("203.0.113.5"),
+  );
+  // Using the same secret value via either env var must produce the same hash.
+  assert.equal(hashViaSession, hashViaDedicated);
+});
+
+test("hashIdentitySecret: falls back to a fixed dev secret (with a console warning) when neither env var is set", async () => {
+  __resetRateLimitHashSecretWarningForTests();
+  const originalWarn = console.warn;
+  let warned = false;
+  console.warn = (...args: unknown[]) => {
+    warned = true;
+    originalWarn(...args);
+  };
+  try {
+    const hash = await withEnv(
+      { RATE_LIMIT_HASH_SECRET: undefined, SESSION_SECRET: undefined },
+      () => hashIdentitySecret("203.0.113.5"),
+    );
+    assert.equal(typeof hash, "string");
+    assert.equal(hash.length, 32);
+    // A warning must be emitted, but the secret value itself must never appear in it.
+    assert.ok(warned);
+  } finally {
+    console.warn = originalWarn;
+  }
 });
 
 test("resolveAiRateLimitIdentity: distinct anonymous IPs get distinct identities", () => {

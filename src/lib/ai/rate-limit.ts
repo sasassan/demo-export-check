@@ -8,7 +8,10 @@
  *
  * 識別単位:
  * - 認証済み利用者: セッションのメールアドレス（正規化して小文字化）。
- * - 匿名利用: クライアントIP（x-forwarded-for / x-real-ip）をsha256でハッシュ化した値。
+ * - 匿名利用: クライアントIP（x-forwarded-for / x-real-ip）をHMAC-SHA256（サーバー秘密鍵使用）
+ *   でハッシュ化した値。ソルトなしの単純sha256はDB閲覧権限を持つ者が事前計算表（レインボー
+ *   テーブル）でIPを逆算できてしまうため、サーバー秘密鍵を鍵として使うHMACに変更している
+ *   （秘密鍵の解決順序は resolveRateLimitHashSecret を参照）。
  *   注意: これはベストエフォートの識別であり、リバースプロキシ/CDN（Vercel等）が
  *   x-forwarded-forを信頼できる形で付与する環境を前提とする。アプリ自身は
  *   どのプロキシホップを信頼するかを検証する手段を持たないため、ヘッダーを
@@ -25,7 +28,7 @@
  *   複数インスタンス環境では制限が正しく共有されない（P0の既知の限界。詳細はdocs参照）。
  */
 
-import { createHash } from "node:crypto";
+import { createHmac } from "node:crypto";
 import { sql } from "drizzle-orm";
 
 import { getDbClient } from "@/lib/db/client";
@@ -83,9 +86,47 @@ export function getAiRateLimitConfig(): AiRateLimitConfig {
   };
 }
 
-/** APIキーと同様、識別子の値そのものはログに出さない前提のハッシュ化ヘルパー。 */
+const DEV_FALLBACK_HASH_SECRET = "export-risk-navigator-insecure-dev-fallback-hash-secret";
+
+let hasWarnedAboutFallbackSecret = false;
+
+/**
+ * IPハッシュ化に使う秘密鍵を解決する。優先順位:
+ * 1. RATE_LIMIT_HASH_SECRET（レート制限専用の秘密鍵）
+ * 2. SESSION_SECRET（セッションCookie署名用の秘密鍵を流用）
+ * 3. 固定の開発用フォールバック値（どちらも未設定の場合。本番では安全でないため警告を出す）
+ *
+ * 秘密鍵の値自体はログに出さない。
+ */
+function resolveRateLimitHashSecret(): string {
+  const dedicated = process.env.RATE_LIMIT_HASH_SECRET;
+  if (dedicated && dedicated.trim().length > 0) {
+    return dedicated;
+  }
+  const sessionSecret = process.env.SESSION_SECRET;
+  if (sessionSecret && sessionSecret.trim().length > 0) {
+    return sessionSecret;
+  }
+  if (!hasWarnedAboutFallbackSecret) {
+    hasWarnedAboutFallbackSecret = true;
+    console.warn(
+      "[AI:rate-limit] RATE_LIMIT_HASH_SECRET と SESSION_SECRET のいずれも未設定のため、" +
+        "固定の開発用フォールバック秘密鍵を使用します。本番環境ではIPハッシュが" +
+        "事前計算により逆算可能になるため安全ではありません。RATE_LIMIT_HASH_SECRET" +
+        "（またはSESSION_SECRET）に十分な長さのランダム値を設定してください。",
+    );
+  }
+  return DEV_FALLBACK_HASH_SECRET;
+}
+
+/**
+ * APIキーと同様、識別子の値そのものはログに出さない前提のハッシュ化ヘルパー。
+ * サーバー秘密鍵を鍵とするHMAC-SHA256を使用し、DB閲覧権限を持つ者が
+ * ソルトなしsha256の事前計算でIPを逆算できてしまう問題を防ぐ。
+ */
 export function hashIdentitySecret(value: string): string {
-  return createHash("sha256").update(value).digest("hex").slice(0, 32);
+  const secret = resolveRateLimitHashSecret();
+  return createHmac("sha256", secret).update(value).digest("hex").slice(0, 32);
 }
 
 function extractClientIp(request: Request): string | null {
@@ -241,4 +282,9 @@ export function toRateLimitErrorPayload(decision: Extract<RateLimitDecision, { a
 /** テスト専用: プロセス内メモリストアをクリアする。本番コードパスからは呼ばない。 */
 export function __resetAiRateLimitMemoryStoreForTests(): void {
   globalThis.__aiRateLimitMemoryStore = new Map();
+}
+
+/** テスト専用: フォールバック秘密鍵の警告済みフラグをリセットする。本番コードパスからは呼ばない。 */
+export function __resetRateLimitHashSecretWarningForTests(): void {
+  hasWarnedAboutFallbackSecret = false;
 }
