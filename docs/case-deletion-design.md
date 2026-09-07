@@ -119,3 +119,15 @@ cases (親)
 - [ ] 監査ログテーブルを新規に用意する方針でよいか（既存の仕組みがあれば流用したい）
 
 上記の方針が確定次第、実装に着手できる状態である。
+
+---
+
+## 8. 実装アドオン（2026年実装時点での確定事項と実装内容）
+
+7章の未確定事項について、以下の判断で実装した。
+
+- **二段階方式のうち論理削除のみ実装**: `cases.deletedAt`（timestamp、NULL許容）を追加し、通常の一覧・詳細・チェックリスト更新など`cases`を読む全経路で`deletedAt IS NULL`をフィルタする。猶予期間（30日）経過後の物理削除バッチは**今回は実装しない**。スケジューラ基盤（cron/ジョブキュー等）をどう用意するかの判断が先に必要なため。
+  - **将来の実装フック**: `src/lib/db/repository.ts`に`purgeExpiredDeletedCases()`のような関数を追加し、`deletedAt`が`CASE_DELETION_GRACE_PERIOD_DAYS`（`src/lib/constants.ts`で定義、現在30日）を超えた案件について、8つの子テーブル（`investigations`, `risk_assessments`, `risk_dimension_scores`, `evidence_items`, `provider_runs`, `generated_reports`）を子→親の順に物理削除するトランザクション処理を実装し、これを定期実行するスケジューラ（Vercel Cron / Inngest等、既存の`src/app/api/webhooks/inngest/route.ts`と同様の仕組みが使えないか検討）から呼び出す想定。`ai_consultations`は次項の通り対象外。
+- **`ai_consultations`の扱い**: 相談履歴は独立した資産として残す。論理削除段階では`ai_consultations`を含む子テーブルは一切変更しない。
+- **復元機能**: 初期実装に含める。猶予期間（30日）内であれば作成者本人または管理者が復元可能（`POST /api/cases/[id]/restore`）。復元操作も`audit_logs`に記録する。
+- **監査ログテーブル**: 新規`audit_logs`テーブル（`actor_email`, `action`, `target_id`, `created_at`）を追加。削除・復元操作は、案件の`deletedAt`更新と`audit_logs`へのINSERTを同一DBトランザクションで実行し、どちらか一方が失敗した場合は両方ロールバックする（監査ログが残らない削除は許容しない、という設計判断）。

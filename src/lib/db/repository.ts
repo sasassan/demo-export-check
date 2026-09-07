@@ -1,24 +1,29 @@
 import { buildChecklistFromCase } from "@/lib/checklist/generator";
+import { CASE_DELETION_GRACE_PERIOD_DAYS } from "@/lib/constants";
 import { getDbClient } from "@/lib/db/client";
 import {
   aiConsultations,
   analyticsEvents,
   analyticsSessions,
+  auditLogs,
   cases,
   investigations,
   riskAssessments,
 } from "@/lib/db/schema";
 import { createId } from "@/lib/utils";
-import { and, desc, eq, gte } from "drizzle-orm";
+import { and, desc, eq, gte, isNotNull, isNull } from "drizzle-orm";
 import type {
   AssessmentRecord,
   AnalyticsEventRecord,
   AnalyticsSessionRecord,
   AiConsultationRecord,
+  AuditLogAction,
+  AuditLogRecord,
   CaseDetail,
   CaseRecord,
   ChecklistItem,
   CreateCaseInput,
+  DeletedCaseRecord,
   InvestigationRecord,
 } from "@/lib/types";
 
@@ -29,6 +34,7 @@ type RepositoryState = {
   consultations: AiConsultationRecord[];
   analyticsSessions: AnalyticsSessionRecord[];
   analyticsEvents: AnalyticsEventRecord[];
+  auditLogs: AuditLogRecord[];
 };
 
 declare global {
@@ -76,6 +82,7 @@ function getState(): RepositoryState {
       consultations: [],
       analyticsSessions: [],
       analyticsEvents: [],
+      auditLogs: [],
     };
   }
 
@@ -86,13 +93,21 @@ function getDb() {
   return getDbClient();
 }
 
+/** テスト専用: インメモリ状態を初期化し直す（node:testのフィクスチャ間の汚染を防ぐ）。 */
+export function __resetRepoStateForTests() {
+  globalThis.__ernRepoState = undefined;
+}
+
+const CASE_DELETE_ACTION: AuditLogAction = "case.delete";
+const CASE_RESTORE_ACTION: AuditLogAction = "case.restore";
+
 export async function listCasesByUser(userEmail: string) {
   const db = getDb();
   if (db) {
     const rows = await db
       .select()
       .from(cases)
-      .where(eq(cases.userEmail, userEmail))
+      .where(and(eq(cases.userEmail, userEmail), isNull(cases.deletedAt)))
       .orderBy(desc(cases.createdAt));
 
     return rows.map((row) => ({
@@ -113,7 +128,7 @@ export async function listCasesByUser(userEmail: string) {
   const state = getState();
 
   return state.cases
-    .filter((item) => item.userEmail === userEmail)
+    .filter((item) => item.userEmail === userEmail && !item.deletedAt)
     .sort((left, right) => right.createdAt.localeCompare(left.createdAt));
 }
 
@@ -190,7 +205,11 @@ export async function createCaseRecord(
 export async function getCaseDetail(caseId: string) {
   const db = getDb();
   if (db) {
-    const caseRows = await db.select().from(cases).where(eq(cases.id, caseId)).limit(1);
+    const caseRows = await db
+      .select()
+      .from(cases)
+      .where(and(eq(cases.id, caseId), isNull(cases.deletedAt)))
+      .limit(1);
     const caseRow = caseRows[0];
     if (!caseRow) {
       return null;
@@ -258,7 +277,7 @@ export async function getCaseDetail(caseId: string) {
   }
 
   const state = getState();
-  const caseRecord = state.cases.find((item) => item.id === caseId);
+  const caseRecord = state.cases.find((item) => item.id === caseId && !item.deletedAt);
 
   if (!caseRecord) {
     return null;
@@ -422,7 +441,9 @@ export async function updateCaseChecklist(
       await db
         .select()
         .from(cases)
-        .where(and(eq(cases.id, caseId), eq(cases.userEmail, userEmail)))
+        .where(
+          and(eq(cases.id, caseId), eq(cases.userEmail, userEmail), isNull(cases.deletedAt)),
+        )
         .limit(1)
     )[0];
 
@@ -436,7 +457,9 @@ export async function updateCaseChecklist(
         checklist,
         updatedAt: new Date(),
       })
-      .where(and(eq(cases.id, caseId), eq(cases.userEmail, userEmail)));
+      .where(
+        and(eq(cases.id, caseId), eq(cases.userEmail, userEmail), isNull(cases.deletedAt)),
+      );
 
     return {
       ...existing,
@@ -449,7 +472,9 @@ export async function updateCaseChecklist(
   }
 
   const state = getState();
-  const record = state.cases.find((item) => item.id === caseId && item.userEmail === userEmail);
+  const record = state.cases.find(
+    (item) => item.id === caseId && item.userEmail === userEmail && !item.deletedAt,
+  );
 
   if (!record) {
     return null;
@@ -464,7 +489,13 @@ export async function updateCaseChecklist(
 export async function replaceCaseChecklist(caseId: string, checklist: ChecklistItem[]) {
   const db = getDb();
   if (db) {
-    const existing = (await db.select().from(cases).where(eq(cases.id, caseId)).limit(1))[0];
+    const existing = (
+      await db
+        .select()
+        .from(cases)
+        .where(and(eq(cases.id, caseId), isNull(cases.deletedAt)))
+        .limit(1)
+    )[0];
     if (!existing) {
       return null;
     }
@@ -475,7 +506,7 @@ export async function replaceCaseChecklist(caseId: string, checklist: ChecklistI
         checklist,
         updatedAt: new Date(),
       })
-      .where(eq(cases.id, caseId));
+      .where(and(eq(cases.id, caseId), isNull(cases.deletedAt)));
 
     return {
       ...existing,
@@ -488,7 +519,7 @@ export async function replaceCaseChecklist(caseId: string, checklist: ChecklistI
   }
 
   const state = getState();
-  const record = state.cases.find((item) => item.id === caseId);
+  const record = state.cases.find((item) => item.id === caseId && !item.deletedAt);
 
   if (!record) {
     return null;
@@ -499,6 +530,258 @@ export async function replaceCaseChecklist(caseId: string, checklist: ChecklistI
 
   return record;
 }
+/**
+ * 案件の所有者情報を、削除済みかどうかに関わらず取得する。
+ * 削除・復元エンドポイントの認可判定（作成者本人 or 管理者）に使う内部関数であり、
+ * 通常の一覧・詳細取得（deletedAt IS NULLでフィルタされる経路）とは異なる。
+ * 顧客情報等は含めず、認可判定に必要な最小限のフィールドのみ返す。
+ */
+export async function getCaseOwnerInfo(
+  caseId: string,
+): Promise<{ id: string; userEmail: string; deletedAt?: string } | null> {
+  const db = getDb();
+  if (db) {
+    const row = (
+      await db
+        .select({ id: cases.id, userEmail: cases.userEmail, deletedAt: cases.deletedAt })
+        .from(cases)
+        .where(eq(cases.id, caseId))
+        .limit(1)
+    )[0];
+    if (!row) return null;
+    return {
+      id: row.id,
+      userEmail: row.userEmail,
+      deletedAt: row.deletedAt?.toISOString() ?? undefined,
+    };
+  }
+
+  const state = getState();
+  const record = state.cases.find((item) => item.id === caseId);
+  if (!record) return null;
+  return { id: record.id, userEmail: record.userEmail, deletedAt: record.deletedAt };
+}
+
+/**
+ * 案件を論理削除する。
+ *
+ * 監査ログの扱いについての設計判断:
+ * 「監査ログの記録に失敗した場合、削除自体も完了させない」という設計判断を採用する
+ * （案件のdeletedAt更新とaudit_logsへのINSERTを同一のDBトランザクションにまとめ、
+ * どちらか一方が失敗した場合は両方ロールバックする）。
+ * 理由: audit_logsが無いまま削除だけ成功すると「誰が削除したか分からない削除済み案件」が
+ * 発生し、design doc 6章が要求する「削除操作は必ず監査ログに記録する」という前提が
+ * 崩れるため。単純に「先にログだけ書いて後で削除する」方式では、削除に失敗した場合に
+ * 実際には起きていない削除のログだけが残ってしまい、監査ログの信頼性を損なう。
+ * トランザクションによる原子性のほうが両方の要求を同時に満たせるため、こちらを採用した。
+ * インメモリ実装（DATABASE_URL未設定時）はシングルスレッドの同期的な操作のため、
+ * 同様に「ログ追加→case更新」の順で行い、途中で例外が出れば以降の状態変更は発生しない。
+ */
+export async function softDeleteCase(
+  caseId: string,
+  actorEmail: string,
+): Promise<{ id: string; deletedAt: string } | null> {
+  const db = getDb();
+  if (db) {
+    return db.transaction(async (tx) => {
+      const existing = (
+        await tx
+          .select({ id: cases.id })
+          .from(cases)
+          .where(and(eq(cases.id, caseId), isNull(cases.deletedAt)))
+          .limit(1)
+      )[0];
+
+      if (!existing) {
+        return null;
+      }
+
+      const now = new Date();
+
+      await tx.update(cases).set({ deletedAt: now, updatedAt: now }).where(eq(cases.id, caseId));
+
+      await tx.insert(auditLogs).values({
+        id: createId("audit"),
+        actorEmail,
+        action: CASE_DELETE_ACTION,
+        targetId: caseId,
+        createdAt: now,
+      });
+
+      return { id: caseId, deletedAt: now.toISOString() };
+    });
+  }
+
+  const state = getState();
+  const record = state.cases.find((item) => item.id === caseId && !item.deletedAt);
+
+  if (!record) {
+    return null;
+  }
+
+  const now = new Date().toISOString();
+
+  state.auditLogs.unshift({
+    id: createId("audit"),
+    actorEmail,
+    action: CASE_DELETE_ACTION,
+    targetId: caseId,
+    createdAt: now,
+  });
+
+  record.deletedAt = now;
+  record.updatedAt = now;
+
+  return { id: caseId, deletedAt: now };
+}
+
+export type RestoreCaseResult = "restored" | "not_found" | "expired";
+
+/**
+ * 論理削除された案件を復元する。猶予期間（CASE_DELETION_GRACE_PERIOD_DAYS）を
+ * 過ぎている場合は復元できない（"expired"）。監査ログの原子性についてはsoftDeleteCaseと同じ方針。
+ */
+export async function restoreCase(
+  caseId: string,
+  actorEmail: string,
+  now: Date = new Date(),
+): Promise<RestoreCaseResult> {
+  const graceMs = CASE_DELETION_GRACE_PERIOD_DAYS * 24 * 60 * 60 * 1000;
+
+  const db = getDb();
+  if (db) {
+    return db.transaction(async (tx) => {
+      const existing = (
+        await tx
+          .select({ id: cases.id, deletedAt: cases.deletedAt })
+          .from(cases)
+          .where(and(eq(cases.id, caseId), isNotNull(cases.deletedAt)))
+          .limit(1)
+      )[0];
+
+      if (!existing || !existing.deletedAt) {
+        return "not_found";
+      }
+
+      if (now.getTime() - existing.deletedAt.getTime() > graceMs) {
+        return "expired";
+      }
+
+      await tx
+        .update(cases)
+        .set({ deletedAt: null, updatedAt: now })
+        .where(eq(cases.id, caseId));
+
+      await tx.insert(auditLogs).values({
+        id: createId("audit"),
+        actorEmail,
+        action: CASE_RESTORE_ACTION,
+        targetId: caseId,
+        createdAt: now,
+      });
+
+      return "restored";
+    });
+  }
+
+  const state = getState();
+  const record = state.cases.find((item) => item.id === caseId && item.deletedAt);
+
+  if (!record || !record.deletedAt) {
+    return "not_found";
+  }
+
+  if (now.getTime() - new Date(record.deletedAt).getTime() > graceMs) {
+    return "expired";
+  }
+
+  state.auditLogs.unshift({
+    id: createId("audit"),
+    actorEmail,
+    action: CASE_RESTORE_ACTION,
+    targetId: caseId,
+    createdAt: now.toISOString(),
+  });
+
+  record.deletedAt = undefined;
+  record.updatedAt = now.toISOString();
+
+  return "restored";
+}
+
+/** 猶予期間内かどうかに関わらず、指定ユーザー本人が削除した案件一覧を返す（本人向け「削除済み案件」UI用）。 */
+export async function listDeletedCasesByUser(userEmail: string): Promise<DeletedCaseRecord[]> {
+  const db = getDb();
+  if (db) {
+    const rows = await db
+      .select()
+      .from(cases)
+      .where(and(eq(cases.userEmail, userEmail), isNotNull(cases.deletedAt)))
+      .orderBy(desc(cases.deletedAt));
+
+    return rows
+      .filter((row) => row.deletedAt)
+      .map((row) => ({
+        id: row.id,
+        userEmail: row.userEmail,
+        productName: row.productName,
+        modelNumber: row.modelNumber,
+        destinationCountry: row.destinationCountry,
+        customerCompanyName: row.customerCompanyName,
+        productImageUrl: row.productImageUrl ?? undefined,
+        status: row.status as CaseRecord["status"],
+        checklist: (row.checklist as ChecklistItem[]) ?? [],
+        createdAt: row.createdAt.toISOString(),
+        updatedAt: row.updatedAt.toISOString(),
+        deletedAt: row.deletedAt!.toISOString(),
+      }));
+  }
+
+  const state = getState();
+  return state.cases
+    .filter(
+      (item): item is CaseRecord & { deletedAt: string } =>
+        item.userEmail === userEmail && Boolean(item.deletedAt),
+    )
+    .sort((left, right) => (right.deletedAt ?? "").localeCompare(left.deletedAt ?? ""))
+    .map((item) => ({ ...item, deletedAt: item.deletedAt as string }));
+}
+
+/** 管理者向け: 全ユーザーの削除済み案件一覧を返す（復元UI用）。 */
+export async function listAllDeletedCases(): Promise<DeletedCaseRecord[]> {
+  const db = getDb();
+  if (db) {
+    const rows = await db
+      .select()
+      .from(cases)
+      .where(isNotNull(cases.deletedAt))
+      .orderBy(desc(cases.deletedAt));
+
+    return rows
+      .filter((row) => row.deletedAt)
+      .map((row) => ({
+        id: row.id,
+        userEmail: row.userEmail,
+        productName: row.productName,
+        modelNumber: row.modelNumber,
+        destinationCountry: row.destinationCountry,
+        customerCompanyName: row.customerCompanyName,
+        productImageUrl: row.productImageUrl ?? undefined,
+        status: row.status as CaseRecord["status"],
+        checklist: (row.checklist as ChecklistItem[]) ?? [],
+        createdAt: row.createdAt.toISOString(),
+        updatedAt: row.updatedAt.toISOString(),
+        deletedAt: row.deletedAt!.toISOString(),
+      }));
+  }
+
+  const state = getState();
+  return state.cases
+    .filter((item): item is CaseRecord & { deletedAt: string } => Boolean(item.deletedAt))
+    .sort((left, right) => (right.deletedAt ?? "").localeCompare(left.deletedAt ?? ""))
+    .map((item) => ({ ...item, deletedAt: item.deletedAt as string }));
+}
+
 export async function saveAiConsultation(record: AiConsultationRecord) {
   const db = getDb();
   if (db) {

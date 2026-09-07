@@ -2,16 +2,18 @@ import Link from "next/link";
 
 import { AiProviderStatusPanel } from "@/components/dashboard/ai-provider-status-panel";
 import { DashboardCaseList } from "@/components/dashboard/dashboard-case-list";
+import { DeletedCasesPanel } from "@/components/cases/deleted-cases-panel";
 import { Shell } from "@/components/layout/shell";
 import { getAllProviderRuntimeInfo } from "@/lib/ai/config";
 import { requireSessionEmail } from "@/lib/auth/server";
-import { listCasesByUser } from "@/lib/db/repository";
+import { listCasesByUser, listDeletedCasesByUser } from "@/lib/db/repository";
 
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
   const userEmail = await requireSessionEmail();
   const items = await listCasesByUser(userEmail);
+  const deletedItems = await listDeletedCasesByUser(userEmail);
   const providerRuntimeInfo = getAllProviderRuntimeInfo("health");
 
   const completed = items.filter((i) => i.status === "completed").length;
@@ -135,6 +137,27 @@ export default async function DashboardPage() {
       ) : (
         <DashboardCaseList items={items} />
       )}
+
+      <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <details>
+          <summary className="cursor-pointer list-none">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-base font-semibold text-slate-900">削除済み案件</h2>
+                <p className="mt-1 text-sm text-slate-500">
+                  削除後30日以内は復元できます。{deletedItems.length}件の削除済み案件があります。
+                </p>
+              </div>
+              <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600">
+                {deletedItems.length}
+              </span>
+            </div>
+          </summary>
+          <div className="mt-4">
+            <DeletedCasesPanel items={deletedItems} />
+          </div>
+        </details>
+      </section>
     </Shell>
   );
 }

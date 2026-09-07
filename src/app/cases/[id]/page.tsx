@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ChecklistPanel } from "@/components/cases/checklist-panel";
+import { CaseDeletePanel } from "@/components/cases/case-delete-panel";
 import { RiskDimensionTable } from "@/components/results/risk-dimension-table";
 import { RiskScoreCard } from "@/components/results/risk-score-card";
 import { SourceEvidenceList } from "@/components/results/source-evidence-list";
@@ -484,6 +485,8 @@ export default async function CaseDetailPage({
           </p>
         </section>
       )}
+
+      <CaseDeletePanel caseId={detail.case.id} productName={detail.case.productName} />
     </Shell>
   );
 }

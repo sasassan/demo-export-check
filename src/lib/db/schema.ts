@@ -73,8 +73,18 @@ export const cases = pgTable(
     checklist: jsonb("checklist").notNull().default([]),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull(),
+    /**
+     * 論理削除用タイムスタンプ。NULLの間は通常の一覧・詳細取得の対象となる。
+     * 値が入ると「削除済み」とみなし、通常経路からは除外する
+     * （猶予期間内の復元を可能にするため物理削除は行わない）。
+     * docs/case-deletion-design.md 参照。
+     */
+    deletedAt: timestamp("deleted_at", { withTimezone: true }),
   },
-  (table) => [index("cases_user_email_idx").on(table.userEmail)],
+  (table) => [
+    index("cases_user_email_idx").on(table.userEmail),
+    index("cases_deleted_at_idx").on(table.deletedAt),
+  ],
 );
 
 export const investigations = pgTable(
@@ -217,3 +227,24 @@ export const aiRateLimitBuckets = pgTable("ai_rate_limit_buckets", {
   expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull(),
 });
+
+/**
+ * 重要操作（案件削除・復元など）の監査ログ。
+ * 「誰が・いつ・何に対して何をしたか」を残すための汎用テーブルであり、
+ * 将来的に削除以外の重要操作（編集・再生成等）にも同じ仕組みを流用できる。
+ * 詳細は docs/case-deletion-design.md 6章を参照。
+ */
+export const auditLogs = pgTable(
+  "audit_logs",
+  {
+    id: varchar("id", { length: 64 }).primaryKey(),
+    actorEmail: varchar("actor_email", { length: 255 }).notNull(),
+    action: varchar("action", { length: 64 }).notNull(),
+    targetId: varchar("target_id", { length: 64 }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
+  },
+  (table) => [
+    index("audit_logs_target_id_idx").on(table.targetId),
+    index("audit_logs_action_idx").on(table.action),
+  ],
+);

@@ -71,6 +71,20 @@ export type CaseRecord = {
   checklist: ChecklistItem[];
   createdAt: string;
   updatedAt: string;
+  /** 論理削除された時刻。未削除の場合はundefined。 */
+  deletedAt?: string;
+};
+
+export type DeletedCaseRecord = CaseRecord & { deletedAt: string };
+
+export type AuditLogAction = "case.delete" | "case.restore";
+
+export type AuditLogRecord = {
+  id: string;
+  actorEmail: string;
+  action: AuditLogAction;
+  targetId: string;
+  createdAt: string;
 };
 
 export type InvestigationRecord = {
