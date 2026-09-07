@@ -99,7 +99,7 @@ npm run db:push
 
 ### 生成済みmigration
 
-- `drizzle/0000_fearless_living_mummy.sql`
+- `drizzle/0000_shocking_daredevil.sql`（本番未投入のため、全テーブル・カラムを単一マイグレーションに再集約したもの）
 
 ---
 

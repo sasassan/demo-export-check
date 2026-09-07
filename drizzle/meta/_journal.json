@@ -5,36 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1781793836191,
-      "tag": "0000_fearless_living_mummy",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1781865093707,
-      "tag": "0001_thick_miracleman",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1782047887540,
-      "tag": "0002_soft_admin_analytics",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1782300000000,
-      "tag": "0003_ai_rate_limit_buckets",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1782400000000,
-      "tag": "0004_case_soft_delete",
+      "when": 1788785172202,
+      "tag": "0000_shocking_daredevil",
       "breakpoints": true
     }
   ]
