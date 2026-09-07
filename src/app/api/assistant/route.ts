@@ -12,6 +12,11 @@ import { getSessionEmail } from "@/lib/auth/server";
 import { saveAiConsultation } from "@/lib/db/repository";
 import { searchDictionary, getAllTerms } from "@/lib/export-dictionary";
 import { createId } from "@/lib/utils";
+import {
+  checkAiRateLimit,
+  resolveAiRateLimitIdentity,
+  toRateLimitErrorPayload,
+} from "@/lib/ai/rate-limit";
 
 /**
  * AI相談室のchatタイムアウト(既定値: OPENAI_CHAT_TIMEOUT_MS等、デフォルト30秒。
@@ -279,7 +284,21 @@ export async function POST(request: Request) {
       history?: ConversationMessage[];
     };
 
-    const userEmail = (await getSessionEmail()) ?? "anonymous";
+    const sessionEmail = await getSessionEmail();
+    const userEmail = sessionEmail ?? "anonymous";
+
+    // AI APIコスト暴走ガード: 認証済み利用者はメールアドレス単位、匿名利用は
+    // IPハッシュ単位で短時間窓/日次上限を適用する（このエンドポイントは
+    // 未ログインでも利用できるため、なりすまし対策としてIP単位の識別を用いる）。
+    const rateLimitIdentity = resolveAiRateLimitIdentity(request, sessionEmail);
+    const rateLimitDecision = await checkAiRateLimit(rateLimitIdentity);
+    if (!rateLimitDecision.allowed) {
+      const payload = toRateLimitErrorPayload(rateLimitDecision);
+      return NextResponse.json(payload.body, {
+        status: payload.status,
+        headers: { "Retry-After": String(payload.retryAfterSeconds) },
+      });
+    }
 
     // URL fetch
     let fetchedUrlText: string | null = null;

@@ -202,3 +202,18 @@ export const generatedReports = pgTable(
   },
   (table) => [index("generated_reports_case_id_idx").on(table.caseId)],
 );
+
+/**
+ * AI実行APIのコスト暴走ガード（レート制限）用カウンタ。
+ * bucketKeyは「識別単位(user/anon) + 時間窓の種類(短時間窓/日次) + 窓の開始時刻や日付」を
+ * エンコードした固定窓(fixed window)方式のキーであり、窓が変わると新しい行になるため
+ * 自然にリセットされる。countはPostgresのUPSERT(ON CONFLICT DO UPDATE)で原子的に
+ * インクリメントするため、複数インスタンス(水平スケール)環境でも安全に共有できる。
+ * 詳細は src/lib/ai/rate-limit.ts を参照。
+ */
+export const aiRateLimitBuckets = pgTable("ai_rate_limit_buckets", {
+  bucketKey: varchar("bucket_key", { length: 300 }).primaryKey(),
+  count: integer("count").notNull().default(0),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull(),
+});
