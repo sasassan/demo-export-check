@@ -20,6 +20,13 @@
  *   実際にプロセスを落とす/例外を投げるのは既存の該当コード（SESSION_SECRETは
  *   auth/server.ts が既に強制）に委ね、本モジュールは新たなクラッシュ経路を
  *   追加しない（既存の設計・スコープ最小の原則に合わせるため）。
+ *   ただしSESSION_SECRETのblocking判定範囲は、既存の実行時強制（
+ *   assertProductionSessionSecretがリテラル既定値'dev-secret-change-in-production'
+ *   のときのみ例外を投げる）よりも広い。本モジュールは他のプレースホルダー
+ *   （'replace-with-a-long-random-secret'等）や32文字未満の短い秘密鍵も
+ *   プリフライト独自の判断でblockingとして検出する。これらのケースは
+ *   実行時には強制されない（本番投入後もクラッシュせず動き続けてしまう）ため、
+ *   実行時強制と完全に一致しているのはリテラル既定値のケースのみである。
  *   ADMIN_EMAILSのようにまだ実行時強制が存在しない項目については、
  *   severity="blocking"として明示し、対応が必須であることを管理者に伝える
  *   （このアプリはパスワードレスログイン方式のため、ADMIN_EMAILSが

@@ -294,14 +294,16 @@ OpenAIダッシュボード（`Settings → Organization → Data Controls → S
 
 | 検出項目 | 内容 | 本番(`NODE_ENV=production`)での重大度 |
 | --- | --- | --- |
-| `SESSION_SECRET` 未設定・プレースホルダー・32文字未満 | セッションCookie署名鍵が推測可能 | 本番投入ブロック（既存の`src/lib/auth/server.ts`の実行時例外と一致する判断） |
+| `SESSION_SECRET` 未設定・プレースホルダー・32文字未満 | セッションCookie署名鍵が推測可能 | 本番投入ブロック。ただし既存の`src/lib/auth/server.ts`の実行時例外（`assertProductionSessionSecret`）が実際に投げられるのは、リテラル既定値`'dev-secret-change-in-production'`のケースのみ。`'replace-with-a-long-random-secret'`等の他プレースホルダーや32文字未満の短い秘密鍵は、プリフライト独自の判断でblockingに拡張した検出であり、実行時には強制されない |
 | `SESSION_SECRET` 32〜63文字 | 推奨の64文字未満 | 警告のみ |
 | `ADMIN_EMAILS` に`demo@example.com`を含む | パスワードレスログインのため誰でも管理者になれる | 本番投入ブロック |
 | `RATE_LIMIT_HASH_SECRET` 未設定 | `SESSION_SECRET`への委譲、または開発用フォールバックの使用 | 情報〜警告（既存の`rate-limit.ts`の警告ログと同じ判断） |
 | `DATABASE_URL` 未設定 | レート制限がメモリフォールバックになる | 警告 |
 | AIプロバイダーのAPIキーが1つも未設定 | AI機能が利用不可 | 警告（既存の`/api/ai/health`の「未設定」表示と整合） |
 
-**「本番投入ブロック」と「警告」の判断根拠**: 既存コードは`SESSION_SECRET`のプレースホルダーを検知すると実行時に例外を投げて処理を止める設計（`assertProductionSessionSecret`）だが、`RATE_LIMIT_HASH_SECRET`未設定は警告ログを出しつつ処理を継続する設計（`resolveRateLimitHashSecret`）になっている。プリフライトはこの既存方針を踏襲し、「実行時に実際にクラッシュする／させるべき項目」を`blocking`、「動作は継続できるが要対応の項目」を`warning`、「単なる状態表示」を`info`として分類した。プリフライト自体はモジュール読込時に新たな例外や`process.exit`を追加しない（Next.jsのビルド時評価を壊さないため、既存コードと同じ「実際に使われる／確認される時点での遅延チェック」方針を維持）。`ADMIN_EMAILS`は既存コードにクラッシュさせる仕組みがまだ存在しないが、パスワードレスログインという実装上、悪用の容易さが`SESSION_SECRET`と同等以上のため`blocking`として報告する。
+**「本番投入ブロック」と「警告」の判断根拠**: 既存コードは`SESSION_SECRET`がリテラル既定値`'dev-secret-change-in-production'`のときのみ実行時に例外を投げて処理を止める設計（`assertProductionSessionSecret`）だが、`RATE_LIMIT_HASH_SECRET`未設定は警告ログを出しつつ処理を継続する設計（`resolveRateLimitHashSecret`）になっている。プリフライトはこの既存方針を踏襲しつつ、`SESSION_SECRET`については既存の実行時強制が捕捉するリテラル既定値のケースに加え、他のプレースホルダー（`'replace-with-a-long-random-secret'`等）と32文字未満の短い秘密鍵もプリフライト独自の判断でblockingに拡張した。つまり「実行時に実際にクラッシュする／させるべき項目」を`blocking`、「動作は継続できるが要対応の項目」を`warning`、「単なる状態表示」を`info`として分類する方針は既存コードを踏襲しているが、`SESSION_SECRET`のblocking判定範囲そのものは既存の実行時例外より広く、両者が完全に一致するのはリテラル既定値のケースのみである。プリフライト自体はモジュール読込時に新たな例外や`process.exit`を追加しない（Next.jsのビルド時評価を壊さないため、既存コードと同じ「実際に使われる／確認される時点での遅延チェック」方針を維持）。`ADMIN_EMAILS`は既存コードにクラッシュさせる仕組みがまだ存在しないが、パスワードレスログインという実装上、悪用の容易さが`SESSION_SECRET`と同等以上のため`blocking`として報告する。
+
+**既知の限界**: 「長いが推測容易な秘密鍵」（例: 辞書語の単純な繰り返しや連番のみで構成された64文字の文字列）は、長さの条件のみで判定しているため本プリフライトでは検出できない。
 
 ### 6.2 安全な値の生成方法（macOS標準環境）
 
