@@ -46,6 +46,13 @@ html {
   scroll-behavior: smooth;
 }
 
+/* アクセシビリティ: キーボード操作時のフォーカスを常に視認可能にする */
+:focus-visible {
+  outline: 2px solid var(--brand-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 body {
   background:
     radial-gradient(circle at top, rgba(37, 99, 235, 0.05), transparent 28%),
