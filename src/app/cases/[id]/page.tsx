@@ -474,12 +474,15 @@ export default async function CaseDetailPage({
         </>
       ) : (
         <section className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center shadow-sm">
-          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-100">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-7 w-7 text-slate-500">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-            </svg>
+          <div className="relative flex h-14 w-14 items-center justify-center">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-100 opacity-75" />
+            <div className="relative flex h-14 w-14 items-center justify-center rounded-full bg-blue-50">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-7 w-7 text-brand-navy">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+            </div>
           </div>
-          <h2 className="mt-4 text-base font-semibold text-slate-900">調査結果を準備中です</h2>
+          <h2 className="mt-6 text-base font-semibold text-slate-900">調査結果を準備中です</h2>
           <p className="mt-2 text-sm text-slate-500">
             まだ評価結果がありません。調査開始後に再読み込みしてください。
           </p>

@@ -74,7 +74,7 @@ export function LoginForm() {
             maxLength={6}
             value={code}
             onChange={(event) => setCode(event.target.value.replace(/\D/g, ""))}
-            className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-cyan-300 transition placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100"
+            className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             placeholder="123456"
             required
           />
@@ -88,7 +88,7 @@ export function LoginForm() {
             type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-cyan-300 transition placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100"
+            className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             placeholder="管理者以外は空欄のままで構いません"
           />
         </label>
@@ -130,7 +130,7 @@ export function LoginForm() {
           type="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-cyan-300 transition placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100"
+          className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
           placeholder="you@example.com"
           required
         />
@@ -164,7 +164,7 @@ export function LoginForm() {
       </button>
 
       <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-700">ログインに関する注意事項</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-navy">ログインに関する注意事項</p>
         <p className="mt-2 text-xs leading-6 text-slate-600">
         入力したメールアドレス宛に確認コードを送信します。コードを入力するとログインが完了します。
         </p>

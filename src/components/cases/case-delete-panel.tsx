@@ -71,11 +71,11 @@ export function CaseDeletePanel({
 
       {isOpen ? (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 px-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 px-4 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
         >
-          <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-xl">
+          <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl">
             <h3 className="text-base font-bold text-slate-900">本当に削除しますか？</h3>
             <p className="mt-2 text-sm leading-6 text-slate-600">
               この操作は取り消せません（30日以内は本人・管理者による復元が可能です）。
