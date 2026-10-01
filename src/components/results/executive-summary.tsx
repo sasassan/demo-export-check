@@ -49,7 +49,7 @@ export function ExecutiveSummary({ caseRecord, assessment }: Props) {
         </div>
         <button
           onClick={() => window.print()}
-          className="print:hidden text-xs bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-lg transition-colors"
+          className="print:hidden inline-flex min-h-9 items-center justify-center rounded-lg bg-white/10 px-3 py-2 text-sm text-white transition-colors hover:bg-white/20"
         >
           印刷 / PDF
         </button>

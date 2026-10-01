@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { ChecklistPanel } from "@/components/cases/checklist-panel";
 import { CaseDeletePanel } from "@/components/cases/case-delete-panel";
+import { BackToTop } from "@/components/shared/back-to-top";
 import { RiskDimensionTable } from "@/components/results/risk-dimension-table";
 import { RiskScoreCard } from "@/components/results/risk-score-card";
 import { SourceEvidenceList } from "@/components/results/source-evidence-list";
@@ -57,7 +58,7 @@ export default async function CaseDetailPage({
               <svg viewBox="0 0 20 20" fill="currentColor" className="mt-0.5 h-4 w-4 shrink-0 text-amber-500">
                 <path fillRule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clipRule="evenodd" />
               </svg>
-              <p className="text-xs leading-5 text-amber-800">
+              <p className="text-sm leading-5 text-amber-800">
                 本サービスは参考情報の提供を目的としており、法令上の最終判断を代替するものではありません。
                 最終的な輸出可否の判断は利用者自身の責任で実施してください。
               </p>
@@ -67,7 +68,7 @@ export default async function CaseDetailPage({
               <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
                 <Link
                   href={`/api/reports/${detail.case.id}/pdf`}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-navy px-4 py-2 text-sm font-semibold !text-white shadow-sm hover:bg-brand-navy-light"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-brand-navy px-4 py-3 text-sm font-semibold !text-white shadow-sm hover:bg-brand-navy-light"
                   target="_blank"
                 >
                   <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
@@ -76,7 +77,7 @@ export default async function CaseDetailPage({
                   </svg>
                   PDFを出力
                 </Link>
-                <Link href="/glossary" className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50">
+                <Link href="/glossary" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50">
                   輸出用語辞典
                 </Link>
               </div>
@@ -98,7 +99,7 @@ export default async function CaseDetailPage({
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-10 w-10">
                     <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                   </svg>
-                  <p className="text-xs">商品画像なし</p>
+                  <p className="text-sm">商品画像なし</p>
                 </div>
               </div>
             )}
@@ -490,6 +491,7 @@ export default async function CaseDetailPage({
       )}
 
       <CaseDeletePanel caseId={detail.case.id} productName={detail.case.productName} />
+      <BackToTop />
     </Shell>
   );
 }

@@ -56,7 +56,7 @@ export function CaseDeletePanel({
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="inline-flex items-center justify-center gap-2 rounded-xl border border-rose-300 bg-white px-4 py-2 text-sm font-semibold text-rose-700 shadow-sm transition hover:bg-rose-50"
+          className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-rose-300 bg-white px-4 py-3 text-sm font-semibold text-rose-700 shadow-sm transition hover:bg-rose-50"
         >
           <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
             <path

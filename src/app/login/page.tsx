@@ -49,8 +49,8 @@ export default function LoginPage() {
               ["共有形式", "PDF / AI要約 / チェックリスト"],
             ].map(([label, value]) => (
               <div key={label} className="rounded-lg border border-white/15 bg-white/10 px-4 py-2.5">
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-white/60">{label}</p>
-                <p className="mt-0.5 text-sm font-semibold text-white">{value}</p>
+                <p className="text-xs font-semibold uppercase tracking-wider text-white/60">{label}</p>
+                <p className="mt-0.5 text-base font-semibold text-white">{value}</p>
               </div>
             ))}
           </div>
@@ -92,8 +92,8 @@ export default function LoginPage() {
             <h2 className="mt-3 text-2xl font-bold text-slate-900">ログイン</h2>
             <p className="mt-2 text-sm leading-6 text-slate-600">メールアドレスを入力してすぐに利用開始できます。</p>
             <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">アクセス範囲</p>
-              <p className="mt-0.5 text-sm text-slate-700">案件一覧 / AI診断 / PDFレポート / チェックリスト管理</p>
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">アクセス範囲</p>
+              <p className="mt-0.5 text-base text-slate-700">案件一覧 / AI診断 / PDFレポート / チェックリスト管理</p>
             </div>
             <div className="mt-6">
               <LoginForm />

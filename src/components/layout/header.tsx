@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -9,12 +10,13 @@ const navItems = [
   { href: "/demo?v=nav", match: "/demo", label: "デモ" },
   { href: "/glossary?v=nav", match: "/glossary", label: "辞典" },
   { href: "/ai-room?v=nav", match: "/ai-room", label: "AI相談室" },
-  { href: "/learning?v=nav", match: "/learning", label: "学習", hideOnMobile: true },
-  { href: "/about?v=nav", match: "/about", label: "概要", hideOnMobile: true },
+  { href: "/learning?v=nav", match: "/learning", label: "学習" },
+  { href: "/about?v=nav", match: "/about", label: "概要" },
 ];
 
 export function Header() {
   const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
@@ -27,7 +29,9 @@ export function Header() {
           </div>
           <span className="text-sm font-bold text-slate-900 sm:text-base">{APP_NAME}</span>
         </Link>
-        <nav className="flex items-center gap-1">
+
+        {/* Desktop nav */}
+        <nav className="hidden items-center gap-1 md:flex">
           {navItems.map((item) => {
             const isActive = pathname?.startsWith(item.match) ?? false;
             return (
@@ -36,8 +40,6 @@ export function Header() {
                 href={item.href}
                 aria-current={isActive ? "page" : undefined}
                 className={`rounded-md px-3 py-2 text-sm font-medium transition ${
-                  item.hideOnMobile ? "hidden md:inline-flex" : ""
-                } ${
                   isActive
                     ? "bg-blue-50 text-brand-navy"
                     : "text-slate-700 hover:bg-slate-100 hover:text-slate-900"
@@ -58,7 +60,70 @@ export function Header() {
             お問い合わせ
           </Link>
         </nav>
+
+        {/* Mobile menu button */}
+        <button
+          type="button"
+          onClick={() => setIsMenuOpen((prev) => !prev)}
+          aria-expanded={isMenuOpen}
+          aria-controls="mobile-nav-menu"
+          aria-label={isMenuOpen ? "メニューを閉じる" : "メニューを開く"}
+          className="inline-flex h-11 w-11 items-center justify-center rounded-md text-slate-700 transition hover:bg-slate-100 md:hidden"
+        >
+          {isMenuOpen ? (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-6 w-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-6 w-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          )}
+        </button>
       </div>
+
+      {/* Mobile nav overlay */}
+      {isMenuOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-sm md:hidden"
+            onClick={() => setIsMenuOpen(false)}
+            aria-hidden="true"
+          />
+          <nav
+            id="mobile-nav-menu"
+            className="absolute left-0 right-0 top-full z-50 border-b border-slate-200 bg-white px-4 py-3 shadow-lg md:hidden"
+          >
+            <div className="mx-auto max-w-6xl space-y-1">
+              {navItems.map((item) => {
+                const isActive = pathname?.startsWith(item.match) ?? false;
+                return (
+                  <Link
+                    key={item.match}
+                    href={item.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    aria-current={isActive ? "page" : undefined}
+                    className={`flex min-h-11 items-center rounded-md px-3 text-base font-medium transition ${
+                      isActive
+                        ? "bg-blue-50 text-brand-navy"
+                        : "text-slate-700 hover:bg-slate-100 hover:text-slate-900"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
+              <Link
+                href="/contact?v=nav"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex min-h-11 items-center rounded-md bg-brand-navy px-3 text-base font-semibold !text-white transition hover:bg-brand-navy-light"
+              >
+                お問い合わせ
+              </Link>
+            </div>
+          </nav>
+        </>
+      )}
     </header>
   );
 }

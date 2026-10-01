@@ -119,7 +119,7 @@ export function ConfigPreflightPanel() {
             type="button"
             onClick={handleRefresh}
             disabled={state.kind === "loading"}
-            className="trade-hover-lift inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm transition disabled:cursor-not-allowed disabled:opacity-60"
+            className="trade-hover-lift inline-flex min-h-11 items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition disabled:cursor-not-allowed disabled:opacity-60"
           >
             {state.kind === "loading" && refreshToken > 0 ? <Spinner className="h-3.5 w-3.5" /> : null}
             再確認

@@ -163,14 +163,14 @@ export function LoginForm() {
         )}
       </button>
 
-      <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-navy">ログインに関する注意事項</p>
-        <p className="mt-2 text-xs leading-6 text-slate-600">
+      <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-navy">ログインに関する注意事項</p>
+        <p className="mt-2 text-sm leading-6 text-slate-600">
         入力したメールアドレス宛に確認コードを送信します。コードを入力するとログインが完了します。
         </p>
-        <div className="mt-3 flex flex-wrap gap-3 text-xs font-medium text-slate-600">
-          <a href="/terms" className="text-brand-navy hover:underline">利用規約</a>
-          <a href="/privacy" className="text-brand-navy hover:underline">プライバシーポリシー</a>
+        <div className="mt-3 flex flex-wrap gap-2 text-sm font-medium text-slate-600">
+          <a href="/terms" className="inline-flex min-h-11 items-center px-2 text-brand-navy hover:underline">利用規約</a>
+          <a href="/privacy" className="inline-flex min-h-11 items-center px-2 text-brand-navy hover:underline">プライバシーポリシー</a>
         </div>
       </div>
     </form>

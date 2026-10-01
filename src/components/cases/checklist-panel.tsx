@@ -68,15 +68,17 @@ export function ChecklistPanel({
         {items.map((item) => (
           <label
             key={item.id}
-            className="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-100 bg-white px-4 py-3 transition hover:border-slate-300 hover:bg-blue-50/60"
+            className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-100 bg-white px-4 py-3 transition hover:border-slate-300 hover:bg-blue-50/60"
           >
-            <input
-              type="checkbox"
-              checked={item.completed}
-              onChange={() => toggleItem(item.id)}
-              className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-navy focus:ring-brand-navy"
-            />
-            <span className={item.completed ? "text-sm text-slate-500 line-through" : "text-sm text-slate-900"}>
+            <span className="inline-flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center">
+              <input
+                type="checkbox"
+                checked={item.completed}
+                onChange={() => toggleItem(item.id)}
+                className="h-5 w-5 rounded border-slate-300 text-brand-navy focus:ring-brand-navy"
+              />
+            </span>
+            <span className={item.completed ? "text-base text-slate-500 line-through" : "text-base text-slate-900"}>
               {item.label}
             </span>
           </label>

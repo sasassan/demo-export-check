@@ -57,7 +57,7 @@ export function CaseSummaryCard({ item }: { item: CaseRecord }) {
           <span className="hidden sm:inline">·</span>
           <span>輸出先: {item.destinationCountry}</span>
         </div>
-        <p className="mt-2 text-xs text-brand-navy/70">{quickHint}</p>
+        <p className="mt-2 text-sm text-brand-navy/70">{quickHint}</p>
       </div>
       <div className="flex shrink-0 items-center gap-3 text-sm text-slate-500">
         <span className="hidden md:block">{formatDate(item.updatedAt)}</span>
