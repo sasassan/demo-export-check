@@ -74,6 +74,68 @@ const JSON_SCHEMA = `## 出力JSON
 }
 必ず有効なJSONだけを返してください。`;
 
+/* ---------- Claude structured outputs schema ----------
+ * @anthropic-ai/sdk の output_config.format(type: "json_schema") を使い、
+ * OpenAIのresponse_format相当の構造化出力をClaudeにも強制する。
+ * これにより「前後に説明文/マークダウンを付けない」という自然文指示だけに頼らず、
+ * レスポンスのcontentブロックが常にJSON_SCHEMAと一致するテキストになることをAPI側で保証する。
+ */
+const CLAUDE_OUTPUT_JSON_SCHEMA = {
+  type: "object",
+  properties: {
+    title: { type: "string" },
+    documentSummary: { type: "string" },
+    simpleExplanation: { type: "string" },
+    practicalUse: { type: "string" },
+    caution: { type: "string" },
+    relatedRisk: { type: "string" },
+    extractedPoints: { type: "array", items: { type: "string" } },
+    relatedClauses: { type: "array", items: { type: "string" } },
+    keywordHighlights: { type: "array", items: { type: "string" } },
+    judgement: { type: "string" },
+    recommendedChecks: { type: "array", items: { type: "string" } },
+    caseDraft: {
+      type: "object",
+      properties: {
+        productName: { type: ["string", "null"] },
+        modelNumber: { type: ["string", "null"] },
+        destinationCountry: { type: ["string", "null"] },
+        customerCompanyName: { type: ["string", "null"] },
+      },
+      required: ["productName", "modelNumber", "destinationCountry", "customerCompanyName"],
+      additionalProperties: false,
+    },
+    referenceLinks: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          label: { type: "string" },
+          href: { type: "string" },
+        },
+        required: ["label", "href"],
+        additionalProperties: false,
+      },
+    },
+  },
+  required: [
+    "title",
+    "documentSummary",
+    "simpleExplanation",
+    "practicalUse",
+    "caution",
+    "relatedRisk",
+    "extractedPoints",
+    "relatedClauses",
+    "keywordHighlights",
+    "judgement",
+    "recommendedChecks",
+    "caseDraft",
+    "referenceLinks",
+  ],
+  additionalProperties: false,
+} as const;
+
 /* ---------- types ---------- */
 export type ConversationMessage = {
   role: "user" | "assistant";
@@ -204,19 +266,36 @@ async function callClaudeAssistant(
       () =>
         client.messages.create({
           model: runtime.modelName,
-          max_tokens: 4096,
+          max_tokens: 6000,
           system: `${systemPrompt}\n\n必ず上記JSONスキーマのみを返し、前後に説明文やマークダウンを含めないでください。`,
           messages: anthropicMessages,
+          // Structured Outputs: content[0]がtext以外のブロック(thinking等)になり得る
+          // claude-sonnet-5系モデルでも、API側でJSON_SCHEMA準拠のテキスト出力を強制する。
+          // これにより素のテキスト指示だけに依存したJSONパース失敗を防ぐ。
+          output_config: {
+            format: {
+              type: "json_schema",
+              schema: CLAUDE_OUTPUT_JSON_SCHEMA,
+            },
+          },
         }),
       { providerLabel: "assistant-claude" },
     );
 
+  // content[0]が常にtextブロックとは限らない(thinking等が先行する場合がある)ため、
+  // 配列全体からtextブロックを探して結合する。
+  const extractText = (blocks: Anthropic.ContentBlock[]): string =>
+    blocks
+      .filter((block): block is Anthropic.TextBlock => block.type === "text")
+      .map((block) => block.text)
+      .join("");
+
   let response = await callOnce();
-  let raw = response.content[0]?.type === "text" ? response.content[0].text : "";
+  let raw = extractText(response.content);
   if (!parseAssistantJson(raw)) {
     console.error("[AI:assistant-claude] JSONパース失敗のため1回リトライします");
     response = await callOnce();
-    raw = response.content[0]?.type === "text" ? response.content[0].text : "";
+    raw = extractText(response.content);
   }
   return { raw, usedModel: "claude" };
 }
