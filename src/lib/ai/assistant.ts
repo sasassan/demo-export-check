@@ -207,7 +207,6 @@ async function callClaudeAssistant(
           max_tokens: 4096,
           system: `${systemPrompt}\n\n必ず上記JSONスキーマのみを返し、前後に説明文やマークダウンを含めないでください。`,
           messages: anthropicMessages,
-          temperature: 0.3,
         }),
       { providerLabel: "assistant-claude" },
     );
