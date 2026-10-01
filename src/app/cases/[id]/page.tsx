@@ -15,7 +15,8 @@ import { ImprovementSimulation } from "@/components/results/improvement-simulati
 import { WorstCaseScenarioCard } from "@/components/results/worst-case-scenario";
 import { RiskHeatmap } from "@/components/results/risk-heatmap";
 import { Shell } from "@/components/layout/shell";
-import { ShieldIcon, RegulationDocIcon } from "@/components/icons/trade-icons";
+import { ShieldIcon, RegulationDocIcon, WarningLightIcon, MagnifierDocumentIcon } from "@/components/icons/trade-icons";
+import { CargoShipLoader } from "@/components/icons/trade-illustrations";
 import { requireSessionEmail } from "@/lib/auth/server";
 import { assertCaseOwner } from "@/lib/db/repository";
 
@@ -149,12 +150,20 @@ export default async function CaseDetailPage({
           </section>
 
           {/* ③ リスクメーター + ヒートマップ */}
-          <div className="grid gap-4 md:grid-cols-2">
-            <RiskMeter
-              dimensions={detail.assessment.dimensions}
-              summary={detail.assessment.summary}
-            />
-            <RiskHeatmap dimensions={detail.assessment.dimensions} />
+          <div>
+            <div className="mb-3 flex items-center gap-2.5">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-rose-50 text-rose-600">
+                <WarningLightIcon aria-hidden="true" className="h-5 w-5" />
+              </div>
+              <h2 className="text-sm font-semibold text-slate-900">リスク詳細・ヒートマップ</h2>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              <RiskMeter
+                dimensions={detail.assessment.dimensions}
+                summary={detail.assessment.summary}
+              />
+              <RiskHeatmap dimensions={detail.assessment.dimensions} />
+            </div>
           </div>
 
           {/* ④ AIモデル別診断（3列グリッド） */}
@@ -404,9 +413,7 @@ export default async function CaseDetailPage({
             <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
               <div className="flex items-center gap-3 mb-4">
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-brand-navy">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z" />
-                  </svg>
+                  <MagnifierDocumentIcon aria-hidden="true" className="h-5 w-5 text-brand-navy" />
                 </div>
                 <h2 className="text-base font-semibold text-slate-900">判断根拠・AIサマリー</h2>
               </div>
@@ -487,14 +494,10 @@ export default async function CaseDetailPage({
         </>
       ) : (
         <section className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center shadow-sm">
-          <div className="relative flex h-14 w-14 items-center justify-center">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-100 opacity-75" />
-            <div className="relative flex h-14 w-14 items-center justify-center rounded-full bg-blue-50">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-7 w-7 text-brand-navy">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-              </svg>
-            </div>
-          </div>
+          <CargoShipLoader
+            aria-hidden="true"
+            className="h-16 w-40 text-brand-navy"
+          />
           <h2 className="mt-6 text-base font-semibold text-slate-900">調査結果を準備中です</h2>
           <p className="mt-2 text-sm text-slate-500">
             まだ評価結果がありません。調査開始後に再読み込みしてください。

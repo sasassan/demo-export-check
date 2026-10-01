@@ -121,3 +121,196 @@ export function CustomsDocumentIllustration(props: IllustrationProps) {
     </svg>
   );
 }
+
+/** 区切り線用: 海面・波の帯（navy系の薄い色想定） */
+export function WaveDivider(props: IllustrationProps) {
+  return (
+    <svg viewBox="0 0 400 24" preserveAspectRatio="none" fill="none" {...props}>
+      <path
+        d="M0 14c16-7 33-7 50 0s33 7 50 0 33-7 50 0 33 7 50 0 33-7 50 0 33 7 50 0 33-7 50 0 33 7 50 0"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        fill="none"
+      />
+      <path
+        d="M0 20c16-7 33-7 50 0s33 7 50 0 33-7 50 0 33 7 50 0 33-7 50 0 33 7 50 0 33-7 50 0 33 7 50 0"
+        stroke="currentColor"
+        strokeOpacity={0.5}
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        fill="none"
+      />
+    </svg>
+  );
+}
+
+/** 背景用: 薄い世界地図パターン（ログイン画面などのウォーターマーク） */
+export function WorldMapPattern(props: IllustrationProps) {
+  return (
+    <svg viewBox="0 0 400 240" fill="none" {...props}>
+      <g stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M20 90c10-18 28-26 46-22 14 3 20 16 36 14 20-2 24-20 46-18 18 2 22 16 40 14" />
+        <path d="M60 130c18-10 34-6 48 4 16 12 32 10 44-2 14-14 32-14 46-2" />
+        <path d="M160 50c8 12 6 26-4 34-14 11-30 4-40-6" />
+        <path d="M240 150c14-8 30-4 40 8 10 11 24 13 36 4" />
+        <path d="M300 70c10 6 14 18 8 30-6 11-20 14-30 8" />
+      </g>
+      <g fill="currentColor">
+        <circle cx="80" cy="92" r="2.5" />
+        <circle cx="150" cy="70" r="2.5" />
+        <circle cx="220" cy="130" r="2.5" />
+        <circle cx="290" cy="90" r="2.5" />
+        <circle cx="340" cy="150" r="2.5" />
+        <circle cx="110" cy="140" r="2.5" />
+      </g>
+      <g stroke="currentColor" strokeOpacity={0.5} strokeWidth={1} strokeDasharray="2 4">
+        <path d="M80 92 150 70" />
+        <path d="M150 70 220 130" />
+        <path d="M220 130 290 90" />
+        <path d="M290 90 340 150" />
+        <path d="M110 140 220 130" />
+      </g>
+    </svg>
+  );
+}
+
+/** ログインフォーム周辺用: コンテナ・貨物のシルエット装飾 */
+export function CargoSilhouetteCluster(props: IllustrationProps) {
+  return (
+    <svg viewBox="0 0 160 110" fill="none" {...props}>
+      <g stroke="currentColor" strokeWidth={1.5} strokeLinejoin="round" strokeOpacity={0.5}>
+        <rect x="8" y="52" width="34" height="26" rx="1.5" fill="currentColor" fillOpacity={0.08} />
+        <rect x="46" y="40" width="34" height="38" rx="1.5" fill="currentColor" fillOpacity={0.12} />
+        <rect x="84" y="58" width="30" height="20" rx="1.5" fill="currentColor" fillOpacity={0.08} />
+      </g>
+      <path
+        d="M4 88h128l-10 15.5a7 7 0 0 1-6 3.5H20a7 7 0 0 1-6-3.5L4 88Z"
+        fill="currentColor"
+        fillOpacity={0.1}
+        stroke="currentColor"
+        strokeOpacity={0.5}
+        strokeWidth={1.5}
+      />
+      <path d="M118 20 150 36 118 48Z" fill="currentColor" fillOpacity={0.1} stroke="currentColor" strokeOpacity={0.5} strokeWidth={1.5} strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/** 大型の装飾用コンパスローズ・ウォーターマーク */
+export function CompassWatermark(props: IllustrationProps) {
+  return (
+    <svg viewBox="0 0 200 200" fill="none" {...props}>
+      <circle cx="100" cy="100" r="90" stroke="currentColor" strokeOpacity={0.4} strokeWidth={1.5} />
+      <circle cx="100" cy="100" r="68" stroke="currentColor" strokeOpacity={0.3} strokeWidth={1} />
+      <path d="M100 10 108 92 190 100 108 108 100 190 92 108 10 100 92 92Z" fill="currentColor" fillOpacity={0.08} stroke="currentColor" strokeOpacity={0.35} strokeWidth={1} />
+      <g stroke="currentColor" strokeOpacity={0.4} strokeWidth={1}>
+        <path d="M100 10v8M100 182v8M10 100h8M182 100h8" />
+      </g>
+      <circle cx="100" cy="100" r="3" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+/** 迷子の貨物船イラスト（404ページ用） */
+export function LostCargoShipIllustration(props: IllustrationProps) {
+  return (
+    <svg viewBox="0 0 240 180" fill="none" {...props}>
+      <path d="M0 130h240" stroke="currentColor" strokeOpacity={0.25} strokeWidth={1.5} />
+      <g stroke="currentColor" strokeOpacity={0.4} strokeWidth={1.5} strokeLinecap="round">
+        <path d="M20 150c10-5 20-5 30 0s20 5 30 0 20-5 30 0 20 5 30 0 20-5 30 0 20 5 30 0" />
+        <path d="M20 164c10-5 20-5 30 0s20 5 30 0 20-5 30 0 20 5 30 0 20-5 30 0 20 5 30 0" strokeOpacity={0.25} />
+      </g>
+      <g transform="rotate(-8 120 95)">
+        <path
+          d="M70 100h100l-14 24a10 10 0 0 1-8.6 5.4H92.6A10 10 0 0 1 84 124l-14-24Z"
+          fill="currentColor"
+          fillOpacity={0.12}
+          stroke="currentColor"
+          strokeWidth={1.6}
+        />
+        <path d="M90 100V70a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v30" stroke="currentColor" strokeWidth={1.4} fill="currentColor" fillOpacity={0.15} />
+        <path d="M114 100V58a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v42" stroke="currentColor" strokeWidth={1.4} fill="currentColor" fillOpacity={0.22} />
+        <path d="M138 100V74a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v26" stroke="currentColor" strokeWidth={1.4} fill="currentColor" fillOpacity={0.15} />
+        <path d="M120 55V40" stroke="currentColor" strokeWidth={1.4} />
+      </g>
+      <g stroke="currentColor" strokeOpacity={0.6} strokeWidth={1.6} strokeLinecap="round">
+        <circle cx="186" cy="52" r="16" fill="none" />
+        <path d="M186 36v4M186 64v4M170 52h4M198 52h4" />
+        <path d="M179 45l3 3M194 45l-3 3M179 59l3-3M194 59l-3-3" strokeOpacity={0.5} />
+      </g>
+      <path d="M186 52 198 46" stroke="currentColor" strokeWidth={2} strokeLinecap="round" />
+      <g stroke="currentColor" strokeOpacity={0.5} strokeWidth={1.3} strokeLinecap="round" strokeDasharray="4 5">
+        <path d="M60 118c20-30 50-45 90-30" />
+      </g>
+    </svg>
+  );
+}
+
+/** 進行する貨物船のローディングアニメーション */
+export function CargoShipLoader(props: IllustrationProps) {
+  return (
+    <svg viewBox="0 0 160 56" fill="none" {...props}>
+      <path d="M0 44h160" stroke="currentColor" strokeOpacity={0.2} strokeWidth={1.5} />
+      <g className="trade-ship-loader-wave" stroke="currentColor" strokeOpacity={0.3} strokeWidth={1.5} strokeLinecap="round">
+        <path d="M0 50c8-4 16-4 24 0s16 4 24 0 16-4 24 0 16 4 24 0 16-4 24 0 16 4 24 0 16-4 24 0" />
+      </g>
+      <g className="trade-ship-loader-hull">
+        <path
+          d="M18 24h60l-8 15a6 6 0 0 1-5.3 3.2H31.3A6 6 0 0 1 26 39l-8-15Z"
+          fill="currentColor"
+          fillOpacity={0.18}
+          stroke="currentColor"
+          strokeWidth={1.4}
+        />
+        <rect x="32" y="12" width="12" height="12" rx="1" fill="currentColor" fillOpacity={0.22} stroke="currentColor" strokeWidth={1.2} />
+        <rect x="46" y="8" width="12" height="16" rx="1" fill="currentColor" fillOpacity={0.3} stroke="currentColor" strokeWidth={1.2} />
+        <rect x="60" y="14" width="10" height="10" rx="1" fill="currentColor" fillOpacity={0.18} stroke="currentColor" strokeWidth={1.2} />
+      </g>
+    </svg>
+  );
+}
+
+/** タイムライン用: ルートマップ風の点線装飾 */
+export function RouteMapDecoration(props: IllustrationProps) {
+  return (
+    <svg viewBox="0 0 24 200" preserveAspectRatio="none" fill="none" {...props}>
+      <path
+        d="M12 0v200"
+        stroke="currentColor"
+        strokeOpacity={0.25}
+        strokeWidth={1.5}
+        strokeDasharray="2 6"
+        strokeLinecap="round"
+      />
+      <circle cx="12" cy="12" r="3" fill="currentColor" fillOpacity={0.3} />
+      <circle cx="12" cy="100" r="3" fill="currentColor" fillOpacity={0.3} />
+      <circle cx="12" cy="188" r="3" fill="currentColor" fillOpacity={0.3} />
+    </svg>
+  );
+}
+
+/** 税関スタンプ風の装飾（フィルターエリア等） */
+export function CustomsStampDecoration(props: IllustrationProps) {
+  return (
+    <svg viewBox="0 0 80 80" fill="none" {...props}>
+      <circle cx="40" cy="40" r="30" stroke="currentColor" strokeOpacity={0.35} strokeWidth={2} strokeDasharray="4 3" />
+      <circle cx="40" cy="40" r="20" stroke="currentColor" strokeOpacity={0.45} strokeWidth={1.6} />
+      <path d="M30 42l6 6 14-16" stroke="currentColor" strokeOpacity={0.55} strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/** AI相談室の背景用: うっすらコンパスローズ（会話バブル背景） */
+export function CompassRoseBackdrop(props: IllustrationProps) {
+  return (
+    <svg viewBox="0 0 300 300" fill="none" {...props}>
+      <circle cx="150" cy="150" r="130" stroke="currentColor" strokeOpacity={0.5} strokeWidth={1} />
+      <circle cx="150" cy="150" r="95" stroke="currentColor" strokeOpacity={0.4} strokeWidth={1} />
+      <path d="M150 20 158 142 280 150 158 158 150 280 142 158 20 150 142 142Z" fill="currentColor" fillOpacity={0.06} stroke="currentColor" strokeOpacity={0.3} strokeWidth={1} />
+      <g stroke="currentColor" strokeOpacity={0.35} strokeWidth={0.75}>
+        <path d="M150 20v12M150 268v12M20 150h12M268 150h12" />
+      </g>
+    </svg>
+  );
+}

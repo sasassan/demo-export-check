@@ -179,6 +179,138 @@ export function RegulationDocIcon(props: IconProps) {
   );
 }
 
+/** コンパスローズ・方位磁針（装飾用） */
+export function CompassRoseIcon(props: IconProps) {
+  return (
+    <svg {...base} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <circle cx="12" cy="12" r="8.25" />
+      <path d="M12 3.75 13.4 10.6 20.25 12 13.4 13.4 12 20.25 10.6 13.4 3.75 12 10.6 10.6 12 3.75Z" fill="currentColor" fillOpacity={0.15} />
+      <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
+      <path d="M12 3.75v1.75M12 18.5v1.75M3.75 12h1.75M18.5 12h1.75" strokeOpacity={0.6} />
+    </svg>
+  );
+}
+
+/** アンカー（錨） */
+export function AnchorIcon(props: IconProps) {
+  return (
+    <svg {...base} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <circle cx="12" cy="5" r="1.6" />
+      <path d="M12 6.6v13.65" />
+      <path d="M8.75 10h6.5" />
+      <path d="M5.5 14c0 3.5 2.9 6 6.5 6.25M18.5 14c0 3.5-2.9 6-6.5 6.25" />
+      <path d="M4.75 13.5h1.75M17.5 13.5h1.75" />
+    </svg>
+  );
+}
+
+/** 灯台 */
+export function LighthouseIcon(props: IconProps) {
+  return (
+    <svg {...base} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M10 20.25h4l-.9-13.5H10.9l-.9 13.5Z" />
+      <path d="M9.4 10.5h5.2M9.1 14.25h5.8" />
+      <path d="M10.75 6.75V3.5h2.5v3.25" />
+      <path d="M12 2.25v1" />
+      <path d="M4.5 20.25h15" />
+      <path d="M15.5 4.75 18 3.25M15.5 8.75 18.25 8" strokeOpacity={0.6} />
+    </svg>
+  );
+}
+
+/** バーコード（貿易書類風） */
+export function BarcodeIcon(props: IconProps) {
+  return (
+    <svg {...base} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M4 5v14M7 5v14M9.5 5v14M13 5v14M15.5 5v14M18 5v14M20.5 5v14" strokeWidth={1.6} />
+    </svg>
+  );
+}
+
+/** 天秤（規制の公正性） */
+export function ScaleIcon(props: IconProps) {
+  return (
+    <svg {...base} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M12 3v16.5M8.25 20.25h7.5" />
+      <path d="M4.5 7h6M13.5 7h6" />
+      <path d="M4.5 7 2.5 11.5a2.5 2.5 0 0 0 4.5 2L4.5 7ZM19.5 7l-2.5 4.5a2.5 2.5 0 0 0 4.5-2L19.5 7Z" />
+    </svg>
+  );
+}
+
+/** 地球儀＋矢印（国際取引） */
+export function GlobeArrowIcon(props: IconProps) {
+  return (
+    <svg {...base} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <circle cx="10.5" cy="12" r="7" />
+      <path d="M3.5 12h14M10.5 5c1.9 1.7 1.9 10.3 0 14M10.5 5c-1.9 1.7-1.9 10.3 0 14" />
+      <path d="M15.5 16.5 20.5 21.5M15.75 21.5l4.75 0 0-4.75" />
+    </svg>
+  );
+}
+
+/** 衛星・通信塔（AI/データ通信） */
+export function SatelliteIcon(props: IconProps) {
+  return (
+    <svg {...base} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <rect x="9.5" y="9.5" width="5" height="5" rx="1" transform="rotate(45 12 12)" />
+      <path d="M9.5 9.5 7 7M14.5 14.5 17 17" />
+      <path d="M5.5 5 7 7M19.5 19 17 17" />
+      <path d="M3.75 10.5a6.5 6.5 0 0 1 2.5-4M20.25 13.5a6.5 6.5 0 0 1-2.5 4" strokeOpacity={0.65} />
+      <path d="M12 15.5v4.75M9.75 20.25h4.5" />
+    </svg>
+  );
+}
+
+/** 虫眼鏡＋文書（根拠調査） */
+export function MagnifierDocumentIcon(props: IconProps) {
+  return (
+    <svg {...base} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M6.5 3.75h7.25L17 7V18a1.25 1.25 0 0 1-1.25 1.25h-5.5" />
+      <path d="M13.75 3.75V7h3" />
+      <path d="M8.25 11h4.5M8.25 13.75h3" />
+      <circle cx="9" cy="17.75" r="3" />
+      <path d="M11.25 20 13 21.75" />
+    </svg>
+  );
+}
+
+/** クリップボード＋ペン（チェックリスト） */
+export function ClipboardPenIcon(props: IconProps) {
+  return (
+    <svg {...base} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M9 4.75h6a1 1 0 0 1 1 1V6h-8v-.25a1 1 0 0 1 1-1Z" />
+      <path d="M7 6h10a1 1 0 0 1 1 1v11.25a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z" />
+      <path d="M9 11h4.25M9 14h2.5" />
+      <path d="m15.5 13.25 2.6-2.6a1.1 1.1 0 0 1 1.56 1.56l-2.6 2.6-1.9.5.34-2.06Z" fill="currentColor" fillOpacity={0.1} />
+    </svg>
+  );
+}
+
+/** 計器盤（ダッシュボード／監視） */
+export function GaugeIcon(props: IconProps) {
+  return (
+    <svg {...base} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M4.25 15.5a7.75 7.75 0 1 1 15.5 0" />
+      <path d="M12 15.5 15.75 10" />
+      <circle cx="12" cy="15.5" r="1.1" fill="currentColor" stroke="none" />
+      <path d="M4.25 15.5h1.5M18.25 15.5h1.5M6.5 9.75l1.1 1.1M17.5 9.75l-1.1 1.1" strokeOpacity={0.6} />
+    </svg>
+  );
+}
+
+/** 警告灯（リスクアラート） */
+export function WarningLightIcon(props: IconProps) {
+  return (
+    <svg {...base} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M8.5 11a3.5 3.5 0 1 1 7 0c0 2-1.2 2.9-1.75 4.25h-3.5C9.7 13.9 8.5 13 8.5 11Z" />
+      <path d="M9.75 15.25h4.5v1.5a1 1 0 0 1-1 1h-2.5a1 1 0 0 1-1-1v-1.5Z" />
+      <path d="M12 4v2M5.5 7l1.4 1.4M18.5 7l-1.4 1.4" strokeOpacity={0.6} />
+      <path d="M11.25 19.5h1.5" />
+    </svg>
+  );
+}
+
 export const transportIcons = [CargoShipIcon, CargoPlaneIcon, TruckIcon] as const;
 
 /**

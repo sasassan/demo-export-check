@@ -3,7 +3,8 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 
-import { GlobalNetworkIllustration } from "@/components/icons/trade-illustrations";
+import { GlobalNetworkIllustration, CompassRoseBackdrop } from "@/components/icons/trade-illustrations";
+import { SatelliteIcon } from "@/components/icons/trade-icons";
 
 type Answer = {
   answerSource?: "live" | "fallback-no-key" | "fallback-error";
@@ -295,7 +296,11 @@ export function AiRoomPanel({
       </div>
 
       {thread.length > 0 && (
-        <div className="mt-4 max-h-[600px] space-y-3 overflow-y-auto rounded-2xl border border-slate-200 bg-slate-50/50 p-4">
+        <div className="relative mt-4 max-h-[600px] space-y-3 overflow-y-auto rounded-2xl border border-slate-200 bg-slate-50/50 p-4">
+          <CompassRoseBackdrop
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 h-full w-full text-brand-navy/[0.05]"
+          />
           {thread.map((entry) => (
             <div
               key={entry.id}
@@ -609,7 +614,10 @@ export function AiRoomPanel({
       </div>
 
       <div className="mt-4 rounded-2xl border border-cyan-100 bg-gradient-to-br from-blue-50/70 to-cyan-50/70 p-4">
-        <p className="text-sm font-semibold text-slate-900">使用するAIモデル</p>
+        <p className="flex items-center gap-2 text-sm font-semibold text-slate-900">
+          <SatelliteIcon aria-hidden="true" className="h-4 w-4 text-brand-navy" />
+          使用するAIモデル
+        </p>
         <div className="mt-3 grid gap-2 md:grid-cols-2">
           {MODELS.map((item) => (
             <button

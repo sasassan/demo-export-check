@@ -3,7 +3,7 @@ import Link from "next/link";
 import { DashboardCaseList } from "@/components/dashboard/dashboard-case-list";
 import { Shell } from "@/components/layout/shell";
 import { ContainerIcon } from "@/components/icons/trade-icons";
-import { CustomsDocumentIllustration } from "@/components/icons/trade-illustrations";
+import { CustomsDocumentIllustration, PortSilhouetteStrip } from "@/components/icons/trade-illustrations";
 import { requireSessionEmail } from "@/lib/auth/server";
 import { listCasesByUser } from "@/lib/db/repository";
 
@@ -22,8 +22,12 @@ export default async function CasesPage() {
       title="案件一覧"
       description="登録済みの輸出リスク調査案件を検索・絞り込み・確認できます。"
     >
-      <div className="flex flex-col items-start justify-between gap-4 rounded-xl border border-slate-200 bg-white px-6 py-4 shadow-sm sm:flex-row sm:items-center">
-        <div className="flex items-center gap-3">
+      <div className="relative flex flex-col items-start justify-between gap-4 overflow-hidden rounded-xl border border-slate-200 bg-white px-6 py-4 shadow-sm sm:flex-row sm:items-center">
+        <PortSilhouetteStrip
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-10 w-full text-brand-navy/[0.06]"
+        />
+        <div className="relative flex items-center gap-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-50 text-sm font-semibold text-brand-navy">
             {userEmail.charAt(0).toUpperCase()}
           </div>

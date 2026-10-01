@@ -4,8 +4,8 @@ import { AiProviderStatusPanel } from "@/components/dashboard/ai-provider-status
 import { DashboardCaseList } from "@/components/dashboard/dashboard-case-list";
 import { DeletedCasesPanel } from "@/components/cases/deleted-cases-panel";
 import { Shell } from "@/components/layout/shell";
-import { CargoPlaneIcon } from "@/components/icons/trade-icons";
-import { CustomsDocumentIllustration } from "@/components/icons/trade-illustrations";
+import { CargoPlaneIcon, SatelliteIcon, ScaleIcon } from "@/components/icons/trade-icons";
+import { CustomsDocumentIllustration, WaveDivider } from "@/components/icons/trade-illustrations";
 import { getAllProviderRuntimeInfo } from "@/lib/ai/config";
 import { requireSessionEmail } from "@/lib/auth/server";
 import { listCasesByUser, listDeletedCasesByUser } from "@/lib/db/repository";
@@ -54,9 +54,7 @@ export default async function DashboardPage() {
       <div className="grid gap-4 md:grid-cols-3">
         <div className="trade-hover-lift rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4 text-blue-500">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-            </svg>
+            <SatelliteIcon className="h-4 w-4 text-blue-500" />
             進行中の一次スクリーニング
           </div>
           <p className="mt-3 text-3xl font-bold text-slate-900">{investigating}</p>
@@ -64,9 +62,7 @@ export default async function DashboardPage() {
         </div>
         <div className="trade-hover-lift rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4 text-emerald-500">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-            </svg>
+            <ScaleIcon className="h-4 w-4 text-emerald-500" />
             結果確認待ち
           </div>
           <p className="mt-3 text-3xl font-bold text-slate-900">{needsReview}</p>
@@ -81,6 +77,8 @@ export default async function DashboardPage() {
           </p>
         </div>
       </div>
+
+      <WaveDivider aria-hidden="true" className="h-3 w-full text-brand-navy/15" />
 
       <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="grid gap-4 lg:grid-cols-2">

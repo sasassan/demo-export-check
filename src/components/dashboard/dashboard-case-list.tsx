@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 
 import { CaseSummaryCard } from "@/components/cases/case-summary-card";
+import { CustomsStampDecoration } from "@/components/icons/trade-illustrations";
 import type { CaseRecord } from "@/lib/types";
 
 type SortKey = "updated-desc" | "updated-asc" | "name-asc";
@@ -59,8 +60,12 @@ export function DashboardCaseList({ items }: { items: CaseRecord[] }) {
 
   return (
     <section className="grid gap-4">
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-[1.4fr_0.8fr_0.8fr]">
+      <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <CustomsStampDecoration
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 text-brand-amber/15 sm:h-28 sm:w-28"
+        />
+        <div className="relative grid gap-4 md:grid-cols-2 lg:grid-cols-[1.4fr_0.8fr_0.8fr]">
           <label className="grid gap-2">
             <span className="text-sm font-medium text-slate-700">案件を検索</span>
             <input
