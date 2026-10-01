@@ -7,6 +7,7 @@ import {
   retrieveRelevantChunks,
 } from "@/lib/ai/rag";
 import type { AssistantAnswer } from "@/lib/ai/types";
+import type { AiModel } from "@/lib/types";
 import { extractCaseDraftFromConsultation } from "@/lib/ai/extract-case-draft";
 import { getSessionEmail } from "@/lib/auth/server";
 import { saveAiConsultation } from "@/lib/db/repository";
@@ -276,12 +277,14 @@ export async function POST(request: Request) {
       sourceText = "",
       sourceUrl = "",
       history = [],
+      aiModel,
     } = body as {
       message?: string;
       mode?: string;
       sourceText?: string;
       sourceUrl?: string;
       history?: ConversationMessage[];
+      aiModel?: AiModel;
     };
 
     const sessionEmail = await getSessionEmail();
@@ -376,6 +379,7 @@ export async function POST(request: Request) {
       sourceUrl: sourceUrl || undefined,
       fetchedUrlText: fetchedUrlText ?? undefined,
       history,
+      aiModel,
     });
 
     let finalAnswer: AssistantAnswer;
@@ -455,6 +459,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       answer: finalAnswer,
+      usedModel: aiResult.ok ? aiResult.usedModel : undefined,
       sourceMeta: {
         urlFetchStatus: sourceFetchStatus,
         fetchedExcerpt: fetchedUrlText?.slice(0, 200) ?? undefined,

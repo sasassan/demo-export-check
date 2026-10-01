@@ -45,12 +45,14 @@ type ThreadEntry = {
   content: string;
   answer?: Answer;
   mode: string;
+  aiModel?: AiModelValue;
   timestamp: string;
   consultationId?: string;
 };
 
 type AiRoomPanelProps = {
   initialMode?: (typeof MODES)[number]["value"];
+  initialAiModel?: AiModelValue;
   initialMessage?: string;
   initialSourceText?: string;
   caseContext?: {
@@ -77,13 +79,22 @@ const MODES = [
   { value: "document-read", label: "資料読解補助", description: "貼り付けた文章の要点・確認点を抽出" },
 ] as const;
 
+const MODELS = [
+  { value: "gpt-4o", label: "GPT-4o (OpenAI)", description: "バランス型" },
+  { value: "claude", label: "Claude (Anthropic)", description: "高精度・長文向け" },
+] as const;
+
+type AiModelValue = (typeof MODELS)[number]["value"];
+
 export function AiRoomPanel({
   initialMode = "general",
+  initialAiModel = "gpt-4o",
   initialMessage = "",
   initialSourceText = "",
   caseContext,
 }: AiRoomPanelProps) {
   const [mode, setMode] = useState<(typeof MODES)[number]["value"]>(initialMode);
+  const [aiModel, setAiModel] = useState<AiModelValue>(initialAiModel);
   const [message, setMessage] = useState(initialMessage);
   const [sourceText, setSourceText] = useState(initialSourceText);
   const [sourceUrl, setSourceUrl] = useState("");
@@ -176,6 +187,7 @@ export function AiRoomPanel({
       role: "user",
       content: message || "(資料読解のみ)",
       mode,
+      aiModel,
       timestamp: new Date().toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" }),
     };
 
@@ -195,7 +207,7 @@ export function AiRoomPanel({
       const response = await fetch("/api/assistant", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message, mode, sourceText, sourceUrl, history }),
+        body: JSON.stringify({ message, mode, sourceText, sourceUrl, history, aiModel }),
       });
 
       if (!response.ok) {
@@ -205,6 +217,7 @@ export function AiRoomPanel({
 
       const data = await response.json();
       const answer = data.answer as Answer | null;
+      const usedModel = data.usedModel as AiModelValue | undefined;
       const consultationId =
         typeof data.consultationId === "string" ? data.consultationId : undefined;
 
@@ -214,6 +227,7 @@ export function AiRoomPanel({
         content: answer?.simpleExplanation ?? "回答を生成できませんでした。",
         answer: answer ?? undefined,
         mode,
+        aiModel: usedModel ?? aiModel,
         timestamp: new Date().toLocaleTimeString("ja-JP", {
           hour: "2-digit",
           minute: "2-digit",
@@ -230,7 +244,7 @@ export function AiRoomPanel({
     } finally {
       setLoading(false);
     }
-  }, [message, mode, sourceText, sourceUrl, thread]);
+  }, [message, mode, aiModel, sourceText, sourceUrl, thread]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
@@ -242,6 +256,7 @@ export function AiRoomPanel({
   const handleNewThread = () => {
     setThread([]);
     setMessage(initialMessage);
+    setAiModel(initialAiModel);
     setSourceText(initialSourceText);
     setSourceUrl("");
     setPdfFileName("");
@@ -318,6 +333,12 @@ export function AiRoomPanel({
                     }`}
                   >
                     {entry.answer.answerSourceLabel}
+                  </div>
+                )}
+
+                {entry.role === "assistant" && entry.aiModel && (
+                  <div className="mt-2 inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-600">
+                    {MODELS.find((m) => m.value === entry.aiModel)?.label ?? entry.aiModel}
                   </div>
                 )}
 
@@ -568,6 +589,27 @@ export function AiRoomPanel({
               onClick={() => setMode(item.value)}
               className={`rounded-xl border px-4 py-3 text-left transition ${
                 mode === item.value
+                  ? "border-cyan-300 bg-white shadow-sm"
+                  : "border-slate-200 bg-white/75 hover:border-slate-200"
+              }`}
+            >
+              <p className="text-sm font-semibold text-slate-900">{item.label}</p>
+              <p className="mt-1 text-xs leading-6 text-slate-500">{item.description}</p>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-2xl border border-cyan-100 bg-gradient-to-br from-blue-50/70 to-cyan-50/70 p-4">
+        <p className="text-sm font-semibold text-slate-900">使用するAIモデル</p>
+        <div className="mt-3 grid gap-2 md:grid-cols-2">
+          {MODELS.map((item) => (
+            <button
+              key={item.value}
+              type="button"
+              onClick={() => setAiModel(item.value)}
+              className={`rounded-xl border px-4 py-3 text-left transition ${
+                aiModel === item.value
                   ? "border-cyan-300 bg-white shadow-sm"
                   : "border-slate-200 bg-white/75 hover:border-slate-200"
               }`}

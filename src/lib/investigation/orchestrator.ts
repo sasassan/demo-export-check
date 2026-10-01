@@ -4,6 +4,7 @@ import { generateNarrative, buildフォールバックNarrative } from "@/lib/pr
 import { OpenAIProvider } from "@/lib/providers/openai-provider";
 import { ClaudeProvider } from "@/lib/providers/claude-provider";
 import { GeminiProvider } from "@/lib/providers/gemini-provider";
+import type { InvestigationProvider } from "@/lib/providers/types";
 import {
   assertCaseOwner,
   getCaseDetail,
@@ -28,6 +29,7 @@ import type {
   CrossReviewVote,
   Grade,
 } from "@/lib/types";
+import { getEnabledAiModels } from "@/lib/ai/config";
 import { scoreToGrade } from "@/lib/risk/rules";
 import { RISK_DIMENSIONS, type RiskDimension } from "@/lib/constants";
 import { getRegulationUpdatesForCase } from "@/lib/regulation-updates";
@@ -409,11 +411,14 @@ function buildCrossReview(
   };
 }
 
-const aiProviders = [
-  new OpenAIProvider(),
-  new ClaudeProvider(),
-  new GeminiProvider(),
-];
+function buildAiProviders(): InvestigationProvider[] {
+  const modelOrder = getEnabledAiModels();
+  return modelOrder.map((model) => {
+    if (model === "claude") return new ClaudeProvider();
+    if (model === "gemini") return new GeminiProvider();
+    return new OpenAIProvider();
+  });
+}
 
 const INVESTIGATION_TOTAL_TIMEOUT_MS = Number(
   process.env.INVESTIGATION_TOTAL_TIMEOUT_MS ?? "55000",
@@ -474,7 +479,8 @@ export async function runInvestigation(caseId: string, userEmail: string) {
   });
 
   try {
-    // 3つのAIプロバイダーを並列実行（部分成功対応、全体タイムアウト付き）
+    // ENABLED_AI_PROVIDERS の順序で有効なAIプロバイダーを並列実行（部分成功対応、全体タイムアウト付き）
+    const aiProviders = buildAiProviders();
     const settled = await Promise.allSettled(
       aiProviders.map((provider) =>
         withOverallTimeout(provider.run(detail.case), INVESTIGATION_TOTAL_TIMEOUT_MS),

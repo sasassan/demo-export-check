@@ -1,8 +1,10 @@
 import type OpenAI from "openai";
+import type Anthropic from "@anthropic-ai/sdk";
 
-import { getProviderRuntimeInfo } from "@/lib/ai/config";
+import { getProviderRuntimeInfo, type ProviderRuntimeInfo } from "@/lib/ai/config";
 import { callWithRetry, logAiError } from "@/lib/ai/error-handling";
-import { createOpenAiClient } from "@/lib/ai/client-factory";
+import { createOpenAiClient, createAnthropicClient } from "@/lib/ai/client-factory";
+import type { AiModel } from "@/lib/types";
 
 /* ---------- mode-specific system prompts ---------- */
 const BASE_ROLE =
@@ -85,25 +87,31 @@ export type AskAssistantInput = {
   sourceUrl?: string;
   fetchedUrlText?: string;
   history?: ConversationMessage[];
+  /** 優先して使うAIモデル。未指定時はENABLED_AI_PROVIDERSの順序でフォールバックする */
+  aiModel?: AiModel;
 };
 
 /* ---------- result types ---------- */
 export type AskAssistantResult =
-  | { ok: true; data: Record<string, unknown> }
+  | { ok: true; data: Record<string, unknown>; usedModel: AiModel }
   | { ok: false; reason: "no-key" | "error"; errorMessage?: string };
 
-/* ---------- main function ---------- */
-export async function askAssistant(input: AskAssistantInput): Promise<AskAssistantResult> {
-  const openaiInfo = getProviderRuntimeInfo("gpt-4o", "chat");
-  const apiKey = openaiInfo.apiKey;
+type ChatMessage = { role: "user" | "assistant"; content: string };
 
-  if (!apiKey) {
-    return { ok: false, reason: "no-key" }; // caller handles fallback
-  }
+type ProviderAttempt = {
+  model: AiModel;
+  label: string;
+  status: "live" | "no-key" | "disabled";
+  runtime: ProviderRuntimeInfo;
+};
 
-  const systemPrompt = MODE_PROMPTS[input.mode] ?? MODE_PROMPTS.general;
+/* ---------- helpers ---------- */
+function buildSystemPrompt(mode: string): string {
+  const modePrompt = MODE_PROMPTS[mode] ?? MODE_PROMPTS.general;
+  return `${modePrompt}\n\n${JSON_SCHEMA}`;
+}
 
-  // Build context from source materials
+function buildContextBlock(input: AskAssistantInput): string {
   const contextParts: string[] = [];
   if (input.sourceText) {
     contextParts.push(`【貼り付けられた資料本文】\n${input.sourceText.slice(0, 6000)}`);
@@ -114,70 +122,171 @@ export async function askAssistant(input: AskAssistantInput): Promise<AskAssista
   if (input.sourceUrl) {
     contextParts.push(`参考URL: ${input.sourceUrl}`);
   }
-  const contextBlock = contextParts.length > 0
+  return contextParts.length > 0
     ? `\n\n--- 参考資料 ---\n${contextParts.join("\n\n")}\n--- 参考資料ここまで ---`
     : "";
+}
 
-  // Build message history
-  const messages: OpenAI.ChatCompletionMessageParam[] = [
-    {
-      role: "system",
-      content: `${systemPrompt}\n\n${JSON_SCHEMA}`,
-    },
-  ];
-
-  // Include conversation history (last 6 turns max for context window)
+function buildChatMessages(input: AskAssistantInput): ChatMessage[] {
+  const messages: ChatMessage[] = [];
   if (input.history && input.history.length > 0) {
     const recentHistory = input.history.slice(-6);
     for (const entry of recentHistory) {
-      messages.push({
-        role: entry.role,
-        content: entry.content,
-      });
+      messages.push({ role: entry.role, content: entry.content });
     }
   }
-
-  // Current user message
-  const userContent = `${input.message}${contextBlock}`;
+  const userContent = `${input.message}${buildContextBlock(input)}`;
   messages.push({ role: "user", content: userContent });
+  return messages;
+}
+
+export function parseAssistantJson(raw: string): Record<string, unknown> | null {
+  try {
+    const cleaned = raw
+      .replace(/```json\n?/g, "")
+      .replace(/```\n?/g, "")
+      .trim();
+    const parsed = JSON.parse(cleaned);
+    return parsed && typeof parsed === "object" ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+/* ---------- provider implementations ---------- */
+async function callOpenAiAssistant(
+  runtime: ProviderRuntimeInfo,
+  systemPrompt: string,
+  messages: ChatMessage[],
+): Promise<{ raw: string; usedModel: AiModel }> {
+  const client = createOpenAiClient(runtime);
+  const openAiMessages: OpenAI.ChatCompletionMessageParam[] = [
+    { role: "system", content: systemPrompt },
+    ...messages,
+  ];
+
+  const callOnce = () =>
+    callWithRetry(
+      () =>
+        client.chat.completions.create({
+          model: runtime.modelName,
+          messages: openAiMessages,
+          temperature: 0.3,
+          max_tokens: 2500,
+          response_format: { type: "json_object" },
+        }),
+      { providerLabel: "assistant-gpt4o" },
+    );
+
+  let completion = await callOnce();
+  let raw = completion.choices[0]?.message?.content ?? "";
+  if (!parseAssistantJson(raw)) {
+    console.error("[AI:assistant-gpt4o] JSONパース失敗のため1回リトライします");
+    completion = await callOnce();
+    raw = completion.choices[0]?.message?.content ?? "";
+  }
+  return { raw, usedModel: "gpt-4o" };
+}
+
+async function callClaudeAssistant(
+  runtime: ProviderRuntimeInfo,
+  systemPrompt: string,
+  messages: ChatMessage[],
+): Promise<{ raw: string; usedModel: AiModel }> {
+  const client = createAnthropicClient(runtime);
+  const anthropicMessages: Anthropic.MessageParam[] = messages.map((m) => ({
+    role: m.role,
+    content: m.content,
+  }));
+
+  const callOnce = () =>
+    callWithRetry(
+      () =>
+        client.messages.create({
+          model: runtime.modelName,
+          max_tokens: 4096,
+          system: `${systemPrompt}\n\n必ず上記JSONスキーマのみを返し、前後に説明文やマークダウンを含めないでください。`,
+          messages: anthropicMessages,
+          temperature: 0.3,
+        }),
+      { providerLabel: "assistant-claude" },
+    );
+
+  let response = await callOnce();
+  let raw = response.content[0]?.type === "text" ? response.content[0].text : "";
+  if (!parseAssistantJson(raw)) {
+    console.error("[AI:assistant-claude] JSONパース失敗のため1回リトライします");
+    response = await callOnce();
+    raw = response.content[0]?.type === "text" ? response.content[0].text : "";
+  }
+  return { raw, usedModel: "claude" };
+}
+
+/* ---------- provider selection ---------- */
+export function buildProviderAttempts(preferredModel?: AiModel): ProviderAttempt[] {
+  const preferred = preferredModel === "gpt-4o" || preferredModel === "claude" ? preferredModel : undefined;
+  const models: AiModel[] = ["gpt-4o", "claude"];
+  const ordered = preferred ? [preferred, ...models.filter((m) => m !== preferred)] : models;
+
+  return ordered.map((model) => {
+    const runtime = getProviderRuntimeInfo(model, "chat");
+    return {
+      model,
+      label: model === "gpt-4o" ? "assistant-gpt4o" : "assistant-claude",
+      status: runtime.status === "live" && runtime.apiKey ? "live" : runtime.status === "fallback-no-key" ? "no-key" : "disabled",
+      runtime,
+    };
+  });
+}
+
+async function tryProvider(
+  attempt: ProviderAttempt,
+  systemPrompt: string,
+  messages: ChatMessage[],
+): Promise<{ ok: true; data: Record<string, unknown>; usedModel: AiModel } | { ok: false; reason: "no-key" | "error"; errorMessage?: string }> {
+  if (attempt.status !== "live") {
+    return { ok: false, reason: attempt.status === "no-key" ? "no-key" : "error", errorMessage: `${attempt.model} is not configured` };
+  }
 
   try {
-    const client = createOpenAiClient(openaiInfo);
-    const callOnce = () =>
-      callWithRetry(
-        () =>
-          client.chat.completions.create({
-            model: openaiInfo.modelName,
-            messages,
-            temperature: 0.3,
-            max_tokens: 2500,
-            response_format: { type: "json_object" },
-          }),
-        { providerLabel: "assistant-gpt4o" },
-      );
-
-    let completion = await callOnce();
-    let raw = completion.choices[0]?.message?.content ?? "";
-    let parsed: Record<string, unknown> | null = null;
-    try {
-      parsed = JSON.parse(raw);
-    } catch {
-      console.error("[AI:assistant-gpt4o] JSONパース失敗のため1回リトライします");
-      completion = await callOnce();
-      raw = completion.choices[0]?.message?.content ?? "";
-      try {
-        parsed = JSON.parse(raw);
-      } catch {
-        parsed = null;
-      }
-    }
-
+    const result =
+      attempt.model === "claude"
+        ? await callClaudeAssistant(attempt.runtime, systemPrompt, messages)
+        : await callOpenAiAssistant(attempt.runtime, systemPrompt, messages);
+    const parsed = parseAssistantJson(result.raw);
     if (!parsed) {
-      return { ok: false, reason: "error", errorMessage: "JSON parse failed after retry" };
+      return { ok: false, reason: "error", errorMessage: `${attempt.model}: JSON parse failed after retry` };
     }
-    return { ok: true, data: parsed };
+    return { ok: true, data: parsed, usedModel: result.usedModel };
   } catch (error) {
-    const classified = logAiError("assistant-gpt4o", error);
+    const classified = logAiError(attempt.label, error);
     return { ok: false, reason: "error", errorMessage: classified.message };
   }
+}
+
+/* ---------- main function ---------- */
+export async function askAssistant(input: AskAssistantInput): Promise<AskAssistantResult> {
+  const systemPrompt = buildSystemPrompt(input.mode);
+  const messages = buildChatMessages(input);
+  const attempts = buildProviderAttempts(input.aiModel);
+
+  const errors: string[] = [];
+
+  for (const attempt of attempts) {
+    const result = await tryProvider(attempt, systemPrompt, messages);
+    if (result.ok) {
+      return result;
+    }
+    if (result.reason === "no-key") {
+      // キー未設定は次のプロバイダーへ
+      continue;
+    }
+    errors.push(result.errorMessage ?? `${attempt.model} failed`);
+    // エラー時もフォールバックを試す
+  }
+
+  if (errors.length === 0) {
+    return { ok: false, reason: "no-key" };
+  }
+  return { ok: false, reason: "error", errorMessage: errors.join("; ") };
 }

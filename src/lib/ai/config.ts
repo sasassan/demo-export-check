@@ -133,7 +133,7 @@ export function getApiKeyFingerprint(apiKey?: string): string | null {
   return createHash("sha256").update(apiKey).digest("hex").slice(0, 12);
 }
 
-const DEFAULT_PROVIDER_ORDER: EnabledAiModel[] = ["gpt-4o", "claude", "gemini"];
+const DEFAULT_PROVIDER_ORDER: EnabledAiModel[] = ["gpt-4o", "gemini", "claude"];
 
 function parseEnabledProviders(value?: string): EnabledAiModel[] {
   if (!value) return DEFAULT_PROVIDER_ORDER;
