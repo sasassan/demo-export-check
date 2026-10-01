@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { LoginForm } from "@/components/forms/login-form";
+import { PortHeroIllustration } from "@/components/icons/trade-illustrations";
 import { APP_NAME } from "@/lib/constants";
 
 export const dynamic = "force-static";
@@ -20,6 +21,10 @@ export default function LoginPage() {
             unoptimized
           />
           <div className="absolute inset-0 bg-gradient-to-br from-brand-navy/90 to-brand-navy-light/85" />
+          <PortHeroIllustration
+            aria-hidden="true"
+            className="absolute bottom-0 right-0 h-56 w-80 text-white/25"
+          />
         </div>
 
         <div className="relative flex items-center gap-3">

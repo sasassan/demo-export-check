@@ -15,6 +15,7 @@ import { ImprovementSimulation } from "@/components/results/improvement-simulati
 import { WorstCaseScenarioCard } from "@/components/results/worst-case-scenario";
 import { RiskHeatmap } from "@/components/results/risk-heatmap";
 import { Shell } from "@/components/layout/shell";
+import { ShieldIcon, RegulationDocIcon } from "@/components/icons/trade-icons";
 import { requireSessionEmail } from "@/lib/auth/server";
 import { assertCaseOwner } from "@/lib/db/repository";
 
@@ -117,6 +118,12 @@ export default async function CaseDetailPage({
 
           {/* ② リスクスコアカード */}
           <section className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
+            <div className="mb-3 flex items-center gap-2.5 px-2 pt-1 sm:px-1">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-50 text-amber-600">
+                <ShieldIcon aria-hidden="true" className="h-5 w-5" />
+              </div>
+              <h2 className="text-sm font-semibold text-slate-900">リスク評価サマリー</h2>
+            </div>
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
               <RiskScoreCard
                 label="総合評価"
@@ -452,7 +459,12 @@ export default async function CaseDetailPage({
 
           {/* ⑪ エビデンス一覧 */}
           <section>
-            <h2 className="mb-3 text-base font-semibold text-slate-900">参照エビデンス一覧</h2>
+            <div className="mb-3 flex items-center gap-2.5">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
+                <RegulationDocIcon aria-hidden="true" className="h-5 w-5" />
+              </div>
+              <h2 className="text-base font-semibold text-slate-900">参照エビデンス一覧</h2>
+            </div>
             <SourceEvidenceList items={detail.assessment.evidence} />
           </section>
 

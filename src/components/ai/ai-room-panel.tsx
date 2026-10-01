@@ -3,6 +3,8 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 
+import { GlobalNetworkIllustration } from "@/components/icons/trade-illustrations";
+
 type Answer = {
   answerSource?: "live" | "fallback-no-key" | "fallback-error";
   answerSourceLabel?: string;
@@ -265,8 +267,14 @@ export function AiRoomPanel({
   };
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6">
-      <div className="flex items-center justify-between gap-4">
+    <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white p-6">
+      {thread.length === 0 && (
+        <GlobalNetworkIllustration
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-10 -top-10 h-56 w-56 text-brand-navy/[0.05]"
+        />
+      )}
+      <div className="relative flex items-center justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-brand-navy">
             AI相談室
