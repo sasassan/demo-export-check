@@ -26,12 +26,12 @@ export default function LoginPage() {
       <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden bg-brand-navy p-12 lg:flex">
         <div className="absolute inset-0">
           <Image
-            src="/login-trade-hero.png"
+            src="/login-trade-hero.webp"
             alt="輸出と制裁審査をイメージしたログイン背景"
             fill
+            sizes="50vw"
             className="object-cover opacity-20"
             priority
-            unoptimized
           />
           <div className="absolute inset-0 bg-gradient-to-br from-brand-navy/90 to-brand-navy-light/85" />
           <PortHeroIllustration

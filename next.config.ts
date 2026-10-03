@@ -25,6 +25,17 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      {
+        // 公開アセット（OG画像・ヒーロー画像）は内容更新時にファイル名を変える運用のため
+        // 長期キャッシュ（immutable）を付与し、再取得・最適化コストを最小化する。
+        source: "/(og-image\\.png|trade-hero\\.webp|login-trade-hero\\.webp)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
     ];
   },
 };

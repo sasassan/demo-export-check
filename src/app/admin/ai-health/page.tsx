@@ -1,7 +1,7 @@
 import { Shell } from "@/components/layout/shell";
 import { requireAdminEmail } from "@/lib/auth/server";
-import { AiHealthPanel } from "@/components/admin/ai-health-panel";
-import { ConfigPreflightPanel } from "@/components/admin/config-preflight-panel";
+import { AiHealthPanel } from "@/components/admin/ai-health-panel.lazy";
+import { ConfigPreflightPanel } from "@/components/admin/config-preflight-panel.lazy";
 import { NOINDEX_METADATA } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";

@@ -95,7 +95,7 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
-              <Image src="/trade-hero.png" alt="輸出リスクナビの該非判定・制裁・用途・国リスクの一次確認フローを示す図" width={1792} height={1024} className="h-auto w-full object-cover" priority unoptimized />
+              <Image src="/trade-hero.webp" alt="輸出リスクナビの該非判定・制裁・用途・国リスクの一次確認フローを示す図" width={1792} height={1024} sizes="(max-width: 1024px) 100vw, 50vw" className="h-auto w-full object-cover" priority />
             </div>
           </div>
         </section>
