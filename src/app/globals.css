@@ -258,3 +258,33 @@ body {
   pointer-events: none;
   position: absolute;
 }
+
+/* UX: トースト通知の表示アニメーション */
+@keyframes trade-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.trade-toast {
+  animation: trade-toast-in 0.2s ease-out;
+}
+
+/* UX: ページ遷移時のナビゲーションプログレスバー */
+@keyframes trade-nav-progress-slide {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(400%);
+  }
+}
+
+.trade-nav-progress-bar {
+  animation: trade-nav-progress-slide 0.7s ease-in-out forwards;
+}

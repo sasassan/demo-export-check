@@ -5,6 +5,8 @@ import { Suspense } from "react";
 import { CtaClickTracker } from "@/components/analytics/cta-click-tracker";
 import { RouteTracker } from "@/components/analytics/route-tracker";
 import { BetaBanner } from "@/components/layout/beta-banner";
+import { NavigationProgress } from "@/components/ui/navigation-progress";
+import { ToastProvider } from "@/components/ui/toast";
 import { APP_NAME } from "@/lib/constants";
 import { CORE_KEYWORDS, OG_IMAGE, SITE_NAME_FULL, SITE_URL } from "@/lib/seo";
 
@@ -111,7 +113,8 @@ export default function RootLayout({
         </Suspense>
         <CtaClickTracker />
         <BetaBanner />
-        {children}
+        <NavigationProgress />
+        <ToastProvider>{children}</ToastProvider>
       </body>
     </html>
   );
