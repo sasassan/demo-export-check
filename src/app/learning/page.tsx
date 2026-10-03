@@ -8,137 +8,203 @@ export const dynamic = "force-static";
 export const metadata = buildSeo({
   title: "学習コンテンツ",
   description:
-    "初めての輸出で確認する項目、キャッチオール規制・該非判定の基礎、よくある失敗例など、輸出管理の実務理解を支援する学習コンテンツです。",
+    "輸出管理の基礎、該非判定の進め方、よくある違反事例と対策、日本・米国・EUの規制比較まで、輸出管理の実務理解を段階的に支援する学習コンテンツです。",
   path: "/learning",
+  keywords: ["輸出管理", "該非判定", "違反事例", "規制比較", "キャッチオール規制"],
 });
 
-const guides = [
+type Guide = {
+  id: string;
+  label: string;
+  title: string;
+  description: string;
+  steps: string[];
+  related: { label: string; href: string }[];
+};
+
+const guides: Guide[] = [
   {
-    id: "first-export",
-    title: "初めての輸出で最初に確認する5項目",
-    description: "製品・輸出先国・相手企業・用途・契約条件の5つを順に確認するだけで、初動ミスを減らせます。",
-    details: [
-      "1. 製品が輸出規制品目に該当するかを確認する（リスト規制・キャッチオール規制）",
-      "2. 輸出先国が制裁対象国・懸念国に含まれていないか確認する",
-      "3. 相手企業が制裁リスト・懸念リストに掲載されていないか調べる",
-      "4. 用途が軍事・大量破壊兵器に転用される可能性がないか検討する",
-      "5. 契約書に再輸出禁止条項・最終用途制限が含まれているか確認する",
+    id: "basics",
+    label: "Beginner guide",
+    title: "輸出管理の基礎（初心者向けガイド）",
+    description:
+      "輸出管理とは、国際的な平和と安全を守るため、機微な貨物・技術の輸出を国が管理する仕組みです。最初は「何を・どこへ・誰に・何に使うか」の4つの観点を押さえるだけで、初動のつまずきを大きく減らせます。",
+    steps: [
+      "製品（貨物・技術）が輸出規制の対象かを確認する（該非判定）",
+      "輸出先国が制裁対象国・懸念国に含まれていないか確認する",
+      "相手企業が制裁リスト・懸念リストに掲載されていないか調べる",
+      "用途が軍事・大量破壊兵器（WMD）開発に転用される恐れがないか検討する",
+      "契約書に再輸出禁止条項・最終用途制限が含まれているか確認する",
+    ],
+    related: [
+      { label: "該非判定の用語解説", href: "/glossary#%E8%A9%B2%E9%9D%9E%E5%88%A4%E5%AE%9A" },
+      { label: "デモで流れを体験", href: "/demo" },
+      { label: "AI相談室で質問", href: "/ai-room" },
     ],
   },
   {
-    id: "common-mistakes",
-    title: "よくある失敗例：用途確認不足",
-    description: "『製品は問題ないと思った』だけで進めず、最終用途証明・需要者確認まで取る重要性を整理します。",
-    details: [
-      "製品スペックだけでは規制該当性を判断できない（用途で判定が変わる）",
-      "口頭確認だけで用途確認書を取らないと、監査時に証跡が残らない",
-      "再販目的の取引先は最終需要者が別にいるため、エンドユーザー確認が必要",
-      "一度問題なしと判断しても、用途変更があれば再確認が必要",
+    id: "classification",
+    label: "Step by step",
+    title: "該非判定の進め方（ステップバイステップ）",
+    description:
+      "該非判定は、輸出する貨物・技術が輸出貿易管理令別表第1（リスト規制）に該当するかを判定する作業です。以下の手順で進め、結果を必ず文書に残します。",
+    steps: [
+      "輸出する貨物・技術のスペックを整理する（型番・仕様・性能値）",
+      "輸出貿易管理令別表第1の該当しそうな品目番号の候補を絞り込む",
+      "スペックと品目番号の要件（性能・仕様の閾値）を突き合わせて該当/非該当を判断する",
+      "パラメータシート（該当性判定書）に判定結果と根拠を記録して証跡化する",
+      "判断が難しい場合はCISTECや経済産業省への事前相談を活用する",
+      "該当する場合は、輸出先・需要者に応じて必要な許可の種類（個別・包括）を検討する",
+    ],
+    related: [
+      { label: "リスト規制の用語解説", href: "/glossary#%E3%83%AA%E3%82%B9%E3%83%88%E8%A6%8F%E5%88%B6" },
+      { label: "該当性判定書とは", href: "/glossary#%E8%A9%B2%E5%BD%93%E6%80%A7%E5%88%A4%E5%AE%9A%E6%9B%B8" },
+      { label: "デモで実務を体験", href: "/demo" },
     ],
   },
   {
-    id: "reading-regulation",
-    title: "営業担当向け：規制資料の読み方",
-    description: "専門資料を全部読むのではなく、自社に関係する箇所をどう切り分けるかを学べます。",
-    details: [
-      "まず目次・適用範囲を確認し、自社製品のカテゴリを特定する",
-      "該当する品目番号（ECCN・輸出令別表）だけを重点的に読む",
-      "不明な専門用語はAI相談室や輸出辞典で確認する",
-      "読んだ結論を社内メモに残し、上長確認へ回す",
+    id: "violations",
+    label: "Case studies",
+    title: "よくある違反事例と対策",
+    description:
+      "輸出管理違反の多くは、意図的ではなく「確認の漏れ」から発生します。代表的な4つのパターンと、その防止策を押さえておきましょう。",
+    steps: [
+      "該非判定を怠り無許可で輸出してしまう → 全案件で該非判定を必須化し、判定結果を証跡として残す",
+      "用途確認が不十分で軍事転用を許してしまう → 用途確認書・最終需要者証明書（EUC）を回収し、内容の妥当性まで審査する",
+      "技術情報の提供が「みなし輸出」にあたることを見落とす → 図面・仕様書・ソースコードの海外提供を技術提供として管理する",
+      "制裁対象者との取引に気づかない → 取引開始時と定期の両方で制裁スクリーニングを実施する",
+    ],
+    related: [
+      { label: "みなし輸出の用語解説", href: "/glossary#%E3%81%BF%E3%81%AA%E3%81%97%E8%BC%B8%E5%87%BA" },
+      { label: "赤旗シグナルを確認", href: "/glossary#%E8%B5%A4%E6%97%97%E3%82%B7%E3%82%B0%E3%83%8A%E3%83%AB" },
+      { label: "最新の規制を確認", href: "/updates" },
     ],
   },
   {
-    id: "internal-rules",
-    title: "社内規程を読む時のポイント",
-    description: "総則から順に読むのではなく、対象取引・承認フロー・必要証跡・相談先の4点に絞って確認する読み方を整理します。",
-    details: [
-      "対象取引: 自分の案件が規程の対象になるか（製品・国・金額の範囲）",
-      "承認フロー: 誰に申請し、誰が承認するか（担当→管理者→責任者）",
-      "必要証跡: どの書類を残す必要があるか（用途確認書・EUC・審査記録）",
-      "相談先: 判断に迷った場合の社内窓口・外部専門家の連絡先",
+    id: "comparison",
+    label: "Country comparison",
+    title: "各国規制の比較（日本 / 米国 / EU）",
+    description:
+      "輸出先国だけでなく、製品・技術の原産国や拠点の所在によって適用される規制が変わります。3つの主要な枠組みの違いを比較して押さえます。",
+    steps: [
+      "日本: 外為法＋輸出貿易管理令に基づき、リスト規制とキャッチオール規制の2本柱で輸出・技術提供を規制する",
+      "米国: EAR（商務省）とITAR（国務省）が品目を分担し、米国原産品の再輸出やみなし輸出にまで広く域外適用される",
+      "EU: デュアルユース規則（2021/821）により、EU共通リストの品目とキャッチオール条項で輸出を規制する",
+      "実務では、自社製品の「原産地」「技術の出所」「輸出元拠点」に応じて複数規制を重ねて確認する",
+    ],
+    related: [
+      { label: "EARの用語解説", href: "/glossary#ear" },
+      { label: "ITARの用語解説", href: "/glossary#itar" },
+      { label: "EU規制の用語解説", href: "/glossary#eu%E8%A6%8F%E5%88%B6" },
     ],
   },
+];
+
+const comparisonRows = [
+  { label: "根拠法令", japan: "外為法・輸出貿易管理令", us: "EAR / ITAR", eu: "EUデュアルユース規則 (2021/821)" },
+  { label: "所管機関", japan: "経済産業省", us: "商務省（BIS）/ 国務省", eu: "各加盟国の当局" },
+  { label: "対象品目", japan: "リスト規制（別表第1）+ キャッチオール", us: "ECCN対象のデュアルユース / USMLの軍需品", eu: "EU共通リスト + キャッチオール" },
+  { label: "特徴", japan: "包括許可制度・みなし輸出の概念", us: "再輸出・みなし輸出への広い域外適用", eu: "域内で統一された品目リスト" },
 ];
 
 export default function LearningPage() {
   return (
     <Shell
       title="学習コンテンツ"
-      description="輸出初心者向けのガイド、よくある失敗例、実務で最初に見るポイントを整理しています。"
+      description="輸出管理の基礎、該非判定、違反事例、各国比較を段階的に学べます。専門用語は輸出辞典で随時確認してください。"
     >
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-xl border border-slate-200 bg-white p-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-navy">Beginner guide</p>
-          <h2 className="mt-2 text-xl font-bold text-slate-900">輸出初心者向けガイド</h2>
-          <div className="mt-5 space-y-4">
-            {guides.map((guide) => (
-              <details key={guide.id} className="group rounded-lg border border-slate-200 bg-slate-50 p-5">
-                <summary className="flex cursor-pointer items-center justify-between">
-                  <div>
-                    <h3 className="text-lg font-semibold text-slate-900">{guide.title}</h3>
-                    <p className="mt-2 text-sm leading-7 text-slate-600">{guide.description}</p>
-                  </div>
-                  <svg className="h-5 w-5 shrink-0 text-slate-500 transition group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                  </svg>
-                </summary>
-                <ul className="mt-4 space-y-2 border-t border-slate-200 pt-4 text-sm leading-7 text-slate-700">
-                  {guide.details.map((detail) => (
-                    <li key={detail}>・{detail}</li>
-                  ))}
-                </ul>
-                <div className="mt-4 flex gap-2">
-                  <Link href="/ai-room" className="rounded-lg bg-blue-50 px-3 py-2 text-xs font-semibold text-brand-navy hover:bg-blue-100">
-                    AI相談室で深掘りする
-                  </Link>
-                  <Link href="/glossary" className="rounded-lg bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-200">
-                    関連用語を確認する
-                  </Link>
-                </div>
-              </details>
-            ))}
-          </div>
-        </div>
+        <div className="space-y-6">
+          {guides.map((guide) => (
+            <div key={guide.id} className="rounded-xl border border-slate-200 bg-white p-6">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-navy">{guide.label}</p>
+              <h2 className="mt-2 text-xl font-bold text-slate-900">{guide.title}</h2>
+              <p className="mt-3 text-sm leading-7 text-slate-600">{guide.description}</p>
 
-        <div className="rounded-xl border border-slate-200 bg-white p-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-navy">Next action</p>
-          <h2 className="mt-2 text-xl font-bold text-slate-900">次にやること</h2>
-          <div className="mt-4 space-y-3">
-            {[
-              "専門用語は輸出辞典で確認する",
-              "不明点はAI相談室で噛み砕いて相談する",
-              "具体案件はAIリスク診断で一次確認する",
-            ].map((item) => (
-              <div key={item} className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-600">
-                {item}
+              <ol className="mt-5 space-y-3">
+                {guide.steps.map((step, index) => (
+                  <li key={step} className="flex items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-7 text-slate-700">
+                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-navy text-[11px] font-bold !text-white">
+                      {index + 1}
+                    </span>
+                    <span>{step}</span>
+                  </li>
+                ))}
+              </ol>
+
+              <div className="mt-5 flex flex-wrap gap-2">
+                {guide.related.map((item) => (
+                  <Link
+                    key={item.href + item.label}
+                    href={item.href}
+                    className="rounded-lg bg-blue-50 px-3 py-2 text-xs font-semibold text-brand-navy hover:bg-blue-100"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
               </div>
-            ))}
-          </div>
-          <div className="mt-6 flex flex-col gap-3">
-            <Link href="/glossary" className="trade-primary-button">
-              輸出辞典を見る
-            </Link>
-            <Link href="/ai-room" className="trade-secondary-button">
-              AI相談室へ
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="rounded-xl border border-slate-200 bg-white p-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-navy">Reading workflow</p>
-        <h2 className="mt-2 text-xl font-bold text-slate-900">法令・規程の読解を進める手順</h2>
-        <div className="mt-5 grid gap-3 md:grid-cols-4">
-          {[
-            "1. PDFやURLをAI相談室へ入れる",
-            "2. まず初心者向け説明で全体像を把握する",
-            "3. 自社輸出への関係を判断させる",
-            "4. 次に必要な確認事項を案件へ落とし込む",
-          ].map((item) => (
-            <div key={item} className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-4 text-sm font-medium text-slate-600">
-              {item}
             </div>
           ))}
+        </div>
+
+        <div className="space-y-6">
+          <div className="rounded-xl border border-slate-200 bg-white p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-navy">Country comparison</p>
+            <h2 className="mt-2 text-xl font-bold text-slate-900">日本・米国・EU 規制比較表</h2>
+            <div className="mt-5 overflow-x-auto">
+              <table className="w-full min-w-[480px] border-collapse text-sm">
+                <thead>
+                  <tr className="border-b border-slate-200 text-left">
+                    <th className="py-2 pr-3 font-semibold text-slate-500">観点</th>
+                    <th className="py-2 pr-3 font-semibold text-slate-900">日本</th>
+                    <th className="py-2 pr-3 font-semibold text-slate-900">米国</th>
+                    <th className="py-2 font-semibold text-slate-900">EU</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {comparisonRows.map((row) => (
+                    <tr key={row.label} className="border-b border-slate-100 align-top">
+                      <td className="py-3 pr-3 font-medium text-slate-500">{row.label}</td>
+                      <td className="py-3 pr-3 text-slate-700">{row.japan}</td>
+                      <td className="py-3 pr-3 text-slate-700">{row.us}</td>
+                      <td className="py-3 text-slate-700">{row.eu}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="mt-3 text-xs leading-6 text-slate-500">
+              上表は概要の比較です。実際の適用関係は品目・原産地・取引形態によって異なるため、専門家への確認をおすすめします。
+            </p>
+          </div>
+
+          <div className="rounded-xl border border-slate-200 bg-white p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-navy">Next action</p>
+            <h2 className="mt-2 text-xl font-bold text-slate-900">次にやること</h2>
+            <div className="mt-4 space-y-3">
+              {[
+                "専門用語は輸出辞典で確認する",
+                "不明点はAI相談室で噛み砕いて相談する",
+                "デモで「入力 → 論点整理 → 結果確認」を体験する",
+                "具体案件はAIリスク診断で一次確認する",
+              ].map((item) => (
+                <div key={item} className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-600">
+                  {item}
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 flex flex-col gap-3">
+              <Link href="/glossary" className="trade-primary-button">
+                輸出辞典を見る
+              </Link>
+              <Link href="/demo" className="trade-secondary-button">
+                デモを体験する
+              </Link>
+              <Link href="/ai-room" className="trade-secondary-button">
+                AI相談室へ
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
     </Shell>

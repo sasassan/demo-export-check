@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 
-type ScenarioId = "servo" | "chemical" | "semiconductor";
+type ScenarioId = "servo" | "chemical" | "semiconductor" | "machinetool" | "telecom";
 
 type Scenario = {
   id: ScenarioId;
@@ -114,6 +114,66 @@ const scenarios: Scenario[] = [
       "輸出先国・相手先の公開情報に大きな懸念なし",
       "半導体用途の説明は比較的明確",
       "通常の社内証跡を残せば共有しやすい案件",
+    ],
+  },
+  {
+    id: "machinetool",
+    label: "工作機械（5軸マシニングセンタ）",
+    productName: "5軸マシニングセンタ",
+    modelNumber: "MCX-5500",
+    destinationCountry: "タイ",
+    customerName: "Bangkok Precision Works Co., Ltd.",
+    overallGrade: "B",
+    overallSummary:
+      "工作機械はリスト規制の対象候補となりやすい品目です。位置決め精度・同時制御軸数などの仕様に基づく該非判定と、最終需要先の裏取りが済むまで営業段階では保留を推奨します。",
+    cautionLabel: "要確認: 該非判定 / 最終用途",
+    cautionBody:
+      "5軸制御や高精度仕様はリスト規制の該当候補になりやすいため、型番・仕様をもとに該非判定を行い、最終需要先と用途確認書（EUC）を回収してください。",
+    dimensions: [
+      { label: "制裁", grade: "A", score: 94 },
+      { label: "企業信用", grade: "B", score: 74 },
+      { label: "国リスク", grade: "B", score: 69 },
+      { label: "用途", grade: "B", score: 66 },
+    ],
+    actions: [
+      "位置決め精度・同時制御軸数をもとに該非判定を実施",
+      "最終需要先と用途確認書（EUC）を回収",
+      "規制該当する場合は輸出許可の要否・種類を確認",
+    ],
+    evidence: [
+      "工作機械はリスト規制の対象候補であり、スペック確認が必須",
+      "相手先の事業内容は金属加工で整合あり",
+      "最終需要先の裏取り資料が不足",
+    ],
+  },
+  {
+    id: "telecom",
+    label: "通信機器（光トランシーバ）",
+    productName: "光トランシーバモジュール",
+    modelNumber: "OPT-100G",
+    destinationCountry: "シンガポール",
+    customerName: "Singapore Datacom Systems Pte. Ltd.",
+    overallGrade: "A",
+    overallSummary:
+      "民生向け通信機器として説明可能で、公開情報上も大きな懸念は見当たりません。暗号機能の有無と仕様を確認したうえで、標準確認による進行が可能です。",
+    cautionLabel: "標準確認で進行可能",
+    cautionBody:
+      "重大な赤信号はありませんが、暗号機能を搭載する場合はECCN等の規制該当性を必ず確認してください。",
+    dimensions: [
+      { label: "制裁", grade: "A", score: 97 },
+      { label: "企業信用", grade: "A", score: 85 },
+      { label: "国リスク", grade: "A", score: 82 },
+      { label: "用途", grade: "A", score: 83 },
+    ],
+    actions: [
+      "標準の取引先確認フローを実施",
+      "暗号機能の有無と仕様を確認",
+      "最終需要先の記録をレポートに残す",
+    ],
+    evidence: [
+      "輸出先国・相手先の公開情報に大きな懸念なし",
+      "民生向け通信用途の説明は比較的明確",
+      "暗号機能の有無は追加確認対象",
     ],
   },
 ];

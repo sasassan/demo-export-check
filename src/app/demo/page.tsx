@@ -74,7 +74,7 @@ export default function DemoPage() {
               <li>- 商品 / 型番 / 輸出先 / 顧客名という入力導線</li>
               <li>- A / B / C 評価の見せ方</li>
               <li>- 推奨アクションと根拠サマリーの出し方</li>
-              <li>- 業種別サンプル（機械 / 化学 / 半導体関連）の比較</li>
+              <li>- 業種別サンプル（半導体 / 工作機械 / 化学品 / 通信機器）の比較</li>
             </ul>
             <div className="mt-4 rounded-lg border border-blue-100 bg-blue-50 p-4 text-sm leading-6 text-slate-700">
               本番環境では、この後に案件保存、AI相談室への引き継ぎ、PDFレポート出力まで進む構成です。
