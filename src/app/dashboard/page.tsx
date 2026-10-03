@@ -53,23 +53,27 @@ export default async function DashboardPage() {
 
       <div className="grid gap-4 md:grid-cols-3">
         <div className="trade-hover-lift rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
-            <SatelliteIcon className="h-4 w-4 text-blue-500" />
-            進行中の一次スクリーニング
+          <div className="flex items-center gap-2.5">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-600">
+              <SatelliteIcon aria-hidden="true" className="h-5 w-5" />
+            </span>
+            <span className="text-sm font-medium text-slate-500">進行中の一次スクリーニング</span>
           </div>
           <p className="mt-3 text-3xl font-bold text-slate-900">{investigating}</p>
           <p className="mt-2 text-sm text-slate-500">登録直後の案件は一次スクリーニングを開始します。</p>
         </div>
         <div className="trade-hover-lift rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
-            <ScaleIcon className="h-4 w-4 text-emerald-500" />
-            結果確認待ち
+          <div className="flex items-center gap-2.5">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
+              <ScaleIcon aria-hidden="true" className="h-5 w-5" />
+            </span>
+            <span className="text-sm font-medium text-slate-500">結果確認待ち</span>
           </div>
           <p className="mt-3 text-3xl font-bold text-slate-900">{needsReview}</p>
           <p className="mt-2 text-sm text-slate-500">A/B/C評価と根拠ソースをそのまま確認できます。</p>
         </div>
         <div className="trade-hover-lift relative overflow-hidden rounded-xl border border-brand-navy bg-gradient-to-br from-brand-navy to-blue-800 p-5 text-white shadow-sm">
-          <CargoPlaneIcon aria-hidden="true" className="pointer-events-none absolute -right-4 -top-4 h-24 w-24 text-white/10" />
+          <CargoPlaneIcon aria-hidden="true" className="pointer-events-none absolute -right-4 -top-4 h-28 w-28 text-white/15" />
           <p className="relative text-sm font-medium text-blue-100">今日のおすすめ</p>
           <p className="relative mt-3 text-lg font-semibold">先にAI診断で入力漏れを減らす</p>
           <p className="relative mt-2 text-sm text-blue-100/90">

@@ -2,8 +2,8 @@ import Link from "next/link";
 
 import { DashboardCaseList } from "@/components/dashboard/dashboard-case-list";
 import { Shell } from "@/components/layout/shell";
-import { ContainerIcon } from "@/components/icons/trade-icons";
-import { CustomsDocumentIllustration, PortSilhouetteStrip } from "@/components/icons/trade-illustrations";
+import { ContainerIcon, SatelliteIcon, ScaleIcon } from "@/components/icons/trade-icons";
+import { CustomsDocumentIllustration, PortSilhouetteStrip, WaveDivider } from "@/components/icons/trade-illustrations";
 import { requireSessionEmail } from "@/lib/auth/server";
 import { listCasesByUser } from "@/lib/db/repository";
 
@@ -52,31 +52,35 @@ export default async function CasesPage() {
 
       <div className="grid gap-4 sm:grid-cols-3">
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4 text-blue-500">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-            </svg>
-            進行中の一次スクリーニング
+          <div className="flex items-center gap-2.5">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-600">
+              <SatelliteIcon aria-hidden="true" className="h-5 w-5" />
+            </span>
+            <span className="text-sm font-medium text-slate-500">進行中の一次スクリーニング</span>
           </div>
           <p className="mt-3 text-3xl font-bold text-slate-900">{investigating}</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4 text-emerald-500">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-            </svg>
-            結果確認待ち
+          <div className="flex items-center gap-2.5">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
+              <ScaleIcon aria-hidden="true" className="h-5 w-5" />
+            </span>
+            <span className="text-sm font-medium text-slate-500">結果確認待ち</span>
           </div>
           <p className="mt-3 text-3xl font-bold text-slate-900">{needsReview}</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
-            <ContainerIcon className="h-4 w-4 text-brand-navy" />
-            全案件数
+          <div className="flex items-center gap-2.5">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
+              <ContainerIcon aria-hidden="true" className="h-5 w-5" />
+            </span>
+            <span className="text-sm font-medium text-slate-500">全案件数</span>
           </div>
           <p className="mt-3 text-3xl font-bold text-slate-900">{items.length}</p>
         </div>
       </div>
+
+      <WaveDivider aria-hidden="true" className="h-3 w-full text-brand-navy/15" />
 
       {items.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center">

@@ -16,7 +16,7 @@ import { WorstCaseScenarioCard } from "@/components/results/worst-case-scenario"
 import { RiskHeatmap } from "@/components/results/risk-heatmap";
 import { Shell } from "@/components/layout/shell";
 import { ShieldIcon, RegulationDocIcon, WarningLightIcon, MagnifierDocumentIcon } from "@/components/icons/trade-icons";
-import { CargoShipLoader } from "@/components/icons/trade-illustrations";
+import { CargoShipLoader, WaveDivider } from "@/components/icons/trade-illustrations";
 import { requireSessionEmail } from "@/lib/auth/server";
 import { assertCaseOwner } from "@/lib/db/repository";
 
@@ -111,6 +111,8 @@ export default async function CaseDetailPage({
 
       {detail.assessment ? (
         <>
+          <WaveDivider aria-hidden="true" className="h-3 w-full text-brand-navy/15" />
+
           {/* ① エグゼクティブサマリー */}
           <ExecutiveSummary
             caseRecord={detail.case}

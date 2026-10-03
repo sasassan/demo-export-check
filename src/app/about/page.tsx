@@ -2,11 +2,20 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Header } from "@/components/layout/header";
+import { LighthouseIcon, GlobeArrowIcon } from "@/components/icons/trade-icons";
+import { WaveDivider } from "@/components/icons/trade-illustrations";
 import { APP_NAME } from "@/lib/constants";
 
 export const dynamic = "force-static";
 
-const servicePoints = [
+type FeaturePoint = {
+  title: string;
+  description: string;
+  icon?: string;
+  IconComponent?: typeof LighthouseIcon;
+};
+
+const servicePoints: FeaturePoint[] = [
   {
     title: "営業担当でも使いやすい",
     description: "商品名・型番・輸出先国・顧客企業名を入れるだけで、輸出管理の一次確認を始められます。",
@@ -18,9 +27,9 @@ const servicePoints = [
     icon: "M10 2a.75.75 0 0 1 .75.75v1.043a6.252 6.252 0 0 1 5.457 5.457h1.043a.75.75 0 0 1 0 1.5h-1.043a6.252 6.252 0 0 1-5.457 5.457v1.043a.75.75 0 0 1-1.5 0v-1.043a6.252 6.252 0 0 1-5.457-5.457H2.75a.75.75 0 0 1 0-1.5h1.043a6.252 6.252 0 0 1 5.457-5.457V2.75A.75.75 0 0 1 10 2Zm0 3.25a4.75 4.75 0 1 0 0 9.5 4.75 4.75 0 0 0 0-9.5Z",
   },
   {
-    title: "社内共有までつながる",
-    description: "PDFレポート、AIアクション、チェックリストまで揃っているため、そのまま上司確認へ回せます。",
-    icon: "M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z",
+    title: "国際取引を一元管理",
+    description: "複数国への輸出案件や相手先企業の情報を一箇所にまとめ、グローバルな取引状況を見渡せます。",
+    IconComponent: GlobeArrowIcon,
   },
   {
     title: "法令・規程の読解も補助",
@@ -36,12 +45,12 @@ const useCases = [
   "決裁前の簡易リスク整理",
 ];
 
-const trustPoints = [
+const trustPoints: FeaturePoint[] = [
   {
     title: "公開デモとサンプルシナリオを用意",
     description:
       "公開ページでも、入力→論点整理→結果確認の流れを追えるようにサンプルシナリオベースのデモを提供しています。",
-    icon: "M15.75 10.5 12 14.25l-3.75-3.75M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18",
+    IconComponent: LighthouseIcon,
   },
   {
     title: "Beta版の公開範囲を明示",
@@ -87,15 +96,21 @@ export default function AboutPage() {
           {servicePoints.map((item) => (
             <div key={item.title} className="trade-hover-lift rounded-xl border border-slate-200 bg-white p-5 transition hover:border-brand-navy/30">
               <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-brand-navy">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
-                </svg>
+                {item.IconComponent ? (
+                  <item.IconComponent aria-hidden="true" className="h-5 w-5" />
+                ) : (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
+                  </svg>
+                )}
               </span>
               <h2 className="mt-3 text-base font-semibold text-slate-900">{item.title}</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">{item.description}</p>
             </div>
           ))}
         </section>
+
+        <WaveDivider aria-hidden="true" className="h-3 w-full text-brand-navy/15" />
 
         <section className="rounded-xl border border-slate-200 bg-gradient-to-br from-blue-50/60 to-white p-6">
           <span className="trade-section-label">ナレッジアシスタント</span>
@@ -147,9 +162,13 @@ export default function AboutPage() {
             {trustPoints.map((item) => (
               <div key={item.title} className="trade-hover-lift rounded-lg border border-slate-200 bg-slate-50 p-5 transition hover:border-brand-navy/30">
                 <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-brand-navy">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
-                  </svg>
+                  {item.IconComponent ? (
+                    <item.IconComponent aria-hidden="true" className="h-5 w-5" />
+                  ) : (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
+                    </svg>
+                  )}
                 </span>
                 <h3 className="mt-3 text-sm font-semibold text-slate-900">{item.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-600">{item.description}</p>

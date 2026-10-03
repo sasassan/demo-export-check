@@ -29,7 +29,7 @@ const statusConfig = {
 
 export function CaseSummaryCard({ item }: { item: CaseRecord }) {
   const status = statusConfig[item.status];
-  const transportIcon = pickTransportIcon(item.id)({ "aria-hidden": true, className: "h-5 w-5" });
+  const transportIcon = pickTransportIcon(item.id)({ "aria-hidden": true, className: "h-6 w-6" });
   const quickHint =
     item.status === "completed"
       ? "AI評価と根拠を確認できます"
@@ -45,7 +45,7 @@ export function CaseSummaryCard({ item }: { item: CaseRecord }) {
       className="trade-hover-lift flex items-center justify-between gap-4 rounded-[1.5rem] border border-slate-200 bg-white/95 px-6 py-4 shadow-[0_12px_30px_rgba(15,23,42,0.06)] transition hover:border-brand-navy/30"
     >
       <div className="flex min-w-0 flex-1 items-start gap-3">
-        <div className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-50 text-brand-navy sm:flex">
+        <div className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-100 text-brand-navy ring-1 ring-brand-navy/10 sm:flex">
           {transportIcon}
         </div>
         <div className="min-w-0 flex-1">
