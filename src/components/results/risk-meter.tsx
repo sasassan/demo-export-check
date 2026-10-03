@@ -81,7 +81,7 @@ export function RiskMeter({ dimensions }: Props) {
                       <span>{d.label}</span>
                       <span>{d.score}点</span>
                     </div>
-                    <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div aria-hidden="true" className="h-2 bg-slate-100 rounded-full overflow-hidden">
                       <div
                         className={`h-full rounded-full transition-all ${gradeBarColor[d.grade]}`}
                         style={{ width: `${d.score}%` }}

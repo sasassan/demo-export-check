@@ -9,7 +9,7 @@ type Props = {
 export function EmptyState({ title, description, icon }: Props) {
   return (
     <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-slate-200 bg-slate-50/60 px-6 py-10 text-center">
-      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-slate-400 shadow-sm ring-1 ring-slate-200">
+      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-slate-600 shadow-sm ring-1 ring-slate-200">
         {icon ?? <CustomsDocumentIllustration aria-hidden="true" className="h-9 w-9" />}
       </div>
       <div>

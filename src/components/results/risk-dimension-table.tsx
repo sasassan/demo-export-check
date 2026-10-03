@@ -37,7 +37,7 @@ export function RiskDimensionTable({ items }: { items: DimensionScore[] }) {
                     style={{ width: `${item.score}%` }}
                   />
                 </div>
-                <span className="text-[10px] font-medium text-slate-400">{item.score}点</span>
+                <span className="text-[10px] font-medium text-slate-600">{item.score}点</span>
               </div>
             </div>
             <p className="text-sm text-slate-700">{item.rationale}</p>

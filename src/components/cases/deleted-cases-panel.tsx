@@ -106,7 +106,7 @@ export function DeletedCasesPanel({
                   </>
                 ) : null}
               </div>
-              <p className="mt-1 text-xs text-slate-400">削除日時: {formatDate(item.deletedAt)}</p>
+              <p className="mt-1 text-xs text-slate-600">削除日時: {formatDate(item.deletedAt)}</p>
               {errorById[item.id] ? (
                 <p className="mt-1 text-xs text-rose-600">{errorById[item.id]}</p>
               ) : null}

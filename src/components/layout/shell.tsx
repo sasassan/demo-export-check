@@ -24,7 +24,11 @@ export function Shell({
         className="pointer-events-none absolute -left-6 bottom-24 z-0 hidden h-40 w-40 text-brand-navy/[0.04] lg:block"
       />
       <Header />
-      <main className="relative z-10 mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-10">
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="relative z-10 mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8 outline-none sm:px-6 sm:py-10"
+      >
         <section className="relative overflow-hidden rounded-xl border border-slate-200 bg-white/95 px-6 py-5 shadow-[0_16px_40px_rgba(15,23,42,0.05)] backdrop-blur-sm">
           <WorldMapIcon
             aria-hidden="true"

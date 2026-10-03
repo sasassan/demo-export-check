@@ -17,7 +17,7 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       <Header />
-      <main className="mx-auto flex max-w-4xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-10">
+      <main id="main-content" tabIndex={-1} className="mx-auto flex max-w-4xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-10 outline-none">
         <section className="rounded-xl border border-slate-200 bg-white p-6 sm:p-8">
           <span className="trade-section-label">お問い合わせ</span>
           <h1 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">お問い合わせ</h1>

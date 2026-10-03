@@ -45,7 +45,7 @@ export function ExecutiveSummary({ caseRecord, assessment }: Props) {
             <DocumentInvoiceIcon aria-hidden="true" className="h-5 w-5 text-white/85" />
           </div>
           <div>
-            <p className="text-slate-400 text-xs font-medium uppercase tracking-wider">
+            <p className="text-slate-600 text-xs font-medium uppercase tracking-wider">
               輸出リスク評価レポート
             </p>
             <h2 className="text-white text-lg font-bold mt-0.5">

@@ -39,7 +39,7 @@ export default function ForAiPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       <Header />
-      <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
+      <main id="main-content" tabIndex={-1} className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10 outline-none">
         <div className="space-y-6 rounded-xl border border-slate-200 bg-white p-6 sm:p-8">
           <div>
             <span className="trade-section-label">AI-readable summary</span>

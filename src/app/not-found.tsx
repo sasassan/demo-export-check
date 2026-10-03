@@ -4,7 +4,7 @@ import { LostCargoShipIllustration } from "@/components/icons/trade-illustration
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-blue-50/60 via-white to-slate-50 px-6">
+    <div id="main-content" tabIndex={-1} className="flex min-h-screen items-center justify-center bg-gradient-to-b from-blue-50/60 via-white to-slate-50 px-6 outline-none">
       <div className="max-w-lg rounded-3xl border border-slate-200 bg-white p-10 text-center shadow-xl shadow-slate-900/5">
         <LostCargoShipIllustration
           aria-hidden="true"

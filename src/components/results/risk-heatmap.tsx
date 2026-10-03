@@ -33,8 +33,8 @@ export function RiskHeatmap({ dimensions }: Props) {
         </p>
       </div>
 
-      {/* 面積グラフ（横積み） */}
-      <div className="h-12 rounded-xl overflow-hidden flex">
+      {/* 面積グラフ（横積み）。凡例が同じ数値をテキストで提供するため、視覚表現は支援技術から隠す */}
+      <div aria-hidden="true" className="h-12 rounded-xl overflow-hidden flex">
         {sorted.map((d, idx) => {
           const pct = total > 0 ? (d.score / total) * 100 : 100 / sorted.length;
           return (

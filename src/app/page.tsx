@@ -248,7 +248,7 @@ export default function Home() {
         }}
       />
       {/* ナビゲーション */}
-      <nav className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/92 shadow-[0_10px_24px_rgba(15,23,42,0.04)] backdrop-blur">
+      <nav aria-label="メインナビゲーション" className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/92 shadow-[0_10px_24px_rgba(15,23,42,0.04)] backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
           <div className="flex items-center gap-2.5">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-navy">
@@ -269,7 +269,7 @@ export default function Home() {
         </div>
       </nav>
 
-      <main>
+      <main id="main-content" tabIndex={-1} className="outline-none">
         {/* クイックリンク */}
         <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-blue-50/50 px-4 py-5 sm:px-6">
           <div className="mx-auto grid max-w-6xl grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
@@ -847,7 +847,7 @@ export default function Home() {
                 </p>
               </div>
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">サービス</p>
+                <p className="text-xs font-semibold uppercase tracking-wider text-slate-600">サービス</p>
                 <ul className="mt-3 space-y-2 text-sm text-slate-600">
                   <li><Link href="/operator" className="transition hover:text-brand-navy hover:underline">運営情報</Link></li>
                   <li><Link href="/supervision" className="transition hover:text-brand-navy hover:underline">監修体制</Link></li>
@@ -856,7 +856,7 @@ export default function Home() {
                 </ul>
               </div>
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">規約・お問い合わせ</p>
+                <p className="text-xs font-semibold uppercase tracking-wider text-slate-600">規約・お問い合わせ</p>
                 <ul className="mt-3 space-y-2 text-sm text-slate-600">
                   <li><Link href="/terms" className="transition hover:text-brand-navy hover:underline">利用規約</Link></li>
                   <li><Link href="/privacy" className="transition hover:text-brand-navy hover:underline">プライバシーポリシー</Link></li>
@@ -865,7 +865,7 @@ export default function Home() {
                 </ul>
               </div>
             </div>
-            <div className="mt-10 border-t border-slate-200 pt-6 text-center text-xs text-slate-400">
+            <div className="mt-10 border-t border-slate-200 pt-6 text-center text-xs text-slate-600">
               &copy; {APP_NAME}
             </div>
           </div>
