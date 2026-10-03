@@ -469,11 +469,11 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     const isJsonError = error instanceof SyntaxError;
+    // 内部エラーの詳細（メッセージ・スタック等）をクライアントに返さない。
+    // 詳細はサーバーログ（下の console.error）にのみ残す。
     const msg = isJsonError
       ? "リクエストの形式が不正です"
-      : error instanceof Error
-        ? `処理中にエラーが発生しました: ${error.message}`
-        : "不明なエラーが発生しました";
+      : "処理中にエラーが発生しました。しばらく時間をおいて再度お試しください。";
     console.error("[assistant route]", error);
     return NextResponse.json({ error: msg }, { status: isJsonError ? 400 : 500 });
   }
