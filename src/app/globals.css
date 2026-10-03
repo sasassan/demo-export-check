@@ -44,6 +44,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* スティッキーヘッダー・ベータバナー分のスクロール余白（スキップリンク・アンカー用） */
+  scroll-padding-top: 120px;
 }
 
 /* アクセシビリティ: キーボード操作時のフォーカスを常に視認可能にする */
@@ -257,4 +259,16 @@ body {
 .trade-watermark {
   pointer-events: none;
   position: absolute;
+}
+
+/* アクセシビリティ: 動きの抑制を希望するユーザー向けにアニメーションを無効化 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -94,7 +94,7 @@ export default function LoginPage() {
       </div>
 
       {/* 右パネル */}
-      <div className="relative flex w-full items-center justify-center overflow-hidden px-4 py-10 sm:px-6 sm:py-16 lg:w-1/2">
+      <div id="main-content" tabIndex={-1} className="relative flex w-full items-center justify-center overflow-hidden px-4 py-10 outline-none sm:px-6 sm:py-16 lg:w-1/2">
         <WorldMapPattern
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 h-full w-full text-brand-navy/[0.05]"

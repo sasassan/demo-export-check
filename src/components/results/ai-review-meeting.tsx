@@ -106,7 +106,7 @@ export function AiReviewMeeting({
                   <span className="text-sm font-bold text-slate-800">
                     {entry.modelLabel}
                     {entry.actualModelName && (
-                      <span className="ml-1 font-normal text-slate-400">
+                      <span className="ml-1 font-normal text-slate-600">
                         ({entry.actualModelName})
                       </span>
                     )}
@@ -131,7 +131,7 @@ export function AiReviewMeeting({
               {/* 矢印（最後以外） */}
               {idx < reviewMeeting.length - 1 && (
                 <div className="absolute left-5 bottom-0 translate-y-full flex items-center justify-center w-10 pt-1">
-                  <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 text-slate-400">
+                  <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 text-slate-600">
                     <path fillRule="evenodd" d="M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z" clipRule="evenodd" />
                   </svg>
                 </div>

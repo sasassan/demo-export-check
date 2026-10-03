@@ -40,7 +40,7 @@ export function ContactForm() {
 
   if (status === "sent") {
     return (
-      <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 text-center">
+      <div role="status" className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 text-center">
         <p className="text-lg font-bold text-emerald-800">送信しました</p>
         <p className="mt-2 text-sm leading-7 text-emerald-700">
           お問い合わせありがとうございます。内容を確認し、原則1営業日以内を目安に一次返信いたします。
@@ -116,7 +116,7 @@ export function ContactForm() {
       </label>
 
       {status === "error" && (
-        <div className="rounded-xl border border-rose-300 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+        <div role="alert" className="rounded-xl border border-rose-300 bg-rose-50 px-4 py-3 text-sm text-rose-700">
           送信に失敗しました。しばらくしてから再度お試しください。
         </div>
       )}

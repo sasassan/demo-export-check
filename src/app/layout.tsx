@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { CtaClickTracker } from "@/components/analytics/cta-click-tracker";
 import { RouteTracker } from "@/components/analytics/route-tracker";
 import { BetaBanner } from "@/components/layout/beta-banner";
+import { SkipLink } from "@/components/shared/skip-link";
 import { APP_NAME } from "@/lib/constants";
 import { CORE_KEYWORDS, OG_IMAGE, SITE_NAME_FULL, SITE_URL } from "@/lib/seo";
 
@@ -100,6 +101,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-white">
+        <SkipLink />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

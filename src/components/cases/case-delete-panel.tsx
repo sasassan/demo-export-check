@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function CaseDeletePanel({
   caseId,
@@ -16,7 +16,58 @@ export function CaseDeletePanel({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
   const canConfirm = confirmText.trim() === productName;
+
+  function openDialog() {
+    setIsOpen(true);
+  }
+
+  function closeDialog() {
+    setIsOpen(false);
+    setConfirmText("");
+    setError(null);
+    triggerRef.current?.focus();
+  }
+
+  // モーダル表示中は Escape で閉じ、Tab フォーカスをダイアログ内に閉じ込める
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const dialog = dialogRef.current;
+    const focusableSelector =
+      'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeDialog();
+        return;
+      }
+      if (event.key !== "Tab" || !dialog) return;
+
+      const focusable = Array.from(
+        dialog.querySelectorAll<HTMLElement>(focusableSelector),
+      ).filter((el) => el.offsetParent !== null || el === document.activeElement);
+
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen]);
 
   async function handleDelete() {
     if (!canConfirm || isSubmitting) return;
@@ -55,7 +106,8 @@ export function CaseDeletePanel({
         </div>
         <button
           type="button"
-          onClick={() => setIsOpen(true)}
+          ref={triggerRef}
+          onClick={openDialog}
           className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-rose-300 bg-white px-4 py-3 text-sm font-semibold text-rose-700 shadow-sm transition hover:bg-rose-50"
         >
           <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
@@ -71,36 +123,47 @@ export function CaseDeletePanel({
 
       {isOpen ? (
         <div
+          ref={dialogRef}
           className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 px-4 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
+          aria-labelledby="delete-dialog-title"
         >
           <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl">
-            <h3 className="text-base font-bold text-slate-900">本当に削除しますか？</h3>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
+            <h3 id="delete-dialog-title" className="text-base font-bold text-slate-900">
+              本当に削除しますか？
+            </h3>
+            <p id="delete-dialog-description" className="mt-2 text-sm leading-6 text-slate-600">
               この操作は取り消せません（30日以内は本人・管理者による復元が可能です）。
               続行するには、案件名 <span className="font-semibold text-slate-900">「{productName}」</span>{" "}
               を正確に入力してください。
             </p>
 
+            <label htmlFor="delete-confirm-input" className="sr-only">
+              削除する案件名を入力
+            </label>
             <input
+              id="delete-confirm-input"
               value={confirmText}
               onChange={(event) => setConfirmText(event.target.value)}
               placeholder={productName}
-              className="mt-4 w-full rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-rose-200 transition placeholder:text-slate-400 focus:border-rose-400 focus:ring-4 focus:ring-rose-100"
+              aria-describedby={
+                error ? "delete-dialog-error delete-dialog-description" : "delete-dialog-description"
+              }
+              className="mt-4 w-full rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-rose-200 transition placeholder:text-slate-500 focus:border-rose-400 focus:ring-4 focus:ring-rose-100"
               autoFocus
             />
 
-            {error ? <p className="mt-3 text-sm text-rose-600">{error}</p> : null}
+            {error ? (
+              <p id="delete-dialog-error" role="alert" className="mt-3 text-sm text-rose-600">
+                {error}
+              </p>
+            ) : null}
 
             <div className="mt-6 flex items-center justify-end gap-3">
               <button
                 type="button"
-                onClick={() => {
-                  setIsOpen(false);
-                  setConfirmText("");
-                  setError(null);
-                }}
+                onClick={closeDialog}
                 className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
               >
                 キャンセル
