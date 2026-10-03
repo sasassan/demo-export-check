@@ -1,5 +1,6 @@
 "use client";
 
+import { RouteMapDecoration } from "@/components/icons/trade-illustrations";
 import type { ReviewMeetingEntry, AssessmentRecord } from "@/lib/types";
 
 type Props = {
@@ -82,8 +83,12 @@ export function AiReviewMeeting({
 
       {/* タイムライン */}
       <div className="relative">
-        {/* 縦線 */}
-        <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-slate-100" />
+        {/* 縦線（ルートマップ風） */}
+        <RouteMapDecoration
+          aria-hidden="true"
+          className="absolute left-2.5 top-0 bottom-0 h-full w-5 text-brand-navy/50"
+          preserveAspectRatio="none"
+        />
 
         <div className="space-y-4">
           {reviewMeeting.map((entry, idx) => (

@@ -1,6 +1,11 @@
 import Image from "next/image";
 
 import { LoginForm } from "@/components/forms/login-form";
+import {
+  PortHeroIllustration,
+  WorldMapPattern,
+  CargoSilhouetteCluster,
+} from "@/components/icons/trade-illustrations";
 import { APP_NAME } from "@/lib/constants";
 
 export const dynamic = "force-static";
@@ -20,6 +25,10 @@ export default function LoginPage() {
             unoptimized
           />
           <div className="absolute inset-0 bg-gradient-to-br from-brand-navy/90 to-brand-navy-light/85" />
+          <PortHeroIllustration
+            aria-hidden="true"
+            className="absolute bottom-0 right-0 h-56 w-80 text-white/25"
+          />
         </div>
 
         <div className="relative flex items-center gap-3">
@@ -76,8 +85,16 @@ export default function LoginPage() {
       </div>
 
       {/* 右パネル */}
-      <div className="flex w-full items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:w-1/2">
-        <div className="w-full max-w-md">
+      <div className="relative flex w-full items-center justify-center overflow-hidden px-4 py-10 sm:px-6 sm:py-16 lg:w-1/2">
+        <WorldMapPattern
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 h-full w-full text-brand-navy/[0.05]"
+        />
+        <CargoSilhouetteCluster
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-4 -left-6 h-28 w-40 text-brand-navy/[0.08] sm:h-36 sm:w-52"
+        />
+        <div className="relative w-full max-w-md">
           <div className="mb-8 flex items-center gap-3 lg:hidden">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-navy">
               <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="h-4 w-4">
@@ -87,7 +104,7 @@ export default function LoginPage() {
             <span className="text-lg font-bold text-slate-900">{APP_NAME}</span>
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
             <span className="trade-section-label">安全なサインイン</span>
             <h2 className="mt-3 text-2xl font-bold text-slate-900">ログイン</h2>
             <p className="mt-2 text-sm leading-6 text-slate-600">メールアドレスを入力してすぐに利用開始できます。</p>

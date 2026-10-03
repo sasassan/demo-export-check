@@ -4,6 +4,8 @@ import { AiProviderStatusPanel } from "@/components/dashboard/ai-provider-status
 import { DashboardCaseList } from "@/components/dashboard/dashboard-case-list";
 import { DeletedCasesPanel } from "@/components/cases/deleted-cases-panel";
 import { Shell } from "@/components/layout/shell";
+import { CargoPlaneIcon, SatelliteIcon, ScaleIcon } from "@/components/icons/trade-icons";
+import { CustomsDocumentIllustration, WaveDivider } from "@/components/icons/trade-illustrations";
 import { getAllProviderRuntimeInfo } from "@/lib/ai/config";
 import { requireSessionEmail } from "@/lib/auth/server";
 import { listCasesByUser, listDeletedCasesByUser } from "@/lib/db/repository";
@@ -51,27 +53,27 @@ export default async function DashboardPage() {
 
       <div className="grid gap-4 md:grid-cols-3">
         <div className="trade-hover-lift rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4 text-blue-500">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-            </svg>
-            進行中の一次スクリーニング
+          <div className="flex items-center gap-2.5">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-600">
+              <SatelliteIcon aria-hidden="true" className="h-5 w-5" />
+            </span>
+            <span className="text-sm font-medium text-slate-500">進行中の一次スクリーニング</span>
           </div>
           <p className="mt-3 text-3xl font-bold text-slate-900">{investigating}</p>
           <p className="mt-2 text-sm text-slate-500">登録直後の案件は一次スクリーニングを開始します。</p>
         </div>
         <div className="trade-hover-lift rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4 text-emerald-500">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-            </svg>
-            結果確認待ち
+          <div className="flex items-center gap-2.5">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
+              <ScaleIcon aria-hidden="true" className="h-5 w-5" />
+            </span>
+            <span className="text-sm font-medium text-slate-500">結果確認待ち</span>
           </div>
           <p className="mt-3 text-3xl font-bold text-slate-900">{needsReview}</p>
           <p className="mt-2 text-sm text-slate-500">A/B/C評価と根拠ソースをそのまま確認できます。</p>
         </div>
         <div className="trade-hover-lift relative overflow-hidden rounded-xl border border-brand-navy bg-gradient-to-br from-brand-navy to-blue-800 p-5 text-white shadow-sm">
-          <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-white/10 blur-2xl" />
+          <CargoPlaneIcon aria-hidden="true" className="pointer-events-none absolute -right-4 -top-4 h-28 w-28 text-white/15" />
           <p className="relative text-sm font-medium text-blue-100">今日のおすすめ</p>
           <p className="relative mt-3 text-lg font-semibold">先にAI診断で入力漏れを減らす</p>
           <p className="relative mt-2 text-sm text-blue-100/90">
@@ -79,6 +81,8 @@ export default async function DashboardPage() {
           </p>
         </div>
       </div>
+
+      <WaveDivider aria-hidden="true" className="h-3 w-full text-brand-navy/15" />
 
       <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="grid gap-4 lg:grid-cols-2">
@@ -118,10 +122,8 @@ export default async function DashboardPage() {
 
       {items.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center">
-          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-50">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-7 w-7 text-brand-navy">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
-            </svg>
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-50">
+            <CustomsDocumentIllustration aria-hidden="true" className="h-9 w-9 text-brand-navy" />
           </div>
           <h3 className="mt-4 text-base font-semibold text-slate-900">案件がまだありません</h3>
           <p className="mt-1 text-sm text-slate-500">新規案件を登録して、輸出リスクの調査を始めましょう。</p>

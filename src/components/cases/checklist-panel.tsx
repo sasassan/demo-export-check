@@ -2,6 +2,7 @@
 
 import { useMemo, useState, useTransition } from "react";
 
+import { ClipboardPenIcon } from "@/components/icons/trade-icons";
 import type { ChecklistItem } from "@/lib/types";
 
 export function ChecklistPanel({
@@ -48,11 +49,16 @@ export function ChecklistPanel({
   return (
     <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h2 className="text-base font-semibold text-slate-900">確認チェックリスト</h2>
-          <p className="mt-1 text-sm text-slate-500">
-            案件ごとに必要な確認項目を進捗付きで管理できます。
-          </p>
+        <div className="flex items-center gap-3">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
+            <ClipboardPenIcon aria-hidden="true" className="h-5 w-5" />
+          </div>
+          <div>
+            <h2 className="text-base font-semibold text-slate-900">確認チェックリスト</h2>
+            <p className="mt-1 text-sm text-slate-500">
+              案件ごとに必要な確認項目を進捗付きで管理できます。
+            </p>
+          </div>
         </div>
         <div className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm sm:w-auto sm:min-w-36">
           <p className="text-slate-500">進捗</p>

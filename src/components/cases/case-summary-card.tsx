@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { formatDate } from "@/lib/utils";
+import { pickTransportIcon } from "@/components/icons/trade-icons";
 import type { CaseRecord } from "@/lib/types";
 
 const statusConfig = {
@@ -28,6 +29,7 @@ const statusConfig = {
 
 export function CaseSummaryCard({ item }: { item: CaseRecord }) {
   const status = statusConfig[item.status];
+  const transportIcon = pickTransportIcon(item.id)({ "aria-hidden": true, className: "h-6 w-6" });
   const quickHint =
     item.status === "completed"
       ? "AI評価と根拠を確認できます"
@@ -42,22 +44,27 @@ export function CaseSummaryCard({ item }: { item: CaseRecord }) {
       href={`/cases/${item.id}`}
       className="trade-hover-lift flex items-center justify-between gap-4 rounded-[1.5rem] border border-slate-200 bg-white/95 px-6 py-4 shadow-[0_12px_30px_rgba(15,23,42,0.06)] transition hover:border-brand-navy/30"
     >
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-3">
-          <p className="truncate text-base font-semibold text-slate-900">{item.productName}</p>
-          <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${status.cls}`}>
-            <span className={`h-1.5 w-1.5 rounded-full ${status.dot}`} />
-            {status.label}
-          </span>
+      <div className="flex min-w-0 flex-1 items-start gap-3">
+        <div className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-100 text-brand-navy ring-1 ring-brand-navy/10 sm:flex">
+          {transportIcon}
         </div>
-        <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-slate-500">
-          <span>型番: {item.modelNumber}</span>
-          <span className="hidden sm:inline">·</span>
-          <span>顧客: {item.customerCompanyName}</span>
-          <span className="hidden sm:inline">·</span>
-          <span>輸出先: {item.destinationCountry}</span>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-3">
+            <p className="truncate text-base font-semibold text-slate-900">{item.productName}</p>
+            <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${status.cls}`}>
+              <span className={`h-1.5 w-1.5 rounded-full ${status.dot}`} />
+              {status.label}
+            </span>
+          </div>
+          <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-slate-500">
+            <span>型番: {item.modelNumber}</span>
+            <span className="hidden sm:inline">·</span>
+            <span>顧客: {item.customerCompanyName}</span>
+            <span className="hidden sm:inline">·</span>
+            <span>輸出先: {item.destinationCountry}</span>
+          </div>
+          <p className="mt-2 text-sm text-brand-navy/70">{quickHint}</p>
         </div>
-        <p className="mt-2 text-sm text-brand-navy/70">{quickHint}</p>
       </div>
       <div className="flex shrink-0 items-center gap-3 text-sm text-slate-500">
         <span className="hidden md:block">{formatDate(item.updatedAt)}</span>

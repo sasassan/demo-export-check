@@ -4,6 +4,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Spinner } from "@/components/ui/spinner";
 import { EmptyState } from "@/components/ui/empty-state";
+import {
+  ContainerIcon,
+  GlobalNetworkIcon,
+  ShieldIcon,
+  ShieldCheckIcon,
+  WarningIcon,
+  GaugeIcon,
+} from "@/components/icons/trade-icons";
 import type { MonitoringMetrics } from "@/lib/admin/monitoring";
 
 const REFRESH_INTERVAL_MS = 30_000;
@@ -64,15 +72,26 @@ function Card({
   title,
   children,
   action,
+  icon,
+  iconClassName = "bg-blue-50 text-brand-navy",
 }: {
   title: string;
   children: React.ReactNode;
   action?: React.ReactNode;
+  icon?: React.ReactNode;
+  iconClassName?: string;
 }) {
   return (
     <section className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
       <div className="flex items-center justify-between gap-3">
-        <h2 className="text-base font-bold text-slate-900">{title}</h2>
+        <div className="flex items-center gap-2.5">
+          {icon ? (
+            <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${iconClassName}`}>
+              {icon}
+            </div>
+          ) : null}
+          <h2 className="text-base font-bold text-slate-900">{title}</h2>
+        </div>
         {action ? <div>{action}</div> : null}
       </div>
       <div className="mt-4">{children}</div>
@@ -187,29 +206,42 @@ export function MonitoringDashboard() {
 
   return (
     <div ref={containerRef} className="space-y-6">
-      <div className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-5">
-        <div className="flex items-center gap-3">
+      <div className="relative flex flex-col gap-3 overflow-hidden rounded-xl border border-slate-200 bg-gradient-to-br from-brand-navy to-brand-navy-light p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-5">
+        <GaugeIcon
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 text-white/10 sm:h-36 sm:w-36"
+        />
+        <div className="relative flex items-center gap-3">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/15">
+            <GaugeIcon aria-hidden="true" className="h-5 w-5 text-white" />
+          </div>
+          <div>
+            <p className="text-sm font-bold text-white">運用モニタリング</p>
+            <p className="text-xs text-blue-100/80">システム全体の状態をリアルタイムに確認できます</p>
+          </div>
+        </div>
+        <div className="relative flex items-center gap-3">
           <button
             type="button"
             onClick={() => fetchMetrics()}
             disabled={isRefreshing}
-            className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition disabled:opacity-60"
+            className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-white/20 disabled:opacity-60"
           >
             {isRefreshing ? <Spinner className="h-4 w-4" /> : null}
             更新
           </button>
           {lastRefreshed ? (
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-blue-100/80">
               最終更新: {formatDuration(lastRefreshed.toISOString())}
             </p>
           ) : null}
         </div>
-        <label className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-700">
+        <label className="relative inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-white/90">
           <input
             type="checkbox"
             checked={autoRefresh}
             onChange={(e) => setAutoRefresh(e.target.checked)}
-            className="h-4 w-4 rounded border-slate-300 text-brand-navy focus:ring-brand-navy"
+            className="h-4 w-4 rounded border-white/40 bg-white/10 text-brand-navy focus:ring-white"
           />
           30秒自動更新
         </label>
@@ -237,7 +269,11 @@ export function MonitoringDashboard() {
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {/* Cases */}
-          <Card title="案件統計">
+          <Card
+            title="案件統計"
+            icon={<ContainerIcon aria-hidden="true" className="h-6 w-6" />}
+            iconClassName="bg-blue-50 text-brand-navy"
+          >
             <div className="grid gap-3">
               <MetricItem
                 label="総案件数"
@@ -280,7 +316,12 @@ export function MonitoringDashboard() {
           </Card>
 
           {/* AI Usage */}
-          <Card title="AI利用状況" action={<span className="text-xs text-slate-500">30日間</span>}>
+          <Card
+            title="AI利用状況"
+            action={<span className="text-xs text-slate-500">30日間</span>}
+            icon={<GlobalNetworkIcon aria-hidden="true" className="h-6 w-6" />}
+            iconClassName="bg-violet-50 text-violet-600"
+          >
             <div className="space-y-3">
               {Object.entries(state.data.aiUsage.byProvider).map(([provider, stats]) => (
                 <div
@@ -320,7 +361,12 @@ export function MonitoringDashboard() {
           </Card>
 
           {/* Auth */}
-          <Card title="ユーザーアクティビティ" action={<span className="text-xs text-slate-500">24h</span>}>
+          <Card
+            title="ユーザーアクティビティ"
+            action={<span className="text-xs text-slate-500">24h</span>}
+            icon={<ShieldIcon aria-hidden="true" className="h-6 w-6" />}
+            iconClassName="bg-emerald-50 text-emerald-600"
+          >
             <div className="grid gap-3">
               <MetricItem
                 label="ログイン成功"
@@ -338,7 +384,11 @@ export function MonitoringDashboard() {
           </Card>
 
           {/* System Health */}
-          <Card title="システムヘルス">
+          <Card
+            title="システムヘルス"
+            icon={<ShieldCheckIcon aria-hidden="true" className="h-6 w-6" />}
+            iconClassName="bg-sky-50 text-sky-600"
+          >
             <div className="space-y-3">
               <div className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50 px-3 py-2">
                 <span className="text-sm font-semibold text-slate-700">DB接続</span>
@@ -377,7 +427,12 @@ export function MonitoringDashboard() {
           </Card>
 
           {/* Errors */}
-          <Card title="エラー監視" action={<span className="text-xs text-slate-500">24h</span>}>
+          <Card
+            title="エラー監視"
+            action={<span className="text-xs text-slate-500">24h</span>}
+            icon={<WarningIcon aria-hidden="true" className="h-6 w-6" />}
+            iconClassName="bg-rose-50 text-rose-600"
+          >
             <div className="grid gap-3">
               <MetricItem
                 label="エラー数"
