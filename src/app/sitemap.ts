@@ -1,26 +1,25 @@
 import type { MetadataRoute } from "next";
 
-const rawAppUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
-const appUrl = rawAppUrl.replace(/\/$/, "");
+import { SITE_URL } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const lastModified = new Date();
+
   return [
-    { url: `${appUrl}/`, changeFrequency: "weekly", priority: 1 },
-    { url: `${appUrl}/about`, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${appUrl}/demo`, changeFrequency: "weekly", priority: 0.7 },
-    { url: `${appUrl}/operator`, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${appUrl}/supervision`, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${appUrl}/evaluation-logic`, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${appUrl}/for-ai`, changeFrequency: "weekly", priority: 0.7 },
-    { url: `${appUrl}/glossary`, changeFrequency: "weekly", priority: 0.7 },
-    { url: `${appUrl}/ai-room`, changeFrequency: "weekly", priority: 0.7 },
-    { url: `${appUrl}/learning`, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${appUrl}/security`, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${appUrl}/training`, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${appUrl}/updates`, changeFrequency: "weekly", priority: 0.5 },
-    { url: `${appUrl}/contact`, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${appUrl}/login`, changeFrequency: "monthly", priority: 0.4 },
-    { url: `${appUrl}/terms`, changeFrequency: "monthly", priority: 0.3 },
-    { url: `${appUrl}/privacy`, changeFrequency: "monthly", priority: 0.3 },
+    { url: `${SITE_URL}/`, lastModified, changeFrequency: "weekly", priority: 1 },
+    { url: `${SITE_URL}/about`, lastModified, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/demo`, lastModified, changeFrequency: "weekly", priority: 0.7 },
+    { url: `${SITE_URL}/glossary`, lastModified, changeFrequency: "weekly", priority: 0.7 },
+    { url: `${SITE_URL}/ai-room`, lastModified, changeFrequency: "weekly", priority: 0.7 },
+    { url: `${SITE_URL}/evaluation-logic`, lastModified, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${SITE_URL}/operator`, lastModified, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${SITE_URL}/supervision`, lastModified, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${SITE_URL}/learning`, lastModified, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${SITE_URL}/security`, lastModified, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${SITE_URL}/training`, lastModified, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${SITE_URL}/updates`, lastModified, changeFrequency: "weekly", priority: 0.5 },
+    { url: `${SITE_URL}/contact`, lastModified, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${SITE_URL}/terms`, lastModified, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${SITE_URL}/privacy`, lastModified, changeFrequency: "yearly", priority: 0.3 },
   ];
 }

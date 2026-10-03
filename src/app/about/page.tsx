@@ -5,8 +5,16 @@ import { Header } from "@/components/layout/header";
 import { LighthouseIcon, GlobeArrowIcon } from "@/components/icons/trade-icons";
 import { WaveDivider } from "@/components/icons/trade-illustrations";
 import { APP_NAME } from "@/lib/constants";
+import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
+
+export const metadata = buildSeo({
+  title: "サービス概要・特徴",
+  description:
+    "輸出リスクナビ（Export Risk Navi）は、該非判定・制裁リスト・キャッチオール規制・国リスク・用途・相手先企業の実在性をまとめて確認するAIベースの輸出管理支援サービスです。",
+  path: "/about",
+});
 
 type FeaturePoint = {
   title: string;
@@ -78,7 +86,7 @@ export default function AboutPage() {
               <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">{APP_NAME} とは？</h1>
               <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
                 {APP_NAME} は、輸出案件の一次確認をスピーディに進めるための、AIベースの輸出リスク確認サービスです。
-                制裁リスト、国リスク、用途、相手先企業の実在性などをまとめて確認し、
+                該非判定、制裁リスト、キャッチオール規制、国リスク、用途、相手先企業の実在性などをまとめて確認し、
                 営業・輸出管理・法務が共通の判断材料を持てるようにします。
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
@@ -87,7 +95,7 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
-              <Image src="/trade-hero.png" alt="輸出管理サービスの説明ビジュアル" width={1792} height={1024} className="h-auto w-full object-cover" priority unoptimized />
+              <Image src="/trade-hero.png" alt="輸出リスクナビの該非判定・制裁・用途・国リスクの一次確認フローを示す図" width={1792} height={1024} className="h-auto w-full object-cover" priority unoptimized />
             </div>
           </div>
         </section>

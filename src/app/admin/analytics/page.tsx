@@ -2,8 +2,11 @@ import { Shell } from "@/components/layout/shell";
 import { requireAdminEmail } from "@/lib/auth/server";
 import { getAnalyticsSummary } from "@/lib/db/repository";
 import { EmptyState } from "@/components/ui/empty-state";
+import { NOINDEX_METADATA } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+export const metadata = NOINDEX_METADATA;
 
 const DEVICE_LABELS: Record<string, string> = {
   desktop: "デスクトップ",

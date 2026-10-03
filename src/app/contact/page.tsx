@@ -2,8 +2,16 @@ import Link from "next/link";
 
 import { ContactForm } from "@/components/forms/contact-form";
 import { Header } from "@/components/layout/header";
+import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
+
+export const metadata = buildSeo({
+  title: "お問い合わせ",
+  description:
+    "輸出リスクナビへのお問い合わせ・ご意見・導入相談を受け付けています。Beta版へのフィードバックはサービス改善に活用します。",
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (

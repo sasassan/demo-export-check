@@ -1,8 +1,16 @@
 import Link from "next/link";
 
 import { Shell } from "@/components/layout/shell";
+import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
+
+export const metadata = buildSeo({
+  title: "学習コンテンツ",
+  description:
+    "初めての輸出で確認する項目、キャッチオール規制・該非判定の基礎、よくある失敗例など、輸出管理の実務理解を支援する学習コンテンツです。",
+  path: "/learning",
+});
 
 const guides = [
   {

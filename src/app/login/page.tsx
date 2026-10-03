@@ -7,8 +7,17 @@ import {
   CargoSilhouetteCluster,
 } from "@/components/icons/trade-illustrations";
 import { APP_NAME } from "@/lib/constants";
+import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
+
+export const metadata = buildSeo({
+  title: "ログイン",
+  description:
+    "輸出リスクナビ（Export Risk Navi）のログインページです。メールアドレス認証で案件登録・AI一次スクリーニング・PDFレポート出力を利用できます。",
+  path: "/login",
+  noindex: true,
+});
 
 export default function LoginPage() {
   return (

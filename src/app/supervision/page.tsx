@@ -1,16 +1,17 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Header } from "@/components/layout/header";
 import { APP_NAME } from "@/lib/constants";
+import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
 
-export const metadata: Metadata = {
-  title: `監修・レビュー体制 | ${APP_NAME}`,
+export const metadata = buildSeo({
+  title: "監修・レビュー体制",
   description:
-    "Export Risk Navi のBeta版における監修・レビュー体制、未提供範囲、実務利用時の推奨運用を整理したページです。",
-};
+    "輸出リスクナビ（Export Risk Navi）の監修・レビュー体制、未提供範囲、実務利用時の推奨運用を整理したページです。",
+  path: "/supervision",
+});
 
 const currentReviewFlow = [
   "輸出管理の実務課題を前提としたプロダクト設計レビュー",

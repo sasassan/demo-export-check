@@ -4,8 +4,11 @@ import { AiRoomPanel } from "@/components/ai/ai-room-panel";
 import { Shell } from "@/components/layout/shell";
 import { requireSessionEmail } from "@/lib/auth/server";
 import { assertCaseOwner } from "@/lib/db/repository";
+import { NOINDEX_METADATA } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+export const metadata = NOINDEX_METADATA;
 
 export default async function CaseChatPage({
   params,

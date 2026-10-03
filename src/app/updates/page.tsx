@@ -2,8 +2,16 @@ import Link from "next/link";
 
 import { Shell } from "@/components/layout/shell";
 import { REGULATION_UPDATES } from "@/lib/regulation-updates";
+import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
+
+export const metadata = buildSeo({
+  title: "輸出規制アップデート",
+  description:
+    "輸出管理・制裁・キャッチオール規制・技術提供に関する最新の規制アップデートと確認ポイントを、案件判断に活かしやすい形で整理して紹介します。",
+  path: "/updates",
+});
 
 export default function UpdatesPage() {
   return (

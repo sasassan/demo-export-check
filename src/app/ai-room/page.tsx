@@ -1,8 +1,16 @@
 import { Shell } from "@/components/layout/shell";
 import { AiRoomPanel } from "@/components/ai/ai-room-panel";
 import { ConsultationHistory } from "@/components/ai/consultation-history";
+import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
+
+export const metadata = buildSeo({
+  title: "AI相談室",
+  description:
+    "輸出管理の規制資料、条文、社内規程、通達の読み方をAIに相談できます。初心者向けの言い換えや要点整理で、輸出コンプライアンスの理解を支援します。",
+  path: "/ai-room",
+});
 
 export default function AiRoomPage() {
   return (

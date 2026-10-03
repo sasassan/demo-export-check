@@ -2,8 +2,16 @@ import Link from "next/link";
 
 import { PublicDemoSimulator } from "@/components/demo/public-demo-simulator";
 import { Header } from "@/components/layout/header";
+import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
+
+export const metadata = buildSeo({
+  title: "デモ画面",
+  description:
+    "商品名・型番・輸出先国・顧客企業名の入力から、該非判定・制裁・用途・国リスクの一次スクリーニング結果確認までの流れをサンプルシナリオで体験できます。",
+  path: "/demo",
+});
 
 const sections = [
   {

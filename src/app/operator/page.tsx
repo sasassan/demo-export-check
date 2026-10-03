@@ -1,16 +1,17 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Header } from "@/components/layout/header";
 import { APP_NAME } from "@/lib/constants";
+import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
 
-export const metadata: Metadata = {
-  title: `運営情報 | ${APP_NAME}`,
+export const metadata = buildSeo({
+  title: "運営情報",
   description:
-    "Export Risk Navi のBeta版における公開運営情報、開示方針、問い合わせ先、公開範囲を整理したページです。",
-};
+    "輸出リスクナビ（Export Risk Navi）Beta版の公開運営情報、開示方針、問い合わせ先、公開範囲を整理したページです。",
+  path: "/operator",
+});
 
 const publicFacts = [
   {
