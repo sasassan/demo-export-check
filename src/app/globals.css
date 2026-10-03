@@ -61,9 +61,11 @@ body {
   font-family: var(--font-sans), -apple-system, "Hiragino Sans", "Noto Sans JP", Arial, sans-serif;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+@layer base {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
 .trade-surface {
