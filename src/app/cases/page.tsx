@@ -6,8 +6,11 @@ import { ContainerIcon, SatelliteIcon, ScaleIcon } from "@/components/icons/trad
 import { CustomsDocumentIllustration, PortSilhouetteStrip, WaveDivider } from "@/components/icons/trade-illustrations";
 import { requireSessionEmail } from "@/lib/auth/server";
 import { listCasesByUser } from "@/lib/db/repository";
+import { NOINDEX_METADATA } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+export const metadata = NOINDEX_METADATA;
 
 export default async function CasesPage() {
   const userEmail = await requireSessionEmail();

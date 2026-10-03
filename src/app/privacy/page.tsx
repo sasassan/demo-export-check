@@ -1,8 +1,16 @@
 import Link from "next/link";
 
 import { Header } from "@/components/layout/header";
+import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
+
+export const metadata = buildSeo({
+  title: "プライバシーポリシー",
+  description:
+    "輸出リスクナビ（Export Risk Navi）のプライバシーポリシーです。取得する情報、利用目的、第三者提供、Cookieの扱いなどを説明します。",
+  path: "/privacy",
+});
 
 const sections = [
   {

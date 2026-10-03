@@ -4,8 +4,11 @@ import { Shell } from "@/components/layout/shell";
 import { requireSessionEmail } from "@/lib/auth/server";
 import { assertCaseOwner } from "@/lib/db/repository";
 import { buildReportModel } from "@/lib/reports/build-report";
+import { NOINDEX_METADATA } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+export const metadata = NOINDEX_METADATA;
 
 export default async function CaseReportPage({
   params,

@@ -1,8 +1,11 @@
 import { CaseForm } from "@/components/forms/case-form";
 import { Shell } from "@/components/layout/shell";
 import { requireSessionEmail } from "@/lib/auth/server";
+import { NOINDEX_METADATA } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+export const metadata = NOINDEX_METADATA;
 
 export default async function NewCasePage({
   searchParams,

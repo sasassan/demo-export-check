@@ -1,8 +1,16 @@
 import Link from "next/link";
 
 import { Header } from "@/components/layout/header";
+import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
+
+export const metadata = buildSeo({
+  title: "社員教育・研修支援",
+  description:
+    "輸出管理基礎研修、営業担当者向け教育、外為法セミナー、法令改正時の定期講習など、輸出コンプライアンスの社内教育・研修支援を紹介します。",
+  path: "/training",
+});
 
 const trainingPrograms = [
   {

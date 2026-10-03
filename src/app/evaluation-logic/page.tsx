@@ -1,16 +1,17 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Header } from "@/components/layout/header";
 import { APP_NAME } from "@/lib/constants";
+import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
 
-export const metadata: Metadata = {
-  title: `評価ロジック | ${APP_NAME}`,
+export const metadata = buildSeo({
+  title: "評価ロジック",
   description:
-    "Export Risk Navi のA/B/C評価ロジック、8つの判定観点、スコア閾値、総合判定の考え方を説明するページです。",
-};
+    "輸出リスクナビ（Export Risk Navi）のA/B/C評価ロジック、制裁・該非判定・キャッチオール規制など8つの判定観点、スコア閾値、総合判定の考え方を説明します。",
+  path: "/evaluation-logic",
+});
 
 const thresholdRows = [
   {

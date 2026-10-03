@@ -1,8 +1,16 @@
 import Link from "next/link";
 
 import { Header } from "@/components/layout/header";
+import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
+
+export const metadata = buildSeo({
+  title: "セキュリティ・コンプライアンス方針",
+  description:
+    "SSL/TLS暗号化、データ保存ポリシー、AI学習への利用方針など、輸出リスクナビのセキュリティと輸出コンプライアンスに関する考え方を説明します。",
+  path: "/security",
+});
 
 const securityItems = [
   {

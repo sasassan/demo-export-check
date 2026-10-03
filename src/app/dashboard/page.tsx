@@ -9,8 +9,11 @@ import { CustomsDocumentIllustration, WaveDivider } from "@/components/icons/tra
 import { getAllProviderRuntimeInfo } from "@/lib/ai/config";
 import { requireSessionEmail } from "@/lib/auth/server";
 import { listCasesByUser, listDeletedCasesByUser } from "@/lib/db/repository";
+import { NOINDEX_METADATA } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+export const metadata = NOINDEX_METADATA;
 
 export default async function DashboardPage() {
   const userEmail = await requireSessionEmail();

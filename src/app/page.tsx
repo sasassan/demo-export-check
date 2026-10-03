@@ -1,8 +1,16 @@
 import Link from "next/link";
 
 import { APP_NAME } from "@/lib/constants";
+import { buildSeo, SITE_URL } from "@/lib/seo";
 
 export const dynamic = "force-static";
+
+export const metadata = buildSeo({
+  title: "輸出管理のAI一次確認・該非判定支援",
+  description:
+    "輸出リスク・該非判定・キャッチオール規制まで、輸出管理の一次確認をAIが支援。制裁リスト・企業信用・用途・国リスクを8観点で評価し、中小企業の営業担当者が商談前に5分でチェックできます。",
+  path: "/",
+});
 
 const features = [
   {
@@ -175,15 +183,35 @@ const targetProfiles = [
   },
 ];
 
+const faqItems = [
+  {
+    q: "該非判定（がいひはんてい）とは何ですか？",
+    a: "輸出しようとする貨物・技術が、輸出貿易管理令などの規制対象に該当するか非該当かを判定する作業です。該当する場合は経済産業大臣の輸出許可が必要になるため、輸出前の確認が欠かせません。",
+  },
+  {
+    q: "キャッチオール規制とはどのような規制ですか？",
+    a: "リスト規制に該当しない貨物・技術でも、大量破壊兵器や通常兵器の開発等に用いられるおそれがある場合に輸出許可を義務付ける規制です。用途・需要者・最終用途の確認が重要になります。",
+  },
+  {
+    q: "輸出管理の一次確認は何から始めればよいですか？",
+    a: "商品（型番・スペック）、輸出先国、相手企業、用途の4点を順に確認するのが基本です。本サービスでは、この一次確認に必要な論点をAIが整理し、確認漏れを防ぎます。",
+  },
+  {
+    q: "専門知識がなくても利用できますか？",
+    a: "はい。商品名・型番・輸出先国・顧客企業名を入力するだけで、制裁・用途・国リスクなどの観点から一次スクリーニングを支援します。判定根拠と確認アクションを日本語で提示します。",
+  },
+];
+
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   name: APP_NAME,
+  url: SITE_URL,
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
   inLanguage: "ja-JP",
   description:
-    "中小企業向けの輸出リスク調査・評価Webアプリ。営業担当者が商談前に一次確認でき、AI相談室で規制資料や社内規程の読解支援も行う。",
+    "輸出リスク・該非判定・キャッチオール規制まで、輸出管理の一次確認をAIが支援する中小企業向けWebアプリ。営業担当者が商談前に5分で一次確認でき、AI相談室で規制資料や社内規程の読解支援も行う。",
   audience: {
     "@type": "Audience",
     audienceType: "営業担当者、輸出管理担当者、管理部門",
@@ -195,13 +223,28 @@ const jsonLd = {
   },
 };
 
+const faqJsonLd = {
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.a,
+    },
+  })),
+};
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [jsonLd, faqJsonLd],
+          }).replace(/</g, "\\u003c"),
         }}
       />
       {/* ナビゲーション */}
@@ -745,6 +788,24 @@ export default function Home() {
                       </li>
                     ))}
                   </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* よくある質問 */}
+        <section className="border-b border-slate-100 bg-slate-50 px-4 py-16 sm:px-6">
+          <div className="mx-auto max-w-3xl">
+            <div className="text-center">
+              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">よくある質問</span>
+              <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">該非判定・輸出管理でよくある質問</h2>
+            </div>
+            <div className="mt-10 space-y-4">
+              {faqItems.map((item) => (
+                <div key={item.q} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+                  <h3 className="text-sm font-semibold text-slate-900">{item.q}</h3>
+                  <p className="mt-2 text-sm leading-7 text-slate-600">{item.a}</p>
                 </div>
               ))}
             </div>

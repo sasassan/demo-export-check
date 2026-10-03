@@ -1,15 +1,16 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Header } from "@/components/layout/header";
+import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
 
-export const metadata: Metadata = {
-  title: "AIレビュー用概要 | Export Risk Navi",
+export const metadata = buildSeo({
+  title: "AIレビュー用概要",
   description:
-    "Export Risk Navi の公開ページ構成、主な機能、想定ユーザーを AI が読み取りやすい形で整理した概要ページ。",
-};
+    "輸出リスクナビ（Export Risk Navi）の公開ページ構成、主な機能、想定ユーザーをAIが読み取りやすい形で整理した概要ページです。",
+  path: "/for-ai",
+});
 
 const publicPages = [
   { href: "/", title: "トップページ", summary: "サービス全体の価値、対象ユーザー、主機能、料金、ロードマップを紹介。" },

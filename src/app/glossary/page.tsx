@@ -1,8 +1,16 @@
 import Link from "next/link";
 import { Shell } from "@/components/layout/shell";
 import { DictionarySearch } from "@/components/glossary/dictionary-search";
+import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
+
+export const metadata = buildSeo({
+  title: "輸出コンプライアンス用語辞典",
+  description:
+    "ECCN・EAR・該非判定・キャッチオール規制・UBO・PEPsなど、輸出管理・安全保障貿易の専門用語を検索して解説する用語辞典です。",
+  path: "/glossary",
+});
 
 const TERMS = [
   {
