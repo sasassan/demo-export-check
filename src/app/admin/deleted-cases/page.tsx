@@ -1,4 +1,4 @@
-import { DeletedCasesPanel } from "@/components/cases/deleted-cases-panel";
+import { DeletedCasesPanel } from "@/components/cases/deleted-cases-panel.lazy";
 import { Shell } from "@/components/layout/shell";
 import { requireAdminEmail } from "@/lib/auth/server";
 import { listAllDeletedCases } from "@/lib/db/repository";

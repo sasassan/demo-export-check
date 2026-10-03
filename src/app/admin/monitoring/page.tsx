@@ -1,6 +1,6 @@
 import { Shell } from "@/components/layout/shell";
 import { requireAdminEmail } from "@/lib/auth/server";
-import { MonitoringDashboard } from "@/components/admin/monitoring-dashboard";
+import { MonitoringDashboard } from "@/components/admin/monitoring-dashboard.lazy";
 import { NOINDEX_METADATA } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
