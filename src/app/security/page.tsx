@@ -127,7 +127,7 @@ export default function SecurityPage() {
             ))}
           </div>
           <div className="mt-4 rounded-lg border border-blue-100 bg-blue-50 p-4 text-sm leading-7 text-slate-700">
-            Beta版では、公開ページ上で「いつ・何を・どの粒度で確認すべきか」を分かりやすく提示することを重視しています。
+            本サービスでは、公開ページ上で「いつ・何を・どの粒度で確認すべきか」を分かりやすく提示することを重視しています。
             実務導入時には、制裁・規制情報の最新性、社内承認フロー、証跡管理の運用設計を含めて確認してください。
           </div>
         </section>

@@ -46,7 +46,7 @@ export default function DemoPage() {
           <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">デモ画面</h1>
           <p className="mt-3 max-w-3xl text-base leading-7 text-slate-600">
             このページでは、公開用のサンプルシナリオを使って「入力 → リスク論点整理 → 結果確認」の流れを体験できます。
-            実案件データ・顧客情報・社内案件一覧はBeta公開対象外として保護しています。
+            実案件データ・顧客情報・社内案件一覧は一般公開対象外として保護しています。
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link href="/contact" data-cta-id="demo-contact" data-cta-label="導入について相談" data-cta-target="/contact" className="trade-primary-button">導入について相談</Link>

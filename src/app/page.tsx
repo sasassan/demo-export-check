@@ -140,7 +140,7 @@ const roiHighlights = [
   {
     label: "年間500件の想定",
     value: "約700時間削減",
-    note: "85分短縮 × 500件で試算したBeta版の参考値",
+    note: "85分短縮 × 500件で試算した参考値",
   },
   {
     label: "導入効果の見せ方",
@@ -704,16 +704,16 @@ export default function Home() {
             <div className="text-center">
               <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">料金プラン</span>
               <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">シンプルな料金体系</h2>
-              <p className="mt-2 text-base text-slate-600">Beta版は無料でご利用いただけます。正式版の料金は準備中です。</p>
+              <p className="mt-2 text-base text-slate-600">無料プランでご利用いただけます。追加プランの料金は準備中です。</p>
             </div>
             <div className="mt-10 grid gap-6 md:grid-cols-2">
               <div className="relative rounded-xl border-2 border-brand-navy bg-white p-7 shadow-sm">
                 <span className="absolute -top-3 left-5 rounded-full bg-brand-navy px-3 py-0.5 text-xs font-bold !text-white">現在公開中</span>
-                <p className="text-sm font-semibold uppercase tracking-wider text-brand-navy">Beta版</p>
+                <p className="text-sm font-semibold uppercase tracking-wider text-brand-navy">無料プラン</p>
                 <p className="mt-2 text-3xl font-bold text-slate-900">無料</p>
-                <p className="mt-1 text-sm text-slate-600">Beta版期間中は全機能を無料でご利用いただけます</p>
+                <p className="mt-1 text-sm text-slate-600">現在、全機能を無料でご利用いただけます</p>
                 <ul className="mt-5 space-y-2.5">
-                  {["AI一次スクリーニング（8観点）", "A/B/C評価 + 判定理由表示", "PDFレポート出力", "案件管理（Beta版制限あり）"].map((item) => (
+                  {["AI一次スクリーニング（8観点）", "A/B/C評価 + 判定理由表示", "PDFレポート出力", "案件管理（段階的に機能拡充）"].map((item) => (
                     <li key={item} className="flex items-center gap-2 text-sm text-slate-800">
                       <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 shrink-0 text-brand-navy"><path fillRule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clipRule="evenodd" /></svg>
                       {item}
@@ -723,11 +723,11 @@ export default function Home() {
                 <Link href="/demo?v=pricing" className="mt-6 flex w-full items-center justify-center rounded-lg bg-brand-navy py-2.5 text-sm font-semibold !text-white shadow-sm hover:bg-brand-navy-light">デモで試す</Link>
               </div>
               <div className="rounded-xl border border-slate-200 bg-white p-7 shadow-sm">
-                <p className="text-sm font-semibold uppercase tracking-wider text-slate-600">正式版（準備中）</p>
+                <p className="text-sm font-semibold uppercase tracking-wider text-slate-600">追加プラン（準備中）</p>
                 <p className="mt-2 text-3xl font-bold text-slate-500">未定</p>
                 <p className="mt-1 text-sm text-slate-600">月額料金・プランは検討中です</p>
                 <ul className="mt-5 space-y-2.5">
-                  {["Beta版の全機能", "企業情報・UBO詳細調査", "制裁リストリアルタイム照合", "チーム共有・管理機能", "API連携（開発者向け）"].map((item) => (
+                  {["無料プランの全機能", "企業情報・UBO詳細調査", "制裁リストリアルタイム照合", "チーム共有・管理機能", "API連携（開発者向け）"].map((item) => (
                     <li key={item} className="flex items-center gap-2 text-sm text-slate-600">
                       <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 shrink-0 text-slate-500"><path fillRule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clipRule="evenodd" /></svg>
                       {item}
@@ -819,7 +819,7 @@ export default function Home() {
             <div className="pointer-events-none absolute -bottom-20 -left-10 h-56 w-56 rounded-full bg-teal-400/10 blur-3xl" />
             <div className="relative">
               <h2 className="text-2xl font-bold text-white sm:text-3xl">まずは1件、試してみてください</h2>
-              <p className="mt-2 text-base text-blue-50">Beta版は無料。メールアドレスだけで開始できます。登録後すぐに案件確認フローを試せます。</p>
+              <p className="mt-2 text-base text-blue-50">無料でご利用いただけます。メールアドレスだけで開始できます。登録後すぐに案件確認フローを試せます。</p>
               <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
                 <Link href="/demo?v=cta" data-cta-id="footer-demo" data-cta-label="デモを見る" data-cta-target="/demo?v=cta" className="rounded-lg border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20">デモを見る</Link>
                 <Link href="/contact?v=cta" data-cta-id="footer-contact" data-cta-label="導入について相談する" data-cta-target="/contact?v=cta" className="rounded-lg bg-white px-6 py-3 text-sm font-semibold text-brand-navy shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl">導入について相談する</Link>

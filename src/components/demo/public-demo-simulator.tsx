@@ -348,7 +348,7 @@ export function PublicDemoSimulator() {
               結果プレビュー
             </h2>
             <p className="mt-2 text-sm leading-6 text-slate-700">
-              公開デモでは、Beta版で想定している出力イメージをサンプルで表示しています。
+              公開デモでは、サービスで想定している出力イメージをサンプルで表示しています。
             </p>
           </div>
           <span

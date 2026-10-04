@@ -36,7 +36,7 @@ const recommendedUse = [
 const futurePlan = [
   "導入相談時のレビュー体制と責任分界点の明文化",
   "必要に応じた専門家レビュー体制の整備と公開範囲の検討",
-  "Beta版で得たフィードバックを反映した運用ガイドの拡充",
+  "利用者のフィードバックを反映した運用ガイドの拡充",
 ];
 
 const reviewObjectives = [
@@ -56,7 +56,7 @@ export default function SupervisionPage() {
             監修・レビュー体制
           </h1>
           <p className="mt-3 max-w-3xl text-base leading-7 text-slate-600">
-            {APP_NAME} は、輸出管理の一次確認支援と、法令・規程の理解補助を目的とした Beta版サービスです。
+            {APP_NAME} は、輸出管理の一次確認支援と、法令・規程の理解補助を目的としたサービスです。
             このページでは、現時点で公開しているレビュー体制と、まだ公開していない範囲を明確に示します。
           </p>
         </section>
@@ -134,7 +134,7 @@ export default function SupervisionPage() {
             ))}
           </ul>
           <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-900">
-            Beta段階では、専門家氏名の掲示よりも先に、公開ページでの説明責任と誤利用防止の設計を優先しています。
+            現段階では、専門家氏名の掲示よりも先に、公開ページでの説明責任と誤利用防止の設計を優先しています。
             導入相談や正式運用の前提条件は、責任分界点とあわせて個別に整理する方針です。
           </div>
         </section>

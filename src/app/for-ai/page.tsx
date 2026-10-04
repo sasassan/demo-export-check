@@ -32,7 +32,7 @@ const reviewPoints = [
   "信頼感・安心感・誠実感を与える業務向けデザインになっているか",
   "AI相談室の価値が、単なるチャットではなく『法令・規程の理解支援』として伝わるか",
   "公開ページだけでもサービス全体像を把握できるか",
-  "Beta版としての注意書きと価値訴求のバランスが適切か",
+  "注意書きと価値訴求のバランスが適切か",
 ];
 
 export default function ForAiPage() {
@@ -142,7 +142,7 @@ export default function ForAiPage() {
                   "本サービスは法的判断を代替しません",
                   "ダッシュボードと案件管理はログイン前提です",
                   "公開ページは誰でも閲覧可能です",
-                  "Beta版のため機能や表現は継続改善中です",
+                  "機能や表現は継続的に改善しています",
                 ].map((text) => (
                   <li key={text} className="flex items-start gap-2">
                     <svg viewBox="0 0 20 20" fill="currentColor" className="mt-0.5 h-4 w-4 shrink-0 text-amber-500">

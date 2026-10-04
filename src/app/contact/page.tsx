@@ -9,7 +9,7 @@ export const dynamic = "force-static";
 export const metadata = buildSeo({
   title: "お問い合わせ",
   description:
-    "輸出リスクナビへのお問い合わせ・ご意見・導入相談を受け付けています。Beta版へのフィードバックはサービス改善に活用します。",
+    "輸出リスクナビへのお問い合わせ・ご意見・導入相談を受け付けています。フィードバックはサービス改善に活用します。",
   path: "/contact",
 });
 
@@ -22,13 +22,13 @@ export default function ContactPage() {
           <span className="trade-section-label">お問い合わせ</span>
           <h1 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">お問い合わせ</h1>
           <p className="mt-3 text-base leading-7 text-slate-700">
-            Beta版へのご意見・利用相談・改善要望を受け付けています。フィードバックはサービス改善のために利用します。
+            ご意見・利用相談・改善要望を受け付けています。フィードバックはサービス改善のために利用します。
           </p>
           <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
             判定結果は参考情報であり、最終的な輸出可否判断を保証するものではありません。
           </div>
           <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-800">
-            お問い合わせには原則として 1営業日以内の一次返信を目標としています。Beta期間中のため、内容によってはお時間をいただく場合があります。
+            お問い合わせには原則として 1営業日以内の一次返信を目標としています。内容によってはお時間をいただく場合があります。
           </div>
         </section>
 
