@@ -39,19 +39,19 @@ export default function UpdatesPage() {
             <article
               key={item.id}
               id={item.id}
-              className="trade-hover-lift relative scroll-mt-24 rounded-xl border border-slate-200 bg-white p-6 pl-14 transition hover:border-brand-navy/30 sm:pl-16"
+              className="trade-hover-lift relative scroll-mt-24 rounded-xl border border-slate-200 bg-panel p-6 pl-14 transition hover:border-brand-navy/30 sm:pl-16"
             >
-              <span className="absolute left-[9px] top-8 flex h-4 w-4 items-center justify-center rounded-full border-2 border-white bg-brand-navy shadow-sm sm:left-[13px]" aria-hidden="true" />
+              <span className="absolute left-[9px] top-8 flex h-4 w-4 items-center justify-center rounded-full border-2 border-white bg-brand-deep shadow-sm sm:left-[13px]" aria-hidden="true" />
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-start gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-slate-50 to-blue-50">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-slate-50 to-tint-blue">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-brand-navy">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0 1 18 14.158V11a6.002 6.002 0 0 0-4-5.659V5a2 2 0 1 0-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 1 1-6 0v-1m6 0H9" />
                     </svg>
                   </div>
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="rounded-full border border-slate-200 bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-brand-navy">
+                      <span className="rounded-full border border-slate-200 bg-tint-blue px-2.5 py-0.5 text-xs font-medium text-brand-navy">
                         {item.category}
                       </span>
                       <span className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-xs font-medium text-slate-600">
@@ -61,21 +61,21 @@ export default function UpdatesPage() {
                     <h2 className="mt-2 text-xl font-bold text-slate-900">{item.title}</h2>
                   </div>
                 </div>
-                <span className="rounded-full border border-slate-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-brand-navy">
+                <span className="rounded-full border border-slate-200 bg-tint-blue px-3 py-1 text-xs font-semibold text-brand-navy">
                   {item.publishedAt}
                 </span>
               </div>
 
               <p className="mt-4 text-sm leading-7 text-slate-700">{item.summary}</p>
 
-              <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3">
+              <div className="mt-4 rounded-2xl border border-tint-amber-border bg-tint-amber px-4 py-3">
                 <div className="flex items-start gap-2">
-                  <svg viewBox="0 0 20 20" fill="currentColor" className="mt-0.5 h-4 w-4 shrink-0 text-amber-600">
+                  <svg viewBox="0 0 20 20" fill="currentColor" className="mt-0.5 h-4 w-4 shrink-0 text-amber-400">
                     <path fillRule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.169 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clipRule="evenodd" />
                   </svg>
-                  <p className="text-xs font-semibold text-amber-800">案件への影響</p>
+                  <p className="text-xs font-semibold text-amber-300">案件への影響</p>
                 </div>
-                <p className="mt-1 text-sm leading-7 text-amber-900">{item.impact}</p>
+                <p className="mt-1 text-sm leading-7 text-amber-300">{item.impact}</p>
               </div>
 
               <div className="mt-4">
@@ -115,7 +115,7 @@ export default function UpdatesPage() {
         </div>
       </section>
 
-      <section className="rounded-xl border border-slate-200 bg-white p-6">
+      <section className="rounded-xl border border-slate-200 bg-panel p-6">
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-navy">Article template</p>
         <h2 className="mt-2 text-xl font-bold text-slate-900">規制アップデート記事の執筆テンプレート</h2>
         <p className="mt-2 text-sm leading-7 text-slate-600">

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
 
@@ -92,6 +92,11 @@ export const metadata: Metadata = {
     : {}),
 };
 
+export const viewport: Viewport = {
+  themeColor: "#070c18",
+  colorScheme: "dark",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -103,7 +108,7 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-white">
+      <body className="min-h-full bg-panel">
         <SkipLink />
         <script
           type="application/ld+json"

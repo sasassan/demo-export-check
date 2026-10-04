@@ -27,7 +27,7 @@ export function NavigationProgress() {
 
   return (
     <div aria-hidden="true" className="fixed inset-x-0 top-0 z-[110] h-0.5 overflow-hidden">
-      <div className="trade-nav-progress-bar h-full w-1/3 rounded-full bg-gradient-to-r from-brand-navy to-brand-blue" />
+      <div className="trade-nav-progress-bar h-full w-1/3 rounded-full bg-gradient-to-r from-brand-deep to-brand-blue" />
     </div>
   );
 }

@@ -9,15 +9,15 @@ type Props = {
 };
 
 const gradeBarColor: Record<string, string> = {
-  A: "bg-emerald-500",
+  A: "bg-tint-emerald0",
   B: "bg-amber-400",
-  C: "bg-rose-500",
+  C: "bg-tint-rose0",
 };
 
 const gradeBg: Record<string, string> = {
-  A: "text-emerald-700 bg-emerald-50",
-  B: "text-amber-700 bg-amber-50",
-  C: "text-rose-700 bg-rose-50",
+  A: "text-emerald-400 bg-tint-emerald",
+  B: "text-amber-400 bg-tint-amber",
+  C: "text-rose-400 bg-tint-rose",
 };
 
 const CATEGORIES: { label: string; dimensions: RiskDimension[] }[] = [
@@ -39,7 +39,7 @@ export function RiskMeter({ dimensions }: Props) {
   const dimMap = new Map(dimensions.map((d) => [d.dimension, d]));
 
   return (
-    <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
+    <div className="bg-panel border border-slate-200 rounded-2xl shadow-sm p-6">
       <h3 className="text-base font-bold text-slate-900 mb-4">リスクメーター</h3>
 
       <div className="space-y-6">
@@ -103,7 +103,7 @@ export function RiskMeter({ dimensions }: Props) {
       {/* スコア凡例 */}
       <div className="mt-4 pt-4 border-t border-slate-100 flex gap-4 text-xs text-slate-500">
         <span className="flex items-center gap-1">
-          <span className="w-3 h-3 rounded-full bg-emerald-500 inline-block" />
+          <span className="w-3 h-3 rounded-full bg-tint-emerald0 inline-block" />
           A（0〜39: 問題なし）
         </span>
         <span className="flex items-center gap-1">
@@ -111,7 +111,7 @@ export function RiskMeter({ dimensions }: Props) {
           B（40〜69: 要確認）
         </span>
         <span className="flex items-center gap-1">
-          <span className="w-3 h-3 rounded-full bg-rose-500 inline-block" />
+          <span className="w-3 h-3 rounded-full bg-tint-rose0 inline-block" />
           C（70〜: 高リスク）
         </span>
       </div>

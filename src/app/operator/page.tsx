@@ -107,7 +107,7 @@ export default function OperatorPage() {
     <div className="min-h-screen bg-slate-50">
       <Header />
       <main id="main-content" tabIndex={-1} className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-10 outline-none">
-        <section className="rounded-xl border border-slate-200 bg-white p-6 sm:p-8">
+        <section className="rounded-xl border border-slate-200 bg-panel p-6 sm:p-8">
           <span className="trade-section-label">Operator information</span>
           <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
             運営情報
@@ -119,12 +119,12 @@ export default function OperatorPage() {
           </p>
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-6">
+        <section className="rounded-xl border border-slate-200 bg-panel p-6">
           <h2 className="text-xl font-bold text-slate-900">現在公開している基本情報</h2>
           <div className="mt-5 grid gap-3 md:grid-cols-2">
             {publicFacts.map((item) => (
               <div key={item.label} className="trade-hover-lift flex items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-4 transition hover:border-brand-navy/30">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-brand-navy">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-tint-blue text-brand-navy">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
                     <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                   </svg>
@@ -155,13 +155,13 @@ export default function OperatorPage() {
           </div>
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-gradient-to-br from-blue-50/60 to-white p-6">
+        <section className="rounded-xl border border-slate-200 bg-gradient-to-br from-tint-blue/60 to-panel p-6">
           <span className="trade-section-label">Why this is trustworthy</span>
           <h2 className="mt-3 text-xl font-bold text-slate-900">現時点で示している信頼材料</h2>
           <div className="mt-5 grid gap-4 md:grid-cols-3">
             {trustSignals.map((item) => (
-              <div key={item.text} className="trade-hover-lift rounded-lg border border-slate-200 bg-white p-5 text-sm leading-7 text-slate-700 transition hover:border-brand-navy/30">
-                <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-brand-navy">
+              <div key={item.text} className="trade-hover-lift rounded-lg border border-slate-200 bg-panel p-5 text-sm leading-7 text-slate-700 transition hover:border-brand-navy/30">
+                <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-tint-blue text-brand-navy">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
                     <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                   </svg>
@@ -172,13 +172,13 @@ export default function OperatorPage() {
           </div>
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-6">
+        <section className="rounded-xl border border-slate-200 bg-panel p-6">
           <span className="trade-section-label">Development background</span>
           <h2 className="mt-3 text-xl font-bold text-slate-900">開発背景と公開方針</h2>
           <div className="mt-5 grid gap-4 lg:grid-cols-3">
             {developmentBackground.map((item) => (
               <div key={item.text} className="trade-hover-lift rounded-lg border border-slate-200 bg-slate-50 p-5 text-sm leading-7 text-slate-700 transition hover:border-brand-navy/30">
-                <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-brand-navy">
+                <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-tint-blue text-brand-navy">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
                     <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                   </svg>
@@ -187,13 +187,13 @@ export default function OperatorPage() {
               </div>
             ))}
           </div>
-          <div className="mt-4 rounded-lg border border-blue-100 bg-blue-50 p-4 text-sm leading-7 text-slate-700">
+          <div className="mt-4 rounded-lg border border-tint-blue-bright bg-tint-blue p-4 text-sm leading-7 text-slate-700">
             運営主体の詳細情報や契約条件などは導入相談時に追加開示する前提です。公開ページでは、まずプロダクトの説明責任と誤解防止の整備を優先しています。
           </div>
         </section>
 
         <div className="grid gap-6 lg:grid-cols-2">
-          <section className="rounded-xl border border-slate-200 bg-white p-6">
+          <section className="rounded-xl border border-slate-200 bg-panel p-6">
             <span className="trade-section-label">Disclosure policy</span>
             <h2 className="mt-3 text-xl font-bold text-slate-900">開示方針</h2>
             <ul className="mt-4 space-y-2 text-sm leading-7 text-slate-700">
@@ -208,7 +208,7 @@ export default function OperatorPage() {
             </ul>
           </section>
 
-          <section className="rounded-xl border border-slate-200 bg-white p-6">
+          <section className="rounded-xl border border-slate-200 bg-panel p-6">
             <span className="trade-section-label">Public scope</span>
             <h2 className="mt-3 text-xl font-bold text-slate-900">現時点の公開範囲</h2>
             <ul className="mt-4 space-y-2 text-sm leading-7 text-slate-700">
@@ -224,10 +224,10 @@ export default function OperatorPage() {
           </section>
         </div>
 
-        <section className="rounded-xl border border-slate-200 bg-gradient-to-br from-blue-50/60 to-white p-6">
+        <section className="rounded-xl border border-slate-200 bg-gradient-to-br from-tint-blue/60 to-panel p-6">
           <span className="trade-section-label">Roadmap</span>
           <h2 className="mt-3 text-xl font-bold text-slate-900">今後の整備予定</h2>
-          <div className="mt-4 rounded-lg border border-blue-100 bg-blue-50 p-4 text-sm leading-7 text-slate-700">
+          <div className="mt-4 rounded-lg border border-tint-blue-bright bg-tint-blue p-4 text-sm leading-7 text-slate-700">
             「機能の実用性検証」と「公開ページでの説明責任強化」を並行して進めています。
             個別導入相談に向けて、以下の情報整備を優先します。
           </div>
@@ -243,7 +243,7 @@ export default function OperatorPage() {
           </ul>
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-6">
+        <section className="rounded-xl border border-slate-200 bg-panel p-6">
           <h2 className="text-xl font-bold text-slate-900">関連ページ</h2>
           <div className="mt-4 flex flex-wrap gap-3">
             <Link href="/supervision" className="trade-secondary-button">

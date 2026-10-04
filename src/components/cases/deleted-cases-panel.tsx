@@ -61,7 +61,7 @@ export function DeletedCasesPanel({
 
   if (visibleItems.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-slate-300 bg-white px-6 py-8 text-center">
+      <div className="rounded-xl border border-dashed border-slate-300 bg-panel px-6 py-8 text-center">
         <p className="text-sm text-slate-500">削除済みの案件はありません。</p>
       </div>
     );
@@ -76,7 +76,7 @@ export function DeletedCasesPanel({
         return (
           <div
             key={item.id}
-            className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white px-5 py-4 shadow-sm sm:flex-row sm:items-center sm:justify-between"
+            className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-panel px-5 py-4 shadow-sm sm:flex-row sm:items-center sm:justify-between"
           >
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2">
@@ -86,11 +86,11 @@ export function DeletedCasesPanel({
                   削除済み
                 </span>
                 {isExpired ? (
-                  <span className="inline-flex items-center rounded-full bg-rose-50 px-2.5 py-1 text-xs font-medium text-rose-700">
+                  <span className="inline-flex items-center rounded-full bg-tint-rose px-2.5 py-1 text-xs font-medium text-rose-400">
                     猶予期間終了
                   </span>
                 ) : (
-                  <span className="inline-flex items-center rounded-full bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-700">
+                  <span className="inline-flex items-center rounded-full bg-tint-amber px-2.5 py-1 text-xs font-medium text-amber-400">
                     残り{remaining}日で復元不可
                   </span>
                 )}
@@ -108,7 +108,7 @@ export function DeletedCasesPanel({
               </div>
               <p className="mt-1 text-xs text-slate-600">削除日時: {formatDate(item.deletedAt)}</p>
               {errorById[item.id] ? (
-                <p className="mt-1 text-xs text-rose-600">{errorById[item.id]}</p>
+                <p className="mt-1 text-xs text-rose-400">{errorById[item.id]}</p>
               ) : null}
             </div>
 
@@ -116,7 +116,7 @@ export function DeletedCasesPanel({
               type="button"
               onClick={() => handleRestore(item.id)}
               disabled={restoringId === item.id || isExpired}
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border border-slate-300 bg-panel px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
                 <path

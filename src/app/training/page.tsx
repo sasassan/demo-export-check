@@ -50,9 +50,9 @@ export default function TrainingPage() {
     <div className="min-h-screen bg-slate-50">
       <Header />
       <main id="main-content" tabIndex={-1} className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-10 outline-none">
-        <section className="rounded-xl border border-slate-200 bg-white p-6 sm:p-8">
+        <section className="rounded-xl border border-slate-200 bg-panel p-6 sm:p-8">
           <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-brand-navy">
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-tint-blue text-brand-navy">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 0 0-.491 6.347A48.627 48.627 0 0 1 12 20.904a48.627 48.627 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.57 50.57 0 0 0-2.658-.813A59.905 59.905 0 0 1 12 3.493a59.902 59.902 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
               </svg>
@@ -68,8 +68,8 @@ export default function TrainingPage() {
 
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {trainingPrograms.map((program) => (
-            <div key={program.title} className="trade-hover-lift rounded-xl border border-slate-200 bg-white p-5 transition hover:border-brand-navy/30">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-brand-navy">
+            <div key={program.title} className="trade-hover-lift rounded-xl border border-slate-200 bg-panel p-5 transition hover:border-brand-navy/30">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-tint-blue text-brand-navy">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
                   <path strokeLinecap="round" strokeLinejoin="round" d={program.icon} />
                 </svg>
@@ -81,9 +81,9 @@ export default function TrainingPage() {
         </section>
 
         <div className="grid gap-6 lg:grid-cols-2">
-          <section className="rounded-xl border border-slate-200 bg-gradient-to-br from-blue-50/60 to-white p-6">
+          <section className="rounded-xl border border-slate-200 bg-gradient-to-br from-tint-blue/60 to-panel p-6">
             <div className="flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-brand-navy">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-tint-blue text-brand-navy">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z" />
                 </svg>
@@ -100,7 +100,7 @@ export default function TrainingPage() {
                 "法令改正や規制変更時の教育負荷を下げられる",
                 "稟議・監査・上司説明に使える共通言語ができる",
               ].map((item) => (
-                <li key={item} className="flex items-start gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700">
+                <li key={item} className="flex items-start gap-3 rounded-lg border border-slate-200 bg-panel px-4 py-3 text-sm text-slate-700">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mt-0.5 h-4 w-4 shrink-0 text-brand-navy">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                   </svg>
@@ -110,14 +110,14 @@ export default function TrainingPage() {
             </ul>
           </section>
 
-          <section className="trade-hover-lift rounded-xl border border-brand-navy bg-gradient-to-br from-brand-navy to-blue-800 p-6 text-white">
+          <section className="trade-hover-lift rounded-xl border border-brand-navy bg-gradient-to-br from-brand-deep to-blue-800 p-6 text-white">
             <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[10px] font-semibold tracking-wider">Enterprise</span>
             <h2 className="mt-3 text-xl font-bold">導入前提の研修相談も可能</h2>
             <p className="mt-3 text-sm leading-6 text-white/80">
               AIツールの活用だけでなく、営業・輸出管理・法務・経営層の認識をそろえるための支援メニューとして整理できます。
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
-              <Link href="/contact?v=training" className="rounded-md bg-white px-4 py-2 text-sm font-semibold text-brand-navy hover:bg-slate-100">研修について相談する</Link>
+              <Link href="/contact?v=training" className="rounded-md bg-panel px-4 py-2 text-sm font-semibold text-brand-navy hover:bg-slate-100">研修について相談する</Link>
               <Link href="/about?v=training" className="rounded-md border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/20">サービス説明へ戻る</Link>
             </div>
           </section>

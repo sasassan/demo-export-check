@@ -55,7 +55,7 @@ export function DictionarySearch() {
   };
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6">
+    <div className="rounded-xl border border-slate-200 bg-panel p-6">
       <h2 className="text-xl font-bold text-slate-900">専門用語をAIで検索</h2>
       <p className="mt-2 text-sm leading-7 text-slate-600">
         例: インコタームズ / EAR / ECCN / UBO / キャッチオール規制 / 該非判定
@@ -83,7 +83,7 @@ export function DictionarySearch() {
             return (
               <button key={term} type="button"
                 onClick={() => { setQuery(short); }}
-                className="rounded-full border border-slate-200 bg-white px-2 py-1 text-[10px] font-medium text-slate-600 hover:border-slate-300 hover:text-brand-navy">
+                className="rounded-full border border-slate-200 bg-panel px-2 py-1 text-[10px] font-medium text-slate-600 hover:border-slate-300 hover:text-brand-navy">
                 {short}
               </button>
             );
@@ -93,14 +93,14 @@ export function DictionarySearch() {
 
       {/* Error */}
       {error && (
-        <div className="mt-4 rounded-xl border border-rose-300 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+        <div className="mt-4 rounded-xl border border-tint-rose-border bg-tint-rose px-4 py-3 text-sm text-rose-400">
           {error}
         </div>
       )}
 
       {/* Loading skeleton */}
       {loading && !answer && (
-        <div className="mt-5 animate-pulse space-y-4 rounded-2xl border border-cyan-100 bg-gradient-to-br from-blue-50/70 to-cyan-50/70 p-5">
+        <div className="mt-5 animate-pulse space-y-4 rounded-2xl border border-tint-cyan-border bg-gradient-to-br from-tint-blue/70 to-tint-cyan/70 p-5">
           <div className="h-6 w-48 rounded-lg bg-slate-200" />
           <div className="grid gap-3 md:grid-cols-2">
             {[1, 2, 3, 4].map((i) => (
@@ -116,7 +116,7 @@ export function DictionarySearch() {
 
       {/* Answer */}
       {answer && (
-        <div className="mt-5 space-y-4 rounded-2xl border border-cyan-100 bg-gradient-to-br from-blue-50/70 to-cyan-50/70 p-5">
+        <div className="mt-5 space-y-4 rounded-2xl border border-tint-cyan-border bg-gradient-to-br from-tint-blue/70 to-tint-cyan/70 p-5">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-navy">Dictionary answer</p>
             <h3 className="mt-2 text-xl font-bold text-slate-900">{answer.title}</h3>
@@ -147,7 +147,7 @@ export function DictionarySearch() {
               <div className="mt-3 flex flex-wrap gap-2">
                 {answer.relatedFeatures.map((item) => (
                   <Link key={item.href + item.label} href={item.href}
-                    className="rounded-lg bg-gradient-to-r from-brand-navy to-sky-500 px-3 py-2 text-xs font-semibold text-white shadow-sm">
+                    className="rounded-lg bg-gradient-to-r from-brand-deep to-tint-sky0 px-3 py-2 text-xs font-semibold text-white shadow-sm">
                     {item.label}
                   </Link>
                 ))}
@@ -167,10 +167,10 @@ export function DictionarySearch() {
           </div>
 
           {/* AI consultation link */}
-          <div className="rounded-xl border border-slate-200 bg-blue-50 p-4">
+          <div className="rounded-xl border border-slate-200 bg-tint-blue p-4">
             <p className="text-sm font-semibold text-slate-900">この用語についてもっと詳しく知りたい場合</p>
             <div className="mt-2 flex gap-2">
-              <Link href={`/ai-room`} className="rounded-lg bg-brand-navy px-3 py-2 text-xs font-semibold !text-white hover:bg-brand-navy-light">
+              <Link href={`/ai-room`} className="rounded-lg bg-brand-deep px-3 py-2 text-xs font-semibold !text-white hover:bg-brand-deep-light">
                 AI相談室で深掘りする
               </Link>
               <Link href="/learning" className="rounded-lg bg-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-300">

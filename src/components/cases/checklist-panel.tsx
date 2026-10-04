@@ -47,10 +47,10 @@ export function ChecklistPanel({
   }
 
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <section className="rounded-xl border border-slate-200 bg-panel p-6 shadow-sm">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-tint-amber text-amber-400">
             <ClipboardPenIcon aria-hidden="true" className="h-5 w-5" />
           </div>
           <div>
@@ -60,21 +60,21 @@ export function ChecklistPanel({
             </p>
           </div>
         </div>
-        <div className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm sm:w-auto sm:min-w-36">
+        <div className="w-full rounded-xl border border-slate-200 bg-panel px-4 py-3 text-sm sm:w-auto sm:min-w-36">
           <p className="text-slate-500">進捗</p>
           <p className="mt-1 text-lg font-bold text-slate-900">{progress}%</p>
         </div>
       </div>
 
       <div className="mt-4 h-2 overflow-hidden rounded-full bg-slate-200/60">
-        <div className="h-full rounded-full bg-gradient-to-r from-brand-navy to-brand-navy-light transition-all" style={{ width: `${progress}%` }} />
+        <div className="h-full rounded-full bg-gradient-to-r from-brand-deep to-brand-navy-light transition-all" style={{ width: `${progress}%` }} />
       </div>
 
       <div className="mt-5 grid gap-3">
         {items.map((item) => (
           <label
             key={item.id}
-            className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-100 bg-white px-4 py-3 transition hover:border-slate-300 hover:bg-blue-50/60"
+            className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-100 bg-panel px-4 py-3 transition hover:border-slate-300 hover:bg-tint-blue/60"
           >
             <span className="inline-flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center">
               <input

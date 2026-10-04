@@ -19,7 +19,7 @@ export default function GlobalError({
 
   return (
     <html lang="ja">
-      <body className="min-h-full bg-white antialiased">
+      <body className="min-h-full bg-panel antialiased">
         <ErrorFallback
           title="サービスで問題が発生しました"
           message="大変申し訳ありません。システム全体でエラーが発生しました。再試行しても解決しない場合は、しばらく時間をおいてからアクセスしてください。"

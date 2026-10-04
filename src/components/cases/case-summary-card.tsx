@@ -12,18 +12,18 @@ const statusConfig = {
   },
   investigating: {
     label: "AI確認中",
-    cls: "bg-blue-50 text-blue-700",
-    dot: "bg-blue-500 animate-pulse",
+    cls: "bg-tint-blue text-blue-300",
+    dot: "bg-blue-600 animate-pulse",
   },
   completed: {
     label: "調査完了",
-    cls: "bg-emerald-50 text-emerald-700",
-    dot: "bg-emerald-500",
+    cls: "bg-tint-emerald text-emerald-400",
+    dot: "bg-tint-emerald0",
   },
   failed: {
     label: "エラー",
-    cls: "bg-rose-50 text-rose-700",
-    dot: "bg-rose-500",
+    cls: "bg-tint-rose text-rose-400",
+    dot: "bg-tint-rose0",
   },
 } as const;
 
@@ -42,10 +42,10 @@ export function CaseSummaryCard({ item }: { item: CaseRecord }) {
   return (
     <Link
       href={`/cases/${item.id}`}
-      className="trade-hover-lift flex items-center justify-between gap-4 rounded-[1.5rem] border border-slate-200 bg-white/95 px-6 py-4 shadow-[0_12px_30px_rgba(15,23,42,0.06)] transition hover:border-brand-navy/30"
+      className="trade-hover-lift flex items-center justify-between gap-4 rounded-[1.5rem] border border-slate-200 bg-panel/95 px-6 py-4 shadow-[0_12px_30px_rgba(15,23,42,0.06)] transition hover:border-brand-navy/30"
     >
       <div className="flex min-w-0 flex-1 items-start gap-3">
-        <div className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-100 text-brand-navy ring-1 ring-brand-navy/10 sm:flex">
+        <div className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-full bg-tint-blue text-brand-navy ring-1 ring-brand-navy/10 sm:flex">
           {transportIcon}
         </div>
         <div className="min-w-0 flex-1">

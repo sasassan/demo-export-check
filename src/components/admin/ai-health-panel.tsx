@@ -61,20 +61,20 @@ function StatusBadge({ provider }: { provider: ProviderHealth }) {
   }
   if (provider.modelDeprecated) {
     return (
-      <span className="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[11px] font-bold text-amber-700">
+      <span className="rounded-full border border-tint-amber-border bg-tint-amber px-2.5 py-1 text-[11px] font-bold text-amber-400">
         モデル廃止の疑い
       </span>
     );
   }
   if (provider.reachable) {
     return (
-      <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[11px] font-bold text-emerald-700">
+      <span className="rounded-full border border-tint-emerald-border bg-tint-emerald px-2.5 py-1 text-[11px] font-bold text-emerald-400">
         稼働中
       </span>
     );
   }
   return (
-    <span className="rounded-full border border-red-200 bg-red-50 px-2.5 py-1 text-[11px] font-bold text-red-700">
+    <span className="rounded-full border border-tint-red-border bg-tint-red px-2.5 py-1 text-[11px] font-bold text-red-400">
       疎通失敗
     </span>
   );
@@ -86,14 +86,14 @@ function StatusDot({ provider }: { provider: ProviderHealth }) {
     : provider.modelDeprecated
       ? "bg-amber-400"
       : provider.reachable
-        ? "bg-emerald-500"
-        : "bg-red-500";
+        ? "bg-tint-emerald0"
+        : "bg-tint-red0";
   return <span className={`h-2.5 w-2.5 rounded-full ${color}`} />;
 }
 
 function ProviderCard({ provider }: { provider: ProviderHealth }) {
   return (
-    <div className="rounded-lg border border-slate-200 bg-white px-4 py-4">
+    <div className="rounded-lg border border-slate-200 bg-panel px-4 py-4">
       <div className="flex items-center justify-between gap-3">
         <div>
           <p className="text-sm font-semibold text-slate-900">{PROVIDER_LABELS[provider.provider]}</p>
@@ -136,8 +136,8 @@ function ProviderCard({ provider }: { provider: ProviderHealth }) {
       </div>
 
       {provider.modelDeprecated ? (
-        <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2">
-          <p className="text-[11px] leading-5 text-amber-800">
+        <div className="mt-4 rounded-xl border border-tint-amber-border bg-tint-amber px-3 py-2">
+          <p className="text-[11px] leading-5 text-amber-300">
             警告: 設定されたモデルがプロバイダー側で廃止（404 NOT_FOUND）されている可能性があります。
             モデル名の見直しが必要です。
           </p>
@@ -175,16 +175,16 @@ function OverallSummary({ data }: { data: HealthResponse }) {
   let summaryColor: string;
   if (deprecatedCount > 0) {
     summaryLabel = "モデル廃止を検知";
-    summaryColor = "text-amber-700 bg-amber-50 border-amber-200";
+    summaryColor = "text-amber-400 bg-tint-amber border-tint-amber-border";
   } else if (reachableCount === total) {
     summaryLabel = "全プロバイダー正常";
-    summaryColor = "text-emerald-700 bg-emerald-50 border-emerald-200";
+    summaryColor = "text-emerald-400 bg-tint-emerald border-tint-emerald-border";
   } else if (reachableCount === 0) {
     summaryLabel = "全プロバイダー障害";
-    summaryColor = "text-red-700 bg-red-50 border-red-200";
+    summaryColor = "text-red-400 bg-tint-red border-tint-red-border";
   } else {
     summaryLabel = "一部プロバイダーで障害";
-    summaryColor = "text-red-700 bg-red-50 border-red-200";
+    summaryColor = "text-red-400 bg-tint-red border-tint-red-border";
   }
 
   return (
@@ -244,7 +244,7 @@ export function AiHealthPanel() {
   };
 
   return (
-    <div className="mt-6 rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
+    <div className="mt-6 rounded-xl border border-slate-200 bg-panel p-3 shadow-sm sm:p-4">
       <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
         <div className="flex items-center justify-between gap-3">
           <p className="text-sm font-semibold text-slate-900">プロバイダー疎通診断</p>
@@ -252,7 +252,7 @@ export function AiHealthPanel() {
             type="button"
             onClick={handleRefresh}
             disabled={state.kind === "loading"}
-            className="trade-hover-lift inline-flex min-h-11 items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition disabled:cursor-not-allowed disabled:opacity-60"
+            className="trade-hover-lift inline-flex min-h-11 items-center gap-2 rounded-lg border border-slate-200 bg-panel px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isRefreshing ? <Spinner className="h-3.5 w-3.5" /> : null}
             再確認
@@ -261,7 +261,7 @@ export function AiHealthPanel() {
 
         <div className="mt-5">
           {state.kind === "loading" ? (
-            <div className="flex items-center justify-center gap-2 rounded-xl border border-dashed border-slate-200 bg-white px-6 py-10 text-sm text-slate-500">
+            <div className="flex items-center justify-center gap-2 rounded-xl border border-dashed border-slate-200 bg-panel px-6 py-10 text-sm text-slate-500">
               <Spinner className="h-4 w-4" />
               各プロバイダーへの疎通確認を実行しています…
             </div>
@@ -287,14 +287,14 @@ export function AiHealthPanel() {
 
               <div className="mt-5 grid gap-3 lg:grid-cols-4">
                 {[
-                  { label: "稼働中", color: "bg-emerald-500" },
+                  { label: "稼働中", color: "bg-tint-emerald0" },
                   { label: "モデル廃止の疑い", color: "bg-amber-400" },
-                  { label: "疎通失敗", color: "bg-red-500" },
+                  { label: "疎通失敗", color: "bg-tint-red0" },
                   { label: "未設定", color: "bg-slate-400" },
                 ].map((item) => (
                   <div
                     key={item.label}
-                    className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2"
+                    className="flex items-center gap-2 rounded-xl border border-slate-200 bg-panel px-3 py-2"
                   >
                     <span className={`h-2.5 w-2.5 rounded-full ${item.color}`} />
                     <span className="text-xs text-slate-600">{item.label}</span>

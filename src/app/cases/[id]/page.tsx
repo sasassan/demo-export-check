@@ -41,7 +41,7 @@ export default async function CaseDetailPage({
   return (
     <Shell title={detail.case.productName}>
       {/* 案件情報カード */}
-      <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+      <section className="overflow-hidden rounded-xl border border-slate-200 bg-panel shadow-sm">
         <div className="grid lg:grid-cols-[1fr_280px]">
           <div className="flex flex-col gap-5 p-6">
             <div className="grid gap-4 sm:grid-cols-3">
@@ -59,11 +59,11 @@ export default async function CaseDetailPage({
               </div>
             </div>
 
-            <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3">
+            <div className="flex items-start gap-3 rounded-xl border border-tint-amber-border bg-tint-amber px-4 py-3">
               <svg viewBox="0 0 20 20" fill="currentColor" className="mt-0.5 h-4 w-4 shrink-0 text-amber-500">
                 <path fillRule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clipRule="evenodd" />
               </svg>
-              <p className="text-sm leading-5 text-amber-800">
+              <p className="text-sm leading-5 text-amber-300">
                 本サービスは参考情報の提供を目的としており、法令上の最終判断を代替するものではありません。
                 最終的な輸出可否の判断は利用者自身の責任で実施してください。
               </p>
@@ -73,7 +73,7 @@ export default async function CaseDetailPage({
               <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
                 <Link
                   href={`/api/reports/${detail.case.id}/pdf`}
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-brand-navy px-4 py-3 text-sm font-semibold !text-white shadow-sm hover:bg-brand-navy-light"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-brand-deep px-4 py-3 text-sm font-semibold !text-white shadow-sm hover:bg-brand-deep-light"
                   target="_blank"
                 >
                   <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
@@ -82,7 +82,7 @@ export default async function CaseDetailPage({
                   </svg>
                   PDFを出力
                 </Link>
-                <Link href="/glossary" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50">
+                <Link href="/glossary" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-300 bg-panel px-4 py-3 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50">
                   輸出用語辞典
                 </Link>
               </div>
@@ -123,9 +123,9 @@ export default async function CaseDetailPage({
           />
 
           {/* ② リスクスコアカード */}
-          <section className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
+          <section className="rounded-xl border border-slate-200 bg-panel p-3 shadow-sm sm:p-4">
             <div className="mb-3 flex items-center gap-2.5 px-2 pt-1 sm:px-1">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-50 text-amber-600">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-tint-amber text-amber-400">
                 <ShieldIcon aria-hidden="true" className="h-5 w-5" />
               </div>
               <h2 className="text-sm font-semibold text-slate-900">リスク評価サマリー</h2>
@@ -157,7 +157,7 @@ export default async function CaseDetailPage({
           {/* ③ リスクメーター + ヒートマップ */}
           <div>
             <div className="mb-3 flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-rose-50 text-rose-600">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-tint-rose text-rose-400">
                 <WarningLightIcon aria-hidden="true" className="h-5 w-5" />
               </div>
               <h2 className="text-sm font-semibold text-slate-900">リスク詳細・ヒートマップ</h2>
@@ -181,11 +181,11 @@ export default async function CaseDetailPage({
             ).length;
             const isSingleRespondingModel = respondingModelCount <= 1;
             return (
-            <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+            <section className="rounded-xl border border-slate-200 bg-panel p-6 shadow-sm">
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-violet-600">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-tint-violet">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-violet-400">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5" />
                     </svg>
                   </div>
@@ -206,7 +206,7 @@ export default async function CaseDetailPage({
                 {!isSingleRespondingModel && detail.assessment.agreementRate !== undefined && (
                   <div className="text-right">
                     <p className="text-xs text-slate-500">一致率</p>
-                    <p className={`text-2xl font-black ${detail.assessment.agreementRate >= 80 ? "text-emerald-600" : detail.assessment.agreementRate >= 60 ? "text-amber-500" : "text-rose-600"}`}>
+                    <p className={`text-2xl font-black ${detail.assessment.agreementRate >= 80 ? "text-emerald-400" : detail.assessment.agreementRate >= 60 ? "text-amber-500" : "text-rose-400"}`}>
                       {detail.assessment.agreementRate}%
                     </p>
                   </div>
@@ -216,9 +216,9 @@ export default async function CaseDetailPage({
               <div className="grid gap-5 md:grid-cols-3">
                 {detail.assessment.modelResults.map((modelResult) => {
                   const modelMeta: Record<string, { label: string; badge: string }> = {
-                    "gpt-4o": { label: "GPT-4o", badge: "border-emerald-200 bg-emerald-50 text-emerald-700" },
-                    "claude": { label: "Claude", badge: "border-violet-200 bg-violet-50 text-violet-700" },
-                    "gemini": { label: "Gemini", badge: "border-sky-200 bg-sky-50 text-sky-700" },
+                    "gpt-4o": { label: "GPT-4o", badge: "border-tint-emerald-border bg-tint-emerald text-emerald-400" },
+                    "claude": { label: "Claude", badge: "border-violet-400/40 bg-tint-violet text-violet-700" },
+                    "gemini": { label: "Gemini", badge: "border-sky-400/40 bg-tint-sky text-sky-400" },
                     "mock": { label: "モック", badge: "border-slate-200 bg-slate-50 text-slate-500" },
                   };
                   const meta = modelMeta[modelResult.model] ?? modelMeta["mock"];
@@ -234,10 +234,10 @@ export default async function CaseDetailPage({
                     if (d.grade === "B" && worst !== "C") return "B";
                     return worst;
                   }, "A");
-                  const gradeStyle = overallGrade === "C" ? "text-red-600 bg-red-50 border-red-200" : overallGrade === "B" ? "text-amber-600 bg-amber-50 border-amber-200" : "text-emerald-600 bg-emerald-50 border-emerald-200";
+                  const gradeStyle = overallGrade === "C" ? "text-red-400 bg-tint-red border-tint-red-border" : overallGrade === "B" ? "text-amber-400 bg-tint-amber border-tint-amber-border" : "text-emerald-400 bg-tint-emerald border-tint-emerald-border";
 
                   return (
-                    <div key={modelResult.model} className="rounded-2xl border border-slate-200 bg-white p-5">
+                    <div key={modelResult.model} className="rounded-2xl border border-slate-200 bg-panel p-5">
                       <div className="flex items-center justify-between mb-3">
                         <span className={`rounded-full border px-3 py-1 text-xs font-bold ${meta.badge}`}>
                           {meta.label}
@@ -253,10 +253,10 @@ export default async function CaseDetailPage({
                           <span className="text-[11px] font-semibold text-slate-500">接続状態</span>
                           <span className={`text-[11px] font-bold ${
                             modelResult.providerStatus === "live"
-                              ? "text-emerald-600"
+                              ? "text-emerald-400"
                               : modelResult.providerStatus === "fallback-error"
-                                ? "text-red-600"
-                                : "text-amber-600"
+                                ? "text-red-400"
+                                : "text-amber-400"
                           }`}>
                             {modelResult.providerStatusLabel}
                           </span>
@@ -278,7 +278,7 @@ export default async function CaseDetailPage({
 
                       <div className="space-y-1.5">
                         {modelResult.dimensions.map((dim) => {
-                          const dimGradeColor = dim.grade === "C" ? "bg-red-100 text-red-700" : dim.grade === "B" ? "bg-amber-100 text-amber-700" : "bg-emerald-100 text-emerald-700";
+                          const dimGradeColor = dim.grade === "C" ? "bg-tint-red text-red-400" : dim.grade === "B" ? "bg-tint-amber-strong text-amber-400" : "bg-tint-emerald-strong text-emerald-400";
                           return (
                             <div key={dim.dimension} className="rounded-lg border border-slate-100 bg-slate-50 px-3 py-2">
                               <div className="flex items-center justify-between gap-2">
@@ -298,11 +298,11 @@ export default async function CaseDetailPage({
 
               {/* 相違点ハイライト（複数プロバイダーが応答した場合のみ意味を持つ） */}
               {!isSingleRespondingModel && detail.assessment.disagreementDimensions && detail.assessment.disagreementDimensions.length > 0 && (
-                <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3">
-                  <p className="text-xs font-semibold text-amber-800">
+                <div className="mt-4 rounded-xl border border-tint-amber-border bg-tint-amber px-4 py-3">
+                  <p className="text-xs font-semibold text-amber-300">
                     評価が割れた項目: {detail.assessment.disagreementDimensions.join("、")}
                   </p>
-                  <p className="text-xs text-amber-700 mt-1">
+                  <p className="text-xs text-amber-400 mt-1">
                     AIによって判断が異なる項目は、追加調査・確認を特に推奨します。
                   </p>
                 </div>
@@ -317,7 +317,7 @@ export default async function CaseDetailPage({
           {detail.assessment.crossReview && detail.assessment.crossReview.dimensions.length > 0 && (() => {
             const isSingleProvider = detail.assessment.crossReview.participatingProviders.length === 1;
             return (
-            <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+            <section className="rounded-xl border border-slate-200 bg-panel p-6 shadow-sm">
               <details>
                 <summary className="cursor-pointer list-none">
                   <div className="flex items-center justify-between">
@@ -336,10 +336,10 @@ export default async function CaseDetailPage({
                     <span
                       className={`rounded-full border px-3 py-1 text-sm font-bold ${
                         detail.assessment.crossReview.overallConsensusGrade === "C"
-                          ? "text-red-600 bg-red-50 border-red-200"
+                          ? "text-red-400 bg-tint-red border-tint-red-border"
                           : detail.assessment.crossReview.overallConsensusGrade === "B"
-                            ? "text-amber-600 bg-amber-50 border-amber-200"
-                            : "text-emerald-600 bg-emerald-50 border-emerald-200"
+                            ? "text-amber-400 bg-tint-amber border-tint-amber-border"
+                            : "text-emerald-400 bg-tint-emerald border-tint-emerald-border"
                       }`}
                     >
                       {detail.assessment.crossReview.overallConsensusGrade}
@@ -352,7 +352,7 @@ export default async function CaseDetailPage({
                     <div
                       key={dim.dimension}
                       className={`rounded-lg border px-3 py-2 ${
-                        dim.hasDisagreement ? "border-amber-200 bg-amber-50" : "border-slate-100 bg-slate-50"
+                        dim.hasDisagreement ? "border-tint-amber-border bg-tint-amber" : "border-slate-100 bg-slate-50"
                       }`}
                     >
                       <div className="flex items-center justify-between gap-2">
@@ -369,7 +369,7 @@ export default async function CaseDetailPage({
                         ))}
                       </div>
                       {!isSingleProvider && dim.hasDisagreement && (
-                        <p className="mt-1 text-[11px] font-semibold text-amber-700">
+                        <p className="mt-1 text-[11px] font-semibold text-amber-400">
                           AIの評価が分かれています（要確認）
                         </p>
                       )}
@@ -415,9 +415,9 @@ export default async function CaseDetailPage({
           {/* ⑧ 判断根拠・推奨アクション */}
           <section className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
             {/* 判断根拠テキスト */}
-            <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="rounded-xl border border-slate-200 bg-panel p-6 shadow-sm">
               <div className="flex items-center gap-3 mb-4">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-tint-blue">
                   <MagnifierDocumentIcon aria-hidden="true" className="h-5 w-5 text-brand-navy" />
                 </div>
                 <h2 className="text-base font-semibold text-slate-900">判断根拠・AIサマリー</h2>
@@ -429,10 +429,10 @@ export default async function CaseDetailPage({
             </div>
 
             {/* 推奨アクション（★優先度付き） */}
-            <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="rounded-xl border border-slate-200 bg-panel p-6 shadow-sm">
               <div className="flex items-center gap-3 mb-4">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-emerald-600">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-tint-emerald">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-emerald-400">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
                 </div>
@@ -442,7 +442,7 @@ export default async function CaseDetailPage({
                 {detail.assessment.summary.nextActions.map((action, idx) => {
                   const starCount = Math.max(1, 5 - idx);
                   return (
-                    <li key={action} className="flex items-start gap-3 rounded-xl border border-slate-200 bg-blue-50/50 px-4 py-3">
+                    <li key={action} className="flex items-start gap-3 rounded-xl border border-slate-200 bg-tint-blue/50 px-4 py-3">
                       <span className="flex shrink-0 gap-0.5 pt-0.5">
                         {Array.from({ length: 5 }).map((_, starIdx) => (
                           <svg
@@ -481,14 +481,14 @@ export default async function CaseDetailPage({
           </section>
 
           {/* ⑫ AI相談ボタン */}
-          <section className="rounded-xl border border-slate-200 bg-gradient-to-r from-brand-navy to-brand-navy-light p-6 text-white text-center">
+          <section className="rounded-xl border border-slate-200 bg-gradient-to-r from-brand-deep to-brand-navy-light p-6 text-white text-center">
             <h2 className="text-lg font-bold mb-2">この案件についてAIへ質問する</h2>
             <p className="text-sm text-blue-100 mb-4">
               「なぜB評価？」「中国へ輸出すると？」など、このレポートの内容を踏まえてAIに直接相談できます。
             </p>
             <Link
               href={`/cases/${detail.case.id}/chat`}
-              className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-bold text-brand-navy shadow-lg hover:bg-blue-50 transition-colors"
+              className="inline-flex items-center gap-2 rounded-xl bg-panel px-6 py-3 text-sm font-bold text-brand-navy shadow-lg hover:bg-tint-blue transition-colors"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
@@ -498,7 +498,7 @@ export default async function CaseDetailPage({
           </section>
         </>
       ) : (
-        <section className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center shadow-sm">
+        <section className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-panel px-6 py-16 text-center shadow-sm">
           <CargoShipLoader
             aria-hidden="true"
             className="h-16 w-40 text-brand-navy"

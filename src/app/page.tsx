@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { APP_NAME } from "@/lib/constants";
 import { buildSeo, SITE_URL } from "@/lib/seo";
+import { PortTerminalScene, TradeRouteMap } from "@/components/icons/port-scene";
 
 export const dynamic = "force-static";
 
@@ -17,37 +18,37 @@ const features = [
     title: "制裁リスト調査",
     description: "国連・米国OFAC・EUなどの制裁リストに顧客企業・担当者が該当しないかをチェックします。",
     icon: "M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.955 11.955 0 0 0 3 10.5c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.572-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Z",
-    tint: "bg-blue-50 text-brand-navy",
+    tint: "bg-tint-blue text-brand-navy",
   },
   {
     title: "エンドユーザー実在性確認",
     description: "輸出先企業の実在性・事業内容・所在地を調査し、架空企業や不審な転売業者でないか確認します。",
     icon: "M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z",
-    tint: "bg-teal-50 text-brand-teal",
+    tint: "bg-tint-teal text-brand-teal",
   },
   {
     title: "UBO / PEPs確認",
     description: "実質的支配者（UBO）や政治的影響力のある人物（PEPs）への関与がないか調査します。",
     icon: "M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21",
-    tint: "bg-violet-50 text-violet-600",
+    tint: "bg-tint-violet text-violet-400",
   },
   {
     title: "国リスク評価",
     description: "輸出先国の政情・紛争・制裁・輸出規制の状況を確認し、地政学的リスクを数値化します。",
     icon: "M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418",
-    tint: "bg-sky-50 text-sky-700",
+    tint: "bg-tint-sky text-sky-400",
   },
   {
     title: "用途リスク / キャッチオール規制",
     description: "軍事転用・大量破壊兵器への利用が疑われる用途でないかを確認し、規制該当可能性を評価します。",
     icon: "M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z",
-    tint: "bg-amber-50 text-amber-700",
+    tint: "bg-tint-amber text-amber-400",
   },
   {
     title: "PDFレポート出力",
     description: "調査結果・評価理由・根拠資料をA4形式でまとめ、上司提出・社内決裁に使えるレポートを生成します。",
     icon: "M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z",
-    tint: "bg-emerald-50 text-brand-emerald",
+    tint: "bg-tint-emerald text-brand-emerald",
   },
 ];
 
@@ -69,42 +70,42 @@ const quickLinks = [
     label: "デモ画面",
     desc: "実際の診断フローを体験",
     icon: "M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 0 1 0 1.971l-11.54 6.347a1.125 1.125 0 0 1-1.667-.985V5.653Z",
-    tint: "bg-blue-50 text-brand-navy",
+    tint: "bg-tint-blue text-brand-navy",
   },
   {
     href: "/glossary",
     label: "輸出辞典",
     desc: "専門用語を検索・解説",
     icon: "M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25",
-    tint: "bg-teal-50 text-brand-teal",
+    tint: "bg-tint-teal text-brand-teal",
   },
   {
     href: "/ai-room",
     label: "AI相談室",
     desc: "規制資料の読み方を相談",
     icon: "M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z",
-    tint: "bg-violet-50 text-violet-600",
+    tint: "bg-tint-violet text-violet-400",
   },
   {
     href: "/learning",
     label: "学習コンテンツ",
     desc: "失敗例・注意事項を確認",
     icon: "M12 14.25c-4.142 0-7.5-1.5-7.5-1.5v6c0 .621 3.358 1.5 7.5 1.5s7.5-.879 7.5-1.5v-6s-3.358 1.5-7.5 1.5Zm0-9L4.5 8.25 12 12.75l7.5-4.5L12 3.75Z",
-    tint: "bg-amber-50 text-amber-700",
+    tint: "bg-tint-amber text-amber-400",
   },
   {
     href: "/security",
     label: "セキュリティ",
     desc: "AI入力ガイドライン",
     icon: "M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.955 11.955 0 0 0 3 10.5c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.572-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Z",
-    tint: "bg-emerald-50 text-brand-emerald",
+    tint: "bg-tint-emerald text-brand-emerald",
   },
   {
     href: "/training",
     label: "研修支援",
     desc: "営業教育・社内ルール整備",
     icon: "M4.26 10.147a60.436 60.436 0 0 0-.491 6.347A48.627 48.627 0 0 1 12 20.904a48.627 48.627 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.57 50.57 0 0 0-2.658-.813A59.905 59.905 0 0 1 12 3.493a59.902 59.902 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5",
-    tint: "bg-rose-50 text-rose-600",
+    tint: "bg-tint-rose text-rose-400",
   },
 ];
 
@@ -237,7 +238,7 @@ const faqJsonLd = {
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-panel">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -248,10 +249,10 @@ export default function Home() {
         }}
       />
       {/* ナビゲーション */}
-      <nav aria-label="メインナビゲーション" className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/92 shadow-[0_10px_24px_rgba(15,23,42,0.04)] backdrop-blur">
+      <nav aria-label="メインナビゲーション" className="sticky top-0 z-50 border-b border-slate-200/80 bg-panel/90 shadow-[0_10px_24px_rgba(15,23,42,0.04)] backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-navy">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-deep">
               <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="h-4 w-4">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.955 11.955 0 0 0 3 10.5c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.572-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Z" />
               </svg>
@@ -264,20 +265,20 @@ export default function Home() {
             <Link href="/ai-room?v=lp-nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">AI相談室</Link>
             <Link href="/demo?v=lp-nav" className="hidden rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 md:inline-flex">デモ</Link>
             <span className="mx-1 hidden h-5 w-px bg-slate-200 md:block" />
-            <Link href="/contact?v=lp-nav" className="rounded-md bg-brand-navy px-4 py-2 text-sm font-semibold !text-white shadow-sm hover:bg-brand-navy-light">お問い合わせ</Link>
+            <Link href="/contact?v=lp-nav" className="rounded-md bg-brand-deep px-4 py-2 text-sm font-semibold !text-white shadow-sm hover:bg-brand-deep-light">お問い合わせ</Link>
           </div>
         </div>
       </nav>
 
       <main id="main-content" tabIndex={-1} className="outline-none">
         {/* クイックリンク */}
-        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-blue-50/50 px-4 py-5 sm:px-6">
+        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-tint-blue/50 px-4 py-5 sm:px-6">
           <div className="mx-auto grid max-w-6xl grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
             {quickLinks.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
-                className="group trade-hover-lift flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3.5 transition hover:border-brand-navy/40"
+                className="group trade-hover-lift flex items-start gap-3 rounded-xl border border-slate-200 bg-panel px-4 py-3.5 transition hover:border-brand-navy/40"
               >
                 <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${item.tint}`}>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
@@ -294,18 +295,18 @@ export default function Home() {
         </section>
 
         {/* ヒーローセクション */}
-        <section className="relative overflow-hidden border-b border-slate-100 bg-gradient-to-b from-white via-white to-slate-50/70 px-4 py-16 sm:px-6 sm:py-20">
-          <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-blue-200/30 blur-3xl" />
+        <section className="relative overflow-hidden border-b border-slate-100 bg-gradient-to-b from-panel via-panel to-slate-50/70 px-4 py-16 sm:px-6 sm:py-20">
+          <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-[#22d3ee]/15 blur-3xl" />
           <div className="pointer-events-none absolute -right-24 top-40 h-80 w-80 rounded-full bg-teal-200/25 blur-3xl" />
           <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2">
             <div className="trade-fade-in-up">
-              <span className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5 text-sm font-medium text-brand-navy">
-                <span className="h-1.5 w-1.5 rounded-full bg-brand-navy" />
+              <span className="inline-flex items-center gap-2 rounded-full border border-tint-blue-bright bg-tint-blue px-3 py-1.5 text-sm font-medium text-brand-navy">
+                <span className="live-dot" />
                 輸出管理部門がない企業・海外営業向け
               </span>
               <h1 className="mt-6 text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
                 その輸出、<br />
-                <span className="bg-gradient-to-r from-brand-navy to-blue-600 bg-clip-text text-transparent">本当に大丈夫</span>ですか？
+                <span className="bg-gradient-to-r from-brand-cyan via-brand-navy to-brand-teal bg-clip-text text-transparent">本当に大丈夫</span>ですか？
               </h1>
               <p className="mt-4 text-lg font-medium text-brand-navy">
                 輸出管理の専門知識がなくても、営業担当者が商談前に5分で一次確認できます。
@@ -316,11 +317,11 @@ export default function Home() {
                 専門知識がなくても輸出コンプライアンスの初動確認を進められます。
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link href="/demo?v=hero" data-cta-id="hero-demo" data-cta-label="デモ画面を見る" data-cta-target="/demo?v=hero" className="group inline-flex items-center gap-2 rounded-lg bg-brand-navy px-5 py-2.5 text-sm font-semibold !text-white shadow-lg shadow-brand-navy/20 transition hover:-translate-y-0.5 hover:bg-brand-navy-light hover:shadow-xl hover:shadow-brand-navy/30">
+                <Link href="/demo?v=hero" data-cta-id="hero-demo" data-cta-label="デモ画面を見る" data-cta-target="/demo?v=hero" className="group inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-brand-cyan to-brand-blue px-5 py-2.5 text-sm font-bold text-[#06242e] shadow-lg shadow-brand-cyan/25 transition hover:-translate-y-0.5 hover:brightness-110 hover:shadow-xl hover:shadow-brand-cyan/40">
                   デモ画面を見る
                   <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 transition group-hover:translate-x-0.5"><path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" /></svg>
                 </Link>
-                <Link href="/about?v=hero" data-cta-id="hero-about" data-cta-label="サービス説明" data-cta-target="/about?v=hero" className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-navy hover:text-brand-navy">
+                <Link href="/about?v=hero" data-cta-id="hero-about" data-cta-label="サービス説明" data-cta-target="/about?v=hero" className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-panel px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-navy hover:text-brand-navy">
                   サービス説明
                 </Link>
               </div>
@@ -333,7 +334,7 @@ export default function Home() {
                   ["AI診断観点", "8項目"],
                   ["出力形式", "PDF / 要約"],
                 ].map(([label, value]) => (
-                  <div key={label} className="trade-hover-lift rounded-lg border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-3 shadow-sm">
+                  <div key={label} className="trade-hover-lift rounded-lg border border-slate-200 bg-gradient-to-b from-slate-50 to-panel p-3 shadow-sm">
                     <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-600">{label}</p>
                     <p className="mt-1 text-lg font-bold text-slate-900">{value}</p>
                   </div>
@@ -342,7 +343,30 @@ export default function Home() {
             </div>
 
             <div className="trade-fade-in-up space-y-4" style={{ animationDelay: "0.15s" }}>
-              <div className="trade-float overflow-hidden rounded-xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/10">
+              <div className="trade-hover-lift overflow-hidden rounded-xl border border-slate-200 bg-panel shadow-2xl shadow-black/30">
+                <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-4 py-2.5">
+                  <p className="text-xs font-semibold tracking-wide text-slate-900">グローバル航路ネットワーク</p>
+                  <span className="inline-flex items-center gap-1.5 text-[10px] font-bold tracking-widest text-brand-emerald">
+                    <span className="live-dot" />
+                    LIVE
+                  </span>
+                </div>
+                <TradeRouteMap aria-hidden="true" className="block h-auto w-full" idPrefix="hero-map" />
+                <div className="grid grid-cols-2 gap-2 border-t border-slate-200 bg-slate-50 px-4 py-3 sm:grid-cols-4">
+                  {[
+                    ["主要ハブ", "東京・シンガポール"],
+                    ["カバレッジ", "世界の主要航路"],
+                    ["監視観点", "制裁・規制・国リスク"],
+                    ["稼働", "24時間モニタリング"],
+                  ].map(([label, value]) => (
+                    <div key={label}>
+                      <p className="text-[9px] font-semibold uppercase tracking-wider text-slate-600">{label}</p>
+                      <p className="mt-0.5 text-[11px] font-bold text-slate-900">{value}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="trade-float overflow-hidden rounded-xl border border-slate-200 bg-panel shadow-2xl shadow-black/30">
                 <div className="border-b border-slate-200 bg-slate-50 px-4 py-3">
                   <div className="flex items-center gap-2">
                     <span className="h-2.5 w-2.5 rounded-full bg-rose-300" />
@@ -361,27 +385,27 @@ export default function Home() {
                         ["輸出先国", "ベトナム"],
                         ["顧客企業名", "Hanoi Precision Robotics Co., Ltd."],
                       ].map(([label, value]) => (
-                        <div key={label} className="rounded-md border border-slate-200 bg-white px-3 py-2.5">
+                        <div key={label} className="rounded-md border border-slate-200 bg-panel px-3 py-2.5">
                           <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-600">{label}</p>
                           <p className="mt-1 text-sm font-medium text-slate-800">{value}</p>
                         </div>
                       ))}
                     </div>
                   </div>
-                  <div className="rounded-lg border border-slate-200 bg-white p-4">
+                  <div className="rounded-lg border border-slate-200 bg-panel p-4">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-xs font-semibold uppercase tracking-wider text-brand-navy">診断結果</p>
                         <p className="mt-1 text-sm font-semibold text-slate-900">高精度サーボモーター SRV-9800 → ベトナム</p>
                       </div>
-                      <span className="rounded-md border border-amber-200 bg-amber-50 px-3 py-1 text-sm font-bold text-amber-800">総合 B</span>
+                      <span className="rounded-md border border-tint-amber-border bg-tint-amber px-3 py-1 text-sm font-bold text-amber-300">総合 B</span>
                     </div>
                     <div className="mt-4 grid grid-cols-4 gap-2">
                       {[
-                        { label: "制裁", grade: "A", bg: "bg-emerald-50", border: "border-emerald-200", text: "text-emerald-700" },
-                        { label: "企業信用", grade: "B", bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-800" },
-                        { label: "国リスク", grade: "B", bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-800" },
-                        { label: "用途", grade: "A", bg: "bg-emerald-50", border: "border-emerald-200", text: "text-emerald-700" },
+                        { label: "制裁", grade: "A", bg: "bg-tint-emerald", border: "border-tint-emerald-border", text: "text-emerald-400" },
+                        { label: "企業信用", grade: "B", bg: "bg-tint-amber", border: "border-tint-amber-border", text: "text-amber-300" },
+                        { label: "国リスク", grade: "B", bg: "bg-tint-amber", border: "border-tint-amber-border", text: "text-amber-300" },
+                        { label: "用途", grade: "A", bg: "bg-tint-emerald", border: "border-tint-emerald-border", text: "text-emerald-400" },
                       ].map((item) => (
                         <div key={item.label} className={`rounded-lg border p-2 text-center ${item.bg} ${item.border}`}>
                           <p className="text-[10px] text-slate-600">{item.label}</p>
@@ -389,33 +413,60 @@ export default function Home() {
                         </div>
                       ))}
                     </div>
-                    <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-3">
-                      <p className="text-xs font-semibold text-amber-800">要確認: 企業信用 / 最終用途</p>
-                      <p className="mt-1 text-xs leading-5 text-amber-900">類似名称企業の存在と、最終需要先の裏取り不足のため追加確認を推奨。</p>
+                    <div className="mt-4 rounded-lg border border-tint-amber-border bg-tint-amber p-3">
+                      <p className="text-xs font-semibold text-amber-300">要確認: 企業信用 / 最終用途</p>
+                      <p className="mt-1 text-xs leading-5 text-amber-300">類似名称企業の存在と、最終需要先の裏取り不足のため追加確認を推奨。</p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="grid gap-3 sm:grid-cols-3">
-                {trustSignals.map((item) => (
-                  <Link
-                    key={item.title}
-                    href={item.href}
-                    className="trade-hover-lift rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
-                  >
-                    <p className="text-sm font-semibold text-slate-900">{item.title}</p>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">{item.body}</p>
-                  </Link>
-                ))}
+            </div>
+          </div>
+
+          <div className="mx-auto mt-10 grid max-w-6xl gap-3 sm:grid-cols-3">
+            {trustSignals.map((item) => (
+              <Link
+                key={item.title}
+                href={item.href}
+                className="trade-hover-lift rounded-xl border border-slate-200 bg-panel p-4 shadow-sm"
+              >
+                <p className="text-sm font-semibold text-slate-900">{item.title}</p>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{item.body}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* 港湾シーン（モック風コンソールビュー） */}
+        <section className="border-b border-slate-100 bg-gradient-to-b from-panel to-slate-50/60 px-4 py-14 sm:px-6">
+          <div className="mx-auto max-w-6xl">
+            <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <span className="trade-section-label">PORT OPERATIONS</span>
+                <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">港湾のいま</h2>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
+                  輸出の起点は港から。航路・コンテナ・通関の全体像を、貿易コンソールのビジュアルで表現しています。
+                </p>
+              </div>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-tint-blue-bright bg-tint-blue px-3 py-1 text-[10px] font-bold tracking-widest text-brand-navy">
+                <span className="live-dot" />
+                コンソールビュー
+              </span>
+            </div>
+            <div className="overflow-hidden rounded-xl border border-slate-200 bg-panel shadow-2xl shadow-black/40">
+              <PortTerminalScene aria-hidden="true" className="block h-44 w-full sm:h-56 lg:h-64" idPrefix="hero-port" />
+              <div className="flex flex-wrap items-center justify-between gap-2 border-t border-slate-200 bg-slate-50 px-4 py-2.5">
+                <p className="text-[10px] uppercase tracking-widest text-slate-600">コンテナターミナル・コンソールビュー</p>
+                <p className="text-[10px] uppercase tracking-widest text-slate-600">クレーン・コンテナ船・ヤード（イメージ）</p>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-blue-50/40 px-4 py-16 sm:px-6">
+        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-tint-blue/40 px-4 py-16 sm:px-6">
           <div className="mx-auto max-w-6xl space-y-12">
             <div className="text-center">
-              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">
+              <span className="inline-flex rounded-full border border-tint-blue-bright bg-tint-blue px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">
                 導入効果と対象ユーザー
               </span>
               <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
@@ -427,7 +478,7 @@ export default function Home() {
               <h3 className="text-lg font-bold text-slate-900">導入効果の目安</h3>
               <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                 {roiHighlights.map((item) => (
-                  <div key={item.label} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+                  <div key={item.label} className="rounded-xl border border-slate-200 bg-panel p-5 shadow-sm">
                     <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-600">
                       {item.label}
                     </p>
@@ -442,7 +493,7 @@ export default function Home() {
             </div>
 
             <div className="grid gap-6 lg:grid-cols-2">
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="rounded-xl border border-slate-200 bg-panel p-6 shadow-sm">
                 <span className="trade-section-label">USP</span>
                 <h3 className="mt-3 text-xl font-bold text-slate-900">競争力の中心は「AIであること」ではありません</h3>
                 <div className="mt-4 space-y-3">
@@ -455,7 +506,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="rounded-xl border border-slate-200 bg-panel p-6 shadow-sm">
                 <span className="trade-section-label">対象ユーザー</span>
                 <h3 className="mt-3 text-xl font-bold text-slate-900">特に想定している利用者</h3>
                 <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -472,15 +523,15 @@ export default function Home() {
         </section>
 
         {/* 3ステップ */}
-        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-white px-4 py-16 sm:px-6">
+        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-panel px-4 py-16 sm:px-6">
           <div className="mx-auto max-w-5xl text-center">
             <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">3ステップで完了</h2>
             <p className="mt-2 text-base text-slate-600">専門知識不要。商品情報を入力するだけで一次確認の論点を整理できます。</p>
           </div>
           <div className="mx-auto mt-10 grid max-w-5xl gap-6 md:grid-cols-3">
             {steps.map((step) => (
-              <div key={step.number} className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-navy text-sm font-bold !text-white">{step.number}</div>
+              <div key={step.number} className="rounded-xl border border-slate-200 bg-panel p-6 shadow-sm">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-deep text-sm font-bold !text-white">{step.number}</div>
                 <h3 className="mt-4 text-base font-semibold text-slate-900">{step.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-600">{step.description}</p>
               </div>
@@ -492,27 +543,27 @@ export default function Home() {
         <section className="border-b border-slate-100 px-4 py-16 sm:px-6">
           <div className="mx-auto max-w-5xl">
             <div className="text-center">
-              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">
+              <span className="inline-flex rounded-full border border-tint-blue-bright bg-tint-blue px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">
                 診断レポートサンプル
               </span>
               <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">入力したら何が出るのか</h2>
               <p className="mt-2 text-base text-slate-600">診断結果はこのように表示されます。A4レポートとしてPDF出力も可能です。</p>
             </div>
             <div className="mt-10 grid gap-6 lg:grid-cols-2">
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="rounded-xl border border-slate-200 bg-panel p-6 shadow-sm">
                 <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-3">
                   <div>
                     <p className="text-[11px] font-semibold uppercase tracking-wider text-brand-navy">診断レポート - 1ページ目</p>
                     <p className="mt-0.5 text-sm font-semibold text-slate-800">高精度サーボモーター SRV-9800 → ベトナム</p>
                   </div>
-                  <span className="rounded-md bg-amber-100 px-2.5 py-1 text-sm font-bold text-amber-800">B</span>
+                  <span className="rounded-md bg-tint-amber-strong px-2.5 py-1 text-sm font-bold text-amber-300">B</span>
                 </div>
                 <div className="grid grid-cols-4 gap-2 text-center">
                   {[
-                    { label: "制裁リスト", score: "95", grade: "A", bg: "bg-emerald-50", border: "border-emerald-200", text: "text-emerald-700" },
-                    { label: "企業信用", score: "72", grade: "B", bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-800" },
-                    { label: "国リスク", score: "68", grade: "B", bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-800" },
-                    { label: "用途", score: "88", grade: "A", bg: "bg-emerald-50", border: "border-emerald-200", text: "text-emerald-700" },
+                    { label: "制裁リスト", score: "95", grade: "A", bg: "bg-tint-emerald", border: "border-tint-emerald-border", text: "text-emerald-400" },
+                    { label: "企業信用", score: "72", grade: "B", bg: "bg-tint-amber", border: "border-tint-amber-border", text: "text-amber-300" },
+                    { label: "国リスク", score: "68", grade: "B", bg: "bg-tint-amber", border: "border-tint-amber-border", text: "text-amber-300" },
+                    { label: "用途", score: "88", grade: "A", bg: "bg-tint-emerald", border: "border-tint-emerald-border", text: "text-emerald-400" },
                   ].map((item) => (
                     <div key={item.label} className={`rounded-lg border p-2 ${item.bg} ${item.border}`}>
                       <p className="text-[10px] text-slate-600">{item.label}</p>
@@ -526,15 +577,15 @@ export default function Home() {
                   <p className="mt-1 text-xs leading-5 text-slate-600">ベトナムは中程度の国リスク。企業の登記情報は確認済みだが、類似名称企業の存在を確認する必要あり。用途は産業機械として適切。</p>
                 </div>
               </div>
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="rounded-xl border border-slate-200 bg-panel p-6 shadow-sm">
                 <div className="mb-4 border-b border-slate-100 pb-3">
                   <p className="text-[11px] font-semibold uppercase tracking-wider text-brand-navy">診断レポート - 2ページ目</p>
                   <p className="mt-0.5 text-sm font-semibold text-slate-800">判定理由・確認ポイント・推奨対応</p>
                 </div>
                 <div className="space-y-3">
-                  <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
-                    <p className="text-xs font-bold text-amber-800">要確認：企業信用</p>
-                    <p className="mt-1 text-xs text-amber-800">類似名称の別企業が同地域に存在。商標登記番号または法人番号を取引先に確認してください。</p>
+                  <div className="rounded-lg border border-tint-amber-border bg-tint-amber p-3">
+                    <p className="text-xs font-bold text-amber-300">要確認：企業信用</p>
+                    <p className="mt-1 text-xs text-amber-300">類似名称の別企業が同地域に存在。商標登記番号または法人番号を取引先に確認してください。</p>
                   </div>
                   <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
                     <p className="text-xs font-bold text-slate-800">推奨アクション</p>
@@ -552,7 +603,7 @@ export default function Home() {
               </div>
             </div>
             <div className="mt-8 text-center">
-              <Link href="/demo?v=report-sample" className="inline-flex items-center gap-2 rounded-lg bg-brand-navy px-5 py-2.5 text-sm font-semibold !text-white shadow-sm hover:bg-brand-navy-light">
+              <Link href="/demo?v=report-sample" className="inline-flex items-center gap-2 rounded-lg bg-brand-deep px-5 py-2.5 text-sm font-semibold !text-white shadow-sm hover:bg-brand-deep-light">
                 実際のデモを見る
                 <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" /></svg>
               </Link>
@@ -561,7 +612,7 @@ export default function Home() {
         </section>
 
         {/* 判定根拠セクション */}
-        <section className="border-b border-slate-100 bg-brand-navy px-4 py-16 text-white sm:px-6">
+        <section className="border-b border-slate-100 bg-brand-deep px-4 py-16 text-white sm:px-6">
           <div className="mx-auto max-w-5xl">
             <div className="text-center">
               <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-semibold tracking-wider text-blue-50">判定の根拠</span>
@@ -589,10 +640,10 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-blue-50/30 px-4 py-16 sm:px-6">
+        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-tint-blue/30 px-4 py-16 sm:px-6">
           <div className="mx-auto max-w-5xl">
             <div className="text-center">
-              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">
+              <span className="inline-flex rounded-full border border-tint-blue-bright bg-tint-blue px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">
                 信頼性と公開方針
               </span>
               <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
@@ -614,7 +665,7 @@ export default function Home() {
                   text: "一次確認・論点整理・理解支援を目的とし、社内承認や専門家判断を置き換えるものではありません。",
                 },
               ].map((item) => (
-                <div key={item.title} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div key={item.title} className="rounded-xl border border-slate-200 bg-panel p-5 shadow-sm">
                   <h3 className="text-sm font-semibold text-slate-900">{item.title}</h3>
                   <p className="mt-2 text-sm leading-6 text-slate-600">{item.text}</p>
                 </div>
@@ -624,11 +675,11 @@ export default function Home() {
         </section>
 
         {/* AI診断機能 */}
-        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-white px-4 py-16 sm:px-6">
+        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-panel px-4 py-16 sm:px-6">
           <div className="mx-auto max-w-5xl">
             <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
               <div>
-                <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">AI診断機能</span>
+                <span className="inline-flex rounded-full border border-tint-blue-bright bg-tint-blue px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">AI診断機能</span>
                 <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">AIが案件の危険信号を解説</h2>
                 <p className="mt-3 text-base leading-7 text-slate-600">単にA/B/Cを返すだけでなく、なぜその評価になったか、営業担当が次に何を確認すべきかを、わかりやすい日本語で提示します。</p>
               </div>
@@ -639,7 +690,7 @@ export default function Home() {
                   { title: "エビデンス要約", text: "根拠ソースを一行で把握できるので、社内共有がスムーズです。" },
                   { title: "決裁向けレポート", text: "調査サマリーと次アクションをそのままPDF化して提出できます。" },
                 ].map((item) => (
-                  <div key={item.title} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+                  <div key={item.title} className="rounded-lg border border-slate-200 bg-panel p-4 shadow-sm">
                     <h3 className="text-sm font-semibold text-slate-900">{item.title}</h3>
                     <p className="mt-1.5 text-sm leading-6 text-slate-600">{item.text}</p>
                   </div>
@@ -654,7 +705,7 @@ export default function Home() {
           <div className="mx-auto max-w-5xl">
             <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
               <div>
-                <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">サービスについて</span>
+                <span className="inline-flex rounded-full border border-tint-blue-bright bg-tint-blue px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">サービスについて</span>
                 <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">誰が、なぜ作っているのか</h2>
                 <p className="mt-3 text-base leading-7 text-slate-600">輸出管理・海外業務の実務経験を背景に、「中小企業の営業担当者でも一次確認ができる」ツールを目指して開発しています。</p>
                 <p className="mt-2 text-base leading-7 text-slate-600">大企業には専任の輸出管理部門があります。しかし中小企業の現場では、営業担当者が輸出コンプライアンスの初動判断を迫られることが多くあります。</p>
@@ -662,10 +713,10 @@ export default function Home() {
               <div className="space-y-3">
                 {[
                   { title: "輸出管理部門がなくても使える", desc: "専門知識不要。商品と取引先の基本情報を入力するだけで一次確認を進められます。", border: "border-l-brand-navy" },
-                  { title: "営業担当者が商談前に確認できる", desc: "5分で完了するスクリーニングで、商談前のリスク把握が可能です。", border: "border-l-[#0d9488]" },
-                  { title: "判断根拠を可視化して共有", desc: "評価理由と根拠をPDFで出力し、上司・法務担当へスムーズに連携できます。", border: "border-l-[#2563eb]" },
+                  { title: "営業担当者が商談前に確認できる", desc: "5分で完了するスクリーニングで、商談前のリスク把握が可能です。", border: "border-l-[#2dd4bf]" },
+                  { title: "判断根拠を可視化して共有", desc: "評価理由と根拠をPDFで出力し、上司・法務担当へスムーズに連携できます。", border: "border-l-[#38bdf8]" },
                 ].map((item) => (
-                  <div key={item.title} className={`rounded-lg border border-slate-200 border-l-4 ${item.border} bg-white p-4 shadow-sm`}>
+                  <div key={item.title} className={`rounded-lg border border-slate-200 border-l-4 ${item.border} bg-panel p-4 shadow-sm`}>
                     <p className="text-sm font-semibold text-slate-900">{item.title}</p>
                     <p className="mt-1 text-sm text-slate-600">{item.desc}</p>
                   </div>
@@ -684,7 +735,7 @@ export default function Home() {
             </div>
             <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {features.map((f) => (
-                <div key={f.title} className="trade-hover-lift rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div key={f.title} className="trade-hover-lift rounded-xl border border-slate-200 bg-panel p-5 shadow-sm">
                   <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${f.tint}`}>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
                       <path strokeLinecap="round" strokeLinejoin="round" d={f.icon} />
@@ -702,13 +753,13 @@ export default function Home() {
         <section className="border-b border-slate-100 px-4 py-16 sm:px-6">
           <div className="mx-auto max-w-4xl">
             <div className="text-center">
-              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">料金プラン</span>
+              <span className="inline-flex rounded-full border border-tint-blue-bright bg-tint-blue px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">料金プラン</span>
               <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">シンプルな料金体系</h2>
               <p className="mt-2 text-base text-slate-600">無料プランでご利用いただけます。追加プランの料金は準備中です。</p>
             </div>
             <div className="mt-10 grid gap-6 md:grid-cols-2">
-              <div className="relative rounded-xl border-2 border-brand-navy bg-white p-7 shadow-sm">
-                <span className="absolute -top-3 left-5 rounded-full bg-brand-navy px-3 py-0.5 text-xs font-bold !text-white">現在公開中</span>
+              <div className="relative rounded-xl border-2 border-brand-navy bg-panel p-7 shadow-sm">
+                <span className="absolute -top-3 left-5 rounded-full bg-brand-deep px-3 py-0.5 text-xs font-bold !text-white">現在公開中</span>
                 <p className="text-sm font-semibold uppercase tracking-wider text-brand-navy">無料プラン</p>
                 <p className="mt-2 text-3xl font-bold text-slate-900">無料</p>
                 <p className="mt-1 text-sm text-slate-600">現在、全機能を無料でご利用いただけます</p>
@@ -720,9 +771,9 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
-                <Link href="/demo?v=pricing" className="mt-6 flex w-full items-center justify-center rounded-lg bg-brand-navy py-2.5 text-sm font-semibold !text-white shadow-sm hover:bg-brand-navy-light">デモで試す</Link>
+                <Link href="/demo?v=pricing" className="mt-6 flex w-full items-center justify-center rounded-lg bg-brand-deep py-2.5 text-sm font-semibold !text-white shadow-sm hover:bg-brand-deep-light">デモで試す</Link>
               </div>
-              <div className="rounded-xl border border-slate-200 bg-white p-7 shadow-sm">
+              <div className="rounded-xl border border-slate-200 bg-panel p-7 shadow-sm">
                 <p className="text-sm font-semibold uppercase tracking-wider text-slate-600">追加プラン（準備中）</p>
                 <p className="mt-2 text-3xl font-bold text-slate-500">未定</p>
                 <p className="mt-1 text-sm text-slate-600">月額料金・プランは検討中です</p>
@@ -734,38 +785,38 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
-                <Link href="/contact?v=pricing" className="mt-6 flex w-full items-center justify-center rounded-lg border border-slate-300 bg-white py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50">リリース通知を受け取る</Link>
+                <Link href="/contact?v=pricing" className="mt-6 flex w-full items-center justify-center rounded-lg border border-slate-300 bg-panel py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50">リリース通知を受け取る</Link>
               </div>
             </div>
           </div>
         </section>
 
         {/* Trust & Training */}
-        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-blue-50/40 px-4 py-12 sm:px-6">
+        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-tint-blue/40 px-4 py-12 sm:px-6">
           <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-2">
-            <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-2.5 py-1 text-[10px] font-semibold tracking-wider text-brand-navy">信頼とセキュリティ</span>
+            <div className="rounded-xl border border-slate-200 bg-panel p-6 shadow-sm">
+              <span className="inline-flex rounded-full border border-tint-blue-bright bg-tint-blue px-2.5 py-1 text-[10px] font-semibold tracking-wider text-brand-navy">信頼とセキュリティ</span>
               <h2 className="mt-3 text-lg font-bold text-slate-900">AI入力の不安に先回りして対応</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">図面・仕様書をAIへ入力してよいか、技術提供に該当しないか。企業導入でよく出る懸念を整理したガイドラインを用意しています。</p>
               <div className="mt-4 flex gap-3">
-                <Link href="/security?v=lp" data-cta-id="trust-security" data-cta-label="セキュリティ方針" data-cta-target="/security?v=lp" className="rounded-md bg-brand-navy px-4 py-2 text-sm font-semibold !text-white hover:bg-brand-navy-light">セキュリティ方針</Link>
-                <Link href="/ai-room?v=lp-security" data-cta-id="trust-ai-room" data-cta-label="AI相談室で確認" data-cta-target="/ai-room?v=lp-security" className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50">AI相談室で確認</Link>
+                <Link href="/security?v=lp" data-cta-id="trust-security" data-cta-label="セキュリティ方針" data-cta-target="/security?v=lp" className="rounded-md bg-brand-deep px-4 py-2 text-sm font-semibold !text-white hover:bg-brand-deep-light">セキュリティ方針</Link>
+                <Link href="/ai-room?v=lp-security" data-cta-id="trust-ai-room" data-cta-label="AI相談室で確認" data-cta-target="/ai-room?v=lp-security" className="rounded-md border border-slate-300 bg-panel px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50">AI相談室で確認</Link>
               </div>
             </div>
-            <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-2.5 py-1 text-[10px] font-semibold tracking-wider text-brand-navy">研修サービス</span>
+            <div className="rounded-xl border border-slate-200 bg-panel p-6 shadow-sm">
+              <span className="inline-flex rounded-full border border-tint-blue-bright bg-tint-blue px-2.5 py-1 text-[10px] font-semibold tracking-wider text-brand-navy">研修サービス</span>
               <h2 className="mt-3 text-lg font-bold text-slate-900">AI導入だけでなく、運用教育まで支援</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">営業担当向け教育、外為法セミナー、法令改正時の定期講習、社内ルール策定支援など。</p>
               <div className="mt-4 flex gap-3">
-                <Link href="/training?v=lp" data-cta-id="training-service" data-cta-label="研修サービス" data-cta-target="/training?v=lp" className="rounded-md bg-brand-navy px-4 py-2 text-sm font-semibold !text-white hover:bg-brand-navy-light">研修サービス</Link>
-                <Link href="/contact?v=lp-training" data-cta-id="training-contact" data-cta-label="導入相談" data-cta-target="/contact?v=lp-training" className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50">導入相談</Link>
+                <Link href="/training?v=lp" data-cta-id="training-service" data-cta-label="研修サービス" data-cta-target="/training?v=lp" className="rounded-md bg-brand-deep px-4 py-2 text-sm font-semibold !text-white hover:bg-brand-deep-light">研修サービス</Link>
+                <Link href="/contact?v=lp-training" data-cta-id="training-contact" data-cta-label="導入相談" data-cta-target="/contact?v=lp-training" className="rounded-md border border-slate-300 bg-panel px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50">導入相談</Link>
               </div>
             </div>
           </div>
         </section>
 
         {/* ロードマップ */}
-        <section className="border-b border-slate-100 bg-brand-navy px-4 py-16 text-white sm:px-6">
+        <section className="border-b border-slate-100 bg-brand-deep px-4 py-16 text-white sm:px-6">
           <div className="mx-auto max-w-5xl">
             <div className="text-center">
               <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-semibold tracking-wider text-blue-50">ロードマップ</span>
@@ -798,12 +849,12 @@ export default function Home() {
         <section className="border-b border-slate-100 bg-slate-50 px-4 py-16 sm:px-6">
           <div className="mx-auto max-w-3xl">
             <div className="text-center">
-              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">よくある質問</span>
+              <span className="inline-flex rounded-full border border-tint-blue-bright bg-tint-blue px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-navy">よくある質問</span>
               <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">該非判定・輸出管理でよくある質問</h2>
             </div>
             <div className="mt-10 space-y-4">
               {faqItems.map((item) => (
-                <div key={item.q} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div key={item.q} className="rounded-xl border border-slate-200 bg-panel p-5 shadow-sm">
                   <h3 className="text-sm font-semibold text-slate-900">{item.q}</h3>
                   <p className="mt-2 text-sm leading-7 text-slate-600">{item.a}</p>
                 </div>
@@ -814,7 +865,7 @@ export default function Home() {
 
         {/* CTA */}
         <section className="px-4 py-16 sm:px-6">
-          <div className="relative mx-auto max-w-3xl overflow-hidden rounded-2xl bg-gradient-to-br from-brand-navy via-brand-navy to-blue-800 p-10 text-center shadow-2xl shadow-brand-navy/20">
+          <div className="relative mx-auto max-w-3xl overflow-hidden rounded-2xl bg-gradient-to-br from-brand-deep via-brand-deep to-blue-800 p-10 text-center shadow-2xl shadow-brand-cyan/20">
             <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-white/10 blur-3xl" />
             <div className="pointer-events-none absolute -bottom-20 -left-10 h-56 w-56 rounded-full bg-teal-400/10 blur-3xl" />
             <div className="relative">
@@ -822,7 +873,7 @@ export default function Home() {
               <p className="mt-2 text-base text-blue-50">無料でご利用いただけます。メールアドレスだけで開始できます。登録後すぐに案件確認フローを試せます。</p>
               <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
                 <Link href="/demo?v=cta" data-cta-id="footer-demo" data-cta-label="デモを見る" data-cta-target="/demo?v=cta" className="rounded-lg border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20">デモを見る</Link>
-                <Link href="/contact?v=cta" data-cta-id="footer-contact" data-cta-label="導入について相談する" data-cta-target="/contact?v=cta" className="rounded-lg bg-white px-6 py-3 text-sm font-semibold text-brand-navy shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl">導入について相談する</Link>
+                <Link href="/contact?v=cta" data-cta-id="footer-contact" data-cta-label="導入について相談する" data-cta-target="/contact?v=cta" className="rounded-lg bg-panel px-6 py-3 text-sm font-semibold text-brand-navy shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl">導入について相談する</Link>
                 <Link href="/contact?v=cta-fb" data-cta-id="footer-feedback" data-cta-label="フィードバックを送る" data-cta-target="/contact?v=cta-fb" className="rounded-lg border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20">フィードバックを送る</Link>
               </div>
             </div>
@@ -830,12 +881,12 @@ export default function Home() {
         </section>
 
         {/* フッター */}
-        <footer className="border-t border-slate-200 bg-gradient-to-b from-slate-50 to-white px-4 py-12 sm:px-6">
+        <footer className="border-t border-slate-200 bg-gradient-to-b from-slate-50 to-panel px-4 py-12 sm:px-6">
           <div className="mx-auto max-w-6xl">
             <div className="grid gap-8 md:grid-cols-4">
               <div className="md:col-span-2">
                 <div className="flex items-center gap-2">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-navy">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-deep">
                     <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="h-3.5 w-3.5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.955 11.955 0 0 0 3 10.5c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.572-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Z" />
                     </svg>

@@ -25,13 +25,13 @@ export default async function CasesPage() {
       title="案件一覧"
       description="登録済みの輸出リスク調査案件を検索・絞り込み・確認できます。"
     >
-      <div className="relative flex flex-col items-start justify-between gap-4 overflow-hidden rounded-xl border border-slate-200 bg-white px-6 py-4 shadow-sm sm:flex-row sm:items-center">
+      <div className="relative flex flex-col items-start justify-between gap-4 overflow-hidden rounded-xl border border-slate-200 bg-panel px-6 py-4 shadow-sm sm:flex-row sm:items-center">
         <PortSilhouetteStrip
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 bottom-0 h-10 w-full text-brand-navy/[0.06]"
         />
         <div className="relative flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-50 text-sm font-semibold text-brand-navy">
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-tint-blue text-sm font-semibold text-brand-navy">
             {userEmail.charAt(0).toUpperCase()}
           </div>
           <div>
@@ -44,7 +44,7 @@ export default async function CasesPage() {
         </div>
         <Link
           href="/cases/new"
-          className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-navy px-4 py-3 text-sm font-semibold !text-white shadow-sm transition hover:bg-brand-navy-light sm:w-auto sm:py-2"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-deep px-4 py-3 text-sm font-semibold !text-white shadow-sm transition hover:bg-brand-deep-light sm:w-auto sm:py-2"
         >
           <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
             <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
@@ -54,27 +54,27 @@ export default async function CasesPage() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="rounded-xl border border-slate-200 bg-panel p-5 shadow-sm">
           <div className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-600">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-tint-blue text-blue-400">
               <SatelliteIcon aria-hidden="true" className="h-5 w-5" />
             </span>
             <span className="text-sm font-medium text-slate-500">進行中の一次スクリーニング</span>
           </div>
           <p className="mt-3 text-3xl font-bold text-slate-900">{investigating}</p>
         </div>
-        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="rounded-xl border border-slate-200 bg-panel p-5 shadow-sm">
           <div className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-tint-emerald-strong text-emerald-400">
               <ScaleIcon aria-hidden="true" className="h-5 w-5" />
             </span>
             <span className="text-sm font-medium text-slate-500">結果確認待ち</span>
           </div>
           <p className="mt-3 text-3xl font-bold text-slate-900">{needsReview}</p>
         </div>
-        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="rounded-xl border border-slate-200 bg-panel p-5 shadow-sm">
           <div className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-tint-amber-strong text-amber-400">
               <ContainerIcon aria-hidden="true" className="h-5 w-5" />
             </span>
             <span className="text-sm font-medium text-slate-500">全案件数</span>
@@ -86,15 +86,15 @@ export default async function CasesPage() {
       <WaveDivider aria-hidden="true" className="h-3 w-full text-brand-navy/15" />
 
       {items.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-50">
+        <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-panel px-6 py-16 text-center">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-tint-blue">
             <CustomsDocumentIllustration aria-hidden="true" className="h-9 w-9 text-brand-navy" />
           </div>
           <h3 className="mt-4 text-base font-semibold text-slate-900">案件がまだありません</h3>
           <p className="mt-1 text-sm text-slate-500">新規案件を登録して、輸出リスクの調査を始めましょう。</p>
           <Link
             href="/cases/new"
-            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-brand-navy px-4 py-3 text-sm font-semibold !text-white shadow-sm transition hover:bg-brand-navy-light"
+            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-brand-deep px-4 py-3 text-sm font-semibold !text-white shadow-sm transition hover:bg-brand-deep-light"
           >
             最初の案件を登録する
           </Link>

@@ -34,7 +34,7 @@ export default async function CaseReportPage({
       title="レポート確認"
       description="PDFに出力される内容を事前に確認できます。"
     >
-      <section className="grid gap-6 rounded-3xl border border-slate-200 bg-white p-8">
+      <section className="grid gap-6 rounded-3xl border border-slate-200 bg-panel p-8">
         <div>
           <p className="text-sm text-slate-500">案件ID</p>
           <p className="mt-1 text-lg font-semibold">{report.caseId}</p>
@@ -98,13 +98,13 @@ export default async function CaseReportPage({
           ))}
         </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-blue-50/50 p-5">
+        <div className="rounded-2xl border border-slate-200 bg-tint-blue/50 p-5">
           <h2 className="text-lg font-semibold text-slate-900">推奨アクション</h2>
           <div className="mt-4 space-y-3">
             {report.nextActions.map((action, index) => (
-              <div key={action} className="rounded-xl border border-slate-200 bg-white px-4 py-4">
+              <div key={action} className="rounded-xl border border-slate-200 bg-panel px-4 py-4">
                 <div className="flex items-start gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-navy text-xs font-bold !text-white">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-deep text-xs font-bold !text-white">
                     {index + 1}
                   </span>
                   <p className="text-sm leading-6 text-slate-700">{action}</p>
@@ -114,9 +114,9 @@ export default async function CaseReportPage({
           </div>
         </div>
 
-        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5">
-          <h2 className="text-lg font-semibold text-amber-900">免責事項</h2>
-          <p className="mt-3 text-sm leading-7 text-amber-800">
+        <div className="rounded-2xl border border-tint-amber-border bg-tint-amber p-5">
+          <h2 className="text-lg font-semibold text-amber-300">免責事項</h2>
+          <p className="mt-3 text-sm leading-7 text-amber-300">
             本サービスは参考情報を提供するものであり、法令上の判断を代替するものではありません。
             最終的な輸出可否の判断は利用者自身の責任で実施してください。
           </p>
@@ -143,7 +143,7 @@ export default async function CaseReportPage({
           href={`/api/reports/${report.caseId}/pdf`}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex w-fit rounded-full bg-slate-950 px-5 py-3 text-sm font-medium text-white"
+          className="inline-flex w-fit rounded-full bg-panel px-5 py-3 text-sm font-medium text-white"
         >
           PDFを生成して開く
         </a>

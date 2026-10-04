@@ -7,24 +7,24 @@ type Props = {
 };
 
 const statusColorMap: Record<string, string> = {
-  live: "text-emerald-700 bg-emerald-50 border-emerald-200",
-  "fallback-no-key": "text-amber-700 bg-amber-50 border-amber-200",
+  live: "text-emerald-400 bg-tint-emerald border-tint-emerald-border",
+  "fallback-no-key": "text-amber-400 bg-tint-amber border-tint-amber-border",
   "fallback-disabled": "text-slate-700 bg-slate-100 border-slate-200",
-  "fallback-error": "text-red-700 bg-red-50 border-red-200",
+  "fallback-error": "text-red-400 bg-tint-red border-tint-red-border",
 };
 
 const dotColorMap: Record<string, string> = {
-  live: "bg-emerald-500",
+  live: "bg-tint-emerald0",
   "fallback-no-key": "bg-amber-400",
   "fallback-disabled": "bg-slate-400",
-  "fallback-error": "bg-red-500",
+  "fallback-error": "bg-tint-red0",
 };
 
 export function AiProviderStatusPanel({ providers }: Props) {
   const liveCount = providers.filter((provider) => provider.status === "live").length;
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
+    <div className="rounded-xl border border-slate-200 bg-panel p-3 shadow-sm sm:p-4">
       <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
@@ -36,7 +36,7 @@ export function AiProviderStatusPanel({ providers }: Props) {
               ダッシュボード上で、どのAIが実APIで動作し、どれがフォールバック中か確認できます。
             </p>
           </div>
-          <div className="rounded-xl border border-slate-200 bg-white px-4 py-3">
+          <div className="rounded-xl border border-slate-200 bg-panel px-4 py-3">
             <p className="text-xs font-semibold text-slate-500">有効化の切り替え</p>
             <p className="mt-1 text-sm font-semibold text-slate-900">
               ENABLED_AI_PROVIDERS
@@ -48,7 +48,7 @@ export function AiProviderStatusPanel({ providers }: Props) {
           {providers.map((provider) => (
             <div
               key={provider.providerName}
-              className="rounded-lg border border-slate-200 bg-white px-4 py-4"
+              className="rounded-lg border border-slate-200 bg-panel px-4 py-4"
             >
               <div className="flex items-center justify-between gap-3">
                 <div>
@@ -105,14 +105,14 @@ export function AiProviderStatusPanel({ providers }: Props) {
 
         <div className="mt-5 grid gap-3 lg:grid-cols-4">
           {[
-            { label: "実API", color: "bg-emerald-500" },
+            { label: "実API", color: "bg-tint-emerald0" },
             { label: "APIキー未設定", color: "bg-amber-400" },
             { label: "無効", color: "bg-slate-400" },
-            { label: "エラー時フォールバック", color: "bg-red-500" },
+            { label: "エラー時フォールバック", color: "bg-tint-red0" },
           ].map((item) => (
             <div
               key={item.label}
-              className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2"
+              className="flex items-center gap-2 rounded-xl border border-slate-200 bg-panel px-3 py-2"
             >
               <span className={`h-2.5 w-2.5 rounded-full ${item.color}`} />
               <span className="text-xs text-slate-600">{item.label}</span>

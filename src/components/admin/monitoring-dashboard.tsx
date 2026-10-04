@@ -38,7 +38,7 @@ function TrendBadge({
 }) {
   if (previous === 0) {
     return current > 0 ? (
-      <span className="text-xs font-semibold text-emerald-600">↑ NEW</span>
+      <span className="text-xs font-semibold text-emerald-400">↑ NEW</span>
     ) : null;
   }
   const diff = current - previous;
@@ -50,7 +50,7 @@ function TrendBadge({
   return (
     <span
       className={`text-xs font-semibold ${
-        isPositive ? "text-emerald-600" : "text-rose-600"
+        isPositive ? "text-emerald-400" : "text-rose-400"
       }`}
     >
       {isPositive ? "↑" : "↓"} {Math.abs(pct)}%
@@ -62,7 +62,7 @@ function StatusDot({ ok }: { ok: boolean }) {
   return (
     <span
       className={`inline-block h-2.5 w-2.5 rounded-full ${
-        ok ? "bg-emerald-500" : "bg-red-500"
+        ok ? "bg-tint-emerald0" : "bg-tint-red0"
       }`}
     />
   );
@@ -73,7 +73,7 @@ function Card({
   children,
   action,
   icon,
-  iconClassName = "bg-blue-50 text-brand-navy",
+  iconClassName = "bg-tint-blue text-brand-navy",
 }: {
   title: string;
   children: React.ReactNode;
@@ -82,7 +82,7 @@ function Card({
   iconClassName?: string;
 }) {
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+    <section className="rounded-xl border border-slate-200 bg-panel p-4 shadow-sm sm:p-5">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
           {icon ? (
@@ -206,7 +206,7 @@ export function MonitoringDashboard() {
 
   return (
     <div ref={containerRef} className="space-y-6">
-      <div className="relative flex flex-col gap-3 overflow-hidden rounded-xl border border-slate-200 bg-gradient-to-br from-brand-navy to-brand-navy-light p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-5">
+      <div className="relative flex flex-col gap-3 overflow-hidden rounded-xl border border-slate-200 bg-gradient-to-br from-brand-deep to-brand-navy-light p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-5">
         <GaugeIcon
           aria-hidden="true"
           className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 text-white/10 sm:h-36 sm:w-36"
@@ -248,7 +248,7 @@ export function MonitoringDashboard() {
       </div>
 
       {state.kind === "loading" || state.kind === "error" || state.kind === "forbidden" ? (
-        <div className="rounded-xl border border-dashed border-slate-300 bg-white px-6 py-12 text-center">
+        <div className="rounded-xl border border-dashed border-slate-300 bg-panel px-6 py-12 text-center">
           {state.kind === "loading" ? (
             <div className="flex items-center justify-center gap-2 text-sm text-slate-500">
               <Spinner className="h-4 w-4" />
@@ -272,7 +272,7 @@ export function MonitoringDashboard() {
           <Card
             title="案件統計"
             icon={<ContainerIcon aria-hidden="true" className="h-6 w-6" />}
-            iconClassName="bg-blue-50 text-brand-navy"
+            iconClassName="bg-tint-blue text-brand-navy"
           >
             <div className="grid gap-3">
               <MetricItem
@@ -320,7 +320,7 @@ export function MonitoringDashboard() {
             title="AI利用状況"
             action={<span className="text-xs text-slate-500">30日間</span>}
             icon={<GlobalNetworkIcon aria-hidden="true" className="h-6 w-6" />}
-            iconClassName="bg-violet-50 text-violet-600"
+            iconClassName="bg-tint-violet text-violet-400"
           >
             <div className="space-y-3">
               {Object.entries(state.data.aiUsage.byProvider).map(([provider, stats]) => (
@@ -341,7 +341,7 @@ export function MonitoringDashboard() {
                     {stats.fallbackCount > 0 ? (
                       <>
                         <span>·</span>
-                        <span className="text-amber-600">フォールバック {formatNumber(stats.fallbackCount)}</span>
+                        <span className="text-amber-400">フォールバック {formatNumber(stats.fallbackCount)}</span>
                       </>
                     ) : null}
                   </div>
@@ -352,9 +352,9 @@ export function MonitoringDashboard() {
                 <span className="text-sm font-bold text-slate-900">{formatNumber(state.data.aiUsage.totalCalls)}</span>
               </div>
               {state.data.aiUsage.totalFallbacks > 0 ? (
-                <div className="flex items-center justify-between rounded-lg border border-amber-200 bg-amber-50 px-3 py-2">
-                  <span className="text-sm font-semibold text-amber-800">フォールバック合計</span>
-                  <span className="text-sm font-bold text-amber-900">{formatNumber(state.data.aiUsage.totalFallbacks)}</span>
+                <div className="flex items-center justify-between rounded-lg border border-tint-amber-border bg-tint-amber px-3 py-2">
+                  <span className="text-sm font-semibold text-amber-300">フォールバック合計</span>
+                  <span className="text-sm font-bold text-amber-300">{formatNumber(state.data.aiUsage.totalFallbacks)}</span>
                 </div>
               ) : null}
             </div>
@@ -365,7 +365,7 @@ export function MonitoringDashboard() {
             title="ユーザーアクティビティ"
             action={<span className="text-xs text-slate-500">24h</span>}
             icon={<ShieldIcon aria-hidden="true" className="h-6 w-6" />}
-            iconClassName="bg-emerald-50 text-emerald-600"
+            iconClassName="bg-tint-emerald text-emerald-400"
           >
             <div className="grid gap-3">
               <MetricItem
@@ -387,7 +387,7 @@ export function MonitoringDashboard() {
           <Card
             title="システムヘルス"
             icon={<ShieldCheckIcon aria-hidden="true" className="h-6 w-6" />}
-            iconClassName="bg-sky-50 text-sky-600"
+            iconClassName="bg-tint-sky text-sky-600"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50 px-3 py-2">
@@ -431,7 +431,7 @@ export function MonitoringDashboard() {
             title="エラー監視"
             action={<span className="text-xs text-slate-500">24h</span>}
             icon={<WarningIcon aria-hidden="true" className="h-6 w-6" />}
-            iconClassName="bg-rose-50 text-rose-600"
+            iconClassName="bg-tint-rose text-rose-400"
           >
             <div className="grid gap-3">
               <MetricItem

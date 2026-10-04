@@ -21,13 +21,13 @@ const modelColor: Record<string, string> = {
   "gpt-4o": "bg-emerald-600",
   claude: "bg-violet-600",
   gemini: "bg-blue-600",
-  mock: "bg-slate-500",
+  mock: "bg-slate-300",
 };
 
 const gradeColor: Record<string, string> = {
-  A: "text-emerald-700 bg-emerald-50 border-emerald-200",
-  B: "text-amber-700 bg-amber-50 border-amber-200",
-  C: "text-rose-700 bg-rose-50 border-rose-200",
+  A: "text-emerald-400 bg-tint-emerald border-tint-emerald-border",
+  B: "text-amber-400 bg-tint-amber border-tint-amber-border",
+  C: "text-rose-400 bg-tint-rose border-tint-rose-border",
 };
 
 export function AiReviewMeeting({
@@ -43,7 +43,7 @@ export function AiReviewMeeting({
   const isSingleProvider = reviewMeeting.length === 1;
 
   return (
-    <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
+    <div className="bg-panel border border-slate-200 rounded-2xl shadow-sm p-6">
       {/* ヘッダー */}
       <div className="flex items-center justify-between mb-5">
         <div>
@@ -62,10 +62,10 @@ export function AiReviewMeeting({
             <p
               className={`text-2xl font-black ${
                 agreementRate >= 80
-                  ? "text-emerald-600"
+                  ? "text-emerald-400"
                   : agreementRate >= 60
                     ? "text-amber-500"
-                    : "text-rose-600"
+                    : "text-rose-400"
               }`}
             >
               {agreementRate}%
@@ -95,7 +95,7 @@ export function AiReviewMeeting({
             <div key={entry.model} className="relative flex gap-4">
               {/* アイコン */}
               <div
-                className={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0 ${modelColor[entry.model] ?? "bg-slate-500"}`}
+                className={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0 ${modelColor[entry.model] ?? "bg-slate-300"}`}
               >
                 {modelIcon[entry.model] ?? "?"}
               </div>
@@ -121,7 +121,7 @@ export function AiReviewMeeting({
                   {entry.reviewComment}
                 </p>
                 <div className="mt-2 flex items-start gap-1.5">
-                  <span className="text-xs font-semibold text-rose-600 flex-shrink-0">
+                  <span className="text-xs font-semibold text-rose-400 flex-shrink-0">
                     主なリスク:
                   </span>
                   <span className="text-xs text-slate-600">{entry.keyRisk}</span>
@@ -141,7 +141,7 @@ export function AiReviewMeeting({
 
           {/* 統合判定 */}
           <div className="relative flex gap-4">
-            <div className="relative z-10 w-10 h-10 rounded-full flex items-center justify-center text-white flex-shrink-0 bg-brand-navy">
+            <div className="relative z-10 w-10 h-10 rounded-full flex items-center justify-center text-white flex-shrink-0 bg-brand-deep">
               <svg viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
                 <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.005 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354l-4.627 2.824c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.005Z" clipRule="evenodd" />
               </svg>
@@ -150,7 +150,7 @@ export function AiReviewMeeting({
               <p className="text-sm font-bold text-slate-800 mb-1">統合判定</p>
               <p className="text-sm text-slate-700">{summary.summary}</p>
               {disagreementDimensions.length > 0 && (
-                <div className="mt-2 text-xs text-amber-700 bg-amber-50 rounded-lg px-3 py-2 border border-amber-200">
+                <div className="mt-2 text-xs text-amber-400 bg-tint-amber rounded-lg px-3 py-2 border border-tint-amber-border">
                   <span className="font-semibold">評価が割れた項目: </span>
                   {disagreementDimensions.join("、")}
                 </div>

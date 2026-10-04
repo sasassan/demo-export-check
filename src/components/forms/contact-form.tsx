@@ -40,9 +40,9 @@ export function ContactForm() {
 
   if (status === "sent") {
     return (
-      <div role="status" className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 text-center">
-        <p className="text-lg font-bold text-emerald-800">送信しました</p>
-        <p className="mt-2 text-sm leading-7 text-emerald-700">
+      <div role="status" className="rounded-2xl border border-tint-emerald-border bg-tint-emerald p-6 text-center">
+        <p className="text-lg font-bold text-emerald-400">送信しました</p>
+        <p className="mt-2 text-sm leading-7 text-emerald-400">
           お問い合わせありがとうございます。内容を確認し、原則1営業日以内を目安に一次返信いたします。
         </p>
         <button
@@ -63,7 +63,7 @@ export function ContactForm() {
         <select
           value={purpose}
           onChange={(event) => setPurpose(event.target.value)}
-          className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none focus:border-brand-navy focus:ring-2 focus:ring-blue-100"
+          className="rounded-xl border border-slate-300 bg-panel px-4 py-3 text-sm text-slate-900 outline-none focus:border-brand-navy focus:ring-2 focus:ring-blue-100"
           required
         >
           {["導入相談", "デモ依頼", "フィードバック", "NDA・セキュリティ相談", "その他"].map((item) => (
@@ -78,7 +78,7 @@ export function ContactForm() {
         <input
           value={name}
           onChange={(event) => setName(event.target.value)}
-          className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none focus:border-brand-navy focus:ring-2 focus:ring-blue-100"
+          className="rounded-xl border border-slate-300 bg-panel px-4 py-3 text-sm text-slate-900 outline-none focus:border-brand-navy focus:ring-2 focus:ring-blue-100"
           placeholder="山田 太郎"
           required
         />
@@ -89,7 +89,7 @@ export function ContactForm() {
           type="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none focus:border-brand-navy focus:ring-2 focus:ring-blue-100"
+          className="rounded-xl border border-slate-300 bg-panel px-4 py-3 text-sm text-slate-900 outline-none focus:border-brand-navy focus:ring-2 focus:ring-blue-100"
           placeholder="you@example.com"
           required
         />
@@ -99,7 +99,7 @@ export function ContactForm() {
         <input
           value={company}
           onChange={(event) => setCompany(event.target.value)}
-          className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none focus:border-brand-navy focus:ring-2 focus:ring-blue-100"
+          className="rounded-xl border border-slate-300 bg-panel px-4 py-3 text-sm text-slate-900 outline-none focus:border-brand-navy focus:ring-2 focus:ring-blue-100"
           placeholder="株式会社〇〇"
         />
       </label>
@@ -109,14 +109,14 @@ export function ContactForm() {
           value={message}
           onChange={(event) => setMessage(event.target.value)}
           rows={6}
-          className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none focus:border-brand-navy focus:ring-2 focus:ring-blue-100"
+          className="rounded-xl border border-slate-300 bg-panel px-4 py-3 text-sm text-slate-900 outline-none focus:border-brand-navy focus:ring-2 focus:ring-blue-100"
           placeholder="背景、課題、相談したい内容、希望時期などをご記入ください"
           required
         />
       </label>
 
       {status === "error" && (
-        <div role="alert" className="rounded-xl border border-rose-300 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+        <div role="alert" className="rounded-xl border border-tint-rose-border bg-tint-rose px-4 py-3 text-sm text-rose-400">
           送信に失敗しました。しばらくしてから再度お試しください。
         </div>
       )}
@@ -124,7 +124,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-navy px-5 py-3 text-sm font-semibold !text-white shadow-sm transition hover:bg-brand-navy-light disabled:opacity-60"
+        className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-deep px-5 py-3 text-sm font-semibold !text-white shadow-sm transition hover:bg-brand-deep-light disabled:opacity-60"
       >
         {status === "sending" && <Spinner className="h-4 w-4" />}
         {status === "sending" ? "送信中..." : "送信する"}

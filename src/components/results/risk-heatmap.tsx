@@ -7,7 +7,7 @@ type Props = {
 };
 
 const COLORS = [
-  "bg-rose-500",
+  "bg-tint-rose0",
   "bg-orange-400",
   "bg-amber-400",
   "bg-yellow-300",
@@ -25,7 +25,7 @@ export function RiskHeatmap({ dimensions }: Props) {
   const sorted = [...dimensions].sort((a, b) => b.score - a.score);
 
   return (
-    <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
+    <div className="bg-panel border border-slate-200 rounded-2xl shadow-sm p-6">
       <div className="mb-4">
         <h3 className="text-base font-bold text-slate-900">リスクヒートマップ</h3>
         <p className="text-xs text-slate-500 mt-0.5">

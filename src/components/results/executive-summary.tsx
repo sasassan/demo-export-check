@@ -4,9 +4,9 @@ import { DocumentInvoiceIcon } from "@/components/icons/trade-icons";
 import type { CaseRecord, AssessmentRecord } from "@/lib/types";
 
 const gradeColor: Record<string, string> = {
-  A: "bg-emerald-100 text-emerald-800 border-emerald-300",
-  B: "bg-amber-100 text-amber-800 border-amber-300",
-  C: "bg-rose-100 text-rose-800 border-rose-300",
+  A: "bg-tint-emerald-strong text-emerald-400 border-tint-emerald-border",
+  B: "bg-tint-amber-strong text-amber-300 border-tint-amber-border",
+  C: "bg-tint-rose-strong text-rose-800 border-tint-rose-border",
 };
 
 const gradeLabel: Record<string, string> = {
@@ -37,7 +37,7 @@ export function ExecutiveSummary({ caseRecord, assessment }: Props) {
   const safetyScore = Math.max(0, 100 - avgScore);
 
   return (
-    <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden print:shadow-none">
+    <div className="bg-panel border border-slate-200 rounded-2xl shadow-sm overflow-hidden print:shadow-none">
       {/* ヘッダー */}
       <div className="bg-gradient-to-r from-slate-800 to-slate-700 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -93,15 +93,15 @@ export function ExecutiveSummary({ caseRecord, assessment }: Props) {
           </div>
 
           {assessment.dimensions.filter((d) => d.grade !== "A").length > 0 && (
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
-              <p className="text-xs font-semibold text-amber-800 mb-1">
+            <div className="bg-tint-amber border border-tint-amber-border rounded-lg p-3">
+              <p className="text-xs font-semibold text-amber-300 mb-1">
                 重要な注意事項
               </p>
               <ul className="space-y-0.5">
                 {assessment.dimensions
                   .filter((d) => d.grade !== "A")
                   .map((d) => (
-                    <li key={d.dimension} className="text-xs text-amber-700">
+                    <li key={d.dimension} className="text-xs text-amber-400">
                       ・{d.label}：{d.rationale.slice(0, 60)}…
                     </li>
                   ))}
@@ -133,10 +133,10 @@ export function ExecutiveSummary({ caseRecord, assessment }: Props) {
               <p
                 className={`text-lg font-bold ${
                   agreementRate >= 80
-                    ? "text-emerald-600"
+                    ? "text-emerald-400"
                     : agreementRate >= 60
-                      ? "text-amber-600"
-                      : "text-rose-600"
+                      ? "text-amber-400"
+                      : "text-rose-400"
                 }`}
               >
                 {agreementRate}%

@@ -34,23 +34,23 @@ const kindConfig: Record<
   { container: string; iconWrap: string; Icon: React.ComponentType<React.SVGProps<SVGSVGElement>> }
 > = {
   success: {
-    container: "border-emerald-200 bg-white",
-    iconWrap: "bg-emerald-100 text-emerald-700",
+    container: "border-tint-emerald-border bg-panel",
+    iconWrap: "bg-tint-emerald-strong text-emerald-400",
     Icon: CheckCircleIcon,
   },
   error: {
-    container: "border-rose-200 bg-white",
-    iconWrap: "bg-rose-100 text-rose-700",
+    container: "border-tint-rose-border bg-panel",
+    iconWrap: "bg-tint-rose-strong text-rose-400",
     Icon: XCircleIcon,
   },
   warning: {
-    container: "border-amber-200 bg-white",
-    iconWrap: "bg-amber-100 text-amber-700",
+    container: "border-tint-amber-border bg-panel",
+    iconWrap: "bg-tint-amber-strong text-amber-400",
     Icon: WarningTriangleIcon,
   },
   info: {
-    container: "border-blue-200 bg-white",
-    iconWrap: "bg-blue-100 text-brand-navy",
+    container: "border-tint-blue-bright bg-panel",
+    iconWrap: "bg-tint-blue text-brand-navy",
     Icon: InfoIcon,
   },
 };
@@ -168,7 +168,7 @@ function ToastViewport({
           <div
             key={toast.id}
             role="status"
-            className={`trade-toast pointer-events-auto flex items-start gap-3 rounded-xl border p-4 shadow-lg shadow-slate-900/10 ${config.container}`}
+            className={`trade-toast pointer-events-auto flex items-start gap-3 rounded-xl border p-4 shadow-lg shadow-black/30 ${config.container}`}
           >
             <span
               className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${config.iconWrap}`}

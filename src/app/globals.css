@@ -1,26 +1,62 @@
 @import "tailwindcss";
 
+/*
+ * 輸出リスクナビ — ダークテーマ（Global Trade Console）
+ * 参照: mock-designs/mock-3-global-v2.html
+ * 配色方針: 背景 #070C18 系 / パネル #0D1526〜#101B31 / アクセント シアン #22D3EE・ティール #2DD4BF
+ * 方針: slate系は明→暗で反転マッピングし、ページ側のTailwindクラス変更を最小化する
+ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
-  --text-strong: #0f172a;
-  --text-body: #334155;
-  --text-muted: #64748b;
-  --brand-navy: #1e3a5f;
-  --brand-navy-light: #2a4a73;
-  --brand-blue: #2563eb;
-  --brand-teal: #0d9488;
-  --brand-amber: #b45309;
-  --brand-amber-light: #fef3c7;
-  --brand-emerald: #047857;
-  --brand-emerald-light: #ecfdf5;
-  --surface-primary: #ffffff;
-  --surface-secondary: #f8fafc;
-  --surface-tertiary: #f1f5f9;
-  --surface-accent: #f8fbff;
-  --surface-warm: #fffdf7;
-  --border-default: #e2e8f0;
-  --border-light: #f1f5f9;
+  color-scheme: dark;
+
+  --background: #070c18;
+  --foreground: #e2e8f0;
+  --text-strong: #e8eff7;
+  --text-body: #a9b8cc;
+  --text-muted: #7c8ba1;
+
+  --brand-navy: #7dd3fc;
+  --brand-navy-light: #38bdf8;
+  --brand-blue: #38bdf8;
+  --brand-teal: #2dd4bf;
+  --brand-amber: #f59e0b;
+  --brand-amber-light: #3a2c12;
+  --brand-emerald: #34d399;
+  --brand-emerald-light: #0c2e26;
+
+  --surface-primary: #0d1526;
+  --surface-secondary: #101b31;
+  --surface-tertiary: #121e33;
+  --surface-accent: #0f2138;
+  --surface-warm: #171307;
+  --border-default: #1d2b45;
+  --border-light: #16233c;
+
+  --brand-deep: #16305c;
+  --brand-deep-light: #1e3a66;
+  --brand-cyan: #22d3ee;
+  --panel: #0d1526;
+  --panel-2: #101b31;
+
+  --tint-blue: #102a40;
+  --tint-blue-bright: rgba(125, 211, 252, 0.25);
+  --tint-teal: #0b2f2a;
+  --tint-violet: #1a1740;
+  --tint-sky: #0a2a38;
+  --tint-rose: #2a1218;
+  --tint-rose-strong: #401521;
+  --tint-rose-border: rgba(251, 113, 133, 0.3);
+  --tint-amber: #2b2110;
+  --tint-amber-strong: #3a2c12;
+  --tint-amber-border: rgba(245, 158, 11, 0.3);
+  --tint-emerald: #0c2e26;
+  --tint-emerald-strong: #0e3b34;
+  --tint-emerald-border: rgba(52, 211, 153, 0.3);
+  --tint-cyan: #0a2e33;
+  --tint-cyan-border: rgba(34, 211, 238, 0.28);
+  --tint-red: #2a1416;
+  --tint-red-border: rgba(248, 113, 113, 0.3);
 }
 
 @theme inline {
@@ -36,6 +72,46 @@
   --color-brand-amber-light: var(--brand-amber-light);
   --color-brand-emerald: var(--brand-emerald);
   --color-brand-emerald-light: var(--brand-emerald-light);
+  --color-brand-deep: var(--brand-deep);
+  --color-brand-deep-light: var(--brand-deep-light);
+  --color-brand-cyan: var(--brand-cyan);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-tint-blue: var(--tint-blue);
+  --color-tint-blue-bright: var(--tint-blue-bright);
+  --color-tint-teal: var(--tint-teal);
+  --color-tint-violet: var(--tint-violet);
+  --color-tint-sky: var(--tint-sky);
+  --color-tint-rose: var(--tint-rose);
+  --color-tint-rose-strong: var(--tint-rose-strong);
+  --color-tint-rose-border: var(--tint-rose-border);
+  --color-tint-amber: var(--tint-amber);
+  --color-tint-amber-strong: var(--tint-amber-strong);
+  --color-tint-amber-border: var(--tint-amber-border);
+  --color-tint-emerald: var(--tint-emerald);
+  --color-tint-emerald-strong: var(--tint-emerald-strong);
+  --color-tint-emerald-border: var(--tint-emerald-border);
+  --color-tint-cyan: var(--tint-cyan);
+  --color-tint-cyan-border: var(--tint-cyan-border);
+  --color-tint-red: var(--tint-red);
+  --color-tint-red-border: var(--tint-red-border);
+}
+
+/* ダークテーマ対応 slate リマップ（明→暗 反転）。
+   text-slate-900 が明るい見出し色に、bg-slate-50 が暗い面になるため、
+   全ページのスレート系クラスが自動でダークテーマ化される。 */
+@theme {
+  --color-slate-50: #0d1626;
+  --color-slate-100: #121e33;
+  --color-slate-200: #1d2b45;
+  --color-slate-300: #31435f;
+  --color-slate-400: #7c8ba1;
+  --color-slate-500: #8ca3ba;
+  --color-slate-600: #a9b8cc;
+  --color-slate-700: #c0ccdd;
+  --color-slate-800: #d6e0eb;
+  --color-slate-900: #e9eff7;
+  --color-slate-950: #f4f8fd;
 }
 
 * {
@@ -50,16 +126,24 @@ html {
 
 /* アクセシビリティ: キーボード操作時のフォーカスを常に視認可能にする */
 :focus-visible {
-  outline: 2px solid var(--brand-blue);
+  outline: 2px solid var(--brand-cyan);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
+::selection {
+  background: rgba(34, 211, 238, 0.35);
+  color: #e8eff7;
+}
+
 body {
-  background:
-    radial-gradient(circle at top, rgba(37, 99, 235, 0.05), transparent 28%),
-    linear-gradient(180deg, #f8fbff 0%, #ffffff 22%, #f8fafc 100%);
-  color: #334155;
+  background-color: var(--background);
+  background-image:
+    radial-gradient(rgba(148, 163, 184, 0.055) 1px, transparent 1.5px),
+    radial-gradient(900px 500px at 85% -10%, rgba(34, 211, 238, 0.07), transparent 60%),
+    radial-gradient(700px 500px at -10% 30%, rgba(129, 140, 248, 0.06), transparent 60%);
+  background-size: 22px 22px, auto, auto;
+  color: var(--text-body);
   font-family: var(--font-sans), -apple-system, "Hiragino Sans", "Noto Sans JP", Arial, sans-serif;
 }
 
@@ -70,42 +154,44 @@ body {
   }
 }
 
+/* ---------- サーフェス ---------- */
+
 .trade-surface {
   position: relative;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(248, 250, 252, 0.96) 100%);
+    linear-gradient(180deg, rgba(13, 21, 38, 0.92) 0%, rgba(7, 12, 24, 0.96) 100%);
 }
 
 .trade-dashboard-bg {
   background:
-    linear-gradient(180deg, rgba(248, 251, 255, 0.95) 0%, rgba(248, 250, 252, 1) 100%);
+    linear-gradient(180deg, rgba(16, 27, 49, 0.95) 0%, rgba(7, 12, 24, 1) 100%);
 }
 
 .trade-panel {
   background: var(--surface-primary);
   border: 1px solid var(--border-default);
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   color: var(--text-strong);
 }
 
 .trade-dark-panel {
-  background: var(--brand-navy);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 24px rgba(30, 58, 95, 0.12);
+  background: var(--brand-deep);
+  border: 1px solid rgba(125, 211, 252, 0.14);
+  box-shadow: 0 4px 24px rgba(2, 8, 23, 0.5);
 }
 
 .trade-glass-card {
-  background: var(--surface-primary);
+  background: linear-gradient(180deg, rgba(16, 27, 49, 0.9) 0%, rgba(13, 21, 38, 0.94) 100%);
   border: 1px solid var(--border-default);
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
 }
 
 .trade-section-label {
   display: inline-flex;
   width: fit-content;
   border-radius: 9999px;
-  border: 1px solid #bfdbfe;
-  background: linear-gradient(180deg, #eff6ff 0%, #f8fbff 100%);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  background: linear-gradient(180deg, rgba(34, 211, 238, 0.12) 0%, rgba(13, 21, 38, 0.9) 100%);
   padding: 0.3rem 0.75rem;
   font-size: 11px;
   font-weight: 600;
@@ -125,19 +211,19 @@ body {
   align-items: center;
   justify-content: center;
   border-radius: 0.5rem;
-  background: linear-gradient(135deg, var(--brand-navy) 0%, var(--brand-blue) 100%);
+  background: linear-gradient(135deg, #22d3ee 0%, #0ea5e9 100%);
   padding: 0.625rem 1.25rem;
   font-size: 0.875rem;
   font-weight: 600;
-  color: white;
-  box-shadow: 0 10px 24px rgba(30, 58, 95, 0.18);
+  color: #06242e;
+  box-shadow: 0 10px 24px rgba(34, 211, 238, 0.18);
   transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
 }
 
 .trade-primary-button:hover {
-  filter: brightness(1.02);
+  filter: brightness(1.05);
   transform: translateY(-1px);
-  box-shadow: 0 14px 30px rgba(30, 58, 95, 0.22);
+  box-shadow: 0 14px 30px rgba(34, 211, 238, 0.28);
 }
 
 .trade-secondary-button {
@@ -146,24 +232,33 @@ body {
   justify-content: center;
   border-radius: 0.5rem;
   border: 1px solid var(--border-default);
-  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  background: linear-gradient(180deg, rgba(16, 27, 49, 0.7) 0%, rgba(13, 21, 38, 0.85) 100%);
   padding: 0.625rem 1.25rem;
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--text-body);
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
   transition: all 0.15s;
   min-height: 36px;
 }
 
 .trade-secondary-button:hover {
-  background: linear-gradient(180deg, #f8fbff 0%, #eff6ff 100%);
-  border-color: #cbd5e1;
+  background: linear-gradient(180deg, rgba(16, 27, 49, 0.85) 0%, rgba(34, 211, 238, 0.08) 100%);
+  border-color: rgba(34, 211, 238, 0.45);
+  color: var(--text-strong);
 }
 
 .trade-grid {
   background: none;
 }
+
+/* ドット地図風のアクセント背景 */
+.trade-dot-grid {
+  background-image: radial-gradient(rgba(148, 163, 184, 0.09) 1px, transparent 1.4px);
+  background-size: 22px 22px;
+}
+
+/* ---------- アニメーション ---------- */
 
 @keyframes trade-fade-in-up {
   from {
@@ -199,7 +294,8 @@ body {
 
 .trade-hover-lift:hover {
   transform: translateY(-3px);
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+  border-color: rgba(34, 211, 238, 0.35);
 }
 
 /* ロープ／チェーン風のボーダー装飾（カードの角などに添える） */
@@ -216,8 +312,8 @@ body {
   background:
     repeating-linear-gradient(
       135deg,
-      rgba(180, 83, 9, 0.35) 0,
-      rgba(180, 83, 9, 0.35) 2px,
+      rgba(245, 158, 11, 0.3) 0,
+      rgba(245, 158, 11, 0.3) 2px,
       transparent 2px,
       transparent 7px
     );
@@ -261,7 +357,176 @@ body {
   position: absolute;
 }
 
-/* アクセシビリティ: 動きの抑制を希望するユーザー向けにアニメーションを無効化 */
+/* ---------- ライブインジケーター / 航路アーク ---------- */
+
+@keyframes trade-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.55);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(52, 211, 153, 0);
+  }
+}
+
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: var(--brand-emerald);
+  animation: trade-pulse 2s infinite;
+}
+
+@keyframes trade-dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+.arc-route {
+  stroke-dasharray: 5 7;
+  animation: trade-dash 2.4s linear infinite;
+}
+
+@keyframes trade-node-pulse {
+  0%, 100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.map-node-halo {
+  animation: trade-node-pulse 2.4s ease-in-out infinite;
+}
+
+.hero-ship .hero-ship-glow {
+  fill: rgba(125, 244, 255, 0.22);
+}
+
+.hero-ship .hero-ship-core {
+  fill: #7df4ff;
+}
+
+/* ---------- 港湾シーン ---------- */
+
+@keyframes trade-moon-glow {
+  0%, 100% {
+    opacity: 0.92;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.port-moon {
+  animation: trade-moon-glow 5s ease-in-out infinite;
+}
+
+@keyframes trade-twinkle {
+  0%, 100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+.port-star {
+  animation: trade-twinkle 3s ease-in-out infinite;
+}
+
+@keyframes trade-beacon {
+  0%, 100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.port-beacon {
+  animation: trade-beacon 1.6s ease-in-out infinite;
+}
+
+@keyframes trade-gull-fly {
+  from {
+    transform: translateX(-60px);
+  }
+  to {
+    transform: translateX(1300px);
+  }
+}
+
+.port-gull {
+  animation: trade-gull-fly 30s linear infinite;
+}
+
+.port-gull-slow {
+  animation: trade-gull-fly 40s linear infinite;
+  animation-delay: -16s;
+}
+
+@keyframes trade-bob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(2.6px);
+  }
+}
+
+.port-ship {
+  animation: trade-bob 5.5s ease-in-out infinite;
+}
+
+@keyframes trade-sway {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  30% {
+    transform: rotate(2.4deg);
+  }
+  70% {
+    transform: rotate(-1.6deg);
+  }
+}
+
+.port-lift {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  animation: trade-sway 6s ease-in-out infinite;
+}
+
+@keyframes trade-wave-move {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-240px);
+  }
+}
+
+.port-waves {
+  animation: trade-wave-move 9s linear infinite;
+}
+
+@keyframes trade-shimmer {
+  0%, 100% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.port-shimmer {
+  animation: trade-shimmer 3.4s ease-in-out infinite;
+}
+
+/* ---------- アクセシビリティ ---------- */
+
+/* 動きの抑制を希望するユーザー向けにアニメーションを無効化 */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -271,9 +536,25 @@ body {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+
+  /* SMIL(animateMotion)はCSS animationでは止められないため、船舶ドット自体を非表示にする */
+  .hero-ship {
+    display: none;
+  }
+
+  /* クレーンのトロリー移動もSMILのため非表示にする */
+  .port-trolley {
+    display: none;
+  }
+
+  .arc-route {
+    stroke-dasharray: none;
+  }
 }
 
-/* UX: トースト通知の表示アニメーション */
+/* ---------- UX ---------- */
+
+/* トースト通知の表示アニメーション */
 @keyframes trade-toast-in {
   from {
     opacity: 0;
@@ -289,7 +570,7 @@ body {
   animation: trade-toast-in 0.2s ease-out;
 }
 
-/* UX: ページ遷移時のナビゲーションプログレスバー */
+/* ページ遷移時のナビゲーションプログレスバー */
 @keyframes trade-nav-progress-slide {
   from {
     transform: translateX(-100%);

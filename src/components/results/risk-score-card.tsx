@@ -6,10 +6,10 @@ const gradeConfig: Record<
   { bg: string; border: string; text: string; badge: string; label: string; ring: string; icon: React.ReactNode }
 > = {
   A: {
-    bg: "bg-emerald-50",
-    border: "border-emerald-200",
-    text: "text-emerald-700",
-    badge: "bg-emerald-50 text-emerald-700 border-emerald-200",
+    bg: "bg-tint-emerald",
+    border: "border-tint-emerald-border",
+    text: "text-emerald-400",
+    badge: "bg-tint-emerald text-emerald-400 border-tint-emerald-border",
     label: "問題なし",
     ring: "hover:ring-emerald-100",
     icon: (
@@ -19,10 +19,10 @@ const gradeConfig: Record<
     ),
   },
   B: {
-    bg: "bg-amber-50",
-    border: "border-amber-200",
-    text: "text-amber-700",
-    badge: "bg-amber-50 text-amber-700 border-amber-200",
+    bg: "bg-tint-amber",
+    border: "border-tint-amber-border",
+    text: "text-amber-400",
+    badge: "bg-tint-amber text-amber-400 border-tint-amber-border",
     label: "要確認",
     ring: "hover:ring-amber-100",
     icon: (
@@ -32,10 +32,10 @@ const gradeConfig: Record<
     ),
   },
   C: {
-    bg: "bg-rose-50",
-    border: "border-rose-200",
-    text: "text-rose-700",
-    badge: "bg-rose-50 text-rose-700 border-rose-200",
+    bg: "bg-tint-rose",
+    border: "border-tint-rose-border",
+    text: "text-rose-400",
+    badge: "bg-tint-rose text-rose-400 border-tint-rose-border",
     label: "高リスク",
     ring: "hover:ring-rose-100",
     icon: (

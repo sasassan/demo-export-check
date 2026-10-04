@@ -179,9 +179,9 @@ const scenarios: Scenario[] = [
 ];
 
 const gradeClassMap = {
-  A: "border-emerald-200 bg-emerald-50 text-emerald-700",
-  B: "border-amber-300 bg-amber-50 text-amber-900",
-  C: "border-rose-200 bg-rose-50 text-rose-700",
+  A: "border-tint-emerald-border bg-tint-emerald text-emerald-400",
+  B: "border-tint-amber-border bg-tint-amber text-amber-300",
+  C: "border-tint-rose-border bg-tint-rose text-rose-400",
 } as const;
 
 const gradeDescriptionMap = {
@@ -226,7 +226,7 @@ export function PublicDemoSimulator() {
 
   return (
     <div className="grid gap-6 xl:grid-cols-[0.92fr_1.08fr]">
-      <section className="rounded-xl border border-slate-200 bg-white p-6">
+      <section className="rounded-xl border border-slate-200 bg-panel p-6">
         <div className="flex items-start justify-between gap-4">
           <div>
             <span className="trade-section-label">対話型モック</span>
@@ -238,7 +238,7 @@ export function PublicDemoSimulator() {
               「入力 → 論点整理 → 結果確認」の流れを体験できます。
             </p>
           </div>
-          <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-medium leading-5 text-amber-800">
+          <div className="rounded-lg border border-tint-amber-border bg-tint-amber px-3 py-2 text-xs font-medium leading-5 text-amber-300">
             この結果はデモ用の固定サンプルです
           </div>
         </div>
@@ -253,8 +253,8 @@ export function PublicDemoSimulator() {
                 onClick={() => switchScenario(scenario)}
                 className={`rounded-lg border px-4 py-3 text-left transition ${
                   isActive
-                    ? "border-brand-navy bg-blue-50"
-                    : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50"
+                    ? "border-brand-navy bg-tint-blue"
+                    : "border-slate-200 bg-panel hover:border-slate-300 hover:bg-slate-50"
                 }`}
               >
                 <p className="text-sm font-semibold text-slate-900">
@@ -280,7 +280,7 @@ export function PublicDemoSimulator() {
                   productName: event.target.value,
                 }))
               }
-              className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
+              className="rounded-lg border border-slate-300 bg-panel px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             />
           </label>
           <label className="grid gap-2">
@@ -293,7 +293,7 @@ export function PublicDemoSimulator() {
                   modelNumber: event.target.value,
                 }))
               }
-              className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
+              className="rounded-lg border border-slate-300 bg-panel px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             />
           </label>
           <label className="grid gap-2">
@@ -306,7 +306,7 @@ export function PublicDemoSimulator() {
                   destinationCountry: event.target.value,
                 }))
               }
-              className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
+              className="rounded-lg border border-slate-300 bg-panel px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             />
           </label>
           <label className="grid gap-2">
@@ -319,7 +319,7 @@ export function PublicDemoSimulator() {
                   customerName: event.target.value,
                 }))
               }
-              className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
+              className="rounded-lg border border-slate-300 bg-panel px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             />
           </label>
         </div>
@@ -340,7 +340,7 @@ export function PublicDemoSimulator() {
         </div>
       </section>
 
-      <section ref={resultRef} className="rounded-xl border border-slate-200 bg-white p-6">
+      <section ref={resultRef} className="rounded-xl border border-slate-200 bg-panel p-6">
         <div className="flex items-start justify-between gap-4">
           <div>
             <span className="trade-section-label">サンプル結果</span>
@@ -360,7 +360,7 @@ export function PublicDemoSimulator() {
 
         {runState === "loading" ? (
           <div className="mt-5 space-y-4">
-            <div className="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm font-medium text-brand-navy">
+            <div className="rounded-lg border border-tint-blue-bright bg-tint-blue px-4 py-3 text-sm font-medium text-brand-navy">
               条件をもとに論点を整理しています。実運用ではこの間に AI が確認ポイントと推奨アクションを生成します。
             </div>
             <div className="grid gap-3 sm:grid-cols-4">
@@ -407,11 +407,11 @@ export function PublicDemoSimulator() {
               ))}
             </div>
 
-            <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
-              <p className="text-sm font-semibold text-amber-800">
+            <div className="rounded-lg border border-tint-amber-border bg-tint-amber p-4">
+              <p className="text-sm font-semibold text-amber-300">
                 {selectedScenario.cautionLabel}
               </p>
-              <p className="mt-2 text-sm leading-6 text-amber-900">
+              <p className="mt-2 text-sm leading-6 text-amber-300">
                 {selectedScenario.cautionBody}
               </p>
             </div>
@@ -449,7 +449,7 @@ export function PublicDemoSimulator() {
                     <li>- 回収すべき資料、確認すべき項目、社内共有用の根拠</li>
                   </ul>
                 </div>
-                <div className="w-full rounded-lg border border-slate-200 bg-white p-4 lg:max-w-[44%]">
+                <div className="w-full rounded-lg border border-slate-200 bg-panel p-4 lg:max-w-[44%]">
                   <p className="text-[11px] font-semibold uppercase tracking-wider text-brand-navy">
                     PDFサンプルプレビュー
                   </p>
@@ -467,7 +467,7 @@ export function PublicDemoSimulator() {
               </div>
             </div>
 
-            <div className="rounded-lg border border-slate-200 bg-white p-4">
+            <div className="rounded-lg border border-slate-200 bg-panel p-4">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <p className="text-sm font-semibold text-slate-900">

@@ -55,9 +55,9 @@ export default function TermsPage() {
     <div className="min-h-screen bg-slate-50">
       <Header />
       <main id="main-content" tabIndex={-1} className="mx-auto max-w-4xl px-4 py-10 sm:px-6 outline-none">
-        <div className="rounded-xl border border-slate-200 bg-white p-6 sm:p-8">
+        <div className="rounded-xl border border-slate-200 bg-panel p-6 sm:p-8">
           <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-slate-50 to-blue-50">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-slate-50 to-tint-blue">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -85,7 +85,7 @@ export default function TermsPage() {
                 className="trade-hover-lift rounded-lg border border-slate-200 bg-slate-50 p-5"
               >
                 <div className="flex items-start gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-navy text-xs font-bold text-white">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-deep text-xs font-bold text-white">
                     {section.number}
                   </span>
                   <div className="flex-1">
@@ -117,7 +117,7 @@ export default function TermsPage() {
             ))}
             <section className="trade-hover-lift rounded-lg border border-slate-200 bg-slate-50 p-5">
               <div className="flex items-start gap-3">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-navy text-xs font-bold text-white">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-deep text-xs font-bold text-white">
                   7
                 </span>
                 <div className="flex-1">

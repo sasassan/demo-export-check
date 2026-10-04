@@ -81,9 +81,9 @@ export default function SecurityPage() {
     <div className="min-h-screen bg-slate-50">
       <Header />
       <main id="main-content" tabIndex={-1} className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-10 outline-none">
-        <section className="rounded-xl border border-slate-200 bg-white p-6 sm:p-8">
+        <section className="rounded-xl border border-slate-200 bg-panel p-6 sm:p-8">
           <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-brand-navy">
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-tint-blue text-brand-navy">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.286Z" />
               </svg>
@@ -95,7 +95,7 @@ export default function SecurityPage() {
             企業導入で重視される「情報の取り扱い」「AI入力の安全性」「外為法・技術提供への懸念」に対して、
             本サービスの基本的な考え方を分かりやすく整理しています。
           </p>
-          <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          <div className="mt-4 rounded-lg border border-tint-amber-border bg-tint-amber px-4 py-3 text-sm text-amber-300">
             図面・詳細仕様・製造条件などの入力が外為法上の技術提供に該当するかは、案件ごとに判断が分かれる場合があります。
             機微情報の入力前には、必ず社内輸出管理担当・法務・専門家へ相談してください。
           </div>
@@ -103,8 +103,8 @@ export default function SecurityPage() {
 
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {securityItems.map((item) => (
-            <div key={item.title} className="trade-hover-lift rounded-xl border border-slate-200 bg-white p-5 transition hover:border-brand-navy/30">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-brand-navy">
+            <div key={item.title} className="trade-hover-lift rounded-xl border border-slate-200 bg-panel p-5 transition hover:border-brand-navy/30">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-tint-blue text-brand-navy">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
                   <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                 </svg>
@@ -115,27 +115,27 @@ export default function SecurityPage() {
           ))}
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-gradient-to-br from-blue-50/60 to-white p-6">
+        <section className="rounded-xl border border-slate-200 bg-gradient-to-br from-tint-blue/60 to-panel p-6">
           <span className="trade-section-label">Data source policy</span>
           <h2 className="mt-3 text-xl font-bold text-slate-900">データソースと更新に関する考え方</h2>
           <div className="mt-5 grid gap-4 lg:grid-cols-3">
             {dataSourcePolicy.map((item) => (
-              <div key={item.title} className="trade-hover-lift rounded-lg border border-slate-200 bg-white p-5 transition hover:border-brand-navy/30">
+              <div key={item.title} className="trade-hover-lift rounded-lg border border-slate-200 bg-panel p-5 transition hover:border-brand-navy/30">
                 <h3 className="text-sm font-semibold text-slate-900">{item.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-600">{item.description}</p>
               </div>
             ))}
           </div>
-          <div className="mt-4 rounded-lg border border-blue-100 bg-blue-50 p-4 text-sm leading-7 text-slate-700">
+          <div className="mt-4 rounded-lg border border-tint-blue-bright bg-tint-blue p-4 text-sm leading-7 text-slate-700">
             本サービスでは、公開ページ上で「いつ・何を・どの粒度で確認すべきか」を分かりやすく提示することを重視しています。
             実務導入時には、制裁・規制情報の最新性、社内承認フロー、証跡管理の運用設計を含めて確認してください。
           </div>
         </section>
 
         <div className="grid gap-6 lg:grid-cols-2">
-          <section className="rounded-xl border border-slate-200 bg-white p-6">
+          <section className="rounded-xl border border-slate-200 bg-panel p-6">
             <div className="flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-brand-navy">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-tint-blue text-brand-navy">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
                 </svg>
@@ -157,14 +157,14 @@ export default function SecurityPage() {
             </ul>
           </section>
 
-          <section className="trade-hover-lift rounded-xl border border-brand-navy bg-gradient-to-br from-brand-navy to-blue-800 p-6 text-white">
+          <section className="trade-hover-lift rounded-xl border border-brand-navy bg-gradient-to-br from-brand-deep to-blue-800 p-6 text-white">
             <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[10px] font-semibold tracking-wider">Enterprise</span>
             <h2 className="mt-3 text-xl font-bold">セキュリティ要件・NDA・運用ルールも相談可能</h2>
             <p className="mt-3 text-sm leading-6 text-white/80">
               導入前の稟議・情報システム部門確認・法務レビューに必要な説明を、段階的に整理できるようにします。
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
-              <Link href="/contact?v=security" className="rounded-md bg-white px-4 py-2 text-sm font-semibold text-brand-navy hover:bg-slate-100">導入について相談する</Link>
+              <Link href="/contact?v=security" className="rounded-md bg-panel px-4 py-2 text-sm font-semibold text-brand-navy hover:bg-slate-100">導入について相談する</Link>
               <Link href="/ai-room?v=security" className="rounded-md border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/20">AI相談室で確認する</Link>
             </div>
           </section>

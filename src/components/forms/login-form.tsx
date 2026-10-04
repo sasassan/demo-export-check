@@ -74,7 +74,7 @@ export function LoginForm() {
             maxLength={6}
             value={code}
             onChange={(event) => setCode(event.target.value.replace(/\D/g, ""))}
-            className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
+            className="rounded-xl border-2 border-slate-300 bg-panel px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             placeholder="123456"
             required
           />
@@ -88,13 +88,13 @@ export function LoginForm() {
             type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
+            className="rounded-xl border-2 border-slate-300 bg-panel px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             placeholder="管理者以外は空欄のままで構いません"
           />
         </label>
 
         {error ? (
-          <div role="alert" className="flex items-start gap-3 rounded-xl border border-rose-300 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+          <div role="alert" className="flex items-start gap-3 rounded-xl border border-tint-rose-border bg-tint-rose px-4 py-3 text-sm text-rose-400">
             {error}
           </div>
         ) : null}
@@ -102,7 +102,7 @@ export function LoginForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="flex items-center justify-center gap-2 rounded-xl bg-brand-navy px-4 py-3 text-sm font-semibold !text-white shadow-sm transition hover:bg-brand-navy-light disabled:opacity-60"
+          className="flex items-center justify-center gap-2 rounded-xl bg-brand-deep px-4 py-3 text-sm font-semibold !text-white shadow-sm transition hover:bg-brand-deep-light disabled:opacity-60"
         >
           {isSubmitting ? "確認中..." : "コードを確認してログイン"}
         </button>
@@ -130,14 +130,14 @@ export function LoginForm() {
           type="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
+          className="rounded-xl border-2 border-slate-300 bg-panel px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
           placeholder="you@example.com"
           required
         />
       </label>
 
       {error ? (
-        <div role="alert" className="flex items-start gap-3 rounded-xl border border-rose-300 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+        <div role="alert" className="flex items-start gap-3 rounded-xl border border-tint-rose-border bg-tint-rose px-4 py-3 text-sm text-rose-400">
           <svg viewBox="0 0 20 20" fill="currentColor" className="mt-0.5 h-4 w-4 shrink-0">
             <path fillRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22Z" clipRule="evenodd" />
           </svg>
@@ -148,7 +148,7 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="flex items-center justify-center gap-2 rounded-xl bg-brand-navy px-4 py-3 text-sm font-semibold !text-white shadow-sm transition hover:bg-brand-navy-light disabled:opacity-60"
+        className="flex items-center justify-center gap-2 rounded-xl bg-brand-deep px-4 py-3 text-sm font-semibold !text-white shadow-sm transition hover:bg-brand-deep-light disabled:opacity-60"
       >
         {isSubmitting ? (
           <>

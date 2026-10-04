@@ -37,8 +37,8 @@ const SEVERITY_LABELS: Record<PreflightSeverity, string> = {
 };
 
 const SEVERITY_STYLES: Record<PreflightSeverity, string> = {
-  blocking: "border-red-200 bg-red-50 text-red-700",
-  warning: "border-amber-200 bg-amber-50 text-amber-700",
+  blocking: "border-tint-red-border bg-tint-red text-red-400",
+  warning: "border-tint-amber-border bg-tint-amber text-amber-400",
   info: "border-slate-200 bg-slate-100 text-slate-600",
 };
 
@@ -52,7 +52,7 @@ function formatCheckedAt(iso: string): string {
 
 function FindingCard({ finding }: { finding: PreflightFinding }) {
   return (
-    <div className="rounded-lg border border-slate-200 bg-white px-4 py-4">
+    <div className="rounded-lg border border-slate-200 bg-panel px-4 py-4">
       <div className="flex items-center justify-between gap-3">
         <p className="font-mono text-sm font-semibold text-slate-900">{finding.key}</p>
         <span
@@ -106,7 +106,7 @@ export function ConfigPreflightPanel() {
   };
 
   return (
-    <div className="mt-6 rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
+    <div className="mt-6 rounded-xl border border-slate-200 bg-panel p-3 shadow-sm sm:p-4">
       <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
         <div className="flex items-center justify-between gap-3">
           <div>
@@ -119,7 +119,7 @@ export function ConfigPreflightPanel() {
             type="button"
             onClick={handleRefresh}
             disabled={state.kind === "loading"}
-            className="trade-hover-lift inline-flex min-h-11 items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition disabled:cursor-not-allowed disabled:opacity-60"
+            className="trade-hover-lift inline-flex min-h-11 items-center gap-2 rounded-lg border border-slate-200 bg-panel px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition disabled:cursor-not-allowed disabled:opacity-60"
           >
             {state.kind === "loading" && refreshToken > 0 ? <Spinner className="h-3.5 w-3.5" /> : null}
             再確認
@@ -128,7 +128,7 @@ export function ConfigPreflightPanel() {
 
         <div className="mt-5">
           {state.kind === "loading" ? (
-            <div className="flex items-center justify-center gap-2 rounded-xl border border-dashed border-slate-200 bg-white px-6 py-10 text-sm text-slate-500">
+            <div className="flex items-center justify-center gap-2 rounded-xl border border-dashed border-slate-200 bg-panel px-6 py-10 text-sm text-slate-500">
               <Spinner className="h-4 w-4" />
               設定を確認しています…
             </div>
@@ -159,8 +159,8 @@ export function ConfigPreflightPanel() {
                 <span
                   className={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-bold ${
                     state.data.hasBlockingIssues
-                      ? "border-red-200 bg-red-50 text-red-700"
-                      : "border-emerald-200 bg-emerald-50 text-emerald-700"
+                      ? "border-tint-red-border bg-tint-red text-red-400"
+                      : "border-tint-emerald-border bg-tint-emerald text-emerald-400"
                   }`}
                 >
                   {state.data.hasBlockingIssues ? "本番投入ブロック項目あり" : "ブロック項目なし"}
@@ -168,7 +168,7 @@ export function ConfigPreflightPanel() {
               </div>
 
               {state.data.findings.length === 0 ? (
-                <div className="mt-5 rounded-xl border border-dashed border-slate-200 bg-white px-6 py-10 text-center text-sm text-slate-500">
+                <div className="mt-5 rounded-xl border border-dashed border-slate-200 bg-panel px-6 py-10 text-center text-sm text-slate-500">
                   検出された問題はありません。
                 </div>
               ) : (

@@ -60,7 +60,7 @@ export function DashboardCaseList({ items }: { items: CaseRecord[] }) {
 
   return (
     <section className="grid gap-4">
-      <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-panel p-5 shadow-sm">
         <CustomsStampDecoration
           aria-hidden="true"
           className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 text-brand-amber/15 sm:h-28 sm:w-28"
@@ -72,7 +72,7 @@ export function DashboardCaseList({ items }: { items: CaseRecord[] }) {
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="商品名・型番・顧客名・輸出先国で検索"
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
+              className="rounded-xl border-2 border-slate-300 bg-panel px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             />
           </label>
 
@@ -83,7 +83,7 @@ export function DashboardCaseList({ items }: { items: CaseRecord[] }) {
               onChange={(event) =>
                 setStatus(event.target.value as (typeof statusOptions)[number]["value"])
               }
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
+              className="rounded-xl border-2 border-slate-300 bg-panel px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             >
               {statusOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -98,7 +98,7 @@ export function DashboardCaseList({ items }: { items: CaseRecord[] }) {
             <select
               value={sortKey}
               onChange={(event) => setSortKey(event.target.value as SortKey)}
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
+              className="rounded-xl border-2 border-slate-300 bg-panel px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             >
               <option value="updated-desc">更新日が新しい順</option>
               <option value="updated-asc">更新日が古い順</option>
@@ -120,7 +120,7 @@ export function DashboardCaseList({ items }: { items: CaseRecord[] }) {
                 setStatus("all");
                 setSortKey("updated-desc");
               }}
-              className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50"
+              className="rounded-lg border border-slate-300 bg-panel px-3 py-2.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50"
             >
               条件をリセット
             </button>
@@ -129,7 +129,7 @@ export function DashboardCaseList({ items }: { items: CaseRecord[] }) {
       </div>
 
       {filteredItems.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-slate-300 bg-white px-6 py-12 text-center shadow-sm">
+        <div className="rounded-xl border border-dashed border-slate-300 bg-panel px-6 py-12 text-center shadow-sm">
           <p className="text-base font-semibold text-slate-900">条件に一致する案件がありません</p>
           <p className="mt-2 text-sm text-slate-500">
             検索キーワードまたはステータス条件を変更してください。

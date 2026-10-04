@@ -79,7 +79,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-slate-50">
       <Header />
       <main id="main-content" tabIndex={-1} className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-10 outline-none">
-        <section className="overflow-hidden rounded-xl border border-slate-200 bg-white p-6 sm:p-8">
+        <section className="overflow-hidden rounded-xl border border-slate-200 bg-panel p-6 sm:p-8">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
             <div>
               <span className="trade-section-label">サービス概要</span>
@@ -102,8 +102,8 @@ export default function AboutPage() {
 
         <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {servicePoints.map((item) => (
-            <div key={item.title} className="trade-hover-lift rounded-xl border border-slate-200 bg-white p-5 transition hover:border-brand-navy/30">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-brand-navy">
+            <div key={item.title} className="trade-hover-lift rounded-xl border border-slate-200 bg-panel p-5 transition hover:border-brand-navy/30">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-tint-blue text-brand-navy">
                 {item.IconComponent ? (
                   <item.IconComponent aria-hidden="true" className="h-5 w-5" />
                 ) : (
@@ -120,11 +120,11 @@ export default function AboutPage() {
 
         <WaveDivider aria-hidden="true" className="h-3 w-full text-brand-navy/15" />
 
-        <section className="rounded-xl border border-slate-200 bg-gradient-to-br from-blue-50/60 to-white p-6">
+        <section className="rounded-xl border border-slate-200 bg-gradient-to-br from-tint-blue/60 to-panel p-6">
           <span className="trade-section-label">ナレッジアシスタント</span>
           <h2 className="mt-3 text-xl font-bold text-slate-900">判定AIだけでなく、理解を助けるAIへ</h2>
           <div className="mt-5 grid gap-4 lg:grid-cols-2">
-            <div className="trade-hover-lift rounded-lg border border-slate-200 bg-white p-5 transition hover:border-brand-navy/30">
+            <div className="trade-hover-lift rounded-lg border border-slate-200 bg-panel p-5 transition hover:border-brand-navy/30">
               <p className="text-sm font-semibold text-slate-900">読解支援でできること</p>
               <ul className="mt-3 space-y-2 text-sm text-slate-600">
                 {[
@@ -142,7 +142,7 @@ export default function AboutPage() {
                 ))}
               </ul>
             </div>
-            <div className="trade-hover-lift rounded-lg border border-slate-200 bg-white p-5 transition hover:border-brand-navy/30">
+            <div className="trade-hover-lift rounded-lg border border-slate-200 bg-panel p-5 transition hover:border-brand-navy/30">
               <p className="text-sm font-semibold text-slate-900">想定ユーザー</p>
               <ul className="mt-3 space-y-2 text-sm text-slate-600">
                 {[
@@ -163,13 +163,13 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-6">
+        <section className="rounded-xl border border-slate-200 bg-panel p-6">
           <span className="trade-section-label">信頼性について</span>
           <h2 className="mt-3 text-xl font-bold text-slate-900">公開ページで伝えている信頼ポイント</h2>
           <div className="mt-5 grid gap-4 lg:grid-cols-3">
             {trustPoints.map((item) => (
               <div key={item.title} className="trade-hover-lift rounded-lg border border-slate-200 bg-slate-50 p-5 transition hover:border-brand-navy/30">
-                <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-brand-navy">
+                <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-tint-blue text-brand-navy">
                   {item.IconComponent ? (
                     <item.IconComponent aria-hidden="true" className="h-5 w-5" />
                   ) : (
@@ -185,16 +185,16 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-6">
+        <section className="rounded-xl border border-slate-200 bg-panel p-6">
           <span className="trade-section-label">現在の制限</span>
           <h2 className="mt-3 text-xl font-bold text-slate-900">現時点での公開上の制限</h2>
-          <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-900">
+          <div className="mt-4 rounded-lg border border-tint-amber-border bg-tint-amber p-4 text-sm leading-7 text-amber-300">
             実顧客データを含む案件一覧、社内向けの調査履歴、実運用のPDFレポート詳細は一般公開していません。
             公開デモでは、機密情報を含まないサンプルシナリオで操作イメージを確認できる構成にしています。
           </div>
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-6">
+        <section className="rounded-xl border border-slate-200 bg-panel p-6">
           <span className="trade-section-label">詳細情報</span>
           <h2 className="mt-3 text-xl font-bold text-slate-900">詳細ページ</h2>
           <div className="mt-5 grid gap-4 md:grid-cols-3">
@@ -219,7 +219,7 @@ export default function AboutPage() {
               },
             ].map((item) => (
               <div key={item.href} className="trade-hover-lift rounded-lg border border-slate-200 bg-slate-50 p-5 transition hover:border-brand-navy/30">
-                <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-brand-navy">
+                <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-tint-blue text-brand-navy">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
                     <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                   </svg>
@@ -241,7 +241,7 @@ export default function AboutPage() {
         </section>
 
         <div className="grid gap-6 lg:grid-cols-2">
-          <section className="rounded-xl border border-slate-200 bg-white p-6">
+          <section className="rounded-xl border border-slate-200 bg-panel p-6">
             <h2 className="text-xl font-bold text-slate-900">このサービスでできること</h2>
             <div className="mt-4 space-y-2">
               {["AI入力診断で、登録前に不足情報を把握", "制裁・国・用途・企業信用をまとめて調査", "AIが次に確認すべきアクションを提案", "チェックリストで確認漏れを防止", "PDFレポートをすぐに出力", "案件一覧で検索・絞り込み・並び替え"].map((item) => (
@@ -254,13 +254,13 @@ export default function AboutPage() {
               ))}
             </div>
           </section>
-          <section className="rounded-xl border border-slate-200 bg-white p-6">
+          <section className="rounded-xl border border-slate-200 bg-panel p-6">
             <span className="trade-section-label">推奨シーン</span>
             <h2 className="mt-3 text-xl font-bold text-slate-900">こんな場面で役立ちます</h2>
             <ul className="mt-4 space-y-2">
               {useCases.map((item) => (
                 <li key={item} className="flex items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-brand-navy" />
+                  <span className="mt-1 h-2 w-2 rounded-full bg-brand-deep" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -268,7 +268,7 @@ export default function AboutPage() {
           </section>
         </div>
 
-        <section className="rounded-xl border border-slate-200 bg-gradient-to-br from-blue-50/60 to-white p-6">
+        <section className="rounded-xl border border-slate-200 bg-gradient-to-br from-tint-blue/60 to-panel p-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-xl font-bold text-slate-900">まず何を見ればいい？</h2>

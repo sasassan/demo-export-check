@@ -96,11 +96,11 @@ export function CaseDeletePanel({
   }
 
   return (
-    <section className="rounded-xl border border-rose-200 bg-rose-50/40 p-6 shadow-sm">
+    <section className="rounded-xl border border-tint-rose-border bg-tint-rose/40 p-6 shadow-sm">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-base font-semibold text-rose-900">この案件を削除</h2>
-          <p className="mt-1 text-sm text-rose-700">
+          <p className="mt-1 text-sm text-rose-400">
             削除しても30日間は復元可能です。相談履歴（AI相談）は削除されず、独立した資産として残ります。
           </p>
         </div>
@@ -108,7 +108,7 @@ export function CaseDeletePanel({
           type="button"
           ref={triggerRef}
           onClick={openDialog}
-          className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-rose-300 bg-white px-4 py-3 text-sm font-semibold text-rose-700 shadow-sm transition hover:bg-rose-50"
+          className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-tint-rose-border bg-panel px-4 py-3 text-sm font-semibold text-rose-400 shadow-sm transition hover:bg-tint-rose"
         >
           <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
             <path
@@ -129,7 +129,7 @@ export function CaseDeletePanel({
           aria-modal="true"
           aria-labelledby="delete-dialog-title"
         >
-          <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl">
+          <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-panel p-6 shadow-2xl">
             <h3 id="delete-dialog-title" className="text-base font-bold text-slate-900">
               本当に削除しますか？
             </h3>
@@ -150,12 +150,12 @@ export function CaseDeletePanel({
               aria-describedby={
                 error ? "delete-dialog-error delete-dialog-description" : "delete-dialog-description"
               }
-              className="mt-4 w-full rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-rose-200 transition placeholder:text-slate-500 focus:border-rose-400 focus:ring-4 focus:ring-rose-100"
+              className="mt-4 w-full rounded-xl border-2 border-slate-300 bg-panel px-4 py-3 text-sm text-slate-900 outline-none ring-tint-rose-border transition placeholder:text-slate-500 focus:border-rose-400 focus:ring-4 focus:ring-rose-100"
               autoFocus
             />
 
             {error ? (
-              <p id="delete-dialog-error" role="alert" className="mt-3 text-sm text-rose-600">
+              <p id="delete-dialog-error" role="alert" className="mt-3 text-sm text-rose-400">
                 {error}
               </p>
             ) : null}
@@ -164,7 +164,7 @@ export function CaseDeletePanel({
               <button
                 type="button"
                 onClick={closeDialog}
-                className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+                className="rounded-lg border border-slate-300 bg-panel px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
               >
                 キャンセル
               </button>

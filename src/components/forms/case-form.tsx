@@ -133,8 +133,8 @@ export function CaseForm({
   return (
     <form onSubmit={handleSubmit} className="grid gap-6 lg:grid-cols-[2fr_1fr]">
       {/* 入力フォーム */}
-      <div className="grid gap-5 rounded-2xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-950/10">
-        <div className="rounded-2xl border border-slate-200 bg-gradient-to-r from-blue-50 to-sky-50 p-5">
+      <div className="grid gap-5 rounded-2xl border border-slate-200 bg-panel p-6 shadow-xl shadow-black/30">
+        <div className="rounded-2xl border border-slate-200 bg-gradient-to-r from-tint-blue to-tint-sky p-5">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-navy">AI入力診断</p>
@@ -146,7 +146,7 @@ export function CaseForm({
             <button
               type="button"
               onClick={runDiagnosis}
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-brand-navy shadow-md ring-1 ring-slate-200 transition hover:bg-blue-50"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-panel px-4 py-2 text-sm font-semibold text-brand-navy shadow-md ring-1 ring-slate-200 transition hover:bg-tint-blue"
             >
               <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
                 <path fillRule="evenodd" d="M10 2a.75.75 0 0 1 .75.75v1.043a6.252 6.252 0 0 1 5.457 5.457h1.043a.75.75 0 0 1 0 1.5h-1.043a6.252 6.252 0 0 1-5.457 5.457v1.043a.75.75 0 0 1-1.5 0v-1.043a6.252 6.252 0 0 1-5.457-5.457H2.75a.75.75 0 0 1 0-1.5h1.043a6.252 6.252 0 0 1 5.457-5.457V2.75A.75.75 0 0 1 10 2Zm0 3.25a4.75 4.75 0 1 0 0 9.5 4.75 4.75 0 0 0 0-9.5Z" clipRule="evenodd" />
@@ -156,7 +156,7 @@ export function CaseForm({
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
             {quickSuggestions.map((item) => (
-              <span key={item} className="rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-700 ring-1 ring-slate-300">
+              <span key={item} className="rounded-full bg-panel px-3 py-1 text-xs font-medium text-slate-700 ring-1 ring-slate-300">
                 {item}
               </span>
             ))}
@@ -164,7 +164,7 @@ export function CaseForm({
           {diagnosis ? (
             <div
               role="status"
-              className="mt-4 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm leading-6 text-slate-700 shadow-sm"
+              className="mt-4 rounded-xl border border-slate-200 bg-panel px-4 py-3 text-sm leading-6 text-slate-700 shadow-sm"
             >
               {diagnosis}
             </div>
@@ -176,7 +176,7 @@ export function CaseForm({
               商品名 <span className="text-rose-500">*</span>
             </span>
             <input
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
+              className="rounded-xl border-2 border-slate-300 bg-panel px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
               value={form.productName}
               onChange={(event) => updateField("productName", event.target.value)}
               placeholder="例: 高精度サーボモーター"
@@ -188,7 +188,7 @@ export function CaseForm({
               型番 <span className="text-rose-500">*</span>
             </span>
             <input
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
+              className="rounded-xl border-2 border-slate-300 bg-panel px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
               value={form.modelNumber}
               onChange={(event) => updateField("modelNumber", event.target.value)}
               placeholder="例: SRV-9800"
@@ -203,7 +203,7 @@ export function CaseForm({
               輸出先国 <span className="text-rose-500">*</span>
             </span>
             <input
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
+              className="rounded-xl border-2 border-slate-300 bg-panel px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
               value={form.destinationCountry}
               onChange={(event) => updateField("destinationCountry", event.target.value)}
               placeholder="例: ベトナム"
@@ -215,7 +215,7 @@ export function CaseForm({
               顧客企業名 <span className="text-rose-500">*</span>
             </span>
             <input
-              className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
+              className="rounded-xl border-2 border-slate-300 bg-panel px-4 py-3 text-sm text-slate-900 outline-none ring-blue-200 transition placeholder:text-slate-500 focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
               value={form.customerCompanyName}
               onChange={(event) => updateField("customerCompanyName", event.target.value)}
               placeholder="例: Saigon Precision Parts Ltd."
@@ -250,7 +250,7 @@ export function CaseForm({
         ) : null}
 
         {error ? (
-          <div role="alert" className="flex items-start gap-3 rounded-xl bg-rose-50 px-4 py-3 text-sm text-rose-700">
+          <div role="alert" className="flex items-start gap-3 rounded-xl bg-tint-rose px-4 py-3 text-sm text-rose-400">
             <svg viewBox="0 0 20 20" fill="currentColor" className="mt-0.5 h-4 w-4 shrink-0">
               <path fillRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22Z" clipRule="evenodd" />
             </svg>
@@ -261,7 +261,7 @@ export function CaseForm({
         <button
           type="submit"
           disabled={submitting}
-          className="flex items-center justify-center gap-2 rounded-xl bg-brand-navy px-5 py-3 text-sm font-semibold !text-white shadow-sm transition hover:bg-brand-navy-light disabled:opacity-60"
+          className="flex items-center justify-center gap-2 rounded-xl bg-brand-deep px-5 py-3 text-sm font-semibold !text-white shadow-sm transition hover:bg-brand-deep-light disabled:opacity-60"
         >
           {submitting ? (
             <>
@@ -283,7 +283,7 @@ export function CaseForm({
       </div>
 
       {/* サイドパネル */}
-      <aside className="grid gap-5 rounded-2xl border border-slate-200 bg-white p-6">
+      <aside className="grid gap-5 rounded-2xl border border-slate-200 bg-panel p-6">
         <div>
           <h2 className="text-base font-semibold text-slate-900">入力のポイント</h2>
           <p className="mt-2 text-sm leading-6 text-slate-500">
@@ -306,7 +306,7 @@ export function CaseForm({
           <ul className="mt-3 space-y-2.5">
             {checkItems.map((item) => (
               <li key={item.label} className="flex items-center gap-3 text-sm text-slate-600">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-blue-50">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-tint-blue">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-3.5 w-3.5 text-brand-navy">
                     <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                   </svg>
@@ -317,8 +317,8 @@ export function CaseForm({
           </ul>
         </div>
 
-        <div className="rounded-xl bg-amber-50 px-4 py-3">
-          <p className="text-xs leading-5 text-amber-800">
+        <div className="rounded-xl bg-tint-amber px-4 py-3">
+          <p className="text-xs leading-5 text-amber-300">
             本サービスは参考情報を提供するものであり、法令上の判断を代替するものではありません。
             最終的な輸出可否の判断は利用者自身の責任で実施してください。
           </p>

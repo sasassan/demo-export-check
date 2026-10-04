@@ -268,7 +268,7 @@ export function AiRoomPanel({
   };
 
   return (
-    <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white p-6">
+    <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-panel p-6">
       {thread.length === 0 && (
         <GlobalNetworkIllustration
           aria-hidden="true"
@@ -309,8 +309,8 @@ export function AiRoomPanel({
               <div
                 className={`max-w-[85%] rounded-2xl p-4 ${
                   entry.role === "user"
-                    ? "bg-brand-navy !text-white"
-                    : "border border-cyan-100 bg-white text-slate-900"
+                    ? "bg-brand-deep !text-white"
+                    : "border border-tint-cyan-border bg-panel text-slate-900"
                 }`}
               >
                 <div className="flex items-center justify-between gap-3">
@@ -341,8 +341,8 @@ export function AiRoomPanel({
                   <div
                     className={`mt-2 inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-semibold ${
                       entry.answer.answerSource === "fallback-error"
-                        ? "border-rose-300 bg-rose-50 text-rose-700"
-                        : "border-amber-300 bg-amber-50 text-amber-700"
+                        ? "border-tint-rose-border bg-tint-rose text-rose-400"
+                        : "border-tint-amber-border bg-tint-amber text-amber-400"
                     }`}
                   >
                     {entry.answer.answerSourceLabel}
@@ -358,11 +358,11 @@ export function AiRoomPanel({
                 {entry.answer && (
                   <div className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
                     {entry.answer.documentSummary && (
-                      <div className="rounded-xl bg-blue-50 p-3">
+                      <div className="rounded-xl bg-tint-blue p-3">
                         <div className="flex items-center justify-between gap-3">
                           <p className="text-sm font-semibold text-brand-navy">資料要約</p>
                           {entry.answer.confidenceLabel ? (
-                            <span className="rounded-full border border-slate-200 bg-white px-2 py-0.5 text-xs font-semibold text-brand-navy">
+                            <span className="rounded-full border border-slate-200 bg-panel px-2 py-0.5 text-xs font-semibold text-brand-navy">
                               信頼度 {entry.answer.confidenceLabel}
                             </span>
                           ) : null}
@@ -374,9 +374,9 @@ export function AiRoomPanel({
                     )}
 
                     {entry.answer.relatedClauses?.length ? (
-                      <div className="rounded-xl bg-amber-50 p-3">
-                        <p className="text-sm font-semibold text-amber-800">関連条文・規程</p>
-                        <ul className="mt-1 space-y-1 text-sm leading-6 text-amber-900">
+                      <div className="rounded-xl bg-tint-amber p-3">
+                        <p className="text-sm font-semibold text-amber-300">関連条文・規程</p>
+                        <ul className="mt-1 space-y-1 text-sm leading-6 text-amber-300">
                           {entry.answer.relatedClauses.map((item) => (
                             <li key={item}>・{item}</li>
                           ))}
@@ -390,7 +390,7 @@ export function AiRoomPanel({
                           <Link
                             key={kw}
                             href={`/glossary?q=${encodeURIComponent(kw)}`}
-                            className="rounded-full border border-cyan-200 bg-white px-2 py-0.5 text-xs font-semibold text-slate-600 hover:border-slate-300 hover:text-brand-navy"
+                            className="rounded-full border border-tint-cyan-border bg-panel px-2 py-0.5 text-xs font-semibold text-slate-600 hover:border-slate-300 hover:text-brand-navy"
                           >
                             {kw}
                           </Link>
@@ -409,8 +409,8 @@ export function AiRoomPanel({
                           </div>
                         ) : null}
                         {entry.answer.recommendedChecks?.length ? (
-                          <div className="rounded-xl bg-emerald-50 p-3">
-                            <p className="text-sm font-semibold text-emerald-800">
+                          <div className="rounded-xl bg-tint-emerald p-3">
+                            <p className="text-sm font-semibold text-emerald-400">
                               次に確認すべき点
                             </p>
                             <ul className="mt-1 space-y-1 text-sm leading-6 text-emerald-900">
@@ -424,8 +424,8 @@ export function AiRoomPanel({
                     )}
 
                     {entry.answer.factHighlights?.length ? (
-                      <div className="rounded-xl bg-emerald-50 p-3">
-                        <p className="text-sm font-semibold text-emerald-800">確認できた事実</p>
+                      <div className="rounded-xl bg-tint-emerald p-3">
+                        <p className="text-sm font-semibold text-emerald-400">確認できた事実</p>
                         <ul className="mt-1 space-y-1 text-sm leading-6 text-emerald-900">
                           {entry.answer.factHighlights.map((item) => (
                             <li key={item}>・{item}</li>
@@ -435,7 +435,7 @@ export function AiRoomPanel({
                     ) : null}
 
                     {entry.answer.assumptionHighlights?.length ? (
-                      <div className="rounded-xl bg-rose-50 p-3">
+                      <div className="rounded-xl bg-tint-rose p-3">
                         <p className="text-sm font-semibold text-rose-800">要確認・仮定</p>
                         <ul className="mt-1 space-y-1 text-sm leading-6 text-rose-900">
                           {entry.answer.assumptionHighlights.map((item) => (
@@ -452,7 +452,7 @@ export function AiRoomPanel({
                           {entry.answer.citations.map((item) => (
                             <div
                               key={`${item.label}-${item.snippet}`}
-                              className="rounded-lg border border-slate-200 bg-white px-3 py-2"
+                              className="rounded-lg border border-slate-200 bg-panel px-3 py-2"
                             >
                               <p className="text-xs font-semibold text-slate-500">
                                 {item.label} / {item.sourceType}
@@ -488,8 +488,8 @@ export function AiRoomPanel({
                     </div>
 
                     {entry.answer.followUpQuestions?.length ? (
-                      <div className="rounded-xl bg-cyan-50 p-3">
-                        <p className="text-sm font-semibold text-cyan-800">
+                      <div className="rounded-xl bg-tint-cyan p-3">
+                        <p className="text-sm font-semibold text-cyan-300">
                           次に深掘りしやすい質問
                         </p>
                         <div className="mt-2 flex flex-wrap gap-2">
@@ -498,7 +498,7 @@ export function AiRoomPanel({
                               key={item}
                               type="button"
                               onClick={() => setMessage(item)}
-                              className="min-h-9 rounded-full border border-cyan-200 bg-white px-3 py-2 text-sm font-semibold text-cyan-800 transition hover:border-cyan-400"
+                              className="min-h-9 rounded-full border border-tint-cyan-border bg-panel px-3 py-2 text-sm font-semibold text-cyan-300 transition hover:border-cyan-400"
                             >
                               {item}
                             </button>
@@ -512,7 +512,7 @@ export function AiRoomPanel({
                         <Link
                           key={item.href + item.label}
                           href={item.href}
-                          className="rounded-lg bg-gradient-to-r from-brand-navy to-sky-500 px-2 py-1 text-xs font-semibold text-white"
+                          className="rounded-lg bg-gradient-to-r from-brand-deep to-tint-sky0 px-2 py-1 text-xs font-semibold text-white"
                         >
                           {item.label}
                         </Link>
@@ -520,7 +520,7 @@ export function AiRoomPanel({
                       {caseContext ? (
                         <Link
                           href={`/cases/${caseContext.caseId}`}
-                          className="rounded-lg border border-slate-300 bg-white px-2 py-1 text-xs font-semibold text-slate-700"
+                          className="rounded-lg border border-slate-300 bg-panel px-2 py-1 text-xs font-semibold text-slate-700"
                         >
                           案件詳細へ戻る
                         </Link>
@@ -538,7 +538,7 @@ export function AiRoomPanel({
                           className={`min-h-9 rounded-full px-3 py-2 text-sm font-semibold ${
                             feedbackState[entry.consultationId] === "helpful"
                               ? "bg-emerald-700 text-white"
-                              : "border border-emerald-200 bg-white text-emerald-700"
+                              : "border border-tint-emerald-border bg-panel text-emerald-400"
                           }`}
                         >
                           役に立った
@@ -549,7 +549,7 @@ export function AiRoomPanel({
                           className={`min-h-9 rounded-full px-3 py-2 text-sm font-semibold ${
                             feedbackState[entry.consultationId] === "needs-work"
                               ? "bg-amber-700 text-white"
-                              : "border border-amber-200 bg-white text-amber-700"
+                              : "border border-tint-amber-border bg-panel text-amber-400"
                           }`}
                         >
                           改善してほしい
@@ -564,11 +564,11 @@ export function AiRoomPanel({
 
           {loading && (
             <div className="flex justify-start">
-              <div className="max-w-[85%] animate-pulse rounded-2xl border border-cyan-100 bg-white p-4">
+              <div className="max-w-[85%] animate-pulse rounded-2xl border border-tint-cyan-border bg-panel p-4">
                 <div className="flex items-center gap-2">
-                  <div className="h-2 w-2 animate-bounce rounded-full bg-brand-navy" />
-                  <div className="h-2 w-2 animate-bounce rounded-full bg-brand-navy [animation-delay:0.15s]" />
-                  <div className="h-2 w-2 animate-bounce rounded-full bg-brand-navy [animation-delay:0.3s]" />
+                  <div className="h-2 w-2 animate-bounce rounded-full bg-brand-deep" />
+                  <div className="h-2 w-2 animate-bounce rounded-full bg-brand-deep [animation-delay:0.15s]" />
+                  <div className="h-2 w-2 animate-bounce rounded-full bg-brand-deep [animation-delay:0.3s]" />
                   <span className="ml-2 text-xs text-slate-500">回答を整理中...</span>
                 </div>
               </div>
@@ -580,7 +580,7 @@ export function AiRoomPanel({
       )}
 
       {error && (
-        <div className="mt-3 rounded-xl border border-rose-300 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+        <div className="mt-3 rounded-xl border border-tint-rose-border bg-tint-rose px-4 py-3 text-sm text-rose-400">
           {error}
           <button
             type="button"
@@ -592,7 +592,7 @@ export function AiRoomPanel({
         </div>
       )}
 
-      <div className="mt-4 rounded-2xl border border-cyan-100 bg-gradient-to-br from-blue-50/70 to-cyan-50/70 p-4">
+      <div className="mt-4 rounded-2xl border border-tint-cyan-border bg-gradient-to-br from-tint-blue/70 to-tint-cyan/70 p-4">
         <p className="text-sm font-semibold text-slate-900">相談モード</p>
         <div className="mt-3 grid gap-2 md:grid-cols-2">
           {MODES.map((item) => (
@@ -602,7 +602,7 @@ export function AiRoomPanel({
               onClick={() => setMode(item.value)}
               className={`min-h-11 rounded-xl border px-4 py-3 text-left transition ${
                 mode === item.value
-                  ? "border-cyan-300 bg-white shadow-sm"
+                  ? "border-brand-cyan/50 bg-panel shadow-sm"
                   : "border-slate-200 bg-white/75 hover:border-slate-200"
               }`}
             >
@@ -613,7 +613,7 @@ export function AiRoomPanel({
         </div>
       </div>
 
-      <div className="mt-4 rounded-2xl border border-cyan-100 bg-gradient-to-br from-blue-50/70 to-cyan-50/70 p-4">
+      <div className="mt-4 rounded-2xl border border-tint-cyan-border bg-gradient-to-br from-tint-blue/70 to-tint-cyan/70 p-4">
         <p className="flex items-center gap-2 text-sm font-semibold text-slate-900">
           <SatelliteIcon aria-hidden="true" className="h-4 w-4 text-brand-navy" />
           使用するAIモデル
@@ -626,7 +626,7 @@ export function AiRoomPanel({
               onClick={() => setAiModel(item.value)}
               className={`min-h-11 rounded-xl border px-4 py-3 text-left transition ${
                 aiModel === item.value
-                  ? "border-cyan-300 bg-white shadow-sm"
+                  ? "border-brand-cyan/50 bg-panel shadow-sm"
                   : "border-slate-200 bg-white/75 hover:border-slate-200"
               }`}
             >
@@ -638,7 +638,7 @@ export function AiRoomPanel({
       </div>
 
       {thread.length === 0 && (
-        <div className="mt-4 rounded-2xl border border-cyan-100 bg-gradient-to-br from-blue-50/70 to-cyan-50/70 p-4">
+        <div className="mt-4 rounded-2xl border border-tint-cyan-border bg-gradient-to-br from-tint-blue/70 to-tint-cyan/70 p-4">
           <p className="text-sm font-semibold text-slate-900">テンプレートから始める</p>
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
             {quickTemplates.map((t) => (
@@ -649,7 +649,7 @@ export function AiRoomPanel({
                   setMode(t.mode);
                   setMessage(t.message);
                 }}
-                className="min-h-11 rounded-xl border border-cyan-200 bg-white px-4 py-3 text-left text-sm font-semibold text-slate-700 transition hover:border-cyan-400"
+                className="min-h-11 rounded-xl border border-tint-cyan-border bg-panel px-4 py-3 text-left text-sm font-semibold text-slate-700 transition hover:border-cyan-400"
               >
                 {t.label}
               </button>
@@ -659,7 +659,7 @@ export function AiRoomPanel({
       )}
 
       {thread.length === 0 && (
-        <div className="mt-4 rounded-2xl border border-cyan-100 bg-gradient-to-br from-blue-50/70 to-cyan-50/70 p-4">
+        <div className="mt-4 rounded-2xl border border-tint-cyan-border bg-gradient-to-br from-tint-blue/70 to-tint-cyan/70 p-4">
           <p className="text-sm font-semibold text-slate-900">質問例</p>
           <div className="mt-3 grid gap-2">
             {EXAMPLES.map((item) => (
@@ -667,7 +667,7 @@ export function AiRoomPanel({
                 key={item}
                 type="button"
                 onClick={() => setMessage(item)}
-                className="min-h-11 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+                className="min-h-11 w-full rounded-xl border border-slate-200 bg-panel px-4 py-3 text-left text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
               >
                 {item}
               </button>
@@ -726,7 +726,7 @@ export function AiRoomPanel({
                 className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm leading-7 text-slate-900 outline-none placeholder:text-slate-500 focus:border-brand-navy"
                 placeholder="規制資料、法令テキスト、社内規程をここに貼り付け"
               />
-              <div className="mt-3 rounded-2xl border border-dashed border-cyan-300/60 bg-cyan-50/70 p-4">
+              <div className="mt-3 rounded-2xl border border-dashed border-brand-cyan/40 bg-tint-cyan/70 p-4">
                 <label className="block text-sm font-semibold text-slate-900">PDFアップロード</label>
                 <p className="mt-1 text-xs leading-6 text-slate-600">
                   PDFを選ぶと本文を抽出して資料欄へ追加します。
@@ -735,7 +735,7 @@ export function AiRoomPanel({
                   type="file"
                   accept="application/pdf"
                   onChange={handlePdfUpload}
-                  className="mt-3 block w-full text-sm text-slate-700 file:mr-4 file:rounded-xl file:border-0 file:bg-brand-navy file:px-4 file:py-2 file:text-sm file:font-semibold file:!text-white"
+                  className="mt-3 block w-full text-sm text-slate-700 file:mr-4 file:rounded-xl file:border-0 file:bg-brand-deep file:px-4 file:py-2 file:text-sm file:font-semibold file:!text-white"
                 />
                 {pdfFileName && (
                   <p className="mt-2 text-xs text-slate-600">
@@ -754,13 +754,13 @@ export function AiRoomPanel({
           </div>
         </details>
 
-        <div className="rounded-2xl border border-slate-200 bg-blue-50/80 px-4 py-3 text-xs leading-6 text-slate-700">
+        <div className="rounded-2xl border border-slate-200 bg-tint-blue/80 px-4 py-3 text-xs leading-6 text-slate-700">
           <span className="font-semibold">現在のモード:</span> {selectedMode.label} —{" "}
           {selectedMode.description}
         </div>
 
         {caseContext ? (
-          <div className="rounded-2xl border border-cyan-200 bg-cyan-50 px-4 py-3 text-xs leading-6 text-cyan-900">
+          <div className="rounded-2xl border border-tint-cyan-border bg-tint-cyan px-4 py-3 text-xs leading-6 text-cyan-200">
             <span className="font-semibold">案件コンテキスト:</span>{" "}
             {caseContext.productName} / {caseContext.destinationCountry} /{" "}
             {caseContext.customerCompanyName}

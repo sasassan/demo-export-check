@@ -17,7 +17,7 @@ const DEVICE_LABELS: Record<string, string> = {
 
 function SummaryCard({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="trade-hover-lift rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div className="trade-hover-lift rounded-xl border border-slate-200 bg-panel p-5 shadow-sm">
       <p className="text-xs font-semibold text-slate-500">{label}</p>
       <p className="mt-2 text-2xl font-bold text-brand-navy">{value}</p>
     </div>
@@ -33,7 +33,7 @@ export default async function AdminAnalyticsPage() {
       title="アクセス分析"
       description="管理者向けのアクセス分析画面です。訪問数、導線、CTAクリックなどを確認できます（直近30日間）。"
     >
-      <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+      <section className="rounded-xl border border-slate-200 bg-panel p-6 shadow-sm">
         <p className="text-sm font-semibold text-slate-900">管理者確認</p>
         <p className="mt-2 text-sm leading-7 text-slate-700">
           現在の管理者セッション: {adminEmail}
@@ -48,7 +48,7 @@ export default async function AdminAnalyticsPage() {
       </section>
 
       <section className="mt-6 grid gap-4 md:grid-cols-2">
-        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="rounded-xl border border-slate-200 bg-panel p-6 shadow-sm">
           <p className="text-sm font-semibold text-slate-900">ページ別ビュー数（上位10件）</p>
           {summary.topPaths.length === 0 ? (
             <EmptyState title="まだデータがありません" description="アクセスが蓄積すると、ここに集計結果が表示されます。" />
@@ -67,7 +67,7 @@ export default async function AdminAnalyticsPage() {
           )}
         </div>
 
-        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="rounded-xl border border-slate-200 bg-panel p-6 shadow-sm">
           <p className="text-sm font-semibold text-slate-900">CTAクリック（上位10件）</p>
           {summary.topCtas.length === 0 ? (
             <EmptyState title="まだデータがありません" description="アクセスが蓄積すると、ここに集計結果が表示されます。" />
@@ -86,7 +86,7 @@ export default async function AdminAnalyticsPage() {
           )}
         </div>
 
-        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm md:col-span-2">
+        <div className="rounded-xl border border-slate-200 bg-panel p-6 shadow-sm md:col-span-2">
           <p className="text-sm font-semibold text-slate-900">デバイス内訳</p>
           {summary.deviceBreakdown.length === 0 ? (
             <EmptyState title="まだデータがありません" description="アクセスが蓄積すると、ここに集計結果が表示されます。" />

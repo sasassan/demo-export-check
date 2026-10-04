@@ -18,13 +18,13 @@ export default function ContactPage() {
     <div className="min-h-screen bg-slate-50">
       <Header />
       <main id="main-content" tabIndex={-1} className="mx-auto flex max-w-4xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-10 outline-none">
-        <section className="rounded-xl border border-slate-200 bg-white p-6 sm:p-8">
+        <section className="rounded-xl border border-slate-200 bg-panel p-6 sm:p-8">
           <span className="trade-section-label">お問い合わせ</span>
           <h1 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">お問い合わせ</h1>
           <p className="mt-3 text-base leading-7 text-slate-700">
             ご意見・利用相談・改善要望を受け付けています。フィードバックはサービス改善のために利用します。
           </p>
-          <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          <div className="mt-4 rounded-lg border border-tint-amber-border bg-tint-amber px-4 py-3 text-sm text-amber-300">
             判定結果は参考情報であり、最終的な輸出可否判断を保証するものではありません。
           </div>
           <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-800">
@@ -32,7 +32,7 @@ export default function ContactPage() {
           </div>
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-6 sm:p-8">
+        <section className="rounded-xl border border-slate-200 bg-panel p-6 sm:p-8">
           <ContactForm />
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">

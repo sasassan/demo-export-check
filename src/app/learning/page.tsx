@@ -116,7 +116,7 @@ export default function LearningPage() {
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="space-y-6">
           {guides.map((guide) => (
-            <div key={guide.id} className="rounded-xl border border-slate-200 bg-white p-6">
+            <div key={guide.id} className="rounded-xl border border-slate-200 bg-panel p-6">
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-navy">{guide.label}</p>
               <h2 className="mt-2 text-xl font-bold text-slate-900">{guide.title}</h2>
               <p className="mt-3 text-sm leading-7 text-slate-600">{guide.description}</p>
@@ -124,7 +124,7 @@ export default function LearningPage() {
               <ol className="mt-5 space-y-3">
                 {guide.steps.map((step, index) => (
                   <li key={step} className="flex items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-7 text-slate-700">
-                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-navy text-[11px] font-bold !text-white">
+                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-deep text-[11px] font-bold !text-white">
                       {index + 1}
                     </span>
                     <span>{step}</span>
@@ -137,7 +137,7 @@ export default function LearningPage() {
                   <Link
                     key={item.href + item.label}
                     href={item.href}
-                    className="rounded-lg bg-blue-50 px-3 py-2 text-xs font-semibold text-brand-navy hover:bg-blue-100"
+                    className="rounded-lg bg-tint-blue px-3 py-2 text-xs font-semibold text-brand-navy hover:bg-tint-blue"
                   >
                     {item.label}
                   </Link>
@@ -148,7 +148,7 @@ export default function LearningPage() {
         </div>
 
         <div className="space-y-6">
-          <div className="rounded-xl border border-slate-200 bg-white p-6">
+          <div className="rounded-xl border border-slate-200 bg-panel p-6">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-navy">Country comparison</p>
             <h2 className="mt-2 text-xl font-bold text-slate-900">日本・米国・EU 規制比較表</h2>
             <div className="mt-5 overflow-x-auto">
@@ -178,7 +178,7 @@ export default function LearningPage() {
             </p>
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white p-6">
+          <div className="rounded-xl border border-slate-200 bg-panel p-6">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-navy">Next action</p>
             <h2 className="mt-2 text-xl font-bold text-slate-900">次にやること</h2>
             <div className="mt-4 space-y-3">

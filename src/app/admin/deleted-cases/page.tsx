@@ -17,7 +17,7 @@ export default async function AdminDeletedCasesPage() {
       title="削除済み案件の管理"
       description="全ユーザーの削除済み案件を確認し、猶予期間（30日）内であれば管理者として復元できます。"
     >
-      <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+      <section className="rounded-xl border border-slate-200 bg-panel p-6 shadow-sm">
         <p className="text-sm font-semibold text-slate-900">管理者確認</p>
         <p className="mt-2 text-sm leading-7 text-slate-700">
           現在の管理者セッション: {adminEmail}

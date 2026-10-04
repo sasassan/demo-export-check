@@ -2,20 +2,20 @@ import type { DimensionScore } from "@/lib/types";
 import type { Grade } from "@/lib/types";
 
 const gradeBadge: Record<Grade, string> = {
-  A: "bg-emerald-50 text-emerald-700 border-emerald-200",
-  B: "bg-amber-50 text-amber-700 border-amber-200",
-  C: "bg-rose-50 text-rose-700 border-rose-200",
+  A: "bg-tint-emerald text-emerald-400 border-tint-emerald-border",
+  B: "bg-tint-amber text-amber-400 border-tint-amber-border",
+  C: "bg-tint-rose text-rose-400 border-tint-rose-border",
 };
 
 const gradeBar: Record<Grade, string> = {
-  A: "bg-emerald-500",
+  A: "bg-tint-emerald0",
   B: "bg-amber-400",
-  C: "bg-rose-500",
+  C: "bg-tint-rose0",
 };
 
 export function RiskDimensionTable({ items }: { items: DimensionScore[] }) {
   return (
-    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+    <div className="overflow-hidden rounded-xl border border-slate-200 bg-panel shadow-sm">
       <div className="border-b border-slate-200 px-5 py-4">
         <h2 className="text-base font-semibold text-slate-900">評価軸ごとの詳細</h2>
         <p className="mt-0.5 text-sm text-slate-500">各リスク項目の評価理由と推奨アクションを確認できます。</p>

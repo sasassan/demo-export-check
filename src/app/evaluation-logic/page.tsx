@@ -118,7 +118,7 @@ export default function EvaluationLogicPage() {
     <div className="min-h-screen bg-slate-50">
       <Header />
       <main id="main-content" tabIndex={-1} className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-10 outline-none">
-        <section className="rounded-xl border border-slate-200 bg-white p-6 sm:p-8">
+        <section className="rounded-xl border border-slate-200 bg-panel p-6 sm:p-8">
           <span className="trade-section-label">Scoring logic</span>
           <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
             評価ロジック
@@ -131,7 +131,7 @@ export default function EvaluationLogicPage() {
           </p>
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-6">
+        <section className="rounded-xl border border-slate-200 bg-panel p-6">
           <h2 className="text-xl font-bold text-slate-900">スコアとグレードの対応</h2>
           <div className="mt-5 grid gap-4 md:grid-cols-3">
             {thresholdRows.map((row) => (
@@ -141,7 +141,7 @@ export default function EvaluationLogicPage() {
               >
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-bold text-brand-navy">{row.score}</p>
-                  <span className="rounded-md border border-slate-300 bg-white px-2.5 py-1 text-sm font-bold text-slate-900">
+                  <span className="rounded-md border border-slate-300 bg-panel px-2.5 py-1 text-sm font-bold text-slate-900">
                     {row.grade}
                   </span>
                 </div>
@@ -151,7 +151,7 @@ export default function EvaluationLogicPage() {
           </div>
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-6">
+        <section className="rounded-xl border border-slate-200 bg-panel p-6">
           <span className="trade-section-label">How scoring works</span>
           <h2 className="mt-3 text-xl font-bold text-slate-900">ひと目で分かる判定フロー</h2>
           <div className="mt-4 flex flex-wrap items-center gap-2 text-sm font-medium text-slate-500">
@@ -168,7 +168,7 @@ export default function EvaluationLogicPage() {
                 className="trade-hover-lift rounded-lg border border-slate-200 bg-slate-50 p-5"
               >
                 <div className="flex items-center gap-2">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-navy text-xs font-bold text-white">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-deep text-xs font-bold text-white">
                     {index + 1}
                   </span>
                   <p className="text-xs font-semibold uppercase tracking-wider text-brand-navy">
@@ -182,7 +182,7 @@ export default function EvaluationLogicPage() {
           </div>
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-6">
+        <section className="rounded-xl border border-slate-200 bg-panel p-6">
           <h2 className="text-xl font-bold text-slate-900">8つの判定観点</h2>
           <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {dimensions.map((item) => (
@@ -200,7 +200,7 @@ export default function EvaluationLogicPage() {
           </div>
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-6">
+        <section className="rounded-xl border border-slate-200 bg-panel p-6">
           <h2 className="text-xl font-bold text-slate-900">カテゴリ別の集約方法</h2>
           <div className="mt-5 grid gap-4 lg:grid-cols-2">
             {categoryRows.map((row) => (
@@ -221,7 +221,7 @@ export default function EvaluationLogicPage() {
         </section>
 
         <section className="grid gap-6 lg:grid-cols-2">
-          <div className="rounded-xl border border-slate-200 bg-white p-6">
+          <div className="rounded-xl border border-slate-200 bg-panel p-6">
             <span className="trade-section-label">Next actions</span>
             <h2 className="mt-3 text-xl font-bold text-slate-900">推奨アクションの出し方</h2>
             <ul className="mt-4 space-y-2 text-sm leading-7 text-slate-700">
@@ -234,17 +234,17 @@ export default function EvaluationLogicPage() {
             </ul>
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white p-6">
+          <div className="rounded-xl border border-slate-200 bg-panel p-6">
             <span className="trade-section-label">Important note</span>
             <h2 className="mt-3 text-xl font-bold text-slate-900">重要な前提</h2>
-            <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-900">
+            <div className="rounded-lg border border-tint-amber-border bg-tint-amber p-4 text-sm leading-7 text-amber-300">
               この評価ロジックは、営業段階・一次確認段階で論点を整理しやすくすることを目的としたものです。
               外為法上の最終判断や、法的助言・適法性保証を行うものではありません。
             </div>
           </div>
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-6">
+        <section className="rounded-xl border border-slate-200 bg-panel p-6">
           <span className="trade-section-label">Worked example</span>
           <h2 className="mt-3 text-xl font-bold text-slate-900">公開デモの具体例</h2>
           <div className="mt-5 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
@@ -268,7 +268,7 @@ export default function EvaluationLogicPage() {
           </div>
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-6">
+        <section className="rounded-xl border border-slate-200 bg-panel p-6">
           <div className="flex flex-wrap gap-3">
             <Link href="/demo" className="trade-primary-button">
               公開デモを見る

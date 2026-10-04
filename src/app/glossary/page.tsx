@@ -379,9 +379,9 @@ export default function GlossaryPage() {
         }}
       />
 
-      <div className="trade-hover-lift border border-slate-200 bg-white rounded-xl p-6 transition hover:border-brand-navy/30">
+      <div className="trade-hover-lift border border-slate-200 bg-panel rounded-xl p-6 transition hover:border-brand-navy/30">
         <div className="flex items-center gap-3 mb-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-slate-50 to-blue-50">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-slate-50 to-tint-blue">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-brand-navy">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
             </svg>
@@ -399,7 +399,7 @@ export default function GlossaryPage() {
             <a
               key={cat}
               href={`#${slugify(cat)}`}
-              className="rounded-full border border-slate-200 bg-blue-50 px-3 py-1 text-xs font-medium text-slate-700 hover:border-brand-navy/40 hover:text-brand-navy"
+              className="rounded-full border border-slate-200 bg-tint-blue px-3 py-1 text-xs font-medium text-slate-700 hover:border-brand-navy/40 hover:text-brand-navy"
             >
               {cat}
             </a>
@@ -409,7 +409,7 @@ export default function GlossaryPage() {
 
       <DictionarySearch />
 
-      <div className="trade-hover-lift border border-slate-200 bg-white rounded-xl p-6 transition hover:border-brand-navy/30">
+      <div className="trade-hover-lift border border-slate-200 bg-panel rounded-xl p-6 transition hover:border-brand-navy/30">
         <p className="text-xs font-semibold uppercase tracking-wider text-brand-navy">AIの活用方法</p>
         <h2 className="mt-2 text-xl font-bold text-slate-900">用語辞典と資料読解補助を組み合わせる</h2>
         <div className="mt-4 grid gap-3 md:grid-cols-3">
@@ -419,7 +419,7 @@ export default function GlossaryPage() {
             "最後に案件化して実務フローへつなぐ",
           ].map((item, index) => (
             <div key={item} className="trade-hover-lift flex items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 px-4 py-4 text-sm font-medium text-slate-600 transition hover:border-brand-navy/30">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-navy text-[11px] font-bold !text-white">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-deep text-[11px] font-bold !text-white">
                 {index + 1}
               </span>
               <span>{item}</span>
@@ -435,7 +435,7 @@ export default function GlossaryPage() {
             <section key={category} id={slugify(category)} className="scroll-mt-24">
               <div className="mb-4 flex items-center gap-3">
                 <h2 className="text-xl font-black text-slate-900">{category}</h2>
-                <span className="rounded-full border border-slate-200 bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-brand-navy">
+                <span className="rounded-full border border-slate-200 bg-tint-blue px-2.5 py-0.5 text-xs font-medium text-brand-navy">
                   {categoryTerms.length}件
                 </span>
               </div>
@@ -444,11 +444,11 @@ export default function GlossaryPage() {
                   <div
                     key={item.term}
                     id={TERM_SLUGS.get(item.term)}
-                    className="trade-hover-lift scroll-mt-24 border border-slate-200 bg-white rounded-xl p-6 transition hover:border-brand-navy/30"
+                    className="trade-hover-lift scroll-mt-24 border border-slate-200 bg-panel rounded-xl p-6 transition hover:border-brand-navy/30"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex items-start gap-3">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-slate-50 to-blue-50">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-slate-50 to-tint-blue">
                           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-brand-navy">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
                           </svg>
@@ -456,7 +456,7 @@ export default function GlossaryPage() {
                         <div>
                           <div className="flex flex-wrap items-center gap-2">
                             <h3 className="text-xl font-black text-slate-900">{item.term}</h3>
-                            <span className="rounded-full border border-slate-200 bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-brand-navy">
+                            <span className="rounded-full border border-slate-200 bg-tint-blue px-2.5 py-0.5 text-xs font-medium text-brand-navy">
                               {item.category}
                             </span>
                           </div>
@@ -491,7 +491,7 @@ export default function GlossaryPage() {
                             <Link
                               key={relatedTerm}
                               href={`#${slug}`}
-                              className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-xs font-medium text-brand-navy hover:border-brand-navy/40 hover:bg-blue-50"
+                              className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-xs font-medium text-brand-navy hover:border-brand-navy/40 hover:bg-tint-blue"
                             >
                               {relatedTerm}
                             </Link>
@@ -507,8 +507,8 @@ export default function GlossaryPage() {
         })}
       </div>
 
-      <div className="rounded-xl border border-blue-100 bg-slate-50 p-6 shadow-sm">
-        <p className="text-sm text-amber-800">
+      <div className="rounded-xl border border-tint-blue-bright bg-slate-50 p-6 shadow-sm">
+        <p className="text-sm text-amber-300">
           本用語集は参考情報として提供しています。法令の解釈・適用については必ず専門家（輸出管理担当者・弁護士・行政書士）にご相談ください。
         </p>
         <div className="mt-3 flex flex-wrap gap-4">
@@ -520,7 +520,7 @@ export default function GlossaryPage() {
           </Link>
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-amber-700 hover:text-amber-900"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-amber-400 hover:text-amber-300"
           >
             ← トップページへ戻る
           </Link>

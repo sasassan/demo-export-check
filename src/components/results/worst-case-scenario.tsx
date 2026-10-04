@@ -7,22 +7,22 @@ type Props = {
 };
 
 const probColor: Record<string, string> = {
-  低: "bg-emerald-100 text-emerald-700 border-emerald-200",
-  中: "bg-amber-100 text-amber-700 border-amber-200",
-  高: "bg-rose-100 text-rose-700 border-rose-200",
+  低: "bg-tint-emerald-strong text-emerald-400 border-tint-emerald-border",
+  中: "bg-tint-amber-strong text-amber-400 border-tint-amber-border",
+  高: "bg-tint-rose-strong text-rose-400 border-tint-rose-border",
 };
 
 const gradeColor: Record<string, string> = {
-  A: "text-emerald-700",
-  B: "text-amber-600",
-  C: "text-rose-600",
+  A: "text-emerald-400",
+  B: "text-amber-400",
+  C: "text-rose-400",
 };
 
 export function WorstCaseScenarioCard({ scenarios }: Props) {
   if (!scenarios || scenarios.length === 0) return null;
 
   return (
-    <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
+    <div className="bg-panel border border-slate-200 rounded-2xl shadow-sm p-6">
       <div className="mb-4">
         <h3 className="text-base font-bold text-slate-900">
           最悪ケースシミュレーション
@@ -36,7 +36,7 @@ export function WorstCaseScenarioCard({ scenarios }: Props) {
         {scenarios.map((s, idx) => (
           <div
             key={idx}
-            className="border border-slate-100 rounded-xl p-4 bg-slate-50 hover:bg-rose-50 transition-colors"
+            className="border border-slate-100 rounded-xl p-4 bg-slate-50 hover:bg-tint-rose transition-colors"
           >
             {/* シナリオタイトル */}
             <div className="flex items-start justify-between gap-2 mb-2">

@@ -41,7 +41,7 @@ export default function DemoPage() {
     <div className="min-h-screen bg-slate-50">
       <Header />
       <main id="main-content" tabIndex={-1} className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-10 outline-none">
-        <section className="rounded-xl border border-slate-200 bg-white p-6 sm:p-8">
+        <section className="rounded-xl border border-slate-200 bg-panel p-6 sm:p-8">
           <span className="trade-section-label">Public Demo</span>
           <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">デモ画面</h1>
           <p className="mt-3 max-w-3xl text-base leading-7 text-slate-600">
@@ -57,7 +57,7 @@ export default function DemoPage() {
         <PublicDemoSimulator />
 
         <section className="grid gap-4 lg:grid-cols-2">
-          <div className="rounded-xl border border-slate-200 bg-white p-6">
+          <div className="rounded-xl border border-slate-200 bg-panel p-6">
             <span className="trade-section-label">Why public demo is limited</span>
             <h2 className="mt-3 text-xl font-bold text-slate-900">公開デモで伏せているもの</h2>
             <ul className="mt-4 space-y-2 text-sm leading-6 text-slate-700">
@@ -67,7 +67,7 @@ export default function DemoPage() {
               <li>- 実運用の保存データ、相談履歴、顧客固有文書</li>
             </ul>
           </div>
-          <div className="rounded-xl border border-slate-200 bg-white p-6">
+          <div className="rounded-xl border border-slate-200 bg-panel p-6">
             <span className="trade-section-label">What this demo proves</span>
             <h2 className="mt-3 text-xl font-bold text-slate-900">この公開デモで確認できること</h2>
             <ul className="mt-4 space-y-2 text-sm leading-6 text-slate-700">
@@ -76,7 +76,7 @@ export default function DemoPage() {
               <li>- 推奨アクションと根拠サマリーの出し方</li>
               <li>- 業種別サンプル（半導体 / 工作機械 / 化学品 / 通信機器）の比較</li>
             </ul>
-            <div className="mt-4 rounded-lg border border-blue-100 bg-blue-50 p-4 text-sm leading-6 text-slate-700">
+            <div className="mt-4 rounded-lg border border-tint-blue-bright bg-tint-blue p-4 text-sm leading-6 text-slate-700">
               本番環境では、この後に案件保存、AI相談室への引き継ぎ、PDFレポート出力まで進む構成です。
             </div>
           </div>
@@ -84,7 +84,7 @@ export default function DemoPage() {
 
         <section className="grid gap-4 md:grid-cols-2">
           {sections.map((section) => (
-            <div key={section.title} className="rounded-xl border border-slate-200 bg-white p-5">
+            <div key={section.title} className="rounded-xl border border-slate-200 bg-panel p-5">
               <h2 className="text-base font-semibold text-slate-900">{section.title}</h2>
               <div className="mt-3 space-y-2">
                 {section.items.map((item) => (

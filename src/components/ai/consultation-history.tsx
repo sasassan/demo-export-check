@@ -71,7 +71,7 @@ export function ConsultationHistory() {
   }
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6">
+    <div className="rounded-xl border border-slate-200 bg-panel p-6">
       <p className="trade-section-label">相談履歴</p>
       <h2 className="mt-3 text-xl font-bold text-slate-900">相談履歴</h2>
       <p className="mt-2 text-sm leading-7 text-slate-600">
@@ -100,7 +100,7 @@ export function ConsultationHistory() {
       </div>
 
       <div className="mt-5 space-y-3">
-        <div className="rounded-2xl border border-cyan-100 bg-cyan-50/60 px-4 py-3 text-xs leading-6 text-cyan-900">相談内容は検索・モード・案件化状態で絞り込みできます。案件化済みの履歴はそのまま案件詳細へ戻れます。</div>
+        <div className="rounded-2xl border border-tint-cyan-border bg-tint-cyan/60 px-4 py-3 text-xs leading-6 text-cyan-200">相談内容は検索・モード・案件化状態で絞り込みできます。案件化済みの履歴はそのまま案件詳細へ戻れます。</div>
 
         {loading ? (
           <div className="space-y-3">
@@ -122,7 +122,7 @@ export function ConsultationHistory() {
                 <p className="text-sm font-semibold text-slate-900">{item.answerTitle}</p>
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-slate-500">{new Date(item.createdAt).toLocaleString("ja-JP")}</span>
-                  <span className={`rounded-full px-2 py-1 text-[11px] font-semibold ${item.caseId ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"}`}>
+                  <span className={`rounded-full px-2 py-1 text-[11px] font-semibold ${item.caseId ? "bg-tint-emerald-strong text-emerald-400" : "bg-tint-amber-strong text-amber-400"}`}>
                     {item.caseId ? "案件化済み" : "未案件化"}
                   </span>
                 </div>
@@ -131,8 +131,8 @@ export function ConsultationHistory() {
               <p className="mt-2 text-sm leading-7 text-slate-600">{item.answer}</p>
 
               {(item.sourceUrl || item.fetchedUrlText || item.sourceFetchStatus) && (
-                <div className="mt-3 rounded-xl border border-cyan-100 bg-cyan-50/70 px-3 py-3 text-xs leading-6 text-slate-700">
-                  <p className="font-semibold text-cyan-900">参照根拠</p>
+                <div className="mt-3 rounded-xl border border-tint-cyan-border bg-tint-cyan/70 px-3 py-3 text-xs leading-6 text-slate-700">
+                  <p className="font-semibold text-cyan-200">参照根拠</p>
                   {item.sourceUrl ? <p>URL: {item.sourceUrl}</p> : null}
                   <p>
                     URL取得状態: {item.sourceFetchStatus === "success" ? "取得成功" : item.sourceFetchStatus === "failed" ? "取得失敗" : "未指定"}
@@ -152,7 +152,7 @@ export function ConsultationHistory() {
                 </p>
               ) : null}
               {item.factHighlights?.length ? (
-                <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-3 text-xs leading-6 text-emerald-900">
+                <div className="mt-3 rounded-xl border border-tint-emerald-border bg-tint-emerald px-3 py-3 text-xs leading-6 text-emerald-900">
                   <p className="font-semibold">確認できた事実</p>
                   {item.factHighlights.map((fact) => (
                     <p key={fact}>・{fact}</p>
@@ -177,7 +177,7 @@ export function ConsultationHistory() {
                 </ul>
               ) : null}
               {item.caseDraft ? (
-                <div className="mt-3 rounded-xl border border-slate-200 bg-blue-50 px-3 py-2 text-xs text-slate-700">
+                <div className="mt-3 rounded-xl border border-slate-200 bg-tint-blue px-3 py-2 text-xs text-slate-700">
                   案件化候補: {item.caseDraft.productName || "要確認商品"}
                   {item.caseDraft.destinationCountry ? ` / ${item.caseDraft.destinationCountry}` : ""}
                   {item.caseDraft.customerCompanyName ? ` / ${item.caseDraft.customerCompanyName}` : ""}
@@ -196,14 +196,14 @@ export function ConsultationHistory() {
                     type="button"
                     onClick={() => createCaseFromConsultation(item)}
                     disabled={creatingId === item.id}
-                    className="rounded-lg bg-gradient-to-r from-brand-navy to-sky-500 px-3 py-2 text-xs font-semibold text-white shadow-sm disabled:opacity-60"
+                    className="rounded-lg bg-gradient-to-r from-brand-deep to-tint-sky0 px-3 py-2 text-xs font-semibold text-white shadow-sm disabled:opacity-60"
                   >
                     {creatingId === item.id ? "案件化中..." : "この相談から案件を作成"}
                   </button>
                 )}
                 <Link
                   href={buildCaseDraftLink(item)}
-                  className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700"
+                  className="rounded-lg border border-slate-300 bg-panel px-3 py-2 text-xs font-semibold text-slate-700"
                 >
                   下書きを確認
                 </Link>
@@ -214,7 +214,7 @@ export function ConsultationHistory() {
                   className={`rounded-lg px-3 py-2 text-xs font-semibold ${
                     item.feedback === "helpful"
                       ? "bg-emerald-700 text-white"
-                      : "border border-emerald-200 bg-white text-emerald-700"
+                      : "border border-tint-emerald-border bg-panel text-emerald-400"
                   }`}
                 >
                   役に立った
@@ -226,7 +226,7 @@ export function ConsultationHistory() {
                   className={`rounded-lg px-3 py-2 text-xs font-semibold ${
                     item.feedback === "needs-work"
                       ? "bg-amber-700 text-white"
-                      : "border border-amber-200 bg-white text-amber-700"
+                      : "border border-tint-amber-border bg-panel text-amber-400"
                   }`}
                 >
                   改善要望
