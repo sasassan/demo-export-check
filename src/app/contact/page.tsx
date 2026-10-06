@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { ContactForm } from "@/components/forms/contact-form";
 import { Header } from "@/components/layout/header";
+import { SiteFooter } from "@/components/layout/site-footer";
 import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
@@ -59,6 +60,7 @@ export default function ContactPage() {
           </div>
         </section>
       </main>
+      <SiteFooter />
     </div>
   );
 }

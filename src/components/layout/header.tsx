@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { APP_NAME } from "@/lib/constants";
 
 const navItems = [
+  { href: "/main?v=nav", match: "/main", label: "メイン" },
   { href: "/demo?v=nav", match: "/demo", label: "デモ" },
   { href: "/glossary?v=nav", match: "/glossary", label: "辞典" },
   { href: "/ai-room?v=nav", match: "/ai-room", label: "AI相談室" },

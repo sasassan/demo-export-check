@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Header } from "@/components/layout/header";
+import { SiteFooter } from "@/components/layout/site-footer";
 import { APP_NAME } from "@/lib/constants";
 import { buildSeo } from "@/lib/seo";
 
@@ -282,6 +283,7 @@ export default function EvaluationLogicPage() {
           </div>
         </section>
       </main>
+      <SiteFooter />
     </div>
   );
 }

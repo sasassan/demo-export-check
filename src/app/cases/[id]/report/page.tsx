@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Shell } from "@/components/layout/shell";
@@ -114,11 +115,14 @@ export default async function CaseReportPage({
           </div>
         </div>
 
-        <div className="rounded-2xl border border-tint-amber-border bg-tint-amber p-5">
-          <h2 className="text-lg font-semibold text-amber-300">免責事項</h2>
-          <p className="mt-3 text-sm leading-7 text-amber-300">
-            本サービスは参考情報を提供するものであり、法令上の判断を代替するものではありません。
-            最終的な輸出可否の判断は利用者自身の責任で実施してください。
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+          <h2 className="text-lg font-semibold text-slate-900">ご利用にあたって</h2>
+          <p className="mt-3 text-sm leading-7 text-slate-600">
+            本サービスは専門家の判断を補助するツールです。詳細は
+            <Link href="/terms" className="font-semibold text-brand-navy hover:underline">
+              利用規約
+            </Link>
+            をご確認ください。
           </p>
         </div>
 

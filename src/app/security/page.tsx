@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Header } from "@/components/layout/header";
+import { SiteFooter } from "@/components/layout/site-footer";
 import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
@@ -55,7 +56,7 @@ const aiUsageGuidelines = [
   "まずは匿名化・抽象化した表現で相談し、必要最小限の情報で判断できるかを確認する",
   "製品仕様が機微情報に当たる場合は、社内輸出管理担当・法務・専門家へ事前相談する",
   "詳細仕様を入れなくても、用途・輸出先国・相手先・契約条件だけで整理できるケースは多い",
-  "AI相談室は判断補助であり、法的結論を確定するものではない",
+  "AI相談室は判断を補助するツールです。法的結論は専門家と併せて確定してください",
 ];
 
 const dataSourcePolicy = [
@@ -70,9 +71,9 @@ const dataSourcePolicy = [
       "制裁・規制・地政学情報は更新され得るため、最終判断前には必ず最新情報の再確認が必要です。公開版もこの前提を維持しています。",
   },
   {
-    title: "最終判断の代替ではない",
+    title: "専門家の判断と併用する前提",
     description:
-      "本サービスは一次スクリーニングと理解支援を目的とし、外為法上の最終判断や法的助言を代替するものではありません。",
+      "本サービスは一次確認と理解支援を目的とし、外為法上の最終判断は専門家の確認と併せて進める設計です。",
   },
 ];
 
@@ -170,6 +171,7 @@ export default function SecurityPage() {
           </section>
         </div>
       </main>
+      <SiteFooter />
     </div>
   );
 }

@@ -509,7 +509,7 @@ export default function GlossaryPage() {
 
       <div className="rounded-xl border border-tint-blue-bright bg-slate-50 p-6 shadow-sm">
         <p className="text-sm text-amber-300">
-          本用語集は参考情報として提供しています。法令の解釈・適用については必ず専門家（輸出管理担当者・弁護士・行政書士）にご相談ください。
+          本用語集は一次確認のサポート情報です。法令の解釈・適用は、輸出管理担当者・弁護士などの専門家と併せてご確認ください。
         </p>
         <div className="mt-3 flex flex-wrap gap-4">
           <Link

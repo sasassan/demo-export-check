@@ -319,8 +319,8 @@ export function CaseForm({
 
         <div className="rounded-xl bg-tint-amber px-4 py-3">
           <p className="text-xs leading-5 text-amber-300">
-            本サービスは参考情報を提供するものであり、法令上の判断を代替するものではありません。
-            最終的な輸出可否の判断は利用者自身の責任で実施してください。
+            本サービスは専門家の判断を補助するツールです。診断結果は参考情報として、
+            最終判断は社内の輸出管理責任者・専門家と併せてご確認ください。
           </p>
         </div>
       </aside>

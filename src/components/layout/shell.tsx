@@ -1,8 +1,8 @@
 import { FloatingAiHelp } from "@/components/shared/floating-ai-help";
 import { Header } from "@/components/layout/header";
+import { SiteFooter } from "@/components/layout/site-footer";
 import { WorldMapIcon, AnchorIcon } from "@/components/icons/trade-icons";
-import { PortSilhouetteStrip, CompassWatermark } from "@/components/icons/trade-illustrations";
-import { APP_NAME } from "@/lib/constants";
+import { CompassWatermark } from "@/components/icons/trade-illustrations";
 
 export function Shell({
   children,
@@ -44,12 +44,7 @@ export function Shell({
         </section>
         {children}
       </main>
-      <footer className="relative mt-6 overflow-hidden border-t border-slate-200 bg-panel">
-        <PortSilhouetteStrip aria-hidden="true" className="h-14 w-full text-brand-cyan/20" />
-        <div className="mx-auto max-w-6xl px-4 py-4 text-center text-xs text-slate-500 sm:px-6">
-          &copy; {APP_NAME}
-        </div>
-      </footer>
+      <SiteFooter />
       <FloatingAiHelp />
     </div>
   );

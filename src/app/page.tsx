@@ -271,29 +271,6 @@ export default function Home() {
       </nav>
 
       <main id="main-content" tabIndex={-1} className="outline-none">
-        {/* クイックリンク */}
-        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-tint-blue/50 px-4 py-5 sm:px-6">
-          <div className="mx-auto grid max-w-6xl grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            {quickLinks.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="group trade-hover-lift flex items-start gap-3 rounded-xl border border-slate-200 bg-panel px-4 py-3.5 transition hover:border-brand-navy/40"
-              >
-                <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${item.tint}`}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
-                  </svg>
-                </div>
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-slate-900 group-hover:text-brand-navy">{item.label}</p>
-                  <p className="mt-0.5 text-xs leading-4 text-slate-600">{item.desc}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-
         {/* ヒーローセクション */}
         <section className="relative overflow-hidden border-b border-slate-100 bg-gradient-to-b from-panel via-panel to-slate-50/70 px-4 py-16 sm:px-6 sm:py-20">
           <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-[#22d3ee]/15 blur-3xl" />
@@ -306,27 +283,35 @@ export default function Home() {
               </span>
               <h1 className="mt-6 text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
                 その輸出、<br />
-                <span className="bg-gradient-to-r from-brand-cyan via-brand-navy to-brand-teal bg-clip-text text-transparent">本当に大丈夫</span>ですか？
+                <span className="bg-gradient-to-r from-brand-cyan via-brand-navy to-brand-teal bg-clip-text text-transparent">
+                  AIが5分で
+                </span>
+                一次確認。
               </h1>
               <p className="mt-4 text-lg font-medium text-brand-navy">
-                輸出管理の専門知識がなくても、営業担当者が商談前に5分で一次確認できます。
+                該非判定・制裁リスト・国リスク。商談前の確認を、専門知識なしで。
               </p>
               <p className="mt-3 max-w-xl text-base leading-7 text-slate-600">
-                制裁リスト・企業信用・用途・国リスクについて、
-                AIが入力情報と公開情報をもとに一次スクリーニングを支援します。
-                専門知識がなくても輸出コンプライアンスの初動確認を進められます。
+                商品・型番・輸出先・相手先を入力するだけで、A/B/C評価と根拠・確認アクションをAIが提示。
+                PDFレポートで社内共有まで一気に進みます。
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link href="/demo?v=hero" data-cta-id="hero-demo" data-cta-label="デモ画面を見る" data-cta-target="/demo?v=hero" className="group inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-brand-cyan to-brand-blue px-5 py-2.5 text-sm font-bold text-[#06242e] shadow-lg shadow-brand-cyan/25 transition hover:-translate-y-0.5 hover:brightness-110 hover:shadow-xl hover:shadow-brand-cyan/40">
-                  デモ画面を見る
+                <Link href="/demo?v=hero" data-cta-id="hero-demo" data-cta-label="該非判定を試す（デモ）" data-cta-target="/demo?v=hero" className="group inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-brand-cyan to-brand-blue px-5 py-2.5 text-sm font-bold text-[#06242e] shadow-lg shadow-brand-cyan/25 transition hover:-translate-y-0.5 hover:brightness-110 hover:shadow-xl hover:shadow-brand-cyan/40">
+                  該非判定を試す（デモ）
                   <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 transition group-hover:translate-x-0.5"><path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" /></svg>
                 </Link>
-                <Link href="/about?v=hero" data-cta-id="hero-about" data-cta-label="サービス説明" data-cta-target="/about?v=hero" className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-panel px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-navy hover:text-brand-navy">
-                  サービス説明
+                <Link href="/ai-room?v=hero" data-cta-id="hero-ai-room" data-cta-label="AIに相談" data-cta-target="/ai-room?v=hero" className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-panel px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-navy hover:text-brand-navy">
+                  AIに相談
+                </Link>
+                <Link href="/updates?v=hero" data-cta-id="hero-regulations" data-cta-label="規制情報を見る" data-cta-target="/updates?v=hero" className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-panel px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-navy hover:text-brand-navy">
+                  規制情報を見る
                 </Link>
               </div>
               <p className="mt-3 text-xs leading-6 text-slate-600">
-                まずは公開デモで入力〜結果確認の流れをご覧ください。導入相談・フィードバックは各ページ下部から受け付けています。
+                <Link href="/about?v=hero" data-cta-id="hero-about" data-cta-label="サービス詳細" data-cta-target="/about?v=hero" className="font-semibold text-brand-navy hover:underline">
+                  サービス詳細
+                </Link>
+                もご覧いただけます。ログインすれば案件登録からAI診断までそのまま利用できます。
               </p>
               <div className="mt-8 grid grid-cols-3 gap-4">
                 {[
@@ -432,6 +417,29 @@ export default function Home() {
               >
                 <p className="text-sm font-semibold text-slate-900">{item.title}</p>
                 <p className="mt-2 text-sm leading-6 text-slate-600">{item.body}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* クイックリンク */}
+        <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-tint-blue/50 px-4 py-5 sm:px-6">
+          <div className="mx-auto grid max-w-6xl grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            {quickLinks.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="group trade-hover-lift flex items-start gap-3 rounded-xl border border-slate-200 bg-panel px-4 py-3.5 transition hover:border-brand-navy/40"
+              >
+                <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${item.tint}`}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
+                  </svg>
+                </div>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold text-slate-900 group-hover:text-brand-navy">{item.label}</p>
+                  <p className="mt-0.5 text-xs leading-4 text-slate-600">{item.desc}</p>
+                </div>
               </Link>
             ))}
           </div>
@@ -596,8 +604,8 @@ export default function Home() {
                     </ul>
                   </div>
                   <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
-                    <p className="text-xs font-bold text-slate-800">免責事項</p>
-                    <p className="mt-1 text-xs text-slate-700">本レポートは参考情報です。最終的な輸出可否の判断は利用者自身の責任で実施してください。</p>
+                    <p className="text-xs font-bold text-slate-800">社内共有</p>
+                    <p className="mt-1 text-xs text-slate-700">レポートを上司・法務へ共有し、判断根拠を揃えて決裁に進められます。</p>
                   </div>
                 </div>
               </div>
@@ -633,8 +641,8 @@ export default function Home() {
                 </div>
               ))}
               <div className="rounded-lg border border-white/15 bg-white/10 px-4 py-3">
-                <p className="text-sm font-semibold text-white">免責事項</p>
-                <p className="mt-1 text-sm text-blue-50">本サービスは一次スクリーニング支援ツールです。法令上の最終判断を代替するものではありません。</p>
+                <p className="text-sm font-semibold text-white">一次確認の位置づけ</p>
+                <p className="mt-1 text-sm text-blue-50">専門家の判断を補助するツールとして、確認の抜け漏れと論点整理を支援します。</p>
               </div>
             </div>
           </div>
@@ -661,8 +669,8 @@ export default function Home() {
                   text: "制裁・規制・国リスクは変動するため、最終判断前に最新情報を確認する運用を前提としています。",
                 },
                 {
-                  title: "法的判断の代替ではない",
-                  text: "一次確認・論点整理・理解支援を目的とし、社内承認や専門家判断を置き換えるものではありません。",
+                  title: "専門家の判断と併用する前提",
+                  text: "一次確認・論点整理・理解支援を目的とし、社内承認や専門家判断と組み合わせてご利用いただく設計です。",
                 },
               ].map((item) => (
                 <div key={item.title} className="rounded-xl border border-slate-200 bg-panel p-5 shadow-sm">
@@ -894,7 +902,9 @@ export default function Home() {
                   <span className="text-base font-bold text-slate-900">{APP_NAME}</span>
                 </div>
                 <p className="mt-4 max-w-sm text-xs leading-6 text-slate-500">
-                  本サービスは参考情報を提供するものであり、法令上の判断を代替するものではありません。
+                  本サービスは輸出管理における専門家の判断を補助するツールです。ご利用にあたっては
+                  <Link href="/terms" className="font-semibold text-brand-navy hover:underline">利用規約</Link>
+                  に同意の上ご利用ください。
                 </p>
               </div>
               <div>
