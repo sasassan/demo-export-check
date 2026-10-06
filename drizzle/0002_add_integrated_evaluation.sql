@@ -1,1 +1,1 @@
-ALTER TABLE "risk_assessments" ADD COLUMN "integrated_evaluation" jsonb;
+ALTER TABLE "risk_assessments" ADD COLUMN IF NOT EXISTS "integrated_evaluation" jsonb;

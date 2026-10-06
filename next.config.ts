@@ -45,6 +45,12 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // サーバー起動時の自動DBマイグレーション（src/instrumentation.ts）が
+  // drizzle/ 配下のマイグレーションファイルを読み込むため、全てのルートの
+  // 出力トレースに含める（Vercel等のサーバーレス環境でフォルダが欠落するのを防ぐ）。
+  outputFileTracingIncludes: {
+    "/**": ["./drizzle/**/*"],
+  },
   async headers() {
     return [
       {

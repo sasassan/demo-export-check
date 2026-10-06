@@ -1,4 +1,4 @@
-CREATE TABLE "ai_consultations" (
+CREATE TABLE IF NOT EXISTS "ai_consultations" (
 	"id" varchar(64) PRIMARY KEY NOT NULL,
 	"user_email" varchar(255) NOT NULL,
 	"case_id" varchar(64),
@@ -26,14 +26,14 @@ CREATE TABLE "ai_consultations" (
 	"created_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "ai_rate_limit_buckets" (
+CREATE TABLE IF NOT EXISTS "ai_rate_limit_buckets" (
 	"bucket_key" varchar(300) PRIMARY KEY NOT NULL,
 	"count" integer DEFAULT 0 NOT NULL,
 	"expires_at" timestamp with time zone NOT NULL,
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "analytics_events" (
+CREATE TABLE IF NOT EXISTS "analytics_events" (
 	"id" varchar(64) PRIMARY KEY NOT NULL,
 	"session_id" varchar(64) NOT NULL,
 	"visitor_id" varchar(128) NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE "analytics_events" (
 	"created_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "analytics_sessions" (
+CREATE TABLE IF NOT EXISTS "analytics_sessions" (
 	"id" varchar(64) PRIMARY KEY NOT NULL,
 	"visitor_id" varchar(128) NOT NULL,
 	"user_email" varchar(255),
@@ -62,7 +62,7 @@ CREATE TABLE "analytics_sessions" (
 	"last_seen_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "audit_logs" (
+CREATE TABLE IF NOT EXISTS "audit_logs" (
 	"id" varchar(64) PRIMARY KEY NOT NULL,
 	"actor_email" varchar(255) NOT NULL,
 	"action" varchar(64) NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE "audit_logs" (
 	"created_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "cases" (
+CREATE TABLE IF NOT EXISTS "cases" (
 	"id" varchar(64) PRIMARY KEY NOT NULL,
 	"user_email" varchar(255) NOT NULL,
 	"product_name" text NOT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE "cases" (
 	"deleted_at" timestamp with time zone
 );
 --> statement-breakpoint
-CREATE TABLE "evidence_items" (
+CREATE TABLE IF NOT EXISTS "evidence_items" (
 	"id" varchar(64) PRIMARY KEY NOT NULL,
 	"case_id" varchar(64) NOT NULL,
 	"dimension" varchar(32) NOT NULL,
@@ -99,7 +99,7 @@ CREATE TABLE "evidence_items" (
 	"captured_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "generated_reports" (
+CREATE TABLE IF NOT EXISTS "generated_reports" (
 	"id" varchar(64) PRIMARY KEY NOT NULL,
 	"case_id" varchar(64) NOT NULL,
 	"version" integer NOT NULL,
@@ -107,7 +107,7 @@ CREATE TABLE "generated_reports" (
 	"generated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "investigations" (
+CREATE TABLE IF NOT EXISTS "investigations" (
 	"id" varchar(64) PRIMARY KEY NOT NULL,
 	"case_id" varchar(64) NOT NULL,
 	"status" varchar(32) NOT NULL,
@@ -118,7 +118,7 @@ CREATE TABLE "investigations" (
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "provider_runs" (
+CREATE TABLE IF NOT EXISTS "provider_runs" (
 	"id" varchar(64) PRIMARY KEY NOT NULL,
 	"case_id" varchar(64) NOT NULL,
 	"provider_name" text NOT NULL,
@@ -127,7 +127,7 @@ CREATE TABLE "provider_runs" (
 	"created_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "risk_assessments" (
+CREATE TABLE IF NOT EXISTS "risk_assessments" (
 	"case_id" varchar(64) PRIMARY KEY NOT NULL,
 	"summary" jsonb NOT NULL,
 	"report_narrative" text NOT NULL,
@@ -145,7 +145,7 @@ CREATE TABLE "risk_assessments" (
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "risk_dimension_scores" (
+CREATE TABLE IF NOT EXISTS "risk_dimension_scores" (
 	"id" varchar(64) PRIMARY KEY NOT NULL,
 	"case_id" varchar(64) NOT NULL,
 	"dimension" varchar(32) NOT NULL,
@@ -156,27 +156,27 @@ CREATE TABLE "risk_dimension_scores" (
 	"recommended_action" text NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "users" (
+CREATE TABLE IF NOT EXISTS "users" (
 	"id" varchar(64) PRIMARY KEY NOT NULL,
 	"email" varchar(255) NOT NULL,
 	"created_at" timestamp with time zone NOT NULL,
 	CONSTRAINT "users_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
-CREATE INDEX "ai_consultations_user_email_idx" ON "ai_consultations" USING btree ("user_email");--> statement-breakpoint
-CREATE INDEX "ai_consultations_case_id_idx" ON "ai_consultations" USING btree ("case_id");--> statement-breakpoint
-CREATE INDEX "analytics_events_session_id_idx" ON "analytics_events" USING btree ("session_id");--> statement-breakpoint
-CREATE INDEX "analytics_events_event_name_idx" ON "analytics_events" USING btree ("event_name");--> statement-breakpoint
-CREATE INDEX "analytics_events_created_at_idx" ON "analytics_events" USING btree ("created_at");--> statement-breakpoint
-CREATE INDEX "analytics_sessions_visitor_id_idx" ON "analytics_sessions" USING btree ("visitor_id");--> statement-breakpoint
-CREATE INDEX "analytics_sessions_user_email_idx" ON "analytics_sessions" USING btree ("user_email");--> statement-breakpoint
-CREATE INDEX "analytics_sessions_started_at_idx" ON "analytics_sessions" USING btree ("started_at");--> statement-breakpoint
-CREATE INDEX "audit_logs_target_id_idx" ON "audit_logs" USING btree ("target_id");--> statement-breakpoint
-CREATE INDEX "audit_logs_action_idx" ON "audit_logs" USING btree ("action");--> statement-breakpoint
-CREATE INDEX "cases_user_email_idx" ON "cases" USING btree ("user_email");--> statement-breakpoint
-CREATE INDEX "cases_deleted_at_idx" ON "cases" USING btree ("deleted_at");--> statement-breakpoint
-CREATE INDEX "evidence_items_case_id_idx" ON "evidence_items" USING btree ("case_id");--> statement-breakpoint
-CREATE INDEX "generated_reports_case_id_idx" ON "generated_reports" USING btree ("case_id");--> statement-breakpoint
-CREATE INDEX "investigations_case_id_idx" ON "investigations" USING btree ("case_id");--> statement-breakpoint
-CREATE INDEX "provider_runs_case_id_idx" ON "provider_runs" USING btree ("case_id");--> statement-breakpoint
-CREATE INDEX "risk_dimension_scores_case_id_idx" ON "risk_dimension_scores" USING btree ("case_id");
+CREATE INDEX IF NOT EXISTS "ai_consultations_user_email_idx" ON "ai_consultations" USING btree ("user_email");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "ai_consultations_case_id_idx" ON "ai_consultations" USING btree ("case_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "analytics_events_session_id_idx" ON "analytics_events" USING btree ("session_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "analytics_events_event_name_idx" ON "analytics_events" USING btree ("event_name");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "analytics_events_created_at_idx" ON "analytics_events" USING btree ("created_at");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "analytics_sessions_visitor_id_idx" ON "analytics_sessions" USING btree ("visitor_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "analytics_sessions_user_email_idx" ON "analytics_sessions" USING btree ("user_email");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "analytics_sessions_started_at_idx" ON "analytics_sessions" USING btree ("started_at");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "audit_logs_target_id_idx" ON "audit_logs" USING btree ("target_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "audit_logs_action_idx" ON "audit_logs" USING btree ("action");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "cases_user_email_idx" ON "cases" USING btree ("user_email");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "cases_deleted_at_idx" ON "cases" USING btree ("deleted_at");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "evidence_items_case_id_idx" ON "evidence_items" USING btree ("case_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "generated_reports_case_id_idx" ON "generated_reports" USING btree ("case_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "investigations_case_id_idx" ON "investigations" USING btree ("case_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "provider_runs_case_id_idx" ON "provider_runs" USING btree ("case_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "risk_dimension_scores_case_id_idx" ON "risk_dimension_scores" USING btree ("case_id");
