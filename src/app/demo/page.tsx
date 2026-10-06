@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { PublicDemoSimulator } from "@/components/demo/public-demo-simulator";
 import { Header } from "@/components/layout/header";
+import { SiteFooter } from "@/components/layout/site-footer";
 import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
@@ -95,6 +96,7 @@ export default function DemoPage() {
           ))}
         </section>
       </main>
+      <SiteFooter />
     </div>
   );
 }

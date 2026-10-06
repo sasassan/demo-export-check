@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Header } from "@/components/layout/header";
+import { SiteFooter } from "@/components/layout/site-footer";
 import { LighthouseIcon, GlobeArrowIcon } from "@/components/icons/trade-icons";
 import { WaveDivider } from "@/components/icons/trade-illustrations";
 import { APP_NAME } from "@/lib/constants";
@@ -281,6 +282,7 @@ export default function AboutPage() {
           </div>
         </section>
       </main>
+      <SiteFooter />
     </div>
   );
 }

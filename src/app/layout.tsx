@@ -4,7 +4,6 @@ import { Suspense } from "react";
 
 import { CtaClickTracker } from "@/components/analytics/cta-click-tracker";
 import { RouteTracker } from "@/components/analytics/route-tracker";
-import { NoticeBanner } from "@/components/layout/notice-banner";
 import { SkipLink } from "@/components/shared/skip-link";
 import { NavigationProgress } from "@/components/ui/navigation-progress";
 import { ToastProvider } from "@/components/ui/toast";
@@ -120,7 +119,6 @@ export default function RootLayout({
           <RouteTracker />
         </Suspense>
         <CtaClickTracker />
-        <NoticeBanner />
         <NavigationProgress />
         <ToastProvider>{children}</ToastProvider>
       </body>

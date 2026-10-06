@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Header } from "@/components/layout/header";
+import { SiteFooter } from "@/components/layout/site-footer";
 import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
@@ -139,7 +140,7 @@ export default function ForAiPage() {
               </div>
               <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
                 {[
-                  "本サービスは法的判断を代替しません",
+                  "本サービスは専門家の判断を補助するツールです",
                   "ダッシュボードと案件管理はログイン前提です",
                   "公開ページは誰でも閲覧可能です",
                   "機能や表現は継続的に改善しています",
@@ -213,6 +214,7 @@ export default function ForAiPage() {
           </section>
         </div>
       </main>
+      <SiteFooter />
     </div>
   );
 }

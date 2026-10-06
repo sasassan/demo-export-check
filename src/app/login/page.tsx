@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { LoginForm } from "@/components/forms/login-form";
 import {
@@ -89,7 +90,8 @@ export default function LoginPage() {
         </div>
 
         <p className="relative text-xs leading-5 text-white/80">
-          本サービスは参考情報を提供するものであり、法令上の判断を代替するものではありません。
+          本サービスは輸出管理における専門家の判断を補助するツールです。ご利用にあたっては
+          利用規約に同意の上ご利用ください。
         </p>
       </div>
 
@@ -124,6 +126,12 @@ export default function LoginPage() {
             <div className="mt-6">
               <LoginForm />
             </div>
+          </div>
+
+          <div className="mt-6 text-center">
+            <Link href="/" className="text-sm font-semibold text-brand-navy hover:underline">
+              トップページに戻る
+            </Link>
           </div>
         </div>
       </div>

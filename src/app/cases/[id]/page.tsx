@@ -61,12 +61,15 @@ export default async function CaseDetailPage({
             </div>
 
             <div className="flex items-start gap-3 rounded-xl border border-tint-amber-border bg-tint-amber px-4 py-3">
-              <svg viewBox="0 0 20 20" fill="currentColor" className="mt-0.5 h-4 w-4 shrink-0 text-amber-500">
+              <svg viewBox="0 0 20 20" fill="currentColor" className="mt-0.5 h-4 w-4 shrink-0 text-brand-navy">
                 <path fillRule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clipRule="evenodd" />
               </svg>
-              <p className="text-sm leading-5 text-amber-300">
-                本サービスは参考情報の提供を目的としており、法令上の最終判断を代替するものではありません。
-                最終的な輸出可否の判断は利用者自身の責任で実施してください。
+              <p className="text-sm leading-5 text-slate-600">
+                本サービスは専門家の判断を補助するツールです。詳細は
+                <Link href="/terms" className="font-semibold text-brand-navy hover:underline">
+                  利用規約
+                </Link>
+                をご確認ください。
               </p>
             </div>
 
