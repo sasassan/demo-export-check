@@ -1,3 +1,5 @@
+import type Anthropic from "@anthropic-ai/sdk";
+
 import { buildAnalysisPrompt, parseAiResponse } from "@/lib/providers/ai-prompt";
 import { buildProviderResult } from "@/lib/providers/mock/base";
 import { モックCountryProvider } from "@/lib/providers/mock/country";
@@ -51,13 +53,21 @@ export class ClaudeProvider implements InvestigationProvider {
           { providerLabel: "anthropic-claude" },
         );
 
+      // content[0]が常にtextブロックとは限らない(thinking等が先行する場合がある)ため、
+      // 配列全体からtextブロックを探して結合する（assistant.ts の extractText と同パターン）。
+      const extractText = (blocks: Anthropic.ContentBlock[]): string =>
+        blocks
+          .filter((block): block is Anthropic.TextBlock => block.type === "text")
+          .map((block) => block.text)
+          .join("");
+
       let response = await callOnce();
-      let text = response.content[0]?.type === "text" ? response.content[0].text : "";
+      let text = extractText(response.content);
       let parsed = parseAiResponse(text);
       if (!parsed) {
         console.error("[AI:anthropic-claude] JSONパース失敗のため1回リトライします");
         response = await callOnce();
-        text = response.content[0]?.type === "text" ? response.content[0].text : "";
+        text = extractText(response.content);
         parsed = parseAiResponse(text);
       }
       if (!parsed) throw new Error("Claude: JSON parse failed after retry");
