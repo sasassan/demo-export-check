@@ -16,7 +16,7 @@ export default function AiRoomPage() {
   return (
     <Shell
       title="AI相談室"
-      description="輸出に関する疑問、規制資料の読み方、条文の意味、社内規程の整理、相手先確認、初心者向けの言い換え、資料の要点整理をまとめて相談できます。"
+      description="輸出に関する疑問、規制資料の読み方、条文の意味、社内規程の整理、相手先確認、初心者向けの言い換え、資料の要点整理を、GPT-4o・Gemini・Claudeの3つのAIから選んで相談できます。"
     >
       <section className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
         <div className="space-y-6">
@@ -77,6 +77,7 @@ export default function AiRoomPage() {
             <h2 className="mt-2 text-xl font-bold text-slate-900">今回強化したAI機能</h2>
             <div className="mt-4 grid gap-3">
               {[
+                "GPT-4o・Gemini・Claudeの3AIから回答者を選択",
                 "根拠引用つき回答",
                 "資料チャンク抽出による簡易RAG",
                 "事実 / 要確認の切り分け",

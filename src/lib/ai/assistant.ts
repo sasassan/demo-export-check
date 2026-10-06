@@ -1,5 +1,6 @@
 import type OpenAI from "openai";
 import type Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 import { getProviderRuntimeInfo, type ProviderRuntimeInfo } from "@/lib/ai/config";
 import { callWithRetry, logAiError } from "@/lib/ai/error-handling";
@@ -149,7 +150,7 @@ export type AskAssistantInput = {
   sourceUrl?: string;
   fetchedUrlText?: string;
   history?: ConversationMessage[];
-  /** 優先して使うAIモデル。未指定時はENABLED_AI_PROVIDERSの順序でフォールバックする */
+  /** 優先して使うAIモデル。未指定時はGPT-4o→Gemini→Claudeの順でフォールバックする */
   aiModel?: AiModel;
 };
 
@@ -300,18 +301,68 @@ async function callClaudeAssistant(
   return { raw, usedModel: "claude" };
 }
 
+async function callGeminiAssistant(
+  runtime: ProviderRuntimeInfo,
+  systemPrompt: string,
+  messages: ChatMessage[],
+): Promise<{ raw: string; usedModel: AiModel }> {
+  const genAI = new GoogleGenerativeAI(runtime.apiKey!);
+  const model = genAI.getGenerativeModel(
+    {
+      model: runtime.modelName,
+      generationConfig: { responseMimeType: "application/json" },
+    },
+    { timeout: runtime.timeoutMs },
+  );
+
+  const callOnce = () =>
+    callWithRetry(
+      () =>
+        model.generateContent({
+          systemInstruction: `${systemPrompt}\n\n必ず上記JSONスキーマのみを返し、前後に説明文やマークダウンを含めないでください。`,
+          contents: messages.map((m) => ({
+            role: m.role === "assistant" ? "model" : "user",
+            parts: [{ text: m.content }],
+          })),
+        }),
+      { providerLabel: "assistant-gemini" },
+    );
+
+  let result = await callOnce();
+  let raw = result.response.text();
+  if (!parseAssistantJson(raw)) {
+    console.error("[AI:assistant-gemini] JSONパース失敗のため1回リトライします");
+    result = await callOnce();
+    raw = result.response.text();
+  }
+  return { raw, usedModel: "gemini" };
+}
+
 /* ---------- provider selection ---------- */
 export function buildProviderAttempts(preferredModel?: AiModel): ProviderAttempt[] {
-  const preferred = preferredModel === "gpt-4o" || preferredModel === "claude" ? preferredModel : undefined;
-  const models: AiModel[] = ["gpt-4o", "claude"];
+  const preferred =
+    preferredModel === "gpt-4o" || preferredModel === "gemini" || preferredModel === "claude"
+      ? preferredModel
+      : undefined;
+  const models: AiModel[] = ["gpt-4o", "gemini", "claude"];
   const ordered = preferred ? [preferred, ...models.filter((m) => m !== preferred)] : models;
 
   return ordered.map((model) => {
     const runtime = getProviderRuntimeInfo(model, "chat");
     return {
       model,
-      label: model === "gpt-4o" ? "assistant-gpt4o" : "assistant-claude",
-      status: runtime.status === "live" && runtime.apiKey ? "live" : runtime.status === "fallback-no-key" ? "no-key" : "disabled",
+      label:
+        model === "gpt-4o"
+          ? "assistant-gpt4o"
+          : model === "gemini"
+            ? "assistant-gemini"
+            : "assistant-claude",
+      status:
+        runtime.status === "live" && runtime.apiKey
+          ? "live"
+          : runtime.status === "fallback-no-key"
+            ? "no-key"
+            : "disabled",
       runtime,
     };
   });
@@ -330,7 +381,9 @@ async function tryProvider(
     const result =
       attempt.model === "claude"
         ? await callClaudeAssistant(attempt.runtime, systemPrompt, messages)
-        : await callOpenAiAssistant(attempt.runtime, systemPrompt, messages);
+        : attempt.model === "gemini"
+          ? await callGeminiAssistant(attempt.runtime, systemPrompt, messages)
+          : await callOpenAiAssistant(attempt.runtime, systemPrompt, messages);
     const parsed = parseAssistantJson(result.raw);
     if (!parsed) {
       return { ok: false, reason: "error", errorMessage: `${attempt.model}: JSON parse failed after retry` };

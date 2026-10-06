@@ -27,6 +27,8 @@ import type {
   CrossReviewSummary,
   CrossReviewDimension,
   CrossReviewVote,
+  IntegratedEvaluationSummary,
+  IntegratedEvaluationPoint,
   Grade,
 } from "@/lib/types";
 import { getEnabledAiModels } from "@/lib/ai/config";
@@ -411,6 +413,119 @@ function buildCrossReview(
   };
 }
 
+/**
+ * 「3つのAIによる統合評価」レポートを構築する。
+ * 各AIの次元別判定を比較し、
+ * - 全AIの判定が一致した次元 → 一致点（確信度高）
+ * - 判定が割れた次元 → 不一致点（各AIの見解を両論併記）
+ * として整理する。コンセンサスグレードは多数決（同数タイは安全側の最悪グレード）。
+ * 参加プロバイダーは実API応答（live）のみを数える。全件フォールバック時は
+ * 統合評価として成立しないため参加プロバイダーは空となる（UI側で非表示）。
+ */
+function buildIntegratedEvaluation(
+  results: ProviderResult[],
+  liveResults: ProviderResult[],
+  usedフォールバック: boolean,
+): IntegratedEvaluationSummary {
+  const participatingProviders = liveResults.map(
+    (r) => PROVIDER_MODEL_MAP[r.providerName] ?? ("mock" as AiModel),
+  );
+  const effectiveResults = usedフォールバック ? results : liveResults;
+
+  const agreementPoints: IntegratedEvaluationPoint[] = [];
+  const disagreementPoints: IntegratedEvaluationPoint[] = [];
+
+  for (const dim of RISK_DIMENSIONS) {
+    const dimFindings = effectiveResults
+      .map((r) => ({ result: r, finding: r.findings.find((f) => f.dimension === dim) }))
+      .filter(
+        (entry): entry is { result: ProviderResult; finding: InvestigationFinding } =>
+          entry.finding !== undefined,
+      );
+
+    if (dimFindings.length === 0) continue;
+
+    const opinions = dimFindings.map(({ result, finding }) => ({
+      model: PROVIDER_MODEL_MAP[result.providerName] ?? ("mock" as AiModel),
+      modelLabel: MODEL_LABELS[result.providerName] ?? result.providerName,
+      grade: scoreToGrade(finding.baseScore),
+      score: finding.baseScore,
+      rationale: finding.rationale,
+    }));
+
+    const isAgreement = new Set(opinions.map((o) => o.grade)).size === 1;
+
+    // 多数決でコンセンサスを決定。同数タイの場合は安全側（最悪グレード）に倒す
+    const gradeCounts = new Map<Grade, number>();
+    for (const opinion of opinions) {
+      gradeCounts.set(opinion.grade, (gradeCounts.get(opinion.grade) ?? 0) + 1);
+    }
+    const maxCount = Math.max(...gradeCounts.values());
+    const topGrades = [...gradeCounts.entries()]
+      .filter(([, count]) => count === maxCount)
+      .map(([grade]) => grade);
+    const consensusGrade =
+      topGrades.length === 1 ? topGrades[0] : topGrades.reduce((a, b) => worseGrade(a, b));
+    const consensusScore = Math.round(
+      opinions.reduce((sum, o) => sum + o.score, 0) / opinions.length,
+    );
+
+    // 一致点の確信度: 3社一致なら「高」、2社一致なら「中」。不一致点は「低」
+    const confidence: IntegratedEvaluationPoint["confidence"] = !isAgreement
+      ? "低"
+      : opinions.length >= 3
+        ? "高"
+        : "中";
+
+    const point: IntegratedEvaluationPoint = {
+      dimension: dim,
+      label: dimFindings[0].finding.label,
+      isAgreement,
+      confidence,
+      consensusGrade,
+      consensusScore,
+      opinions,
+    };
+
+    if (isAgreement) {
+      agreementPoints.push(point);
+    } else {
+      disagreementPoints.push(point);
+    }
+  }
+
+  const overallConsensusGrade = [...agreementPoints, ...disagreementPoints].reduce<Grade>(
+    (acc, point) => worseGrade(acc, point.consensusGrade),
+    "A",
+  );
+
+  const confidenceScore = calcAgreementRate(liveResults);
+  const confidenceLevel: IntegratedEvaluationSummary["confidenceLevel"] =
+    liveResults.length <= 1
+      ? "低"
+      : confidenceScore >= 80
+        ? "高"
+        : confidenceScore >= 50
+          ? "中"
+          : "低";
+
+  return {
+    title:
+      liveResults.length >= 3
+        ? "3つのAIによる統合評価"
+        : liveResults.length >= 1
+          ? `${liveResults.length}つのAIによる統合評価`
+          : "3つのAIによる統合評価",
+    participatingProviders,
+    agreementPoints,
+    disagreementPoints,
+    overallConsensusGrade,
+    confidenceLevel,
+    confidenceScore,
+    isフォールバックOnly: usedフォールバック,
+  };
+}
+
 function buildAiProviders(): InvestigationProvider[] {
   const modelOrder = getEnabledAiModels();
   return modelOrder.map((model) => {
@@ -535,6 +650,13 @@ export async function runInvestigation(caseId: string, userEmail: string) {
     // マルチAIコンセンサス（多数決/重み付け集計、参考情報として公式グレードとは別に保持）
     const crossReview = buildCrossReview(results, effectiveResults, usedフォールバック);
 
+    // 「3つのAIによる統合評価」レポート（一致点=確信度高、不一致点=両論併記）
+    const integratedEvaluation = buildIntegratedEvaluation(
+      results,
+      liveResults,
+      usedフォールバック,
+    );
+
     // レポートナレーション生成（OpenAI APIキーがあれば実API呼び出し、なければテンプレートにフォールバック）
     // 注意: 上のPromise.allSettledによる各プロバイダー調査は並列実行だが、
     // このnarrative生成は直列で「その後」に実行される。そのためnarrative呼び出し自体にも
@@ -588,6 +710,7 @@ export async function runInvestigation(caseId: string, userEmail: string) {
       worstCaseScenarios,
       disagreementDimensions,
       crossReview,
+      integratedEvaluation,
       regulationUpdates: getRegulationUpdatesForCase({
         destinationCountry: detail.case.destinationCountry,
         productName: detail.case.productName,

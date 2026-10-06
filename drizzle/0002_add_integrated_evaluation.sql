@@ -1,0 +1,1 @@
+ALTER TABLE "risk_assessments" ADD COLUMN "integrated_evaluation" jsonb;

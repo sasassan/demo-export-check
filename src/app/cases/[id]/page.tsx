@@ -9,6 +9,7 @@ import { RiskDimensionTable } from "@/components/results/risk-dimension-table";
 import { RiskScoreCard } from "@/components/results/risk-score-card";
 import { SourceEvidenceList } from "@/components/results/source-evidence-list";
 import { ExecutiveSummary } from "@/components/results/executive-summary";
+import { IntegratedEvaluation } from "@/components/results/integrated-evaluation";
 import { RiskMeter } from "@/components/results/risk-meter";
 import { AiReviewMeeting } from "@/components/results/ai-review-meeting";
 import { ImprovementSimulation } from "@/components/results/improvement-simulation";
@@ -121,6 +122,11 @@ export default async function CaseDetailPage({
             caseRecord={detail.case}
             assessment={detail.assessment}
           />
+
+          {/* ①-2 3つのAIによる統合評価（一致点=確信度高、不一致点=両論併記） */}
+          {detail.assessment.integratedEvaluation && (
+            <IntegratedEvaluation evaluation={detail.assessment.integratedEvaluation} />
+          )}
 
           {/* ② リスクスコアカード */}
           <section className="rounded-xl border border-slate-200 bg-panel p-3 shadow-sm sm:p-4">

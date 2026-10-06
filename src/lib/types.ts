@@ -163,6 +163,38 @@ export type CrossReviewSummary = {
   isフォールバックOnly: boolean;
 };
 
+/** 統合評価レポートにおける個別AIの見解（両論併記用） */
+export type IntegratedEvaluationOpinion = {
+  model: AiModel;
+  modelLabel: string;
+  grade: Grade;
+  score: number;
+  rationale: string;
+};
+
+/** 次元ごとの統合評価結果。isAgreement=trueは全AI一致（確信度高）、falseは評価が割れた項目 */
+export type IntegratedEvaluationPoint = {
+  dimension: RiskDimension;
+  label: string;
+  isAgreement: boolean;
+  confidence: "高" | "中" | "低";
+  consensusGrade: Grade;
+  consensusScore: number;
+  opinions: IntegratedEvaluationOpinion[];
+};
+
+/** 「3つのAIによる統合評価」レポートの集約結果 */
+export type IntegratedEvaluationSummary = {
+  title: string;
+  participatingProviders: AiModel[];
+  agreementPoints: IntegratedEvaluationPoint[];
+  disagreementPoints: IntegratedEvaluationPoint[];
+  overallConsensusGrade: Grade;
+  confidenceLevel: "高" | "中" | "低";
+  confidenceScore: number;
+  isフォールバックOnly: boolean;
+};
+
 export type AssessmentRecord = {
   caseId: string;
   summary: ScoreSummary;
@@ -176,6 +208,7 @@ export type AssessmentRecord = {
   worstCaseScenarios?: WorstCaseScenario[];
   disagreementDimensions?: string[];
   crossReview?: CrossReviewSummary;
+  integratedEvaluation?: IntegratedEvaluationSummary;
   regulationUpdates?: Array<{
     title: string;
     summary: string;

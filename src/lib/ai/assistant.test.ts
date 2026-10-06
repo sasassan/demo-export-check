@@ -108,11 +108,11 @@ test("parseAssistantJson: returns null for invalid JSON", () => {
   assert.equal(result, null);
 });
 
-test("buildProviderAttempts: default order is OpenAI then Claude", () => {
+test("buildProviderAttempts: default order is OpenAI, Gemini, then Claude", () => {
   const attempts = buildProviderAttempts();
   assert.deepEqual(
     attempts.map((a) => a.model),
-    ["gpt-4o", "claude"],
+    ["gpt-4o", "gemini", "claude"],
   );
 });
 
@@ -120,7 +120,15 @@ test("buildProviderAttempts: preferred model is first", () => {
   const attempts = buildProviderAttempts("claude");
   assert.deepEqual(
     attempts.map((a) => a.model),
-    ["claude", "gpt-4o"],
+    ["claude", "gpt-4o", "gemini"],
+  );
+});
+
+test("buildProviderAttempts: gemini can be selected as preferred model", () => {
+  const attempts = buildProviderAttempts("gemini");
+  assert.deepEqual(
+    attempts.map((a) => a.model),
+    ["gemini", "gpt-4o", "claude"],
   );
 });
 
@@ -133,7 +141,12 @@ test("buildProviderAttempts: marks providers without keys as no-key", () => {
 
 test("buildProviderAttempts: marks providers as live when keys are set", () => {
   return withEnv(
-    { ...BASE_ENV, OPENAI_API_KEY: "sk-test", ANTHROPIC_API_KEY: "sk-ant-test" },
+    {
+      ...BASE_ENV,
+      OPENAI_API_KEY: "sk-test",
+      ANTHROPIC_API_KEY: "sk-ant-test",
+      GOOGLE_GENERATIVE_AI_API_KEY: "google-test",
+    },
     () => {
       const attempts = buildProviderAttempts();
       assert.equal(attempts.every((a) => a.status === "live"), true);

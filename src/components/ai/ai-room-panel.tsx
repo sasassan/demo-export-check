@@ -83,8 +83,21 @@ const MODES = [
 ] as const;
 
 const MODELS = [
-  { value: "gpt-4o", label: "GPT-4o (OpenAI)", description: "バランス型" },
-  { value: "claude", label: "Claude (Anthropic)", description: "高精度・長文向け" },
+  {
+    value: "gpt-4o",
+    label: "GPT-4o (OpenAI)",
+    description: "包括的な分析と幅広い知識。複雑な規制の全体像を把握するのに最適",
+  },
+  {
+    value: "gemini",
+    label: "Gemini (Google)",
+    description: "最新の情報に強く、多言語対応。国際規制の動向確認に最適",
+  },
+  {
+    value: "claude",
+    label: "Claude (Anthropic)",
+    description: "慎重で正確な法的解釈。条文の詳細分析やリスク評価に最適",
+  },
 ] as const;
 
 type AiModelValue = (typeof MODELS)[number]["value"];
@@ -351,7 +364,7 @@ export function AiRoomPanel({
 
                 {entry.role === "assistant" && entry.aiModel && (
                   <div className="mt-2 inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-600">
-                    {MODELS.find((m) => m.value === entry.aiModel)?.label ?? entry.aiModel}
+                    回答AI: {MODELS.find((m) => m.value === entry.aiModel)?.label ?? entry.aiModel}
                   </div>
                 )}
 
@@ -616,9 +629,9 @@ export function AiRoomPanel({
       <div className="mt-4 rounded-2xl border border-tint-cyan-border bg-gradient-to-br from-tint-blue/70 to-tint-cyan/70 p-4">
         <p className="flex items-center gap-2 text-sm font-semibold text-slate-900">
           <SatelliteIcon aria-hidden="true" className="h-4 w-4 text-brand-navy" />
-          使用するAIモデル
+          回答するAIを選択
         </p>
-        <div className="mt-3 grid gap-2 md:grid-cols-2">
+        <div className="mt-3 grid gap-2 md:grid-cols-3">
           {MODELS.map((item) => (
             <button
               key={item.value}
