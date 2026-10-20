@@ -13,7 +13,6 @@ const navItems = [
   { href: "/ai-room?v=nav", match: "/ai-room", label: "AI相談室" },
   { href: "/learning?v=nav", match: "/learning", label: "学習" },
   { href: "/about?v=nav", match: "/about", label: "概要" },
-  { href: "/admin/monitoring?v=nav", match: "/admin/monitoring", label: "モニタリング" },
 ];
 
 export function Header() {
