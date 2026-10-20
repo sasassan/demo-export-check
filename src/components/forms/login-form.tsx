@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { loginWithEmail, verifyLoginCode } from "@/lib/auth/client";
@@ -21,7 +20,6 @@ function resolvePostLoginPath(): string {
 }
 
 export function LoginForm() {
-  const router = useRouter();
   const [stage, setStage] = useState<"email" | "code">("email");
   const [email, setEmail] = useState("demo@example.com");
   const [code, setCode] = useState("");
@@ -39,8 +37,7 @@ export function LoginForm() {
       if (result?.verificationRequired) {
         setStage("code");
       } else {
-        router.push(resolvePostLoginPath());
-        router.refresh();
+        window.location.assign(resolvePostLoginPath());
       }
     } catch (submissionError) {
       setError(
@@ -60,8 +57,7 @@ export function LoginForm() {
 
     try {
       await verifyLoginCode(email, code, password || undefined);
-      router.push(resolvePostLoginPath());
-      router.refresh();
+      window.location.assign(resolvePostLoginPath());
     } catch (submissionError) {
       setError(
         submissionError instanceof Error
