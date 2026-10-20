@@ -50,6 +50,12 @@ export const analyticsEvents = pgTable(
     toPath: text("to_path"),
     label: text("label"),
     meta: jsonb("meta"),
+    /**
+     * 滞在時間（ミリ秒）。event_name = 'time_spent' のイベントで、
+     * ページ離脱時にそのページに滞在していた時間を記録する。
+     * それ以外のイベント（page_view / cta_click）では null のまま。
+     */
+    durationMs: integer("duration_ms"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
   },
   (table) => [

@@ -11,7 +11,7 @@ import {
   riskAssessments,
 } from "@/lib/db/schema";
 import { createId } from "@/lib/utils";
-import { and, desc, eq, gte, isNotNull, isNull, ne } from "drizzle-orm";
+import { and, desc, eq, gte, isNotNull, isNull, lt, ne } from "drizzle-orm";
 import type {
   AssessmentRecord,
   AnalyticsEventRecord,
@@ -1111,6 +1111,7 @@ export async function saveAnalyticsEvent(
       toPath: input.toPath ?? null,
       label: input.label ?? null,
       meta: input.meta ?? null,
+      durationMs: input.durationMs ?? null,
       createdAt: new Date(input.createdAt),
     });
     return input;
@@ -1224,6 +1225,243 @@ export async function getAnalyticsSummary(rangeDays = 30): Promise<AnalyticsSumm
       .map(([path, count]) => ({ path, count }))
       .sort((a, b) => b.count - a.count)
       .slice(0, 10),
+    topCtas: Array.from(ctaCounts.entries())
+      .map(([ctaId, value]) => ({ ctaId, label: value.label, count: value.count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10),
+  };
+}
+
+export type AnalyticsDailyPoint = {
+  /** JST基準の日付（YYYY-MM-DD）。 */
+  date: string;
+  pageViews: number;
+  uniqueVisitors: number;
+  /** その日の平均滞在時間（ミリ秒）。滞在データが無い日は0。 */
+  avgStayMs: number;
+};
+
+export type AnalyticsPathStat = {
+  path: string;
+  pageViews: number;
+  /** そのページの平均滞在時間（ミリ秒）。滞在データが無いページは0。 */
+  avgStayMs: number;
+};
+
+export type MonthlyAnalytics = {
+  year: number;
+  month: number;
+  periodLabel: string;
+  totalSessions: number;
+  totalPageViews: number;
+  totalCtaClicks: number;
+  uniqueVisitors: number;
+  avgStayMsOverall: number;
+  daily: AnalyticsDailyPoint[];
+  topPaths: AnalyticsPathStat[];
+  deviceBreakdown: Array<{ deviceType: string; count: number }>;
+  topCtas: Array<{ ctaId: string; label: string; count: number }>;
+};
+
+/**
+ * 日本のタイムゾーン（JST = UTC+9、サマータイム無し）は固定オフセットとして扱う。
+ * 「2026年10月」の月初/月末をUTCの瞬時へ変換し、DB（timestamptz）のフィルタに使う。
+ * これにより 10/1 00:00〜09:00 JST（= 9/30 15:00〜24:00 UTC）のデータが欠落しない。
+ */
+const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
+
+function toJstDateKey(date: Date): string {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+  const get = (type: string) => parts.find((part) => part.type === type)?.value ?? "00";
+  return `${get("year")}-${get("month")}-${get("day")}`;
+}
+
+export async function getMonthlyAnalytics(
+  year: number,
+  month: number,
+): Promise<MonthlyAnalytics> {
+  const start = new Date(Date.UTC(year, month - 1, 1) - JST_OFFSET_MS);
+  const end = new Date(Date.UTC(year, month, 1) - JST_OFFSET_MS);
+  const daysInMonth = new Date(Date.UTC(year, month, 0)).getUTCDate();
+
+  const db = getDb();
+
+  let sessions: AnalyticsSessionRecord[];
+  let events: AnalyticsEventRecord[];
+
+  if (db) {
+    const sessionRows = await db
+      .select()
+      .from(analyticsSessions)
+      .where(
+        and(
+          gte(analyticsSessions.startedAt, start),
+          lt(analyticsSessions.startedAt, end),
+        ),
+      );
+    const eventRows = await db
+      .select()
+      .from(analyticsEvents)
+      .where(
+        and(
+          gte(analyticsEvents.createdAt, start),
+          lt(analyticsEvents.createdAt, end),
+        ),
+      );
+
+    sessions = sessionRows.map((row) => ({
+      id: row.id,
+      visitorId: row.visitorId,
+      userEmail: row.userEmail ?? undefined,
+      entryPath: row.entryPath,
+      exitPath: row.exitPath ?? undefined,
+      referrer: row.referrer ?? undefined,
+      utmSource: row.utmSource ?? undefined,
+      utmMedium: row.utmMedium ?? undefined,
+      utmCampaign: row.utmCampaign ?? undefined,
+      deviceType: row.deviceType as AnalyticsSessionRecord["deviceType"],
+      startedAt: row.startedAt.toISOString(),
+      lastSeenAt: row.lastSeenAt.toISOString(),
+    }));
+
+    events = eventRows.map((row) => ({
+      id: row.id,
+      sessionId: row.sessionId,
+      visitorId: row.visitorId,
+      userEmail: row.userEmail ?? undefined,
+      eventName: row.eventName,
+      path: row.path,
+      fromPath: row.fromPath ?? undefined,
+      toPath: row.toPath ?? undefined,
+      label: row.label ?? undefined,
+      meta: (row.meta as Record<string, unknown>) ?? undefined,
+      durationMs: row.durationMs ?? undefined,
+      createdAt: row.createdAt.toISOString(),
+    }));
+  } else {
+    const state = getState();
+    const inRange = (iso: string) => {
+      const t = new Date(iso).getTime();
+      return t >= start.getTime() && t < end.getTime();
+    };
+    sessions = state.analyticsSessions.filter((item) => inRange(item.startedAt));
+    events = state.analyticsEvents.filter((item) => inRange(item.createdAt));
+  }
+
+  const pageViewEvents = events.filter((item) => item.eventName === "page_view");
+  const ctaClickEvents = events.filter((item) => item.eventName === "cta_click");
+  const timeSpentEvents = events.filter(
+    (item) => item.eventName === "time_spent" && typeof item.durationMs === "number",
+  );
+
+  const uniqueVisitors = new Set(pageViewEvents.map((item) => item.visitorId)).size;
+
+  // 日別集計（月初〜月末をゼロ埋めで初期化する）。
+  const dailyMap = new Map<
+    string,
+    { pageViews: number; visitors: Set<string>; stayMs: number; stayCount: number }
+  >();
+  for (let day = 1; day <= daysInMonth; day += 1) {
+    const key = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    dailyMap.set(key, { pageViews: 0, visitors: new Set(), stayMs: 0, stayCount: 0 });
+  }
+
+  for (const event of pageViewEvents) {
+    const bucket = dailyMap.get(toJstDateKey(new Date(event.createdAt)));
+    if (bucket) {
+      bucket.pageViews += 1;
+      bucket.visitors.add(event.visitorId);
+    }
+  }
+
+  for (const event of timeSpentEvents) {
+    if (event.durationMs == null) continue;
+    const bucket = dailyMap.get(toJstDateKey(new Date(event.createdAt)));
+    if (bucket) {
+      bucket.stayMs += event.durationMs;
+      bucket.stayCount += 1;
+    }
+  }
+
+  const daily: AnalyticsDailyPoint[] = Array.from(dailyMap.entries()).map(
+    ([date, bucket]) => ({
+      date,
+      pageViews: bucket.pageViews,
+      uniqueVisitors: bucket.visitors.size,
+      avgStayMs: bucket.stayCount > 0 ? Math.round(bucket.stayMs / bucket.stayCount) : 0,
+    }),
+  );
+
+  // ページ別PV数とページ別平均滞在時間。
+  const pathPv = new Map<string, number>();
+  for (const event of pageViewEvents) {
+    pathPv.set(event.path, (pathPv.get(event.path) ?? 0) + 1);
+  }
+
+  const pathStay = new Map<string, { stayMs: number; stayCount: number }>();
+  for (const event of timeSpentEvents) {
+    if (event.durationMs == null) continue;
+    const current = pathStay.get(event.path) ?? { stayMs: 0, stayCount: 0 };
+    current.stayMs += event.durationMs;
+    current.stayCount += 1;
+    pathStay.set(event.path, current);
+  }
+
+  const topPaths: AnalyticsPathStat[] = Array.from(pathPv.entries())
+    .map(([path, pageViews]) => {
+      const stay = pathStay.get(path);
+      return {
+        path,
+        pageViews,
+        avgStayMs: stay && stay.stayCount > 0 ? Math.round(stay.stayMs / stay.stayCount) : 0,
+      };
+    })
+    .sort((a, b) => b.pageViews - a.pageViews);
+
+  // 全体の平均滞在時間。
+  let totalStayMs = 0;
+  let totalStayCount = 0;
+  for (const event of timeSpentEvents) {
+    if (event.durationMs == null) continue;
+    totalStayMs += event.durationMs;
+    totalStayCount += 1;
+  }
+  const avgStayMsOverall = totalStayCount > 0 ? Math.round(totalStayMs / totalStayCount) : 0;
+
+  // デバイス内訳。
+  const deviceCounts = new Map<string, number>();
+  for (const session of sessions) {
+    deviceCounts.set(session.deviceType, (deviceCounts.get(session.deviceType) ?? 0) + 1);
+  }
+
+  // CTAクリック。
+  const ctaCounts = new Map<string, { label: string; count: number }>();
+  for (const event of ctaClickEvents) {
+    const ctaId = (event.meta?.ctaId as string | undefined) ?? event.label ?? "unknown";
+    const label = event.label ?? ctaId;
+    const current = ctaCounts.get(ctaId);
+    ctaCounts.set(ctaId, { label, count: (current?.count ?? 0) + 1 });
+  }
+
+  return {
+    year,
+    month,
+    periodLabel: `${year}年${month}月`,
+    totalSessions: sessions.length,
+    totalPageViews: pageViewEvents.length,
+    totalCtaClicks: ctaClickEvents.length,
+    uniqueVisitors,
+    avgStayMsOverall,
+    daily,
+    topPaths,
+    deviceBreakdown: Array.from(deviceCounts.entries())
+      .map(([deviceType, count]) => ({ deviceType, count }))
+      .sort((a, b) => b.count - a.count),
     topCtas: Array.from(ctaCounts.entries())
       .map(([ctaId, value]) => ({ ctaId, label: value.label, count: value.count }))
       .sort((a, b) => b.count - a.count)

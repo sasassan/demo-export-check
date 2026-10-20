@@ -109,3 +109,36 @@ export function buildAnalyticsClickPayload(input: {
 
   return { session, event };
 }
+
+export function buildAnalyticsTimeSpentPayload(input: {
+  sessionId: string;
+  visitorId: string;
+  path: string;
+  durationMs: number;
+  userAgent: string;
+}): AnalyticsCollectInput {
+  const now = new Date().toISOString();
+  const normalizedPath = normalizePath(input.path);
+
+  const session: AnalyticsSessionRecord = {
+    id: input.sessionId,
+    visitorId: input.visitorId,
+    entryPath: normalizedPath,
+    exitPath: normalizedPath,
+    deviceType: detectDeviceType(input.userAgent),
+    startedAt: now,
+    lastSeenAt: now,
+  };
+
+  const event: AnalyticsEventRecord = {
+    id: createId("evt"),
+    sessionId: input.sessionId,
+    visitorId: input.visitorId,
+    eventName: "time_spent",
+    path: normalizedPath,
+    durationMs: input.durationMs,
+    createdAt: now,
+  };
+
+  return { session, event };
+}

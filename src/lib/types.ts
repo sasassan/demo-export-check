@@ -327,6 +327,8 @@ export type AnalyticsEventRecord = {
   toPath?: string;
   label?: string;
   meta?: Record<string, unknown>;
+  /** 滞在時間（ミリ秒）。eventName === "time_spent" のイベントでページ離脱時に記録される。 */
+  durationMs?: number;
   createdAt: string;
 };
 
