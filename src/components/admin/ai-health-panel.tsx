@@ -86,8 +86,8 @@ function StatusDot({ provider }: { provider: ProviderHealth }) {
     : provider.modelDeprecated
       ? "bg-amber-400"
       : provider.reachable
-        ? "bg-tint-emerald0"
-        : "bg-tint-red0";
+        ? "bg-emerald-400"
+        : "bg-red-400";
   return <span className={`h-2.5 w-2.5 rounded-full ${color}`} />;
 }
 
@@ -287,9 +287,9 @@ export function AiHealthPanel() {
 
               <div className="mt-5 grid gap-3 lg:grid-cols-4">
                 {[
-                  { label: "稼働中", color: "bg-tint-emerald0" },
+                  { label: "稼働中", color: "bg-emerald-400" },
                   { label: "モデル廃止の疑い", color: "bg-amber-400" },
-                  { label: "疎通失敗", color: "bg-tint-red0" },
+                  { label: "疎通失敗", color: "bg-red-400" },
                   { label: "未設定", color: "bg-slate-400" },
                 ].map((item) => (
                   <div

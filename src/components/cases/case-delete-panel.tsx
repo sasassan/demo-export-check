@@ -99,7 +99,7 @@ export function CaseDeletePanel({
     <section className="rounded-xl border border-tint-rose-border bg-tint-rose/40 p-6 shadow-sm">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-base font-semibold text-rose-900">この案件を削除</h2>
+          <h2 className="text-base font-semibold text-rose-300">この案件を削除</h2>
           <p className="mt-1 text-sm text-rose-400">
             削除しても30日間は復元可能です。相談履歴（AI相談）は削除されず、独立した資産として残ります。
           </p>

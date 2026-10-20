@@ -3,6 +3,7 @@ import Link from "next/link";
 import { APP_NAME } from "@/lib/constants";
 import { buildSeo, SITE_URL } from "@/lib/seo";
 import { PortTerminalScene, TradeRouteMap } from "@/components/icons/port-scene";
+import { WorldMapPattern } from "@/components/icons/trade-illustrations";
 
 export const dynamic = "force-static";
 
@@ -275,6 +276,11 @@ export default function Home() {
         <section className="relative overflow-hidden border-b border-slate-100 bg-gradient-to-b from-panel via-panel to-slate-50/70 px-4 py-16 sm:px-6 sm:py-20">
           <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-[#22d3ee]/15 blur-3xl" />
           <div className="pointer-events-none absolute -right-24 top-40 h-80 w-80 rounded-full bg-teal-200/25 blur-3xl" />
+          <WorldMapPattern
+            aria-hidden="true"
+            preserveAspectRatio="xMidYMax slice"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-64 w-full text-brand-navy/10"
+          />
           <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2">
             <div className="trade-fade-in-up">
               <span className="inline-flex items-center gap-2 rounded-full border border-tint-blue-bright bg-tint-blue px-3 py-1.5 text-sm font-medium text-brand-navy">

@@ -62,7 +62,7 @@ function StatusDot({ ok }: { ok: boolean }) {
   return (
     <span
       className={`inline-block h-2.5 w-2.5 rounded-full ${
-        ok ? "bg-tint-emerald0" : "bg-tint-red0"
+        ok ? "bg-emerald-400" : "bg-red-400"
       }`}
     />
   );
@@ -387,7 +387,7 @@ export function MonitoringDashboard() {
           <Card
             title="システムヘルス"
             icon={<ShieldCheckIcon aria-hidden="true" className="h-6 w-6" />}
-            iconClassName="bg-tint-sky text-sky-600"
+            iconClassName="bg-tint-sky text-sky-400"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50 px-3 py-2">

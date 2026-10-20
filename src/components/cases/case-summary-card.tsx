@@ -18,12 +18,12 @@ const statusConfig = {
   completed: {
     label: "調査完了",
     cls: "bg-tint-emerald text-emerald-400",
-    dot: "bg-tint-emerald0",
+    dot: "bg-emerald-400",
   },
   failed: {
     label: "エラー",
     cls: "bg-tint-rose text-rose-400",
-    dot: "bg-tint-rose0",
+    dot: "bg-rose-400",
   },
 } as const;
 

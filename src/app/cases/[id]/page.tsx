@@ -226,7 +226,7 @@ export default async function CaseDetailPage({
                 {detail.assessment.modelResults.map((modelResult) => {
                   const modelMeta: Record<string, { label: string; badge: string }> = {
                     "gpt-4o": { label: "GPT-4o", badge: "border-tint-emerald-border bg-tint-emerald text-emerald-400" },
-                    "claude": { label: "Claude", badge: "border-violet-400/40 bg-tint-violet text-violet-700" },
+                    "claude": { label: "Claude", badge: "border-violet-400/40 bg-tint-violet text-violet-300" },
                     "gemini": { label: "Gemini", badge: "border-sky-400/40 bg-tint-sky text-sky-400" },
                     "mock": { label: "モック", badge: "border-slate-200 bg-slate-50 text-slate-500" },
                   };
@@ -458,7 +458,7 @@ export default async function CaseDetailPage({
                             key={starIdx}
                             viewBox="0 0 20 20"
                             fill="currentColor"
-                            className={`h-3.5 w-3.5 ${starIdx < starCount ? "text-amber-400" : "text-slate-200"}`}
+                            className={`h-3.5 w-3.5 ${starIdx < starCount ? "text-amber-400" : "text-slate-600"}`}
                           >
                             <path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l1.83 4.401 4.753.381c1.164.093 1.636 1.545.749 2.305l-3.622 3.104 1.106 4.637c.271 1.136-.964 2.033-1.96 1.425L12 16.951l-4.068 2.512c-.996.608-2.231-.289-1.96-1.425l1.106-4.637-3.622-3.104c-.887-.76-.415-2.212.749-2.305l4.753-.38 1.83-4.402Z" />
                           </svg>

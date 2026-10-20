@@ -6,7 +6,7 @@ import type { CaseRecord, AssessmentRecord } from "@/lib/types";
 const gradeColor: Record<string, string> = {
   A: "bg-tint-emerald-strong text-emerald-400 border-tint-emerald-border",
   B: "bg-tint-amber-strong text-amber-300 border-tint-amber-border",
-  C: "bg-tint-rose-strong text-rose-800 border-tint-rose-border",
+  C: "bg-tint-rose-strong text-rose-400 border-tint-rose-border",
 };
 
 const gradeLabel: Record<string, string> = {
@@ -39,7 +39,7 @@ export function ExecutiveSummary({ caseRecord, assessment }: Props) {
   return (
     <div className="bg-panel border border-slate-200 rounded-2xl shadow-sm overflow-hidden print:shadow-none">
       {/* ヘッダー */}
-      <div className="bg-gradient-to-r from-slate-800 to-slate-700 px-6 py-4 flex items-center justify-between">
+      <div className="bg-gradient-to-r from-brand-deep to-brand-deep-light px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/10">
             <DocumentInvoiceIcon aria-hidden="true" className="h-5 w-5 text-white/85" />

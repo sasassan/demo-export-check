@@ -48,7 +48,7 @@ export function ImprovementSimulation({ steps, baseScore }: Props) {
           const pct = step.cumulativeScore;
           const barColor =
             pct >= 80
-              ? "bg-tint-emerald0"
+              ? "bg-emerald-400"
               : pct >= 60
                 ? "bg-amber-400"
                 : "bg-orange-400";

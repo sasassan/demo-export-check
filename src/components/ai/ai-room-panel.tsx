@@ -426,7 +426,7 @@ export function AiRoomPanel({
                             <p className="text-sm font-semibold text-emerald-400">
                               次に確認すべき点
                             </p>
-                            <ul className="mt-1 space-y-1 text-sm leading-6 text-emerald-900">
+                            <ul className="mt-1 space-y-1 text-sm leading-6 text-emerald-300">
                               {entry.answer.recommendedChecks.map((item) => (
                                 <li key={item}>・{item}</li>
                               ))}
@@ -439,7 +439,7 @@ export function AiRoomPanel({
                     {entry.answer.factHighlights?.length ? (
                       <div className="rounded-xl bg-tint-emerald p-3">
                         <p className="text-sm font-semibold text-emerald-400">確認できた事実</p>
-                        <ul className="mt-1 space-y-1 text-sm leading-6 text-emerald-900">
+                        <ul className="mt-1 space-y-1 text-sm leading-6 text-emerald-300">
                           {entry.answer.factHighlights.map((item) => (
                             <li key={item}>・{item}</li>
                           ))}
@@ -449,8 +449,8 @@ export function AiRoomPanel({
 
                     {entry.answer.assumptionHighlights?.length ? (
                       <div className="rounded-xl bg-tint-rose p-3">
-                        <p className="text-sm font-semibold text-rose-800">要確認・仮定</p>
-                        <ul className="mt-1 space-y-1 text-sm leading-6 text-rose-900">
+                        <p className="text-sm font-semibold text-rose-400">要確認・仮定</p>
+                        <ul className="mt-1 space-y-1 text-sm leading-6 text-rose-300">
                           {entry.answer.assumptionHighlights.map((item) => (
                             <li key={item}>・{item}</li>
                           ))}
@@ -598,7 +598,7 @@ export function AiRoomPanel({
           <button
             type="button"
             onClick={() => setError(null)}
-            className="ml-3 font-semibold text-rose-800 hover:underline"
+            className="ml-3 font-semibold text-rose-300 hover:underline"
           >
             閉じる
           </button>
@@ -616,7 +616,7 @@ export function AiRoomPanel({
               className={`min-h-11 rounded-xl border px-4 py-3 text-left transition ${
                 mode === item.value
                   ? "border-brand-cyan/50 bg-panel shadow-sm"
-                  : "border-slate-200 bg-white/75 hover:border-slate-200"
+                  : "border-slate-200 bg-slate-100 hover:border-slate-300"
               }`}
             >
               <p className="text-sm font-semibold text-slate-900">{item.label}</p>
@@ -640,7 +640,7 @@ export function AiRoomPanel({
               className={`min-h-11 rounded-xl border px-4 py-3 text-left transition ${
                 aiModel === item.value
                   ? "border-brand-cyan/50 bg-panel shadow-sm"
-                  : "border-slate-200 bg-white/75 hover:border-slate-200"
+                  : "border-slate-200 bg-slate-100 hover:border-slate-300"
               }`}
             >
               <p className="text-sm font-semibold text-slate-900">{item.label}</p>
@@ -780,7 +780,7 @@ export function AiRoomPanel({
           </div>
         ) : null}
 
-        <div className="rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-xs leading-6 text-slate-700">
+        <div className="rounded-2xl border border-slate-200 bg-slate-100 px-4 py-3 text-xs leading-6 text-slate-600">
           本機能は法的助言ではなく、法令・規程・資料を理解しやすくする一般的な読解支援です。最終判断は社内輸出管理担当者や専門家に確認してください。
         </div>
 

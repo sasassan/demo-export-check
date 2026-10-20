@@ -8,6 +8,7 @@ import {
   RegulationDocIcon,
   SatelliteIcon,
 } from "@/components/icons/trade-icons";
+import { EmptyCasesIllustration, HubRouteIllustration } from "@/components/icons/trade-illustrations";
 import { Shell } from "@/components/layout/shell";
 import { getSessionEmail } from "@/lib/auth/server";
 import { listCasesByUser } from "@/lib/db/repository";
@@ -140,18 +141,24 @@ export default async function MainPage() {
               </p>
             </div>
           </div>
-          <Link
-            href="/cases/new"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-deep px-4 py-3 text-sm font-semibold !text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-brand-deep-light hover:shadow-md sm:w-auto sm:py-2.5"
-          >
-            <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
-              <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-            </svg>
-            新規案件を登録
-          </Link>
+          <div className="flex w-full items-center justify-between gap-4 sm:w-auto">
+            <HubRouteIllustration
+              aria-hidden="true"
+              className="hidden h-20 w-36 shrink-0 text-brand-navy/50 lg:block"
+            />
+            <Link
+              href="/cases/new"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-deep px-4 py-3 text-sm font-semibold !text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-brand-deep-light hover:shadow-md sm:w-auto sm:py-2.5"
+            >
+              <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
+                <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+              </svg>
+              新規案件を登録
+            </Link>
+          </div>
         </div>
       ) : (
-        <div className="flex flex-col items-start justify-between gap-4 rounded-xl border border-brand-navy bg-gradient-to-br from-brand-deep to-blue-800 px-6 py-5 text-white shadow-sm sm:flex-row sm:items-center">
+        <div className="relative flex flex-col items-start justify-between gap-4 overflow-hidden rounded-xl border border-brand-navy bg-gradient-to-br from-brand-deep to-blue-800 px-6 py-5 text-white shadow-sm sm:flex-row sm:items-center lg:pr-72">
           <div>
             <p className="text-sm font-semibold">
               ログインすると案件の進捗と最近の案件がここに表示されます
@@ -174,6 +181,10 @@ export default async function MainPage() {
               デモを見る
             </Link>
           </div>
+          <HubRouteIllustration
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-4 bottom-0 hidden h-32 w-64 text-white/20 lg:block"
+          />
         </div>
       )}
 
@@ -251,6 +262,7 @@ export default async function MainPage() {
           </div>
           {!userEmail ? (
             <div className="mt-4 flex flex-col items-center rounded-lg border border-dashed border-slate-300 px-6 py-8 text-center">
+              <EmptyCasesIllustration aria-hidden="true" className="h-20 w-auto text-slate-600" />
               <p className="text-sm text-slate-500">
                 ログインすると、最近の案件とAI診断の進捗がここに表示されます。
               </p>
@@ -263,6 +275,7 @@ export default async function MainPage() {
             </div>
           ) : recent.length === 0 ? (
             <div className="mt-4 flex flex-col items-center rounded-lg border border-dashed border-slate-300 px-6 py-8 text-center">
+              <EmptyCasesIllustration aria-hidden="true" className="h-20 w-auto text-slate-600" />
               <p className="text-sm text-slate-500">案件がまだありません。最初の案件を登録してみましょう。</p>
               <Link
                 href="/cases/new"

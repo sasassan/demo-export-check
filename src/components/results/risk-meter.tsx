@@ -9,9 +9,9 @@ type Props = {
 };
 
 const gradeBarColor: Record<string, string> = {
-  A: "bg-tint-emerald0",
+  A: "bg-emerald-400",
   B: "bg-amber-400",
-  C: "bg-tint-rose0",
+  C: "bg-rose-400",
 };
 
 const gradeBg: Record<string, string> = {
@@ -103,7 +103,7 @@ export function RiskMeter({ dimensions }: Props) {
       {/* スコア凡例 */}
       <div className="mt-4 pt-4 border-t border-slate-100 flex gap-4 text-xs text-slate-500">
         <span className="flex items-center gap-1">
-          <span className="w-3 h-3 rounded-full bg-tint-emerald0 inline-block" />
+          <span className="w-3 h-3 rounded-full bg-emerald-400 inline-block" />
           A（0〜39: 問題なし）
         </span>
         <span className="flex items-center gap-1">
@@ -111,7 +111,7 @@ export function RiskMeter({ dimensions }: Props) {
           B（40〜69: 要確認）
         </span>
         <span className="flex items-center gap-1">
-          <span className="w-3 h-3 rounded-full bg-tint-rose0 inline-block" />
+          <span className="w-3 h-3 rounded-full bg-rose-400 inline-block" />
           C（70〜: 高リスク）
         </span>
       </div>

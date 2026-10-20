@@ -152,7 +152,7 @@ export function ConsultationHistory() {
                 </p>
               ) : null}
               {item.factHighlights?.length ? (
-                <div className="mt-3 rounded-xl border border-tint-emerald-border bg-tint-emerald px-3 py-3 text-xs leading-6 text-emerald-900">
+                <div className="mt-3 rounded-xl border border-tint-emerald-border bg-tint-emerald px-3 py-3 text-xs leading-6 text-emerald-300">
                   <p className="font-semibold">確認できた事実</p>
                   {item.factHighlights.map((fact) => (
                     <p key={fact}>・{fact}</p>

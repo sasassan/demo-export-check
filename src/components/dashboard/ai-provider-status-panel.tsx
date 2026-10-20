@@ -14,10 +14,10 @@ const statusColorMap: Record<string, string> = {
 };
 
 const dotColorMap: Record<string, string> = {
-  live: "bg-tint-emerald0",
+  live: "bg-emerald-400",
   "fallback-no-key": "bg-amber-400",
   "fallback-disabled": "bg-slate-400",
-  "fallback-error": "bg-tint-red0",
+  "fallback-error": "bg-red-400",
 };
 
 export function AiProviderStatusPanel({ providers }: Props) {
@@ -105,10 +105,10 @@ export function AiProviderStatusPanel({ providers }: Props) {
 
         <div className="mt-5 grid gap-3 lg:grid-cols-4">
           {[
-            { label: "実API", color: "bg-tint-emerald0" },
+            { label: "実API", color: "bg-emerald-400" },
             { label: "APIキー未設定", color: "bg-amber-400" },
             { label: "無効", color: "bg-slate-400" },
-            { label: "エラー時フォールバック", color: "bg-tint-red0" },
+            { label: "エラー時フォールバック", color: "bg-red-400" },
           ].map((item) => (
             <div
               key={item.label}

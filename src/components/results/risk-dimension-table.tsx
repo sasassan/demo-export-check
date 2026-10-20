@@ -8,9 +8,9 @@ const gradeBadge: Record<Grade, string> = {
 };
 
 const gradeBar: Record<Grade, string> = {
-  A: "bg-tint-emerald0",
+  A: "bg-emerald-400",
   B: "bg-amber-400",
-  C: "bg-tint-rose0",
+  C: "bg-rose-400",
 };
 
 export function RiskDimensionTable({ items }: { items: DimensionScore[] }) {

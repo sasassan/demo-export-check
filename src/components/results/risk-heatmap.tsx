@@ -7,14 +7,14 @@ type Props = {
 };
 
 const COLORS = [
-  "bg-tint-rose0",
-  "bg-orange-400",
-  "bg-amber-400",
-  "bg-yellow-300",
-  "bg-lime-400",
-  "bg-emerald-400",
-  "bg-teal-400",
-  "bg-cyan-400",
+  "bg-tint-rose text-rose-300",
+  "bg-orange-400 text-[#331203]",
+  "bg-amber-400 text-[#3b2a03]",
+  "bg-yellow-300 text-[#3b3203]",
+  "bg-lime-400 text-[#1c3303]",
+  "bg-emerald-400 text-[#032a1d]",
+  "bg-teal-400 text-[#032b26]",
+  "bg-cyan-400 text-[#03262c]",
 ];
 
 export function RiskHeatmap({ dimensions }: Props) {
@@ -45,7 +45,7 @@ export function RiskHeatmap({ dimensions }: Props) {
               title={`${d.label}: ${d.score}点 (${pct.toFixed(1)}%)`}
             >
               {pct > 8 && (
-                <span className="absolute inset-0 flex items-center justify-center text-white text-xs font-bold truncate px-1">
+                <span className="absolute inset-0 flex items-center justify-center text-xs font-bold truncate px-1">
                   {d.label.slice(0, 3)}
                 </span>
               )}

@@ -314,3 +314,82 @@ export function CompassRoseBackdrop(props: IllustrationProps) {
     </svg>
   );
 }
+
+/** メインページ用: 港ノード間を結ぶ航路と航行する貨物船のイラスト */
+export function HubRouteIllustration(props: IllustrationProps) {
+  return (
+    <svg viewBox="0 0 320 180" fill="none" {...props}>
+      {/* 港ノード */}
+      <g stroke="currentColor" strokeWidth={1.5}>
+        <circle cx="60" cy="52" r="9" strokeOpacity={0.3} />
+        <circle cx="60" cy="52" r="4" strokeOpacity={0.75} fill="currentColor" fillOpacity={0.4} />
+        <circle cx="262" cy="132" r="9" strokeOpacity={0.3} />
+        <circle cx="262" cy="132" r="4" strokeOpacity={0.75} fill="currentColor" fillOpacity={0.4} />
+      </g>
+      {/* 点線航路 */}
+      <path
+        d="M70 56c44 24 100 32 132 24s42-22 54-16"
+        stroke="currentColor"
+        strokeOpacity={0.4}
+        strokeWidth={1.5}
+        strokeDasharray="4 5"
+      />
+      {/* 貨物船 */}
+      <g className="trade-ship-loader-hull">
+        <path
+          d="M118 98h66l-9 18a9 9 0 0 1-8.2 5.1h-31.6A9 9 0 0 1 127 116l-9-18Z"
+          fill="currentColor"
+          fillOpacity={0.2}
+          stroke="currentColor"
+          strokeWidth={1.8}
+        />
+        <g fill="currentColor">
+          <rect x="130" y="82" width="15" height="14" rx="1.5" fillOpacity={0.3} />
+          <rect x="149" y="76" width="15" height="20" rx="1.5" fillOpacity={0.42} />
+          <rect x="168" y="82" width="15" height="14" rx="1.5" fillOpacity={0.3} />
+        </g>
+        <path d="M102 104v14" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeOpacity={0.8} />
+      </g>
+      {/* 波 */}
+      <g stroke="currentColor" strokeOpacity={0.3} strokeWidth={1.5} strokeLinecap="round">
+        <path d="M38 132c10-4 20-4 30 0s20 4 30 0 20-4 30 0 20 4 30 0 20-4 30 0" />
+        <path d="M60 150c8-3 16-3 24 0s16 3 24 0 16-3 24 0" />
+      </g>
+      {/* コンパスアクセント */}
+      <path
+        d="M288 34l3.6 10.4 10.4 3.6-10.4 3.6-3.6 10.4-3.6-10.4-10.4-3.6 10.4-3.6Z"
+        fill="currentColor"
+        fillOpacity={0.15}
+        stroke="currentColor"
+        strokeOpacity={0.4}
+        strokeWidth={1}
+      />
+    </svg>
+  );
+}
+
+/** 空状態用: クリップボードと貨物コンテナのイラスト */
+export function EmptyCasesIllustration(props: IllustrationProps) {
+  return (
+    <svg viewBox="0 0 160 120" fill="none" {...props}>
+      {/* 貨物コンテナ */}
+      <g stroke="currentColor" strokeWidth={2} strokeLinejoin="round" strokeOpacity={0.85}>
+        <rect x="18" y="62" width="24" height="18" rx="2.5" />
+        <path d="M18 72h-6v6a6 6 0 0 0 6 6h24a6 6 0 0 0 6-6v-6h-6" />
+        <path d="M24 71h12M24 77h8" strokeOpacity={0.45} strokeWidth={1.4} />
+      </g>
+      {/* クリップボード */}
+      <g stroke="currentColor" strokeWidth={2} strokeLinejoin="round" strokeOpacity={0.75}>
+        <rect x="56" y="38" width="76" height="64" rx="6" />
+        <path d="M76 38v-6a8 8 0 0 1 8-8h14a8 8 0 0 1 8 8v6" />
+        <path d="M76 60h56M76 76h42" strokeOpacity={0.45} strokeWidth={1.4} />
+      </g>
+      {/* 航路ドット */}
+      <g fill="currentColor" fillOpacity={0.35}>
+        <circle cx="138" cy="28" r="3" />
+        <circle cx="126" cy="44" r="2" />
+        <circle cx="146" cy="52" r="2" />
+      </g>
+    </svg>
+  );
+}
