@@ -5,6 +5,21 @@ import { useState } from "react";
 
 import { loginWithEmail, verifyLoginCode } from "@/lib/auth/client";
 
+/**
+ * ログイン後の遷移先を返す。
+ * 未認証で /admin/* へアクセスした際、requireAdminEmail が ?next= で元の
+ * パスを保持するため、管理者画面へはログイン後もそのパスへ戻る。
+ * それ以外は従来通り /dashboard へ。内部パス（"/" 始まりかつ "//" でない）
+ * のみ許可し、オープンリダイレクトを防ぐ。
+ */
+function resolvePostLoginPath(): string {
+  if (typeof window === "undefined") return "/dashboard";
+  const next = new URLSearchParams(window.location.search).get("next");
+  return next && next.startsWith("/") && !next.startsWith("//")
+    ? next
+    : "/dashboard";
+}
+
 export function LoginForm() {
   const router = useRouter();
   const [stage, setStage] = useState<"email" | "code">("email");
@@ -24,7 +39,7 @@ export function LoginForm() {
       if (result?.verificationRequired) {
         setStage("code");
       } else {
-        router.push("/dashboard");
+        router.push(resolvePostLoginPath());
         router.refresh();
       }
     } catch (submissionError) {
@@ -45,7 +60,7 @@ export function LoginForm() {
 
     try {
       await verifyLoginCode(email, code, password || undefined);
-      router.push("/dashboard");
+      router.push(resolvePostLoginPath());
       router.refresh();
     } catch (submissionError) {
       setError(

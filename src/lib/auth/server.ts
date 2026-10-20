@@ -54,10 +54,14 @@ export async function getSessionEmail(): Promise<string | null> {
   return parseSessionCookieValue(raw);
 }
 
-export async function requireSessionEmail(): Promise<string> {
+export async function requireSessionEmail(returnPath?: string): Promise<string> {
   const email = await getSessionEmail();
   if (!email) {
-    redirect("/login");
+    redirect(
+      returnPath
+        ? `/login?next=${encodeURIComponent(returnPath)}`
+        : "/login",
+    );
   }
   return email;
 }
@@ -66,8 +70,8 @@ export function isAdminEmail(email: string): boolean {
   return ADMIN_EMAILS.includes(email.trim().toLowerCase());
 }
 
-export async function requireAdminEmail(): Promise<string> {
-  const email = await requireSessionEmail();
+export async function requireAdminEmail(returnPath?: string): Promise<string> {
+  const email = await requireSessionEmail(returnPath);
   if (!isAdminEmail(email)) {
     redirect("/dashboard");
   }

@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export const metadata = NOINDEX_METADATA;
 
 export default async function AdminDeletedCasesPage() {
-  const adminEmail = await requireAdminEmail();
+  const adminEmail = await requireAdminEmail("/admin/deleted-cases");
   const deletedItems = await listAllDeletedCases();
 
   return (

@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export const metadata = NOINDEX_METADATA;
 
 export default async function AdminAiHealthPage() {
-  const adminEmail = await requireAdminEmail();
+  const adminEmail = await requireAdminEmail("/admin/ai-health");
 
   return (
     <Shell

@@ -114,7 +114,7 @@ function DailyTrendChart({ daily }: { daily: AnalyticsDailyPoint[] }) {
 }
 
 export default async function AdminAnalyticsPage() {
-  const adminEmail = await requireAdminEmail();
+  const adminEmail = await requireAdminEmail("/admin/analytics");
   const { year, month } = getCurrentMonthInJst();
   const data = await getMonthlyAnalytics(year, month);
 

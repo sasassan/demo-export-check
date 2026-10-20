@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export const metadata = NOINDEX_METADATA;
 
 export default async function AdminMonitoringPage() {
-  await requireAdminEmail();
+  await requireAdminEmail("/admin/monitoring");
 
   return (
     <Shell
