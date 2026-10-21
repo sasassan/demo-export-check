@@ -71,15 +71,48 @@ function buildDocumentSummary(text: string) {
 }
 
 async function fetchUrlText(sourceUrl: string) {
+  // URL取得は明示的に許可した公開ドメインに限定する。
+  // 未設定時は外部URL取得を無効化し、SSRFを防止する。
+  const allowedHosts = (process.env.ASSISTANT_URL_ALLOWED_HOSTS ?? "")
+    .split(",").map((host) => host.trim().toLowerCase()).filter(Boolean);
+  if (!allowedHosts.length) return null;
+  let parsed: URL;
+  try {
+    parsed = new URL(sourceUrl);
+  } catch {
+    return null;
+  }
+  if (parsed.protocol !== "https:" || parsed.username || parsed.password ||
+      parsed.port || !allowedHosts.includes(parsed.hostname.toLowerCase())) return null;
   try {
     const response = await fetch(sourceUrl, {
       signal: AbortSignal.timeout(8000),
+      redirect: "error",
       headers: { "User-Agent": "ExportRiskNavigator/1.0" },
     });
     if (!response.ok) return null;
     const contentType = response.headers.get("content-type") ?? "";
     if (!contentType.includes("text/html") && !contentType.includes("text/plain")) return null;
-    const html = await response.text();
+    // 無制限の本文読み込みを避ける。
+    const maxBytes = 256 * 1024;
+    const reader = response.body?.getReader();
+    if (!reader) return null;
+    const parts: Uint8Array[] = [];
+    let size = 0;
+    while (size < maxBytes) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (size + value.byteLength > maxBytes) {
+        parts.push(value.slice(0, maxBytes - size));
+        break;
+      }
+      parts.push(value);
+      size += value.byteLength;
+    }
+    await reader.cancel().catch(() => undefined);
+    const html = new TextDecoder().decode(
+      Uint8Array.from(parts.flatMap((part) => Array.from(part))),
+    );
     return html
       .replace(/<script[\s\S]*?<\/script>/gi, "")
       .replace(/<style[\s\S]*?<\/style>/gi, "")
