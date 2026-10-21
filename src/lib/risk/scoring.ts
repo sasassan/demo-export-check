@@ -27,23 +27,26 @@ export function buildDimensionScores(findings: InvestigationFinding[]): Dimensio
 
 export function buildScoreSummary(dimensions: DimensionScore[]): ScoreSummary {
   const gradeMap = new Map(dimensions.map((item) => [item.dimension, item.grade]));
-  const overall = maxGrade(dimensions.map((item) => item.grade));
+  // 未調査の必須項目を低リスク(A)として扱わない。
+  const required = ["sanctions", "endUser", "catchAll", "useCase", "ubo", "peps", "reputation", "country"] as const;
+  const missing = required.filter((dimension) => !gradeMap.has(dimension));
+  const overall = maxGrade([...dimensions.map((item) => item.grade), ...(missing.length ? ["B" as const] : [])]);
   const security = maxGrade([
-    gradeMap.get("sanctions") ?? "A",
-    gradeMap.get("endUser") ?? "A",
-    gradeMap.get("catchAll") ?? "A",
-    gradeMap.get("useCase") ?? "A",
+    gradeMap.get("sanctions") ?? "B",
+    gradeMap.get("endUser") ?? "B",
+    gradeMap.get("catchAll") ?? "B",
+    gradeMap.get("useCase") ?? "B",
   ]);
   const credit = maxGrade([
-    gradeMap.get("ubo") ?? "A",
-    gradeMap.get("peps") ?? "A",
-    gradeMap.get("reputation") ?? "A",
+    gradeMap.get("ubo") ?? "B",
+    gradeMap.get("peps") ?? "B",
+    gradeMap.get("reputation") ?? "B",
   ]);
   const logistics = maxGrade([
-    gradeMap.get("country") ?? "A",
-    gradeMap.get("reputation") ?? "A",
+    gradeMap.get("country") ?? "B",
+    gradeMap.get("reputation") ?? "B",
   ]);
-  const country = gradeMap.get("country") ?? "A";
+  const country = gradeMap.get("country") ?? "B";
   const averageScore = average(dimensions.map((item) => item.score));
 
   return {
@@ -56,9 +59,12 @@ export function buildScoreSummary(dimensions: DimensionScore[]): ScoreSummary {
     summary: `現在の案件は ${toTitleGradeLabel(overall)} に分類されます。重大な論点は ${toTitleGradeLabel(
       security,
     )} の安全保障リスクと、${toTitleGradeLabel(country)} の国別リスクです。`,
-    nextActions: dimensions
+    nextActions: [
+      ...missing.map((dimension) => `未調査項目（${dimension}）を確認する`),
+      ...dimensions
       .filter((item) => item.grade !== "A")
       .slice(0, 3)
       .map((item) => item.recommendedAction),
+    ].slice(0, 3),
   };
 }
