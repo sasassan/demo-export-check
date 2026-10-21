@@ -183,7 +183,14 @@ function buildContextBlock(input: AskAssistantInput): string {
     contextParts.push(`【URL自動取得本文】\n${input.fetchedUrlText.slice(0, 4000)}`);
   }
   if (input.sourceUrl) {
-    contextParts.push(`参考URL: ${input.sourceUrl}`);
+    if (input.sourceText || input.fetchedUrlText) {
+      contextParts.push(`参考URL: ${input.sourceUrl}`);
+    } else {
+      // URL本文の自動取得に失敗した場合、AIが「資料を読んだ」と誤認しないよう明示する。
+      contextParts.push(
+        `【注意】指定URL(${input.sourceUrl})の本文自動取得に失敗したため、資料本文は提供されていません。URLの内容を読んだ前提の回答はせず、取得できなかった旨を利用者に伝えてください。`,
+      );
+    }
   }
   return contextParts.length > 0
     ? `\n\n--- 参考資料 ---\n${contextParts.join("\n\n")}\n--- 参考資料ここまで ---`

@@ -55,7 +55,10 @@ export function buildScoreSummary(dimensions: DimensionScore[]): ScoreSummary {
     credit,
     logistics,
     country,
-    headline: `総合評価 ${overall}（平均スコア ${averageScore} 点）`,
+    headline:
+      missing.length > 0
+        ? `総合評価 ${overall}（未調査 ${missing.length} 項目あり）`
+        : `総合評価 ${overall}（平均スコア ${averageScore} 点）`,
     summary: `現在の案件は ${toTitleGradeLabel(overall)} に分類されます。重大な論点は ${toTitleGradeLabel(
       security,
     )} の安全保障リスクと、${toTitleGradeLabel(country)} の国別リスクです。`,
