@@ -73,6 +73,7 @@ function buildDocumentSummary(text: string) {
 async function fetchUrlText(sourceUrl: string) {
   // URL取得は明示的に許可した公開ドメインに限定する。
   // 未設定時は外部URL取得を無効化し、SSRFを防止する。
+  // 設定例: ASSISTANT_URL_ALLOWED_HOSTS=www.meti.go.jp,www.cistec.or.jp
   const allowedHosts = (process.env.ASSISTANT_URL_ALLOWED_HOSTS ?? "")
     .split(",").map((host) => host.trim().toLowerCase()).filter(Boolean);
   if (!allowedHosts.length) return null;
@@ -110,9 +111,7 @@ async function fetchUrlText(sourceUrl: string) {
       size += value.byteLength;
     }
     await reader.cancel().catch(() => undefined);
-    const html = new TextDecoder().decode(
-      Uint8Array.from(parts.flatMap((part) => Array.from(part))),
-    );
+    const html = new TextDecoder().decode(Buffer.concat(parts));
     return html
       .replace(/<script[\s\S]*?<\/script>/gi, "")
       .replace(/<style[\s\S]*?<\/style>/gi, "")
