@@ -1,4 +1,5 @@
 import { formatDate } from "@/lib/utils";
+import { computeSafetyScore } from "@/lib/risk/scoring";
 import type { CaseDetail } from "@/lib/types";
 
 export function buildReportModel(
@@ -19,6 +20,8 @@ export function buildReportModel(
     return null;
   }
 
+  const safety = computeSafetyScore(detail.assessment.dimensions);
+
   return {
     generatedAt: formatDate(new Date().toISOString()),
     caseId: detail.case.id,
@@ -27,6 +30,11 @@ export function buildReportModel(
     destinationCountry: detail.case.destinationCountry,
     customerCompanyName: detail.case.customerCompanyName,
     overallGrade: detail.assessment.summary.overall,
+    investigatedCount: safety.investigatedCount,
+    totalCount: safety.totalCount,
+    missingCount: safety.missingCount,
+    averageRiskScore: safety.averageRiskScore,
+    isComplete: safety.isComplete,
     summary: detail.assessment.summary.summary,
     reportNarrative: detail.assessment.reportNarrative,
     dimensions: detail.assessment.dimensions,

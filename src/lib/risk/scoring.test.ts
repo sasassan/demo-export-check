@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { buildScoreSummary } from "./scoring";
+import { buildScoreSummary, computeSafetyScore } from "./scoring";
 import type { RiskDimension } from "@/lib/constants";
 import type { DimensionScore } from "@/lib/types";
 
@@ -69,4 +69,49 @@ test("buildScoreSummary: 未調査がある場合のheadlineは未調査件数�
 test("buildScoreSummary: 未調査がない場合のheadlineは平均スコアを示す", () => {
   const summary = buildScoreSummary(ALL_DIMENSIONS.map((d) => dim(d, "A", 20)));
   assert.ok(summary.headline.includes("平均スコア"));
+});
+
+test("computeSafetyScore: 全項目調査済み・全Aなら正常表示（complete）", () => {
+  const s = computeSafetyScore(ALL_DIMENSIONS.map((d) => dim(d, "A", 0)));
+  assert.equal(s.overall, "A");
+  assert.equal(s.isComplete, true);
+  assert.equal(s.investigatedCount, 8);
+  assert.equal(s.totalCount, 8);
+  assert.equal(s.missingCount, 0);
+  assert.equal(s.averageRiskScore, 0);
+  assert.equal(s.safetyScore, 100);
+});
+
+test("computeSafetyScore: 一部未調査・リスクなしなら「要確認」", () => {
+  const s = computeSafetyScore([dim("sanctions", "A", 0), dim("country", "A", 0)]);
+  assert.equal(s.overall, "B");
+  assert.equal(s.isComplete, false);
+  assert.equal(s.investigatedCount, 2);
+  assert.equal(s.missingCount, 6);
+});
+
+test("computeSafetyScore: 一部未調査でもC判定があれば高リスクを優先", () => {
+  const s = computeSafetyScore([dim("sanctions", "C", 85)]);
+  assert.equal(s.overall, "C");
+  assert.equal(s.isComplete, false);
+  assert.equal(s.missingCount, 7);
+});
+
+test("computeSafetyScore: 全項目未調査なら「要確認」", () => {
+  const s = computeSafetyScore([]);
+  assert.equal(s.overall, "B");
+  assert.equal(s.isComplete, false);
+  assert.equal(s.investigatedCount, 0);
+  assert.equal(s.totalCount, 8);
+  assert.equal(s.missingCount, 8);
+  assert.equal(s.averageRiskScore, 0);
+});
+
+test("computeSafetyScore: 1項目のみ調査済みでも平均を正常計算", () => {
+  const s = computeSafetyScore([dim("sanctions", "B", 55)]);
+  assert.equal(s.investigatedCount, 1);
+  assert.equal(s.missingCount, 7);
+  assert.equal(s.averageRiskScore, 55);
+  assert.equal(s.safetyScore, 45);
+  assert.equal(s.isComplete, false);
 });

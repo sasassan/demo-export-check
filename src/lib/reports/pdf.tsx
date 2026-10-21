@@ -90,6 +90,13 @@ export function RiskReportPdf({ model }: { model: ReportModel }) {
           <Text style={styles.heading}>総合評価</Text>
           <View style={styles.card}>
             <Text>総合評価: {model.overallGrade}</Text>
+            <Text>
+              調査カバレッジ: {model.investigatedCount} / {model.totalCount} 項目
+            </Text>
+            <Text>調査済み項目の平均評価点: {model.averageRiskScore} 点</Text>
+            {!model.isComplete && (
+              <Text>未調査 {model.missingCount} 項目あり（要確認）</Text>
+            )}
             <Text>{model.headline}</Text>
             <Text>{model.summary}</Text>
             <Text>{model.reportNarrative}</Text>

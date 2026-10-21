@@ -1,6 +1,7 @@
 "use client";
 
 import { DocumentInvoiceIcon } from "@/components/icons/trade-icons";
+import { computeSafetyScore } from "@/lib/risk/scoring";
 import type { CaseRecord, AssessmentRecord } from "@/lib/types";
 
 const gradeColor: Record<string, string> = {
@@ -26,15 +27,9 @@ export function ExecutiveSummary({ caseRecord, assessment }: Props) {
   const liveModelCount =
     modelResults?.filter((m) => m.providerStatus === "live").length ?? 0;
 
-  // 総合スコアを次元の平均から計算
-  const avgScore =
-    assessment.dimensions.length > 0
-      ? Math.round(
-          assessment.dimensions.reduce((s, d) => s + d.score, 0) /
-            assessment.dimensions.length,
-        )
-      : 0;
-  const safetyScore = Math.max(0, 100 - avgScore);
+  // 調査カバレッジと調査済み項目の評価点を分離して計算する。
+  // 未調査項目を除外した平均値を「総合安全スコア」として表示しない。
+  const breakdown = computeSafetyScore(assessment.dimensions);
 
   return (
     <div className="bg-panel border border-slate-200 rounded-2xl shadow-sm overflow-hidden print:shadow-none">
@@ -120,10 +115,26 @@ export function ExecutiveSummary({ caseRecord, assessment }: Props) {
             <span className="text-xs font-semibold">{gradeLabel[grade]}</span>
           </div>
 
-          {/* スコア */}
-          <div className="text-center">
-            <p className="text-3xl font-bold text-slate-900">{safetyScore}</p>
-            <p className="text-xs text-slate-500">/ 100点</p>
+          {/* スコア（調査カバレッジと調査済み項目の評価点を分離表示） */}
+          <div className="text-center space-y-2">
+            <div>
+              <p className="text-xs text-slate-500">調査カバレッジ</p>
+              <p className="text-2xl font-bold text-slate-900">
+                {breakdown.investigatedCount}
+                <span className="text-sm font-semibold text-slate-500">
+                  {" "}/ {breakdown.totalCount} 項目
+                </span>
+              </p>
+            </div>
+            <div>
+              <p className="text-xs text-slate-500">調査済み項目の平均評価点</p>
+              <p className="text-lg font-semibold text-slate-700">{breakdown.averageRiskScore} 点</p>
+            </div>
+            {!breakdown.isComplete && (
+              <p className="text-xs font-semibold text-amber-600">
+                未調査 {breakdown.missingCount} 項目あり（要確認）
+              </p>
+            )}
           </div>
 
           {/* 一致率（実際に応答した有効プロバイダーが2社以上の場合のみ表示） */}
