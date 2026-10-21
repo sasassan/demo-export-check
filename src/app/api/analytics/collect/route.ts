@@ -44,12 +44,12 @@ export async function POST(request: Request) {
 
   await createAnalyticsSession({
     ...body.session,
-    userEmail: userEmail ?? body.session.userEmail,
+    userEmail: userEmail ?? undefined,
   });
 
   await saveAnalyticsEvent({
     ...body.event,
-    userEmail: userEmail ?? body.event.userEmail,
+    userEmail: userEmail ?? undefined,
   });
 
   return NextResponse.json({ ok: true });
