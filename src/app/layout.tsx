@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: `${SITE_NAME_FULL}｜輸出管理のAI一次確認・該非判定支援`,
   description:
-    "輸出リスク・該非判定・キャッチオール規制まで、輸出管理の一次確認をAIが支援。中小企業の営業担当者が商談前に5分でチェックできる輸出コンプライアンス支援サービスです。",
+    "輸出リスク・該非判定・キャッチオール規制まで、輸出管理の一次確認をAIが支援。公開デモで確認事項の整理を体験できる輸出コンプライアンス支援サービスです。",
   keywords: CORE_KEYWORDS,
   applicationName: APP_NAME,
   authors: [{ name: APP_NAME, url: SITE_URL }],
