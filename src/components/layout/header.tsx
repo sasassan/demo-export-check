@@ -9,6 +9,7 @@ import { APP_NAME } from "@/lib/constants";
 const navItems = [
   { href: "/getting-started", match: "/getting-started", label: "はじめての方" },
   { href: "/demo", match: "/demo", label: "公開デモ" },
+  { href: "/result-guide", match: "/result-guide", label: "結果の読み方" },
   { href: "/glossary?v=nav", match: "/glossary", label: "辞典" },
   { href: "/ai-room?v=nav", match: "/ai-room", label: "AI相談室" },
   { href: "/learning?v=nav", match: "/learning", label: "学習" },
