@@ -29,7 +29,7 @@ export default function ContactPage() {
             判定結果は参考情報であり、最終的な輸出可否判断を保証するものではありません。
           </div>
           <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-800">
-            お問い合わせには原則として 1営業日以内の一次返信を目標としています。内容によってはお時間をいただく場合があります。
+            返信までの時間はお問い合わせ内容や運営状況によって異なります。緊急の輸出可否判断には利用しないでください。
           </div>
         </section>
 
