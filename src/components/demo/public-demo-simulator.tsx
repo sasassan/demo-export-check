@@ -216,7 +216,7 @@ export function PublicDemoSimulator() {
     setRunState("done");
   };
 
-  const runDemo = () => {
+  const matchesSample = formState.productName === selectedScenario.productName &&\n    formState.modelNumber === selectedScenario.modelNumber &&\n    formState.destinationCountry === selectedScenario.destinationCountry &&\n    formState.customerName === selectedScenario.customerName;\n\n  const runDemo = () => {\n    if (!matchesSample) return;
     setRunState("loading");
     window.setTimeout(() => {
       setRunState("done");
@@ -274,12 +274,10 @@ export function PublicDemoSimulator() {
             <span className="text-sm font-medium text-slate-800">商品名</span>
             <input
               value={formState.productName}
-              onChange={(event) =>
-                setFormState((current) => ({
+              onChange={(event) => {\n                setRunState("idle");\n                setFormState((current) => ({
                   ...current,
                   productName: event.target.value,
-                }))
-              }
+                }));\n              }}
               className="rounded-lg border border-slate-300 bg-panel px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             />
           </label>
@@ -327,16 +325,11 @@ export function PublicDemoSimulator() {
         <div className="mt-5 flex flex-wrap items-center gap-3">
           <button
             type="button"
-            onClick={runDemo}
-            data-cta-id="public-demo-run"
+            onClick={runDemo}\n            disabled={!matchesSample || runState === "loading"}\n            data-cta-id="public-demo-run"
             data-cta-label="この条件でデモ判定を見る"
-            className="trade-primary-button"
-          >
-            {runState === "loading" ? "AIが判定中..." : "この条件でデモ判定を見る"}
+            className="trade-primary-button disabled:cursor-not-allowed disabled:opacity-50"\n          >\n            {runState === "loading" ? "サンプルを表示中..." : "選択したサンプル結果を見る"}
           </button>
-          <p className="text-xs leading-6 text-slate-700">
-            実運用ではここから AI が論点整理、根拠要約、PDF レポート化を行います。
-          </p>
+          <p className="text-xs leading-6 text-slate-700">\n            {matchesSample ? "固定サンプルを表示します。実際のAI判定や制裁照合は行いません。" : "入力内容を変更したため、固定サンプル結果は表示できません。シナリオを選び直してください。"}\n          </p>
         </div>
       </section>
 
@@ -348,7 +341,7 @@ export function PublicDemoSimulator() {
               結果プレビュー
             </h2>
             <p className="mt-2 text-sm leading-6 text-slate-700">
-              公開デモでは、サービスで想定している出力イメージをサンプルで表示しています。
+              公開デモでは固定サンプルの出力例を表示しています。実在企業・制裁リストへの照合結果ではありません。
             </p>
           </div>
           <span
@@ -358,10 +351,10 @@ export function PublicDemoSimulator() {
           </span>
         </div>
 
-        {runState === "loading" ? (
+        {!matchesSample ? (\n          <div role="status" className="mt-5 rounded-lg border border-amber-200 bg-amber-50 p-5 text-sm leading-7 text-amber-950">\n            入力内容がサンプル案件と異なります。下記の固定評価は変更後の入力に対応しないため表示していません。左側のシナリオを選び直してください。\n          </div>\n        ) : runState === "loading" ? (
           <div className="mt-5 space-y-4">
             <div className="rounded-lg border border-tint-blue-bright bg-tint-blue px-4 py-3 text-sm font-medium text-brand-navy">
-              条件をもとに論点を整理しています。実運用ではこの間に AI が確認ポイントと推奨アクションを生成します。
+              固定サンプルを読み込んでいます。実際のAI推論や外部照合は実行していません。
             </div>
             <div className="grid gap-3 sm:grid-cols-4">
               {Array.from({ length: 4 }).map((_, index) => (
