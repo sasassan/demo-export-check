@@ -339,12 +339,12 @@ export function PublicDemoSimulator() {
             {runState === "loading" ? "サンプル表示中..." : "この条件でデモ判定を見る"}
           </button>
           <p className="text-xs leading-6 text-slate-700">
-            実運用ではここから AI が論点整理、根拠要約、PDF レポート化を行います。
+            固定サンプルを表示します。入力条件を変えてもAIによる再判定は行いません。
           </p>
         </div>
       </section>
 
-      <section ref={resultRef} className="rounded-xl border border-slate-200 bg-panel p-6">
+      <section ref={resultRef} className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex items-start justify-between gap-4">
           <div>
             <span className="trade-section-label">サンプル結果</span>
@@ -352,13 +352,13 @@ export function PublicDemoSimulator() {
               結果プレビュー
             </h2>
             <p className="mt-2 text-sm leading-6 text-slate-700">
-              公開デモでは、サービスで想定している出力イメージをサンプルで表示しています。
+              これは架空案件に基づく固定サンプルです。実際の取引可否や制裁照合結果ではありません。
             </p>
           </div>
           <span
             className={`rounded-lg border px-3 py-1.5 text-sm font-bold ${gradeClassMap[selectedScenario.overallGrade]}`}
           >
-            総合 {selectedScenario.overallGrade}
+            参考グレード {selectedScenario.overallGrade}
           </span>
         </div>
 
@@ -367,7 +367,7 @@ export function PublicDemoSimulator() {
         ) : runState === "loading" ? (
           <div className="mt-5 space-y-4">
             <div className="rounded-lg border border-tint-blue-bright bg-tint-blue px-4 py-3 text-sm font-medium text-brand-navy">
-              条件をもとに論点を整理しています。実運用ではこの間に AI が確認ポイントと推奨アクションを生成します。
+              固定サンプルを表示しています。実際のAI推論や制裁照合は行っていません。
             </div>
             <div className="grid gap-3 sm:grid-cols-4">
               {Array.from({ length: 4 }).map((_, index) => (
@@ -480,7 +480,7 @@ export function PublicDemoSimulator() {
                     この先の実運用イメージ
                   </p>
                   <p className="mt-1 text-sm leading-6 text-slate-700">
-                    実案件では、ここからPDFレポート生成、案件保存、AI相談室への引き継ぎまで進められます。
+                    案件保存・PDF出力・AI相談室との連携は提供状況と利用条件をご確認ください。
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-3">
