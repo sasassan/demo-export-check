@@ -7,12 +7,12 @@ import { usePathname } from "next/navigation";
 import { APP_NAME } from "@/lib/constants";
 
 const navItems = [
-  { href: "/main?v=nav", match: "/main", label: "メイン" },
-  { href: "/demo?v=nav", match: "/demo", label: "デモ" },
+  { href: "/getting-started", match: "/getting-started", label: "はじめての方" },
+  { href: "/demo", match: "/demo", label: "公開デモ" },
   { href: "/glossary?v=nav", match: "/glossary", label: "辞典" },
   { href: "/ai-room?v=nav", match: "/ai-room", label: "AI相談室" },
   { href: "/learning?v=nav", match: "/learning", label: "学習" },
-  { href: "/about?v=nav", match: "/about", label: "概要" },
+  { href: "/evaluation-logic", match: "/evaluation-logic", label: "評価の仕組み" },
 ];
 
 export function Header() {
@@ -59,7 +59,7 @@ export function Header() {
         </Link>
 
         {/* Desktop nav */}
-        <nav aria-label="メインナビゲーション" className="hidden items-center gap-1 md:flex">
+        <nav aria-label="メインナビゲーション" className="hidden items-center gap-1 lg:flex">
           {navItems.map((item) => {
             const isActive = pathname?.startsWith(item.match) ?? false;
             return (
@@ -97,7 +97,7 @@ export function Header() {
           aria-expanded={isMenuOpen}
           aria-controls="mobile-nav-menu"
           aria-label={isMenuOpen ? "メニューを閉じる" : "メニューを開く"}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-md text-slate-700 transition hover:bg-slate-100 md:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-md text-slate-700 transition hover:bg-slate-100 lg:hidden"
         >
           {isMenuOpen ? (
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-6 w-6">
@@ -115,14 +115,14 @@ export function Header() {
       {isMenuOpen && (
         <>
           <div
-            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
             onClick={() => setIsMenuOpen(false)}
             aria-hidden="true"
           />
           <nav
             id="mobile-nav-menu"
             aria-label="メインナビゲーション"
-            className="absolute left-0 right-0 top-full z-50 border-b border-slate-200 bg-panel px-4 py-3 shadow-lg md:hidden"
+            className="absolute left-0 right-0 top-full z-50 border-b border-slate-200 bg-panel px-4 py-3 shadow-lg lg:hidden"
           >
             <div className="mx-auto max-w-6xl space-y-1">
               {navItems.map((item, index) => {
