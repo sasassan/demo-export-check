@@ -10,38 +10,38 @@ export const dynamic = "force-static";
 export const metadata = buildSeo({
   title: "輸出管理のAI一次確認・該非判定支援",
   description:
-    "輸出リスク・該非判定・キャッチオール規制まで、輸出管理の一次確認をAIが支援。制裁リスト・企業信用・用途・国リスクを8観点で評価し、中小企業の営業担当者が商談前に5分でチェックできます。",
+    "輸出管理の一次確認に必要な論点をAIが整理。公開デモでは評価例と追加確認事項を確認できます。実際の該非判定・制裁照合・輸出許可判断は別途確認が必要です。",
   path: "/",
 });
 
 const features = [
   {
     title: "制裁リスト調査",
-    description: "国連・米国OFAC・EUなどの制裁リストに顧客企業・担当者が該当しないかをチェックします。",
+    description: "制裁リスト照合で確認すべき対象と根拠を整理します。実際の照合範囲・更新日時を確認してください。",
     icon: "M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.955 11.955 0 0 0 3 10.5c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.572-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Z",
     tint: "bg-tint-blue text-brand-navy",
   },
   {
     title: "エンドユーザー実在性確認",
-    description: "輸出先企業の実在性・事業内容・所在地を調査し、架空企業や不審な転売業者でないか確認します。",
+    description: "輸出先企業の実在性・所在地・同名企業の区別など、追加調査の論点を整理します。",
     icon: "M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z",
     tint: "bg-tint-teal text-brand-teal",
   },
   {
     title: "UBO / PEPs確認",
-    description: "実質的支配者（UBO）や政治的影響力のある人物（PEPs）への関与がないか調査します。",
+    description: "実質的支配者（UBO）やPEPsの調査は今後の拡充項目です。現在の一次確認だけで照合済みとは扱いません。",
     icon: "M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21",
     tint: "bg-tint-violet text-violet-400",
   },
   {
     title: "国リスク評価",
-    description: "輸出先国の政情・紛争・制裁・輸出規制の状況を確認し、地政学的リスクを数値化します。",
+    description: "輸出先国の制裁・規制・情勢について、確認が必要な事項を整理します。",
     icon: "M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418",
     tint: "bg-tint-sky text-sky-400",
   },
   {
     title: "用途リスク / キャッチオール規制",
-    description: "軍事転用・大量破壊兵器への利用が疑われる用途でないかを確認し、規制該当可能性を評価します。",
+    description: "最終用途・最終需要者・軍事転用懸念などの確認論点を提示します。情報不足時は追加確認が必要です。",
     icon: "M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z",
     tint: "bg-tint-amber text-amber-400",
   },
@@ -54,13 +54,13 @@ const features = [
 ];
 
 const steps = [
-  { number: "01", title: "案件情報を入力", description: "商品名・型番・輸出先国・顧客企業名を入力するだけ。専門知識は不要です。" },
+  { number: "01", title: "案件情報を入力", description: "商品名・型番・輸出先国・顧客企業名から一次確認を開始。法令上の最終判断には専門家の確認が必要です。" },
   { number: "02", title: "AIが一次スクリーニングを支援", description: "入力情報と公開情報をもとに、制裁・企業・国別リスクなど8つの観点で評価を支援します。" },
   { number: "03", title: "評価とレポートを確認", description: "A/B/C評価と根拠をわかりやすく表示。PDFレポートもワンクリックで出力できます。" },
 ];
 
 const roadmap = [
-  { phase: "Phase 1", status: "開発中", title: "輸出可否AI診断", items: ["A/B/C評価", "PDFレポート出力", "一次スクリーニング支援"], active: true },
+  { phase: "Phase 1", status: "開発中", title: "輸出管理AI一次確認", items: ["A/B/C評価", "PDFレポート出力", "一次スクリーニング支援"], active: true },
   { phase: "Phase 2", status: "計画中", title: "企業・人物調査", items: ["企業情報調査", "UBO（実質支配者）確認", "制裁リスク詳細分析"], active: false },
   { phase: "Phase 3", status: "構想中", title: "高度なAI解析", items: ["商品画像解析", "戦場・ニュース類似調査", "AI市場調査"], active: false },
 ];
@@ -213,7 +213,7 @@ const jsonLd = {
   operatingSystem: "Web",
   inLanguage: "ja-JP",
   description:
-    "輸出リスク・該非判定・キャッチオール規制まで、輸出管理の一次確認をAIが支援する中小企業向けWebアプリ。営業担当者が商談前に5分で一次確認でき、AI相談室で規制資料や社内規程の読解支援も行う。",
+    "輸出リスク・該非判定・キャッチオール規制まで、輸出管理の一次確認をAIが支援する中小企業向けWebアプリ。公開デモで一次確認の流れを体験でき、AI相談室で規制資料や社内規程の読解支援も行う。",
   audience: {
     "@type": "Audience",
     audienceType: "営業担当者、輸出管理担当者、管理部門",
@@ -290,20 +290,20 @@ export default function Home() {
               <h1 className="mt-6 text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
                 その輸出、<br />
                 <span className="bg-gradient-to-r from-brand-cyan via-brand-navy to-brand-teal bg-clip-text text-transparent">
-                  AIが5分で
+                  AIで論点を整理
                 </span>
                 一次確認。
               </h1>
               <p className="mt-4 text-lg font-medium text-brand-navy">
-                該非判定・制裁リスト・国リスク。商談前の確認を、専門知識なしで。
+                該非判定・制裁・国リスクの確認論点を整理。最終判断は担当者が行います。
               </p>
               <p className="mt-3 max-w-xl text-base leading-7 text-slate-600">
                 商品・型番・輸出先・相手先を入力するだけで、A/B/C評価と根拠・確認アクションをAIが提示。
                 PDFレポートで社内共有まで一気に進みます。
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link href="/demo?v=hero" data-cta-id="hero-demo" data-cta-label="該非判定を試す（デモ）" data-cta-target="/demo?v=hero" className="group inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-brand-cyan to-brand-blue px-5 py-2.5 text-sm font-bold text-[#06242e] shadow-lg shadow-brand-cyan/25 transition hover:-translate-y-0.5 hover:brightness-110 hover:shadow-xl hover:shadow-brand-cyan/40">
-                  該非判定を試す（デモ）
+                <Link href="/demo?v=hero" data-cta-id="hero-demo" data-cta-label="一次確認を試す（デモ）" data-cta-target="/demo?v=hero" className="group inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-brand-cyan to-brand-blue px-5 py-2.5 text-sm font-bold text-[#06242e] shadow-lg shadow-brand-cyan/25 transition hover:-translate-y-0.5 hover:brightness-110 hover:shadow-xl hover:shadow-brand-cyan/40">
+                  一次確認を試す（デモ）
                   <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 transition group-hover:translate-x-0.5"><path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" /></svg>
                 </Link>
                 <Link href="/ai-room?v=hero" data-cta-id="hero-ai-room" data-cta-label="AIに相談" data-cta-target="/ai-room?v=hero" className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-panel px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-navy hover:text-brand-navy">
@@ -317,11 +317,11 @@ export default function Home() {
                 <Link href="/about?v=hero" data-cta-id="hero-about" data-cta-label="サービス詳細" data-cta-target="/about?v=hero" className="font-semibold text-brand-navy hover:underline">
                   サービス詳細
                 </Link>
-                もご覧いただけます。ログインすれば案件登録からAI診断までそのまま利用できます。
+                もご覧いただけます。提供機能と利用条件はサービス詳細をご確認ください。
               </p>
               <div className="mt-8 grid grid-cols-3 gap-4">
                 {[
-                  ["平均確認時間", "約5分"],
+                  ["提供状況", "公開デモ"],
                   ["AI診断観点", "8項目"],
                   ["出力形式", "PDF / 要約"],
                 ].map(([label, value]) => (
@@ -348,7 +348,7 @@ export default function Home() {
                     ["主要ハブ", "東京・シンガポール"],
                     ["カバレッジ", "世界の主要航路"],
                     ["監視観点", "制裁・規制・国リスク"],
-                    ["稼働", "24時間モニタリング"],
+                    ["表示", "デモイメージ"],
                   ].map(([label, value]) => (
                     <div key={label}>
                       <p className="text-[9px] font-semibold uppercase tracking-wider text-slate-600">{label}</p>
