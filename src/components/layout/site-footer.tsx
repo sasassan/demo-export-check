@@ -28,6 +28,13 @@ export function SiteFooter() {
           </svg>
           トップページに戻る
         </Link>
+        <nav aria-label="フッターナビゲーション" className="mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-sm text-slate-700">
+          <Link href="/getting-started" className="hover:text-brand-navy hover:underline">はじめての方</Link>
+          <Link href="/demo" className="hover:text-brand-navy hover:underline">公開デモ</Link>
+          <Link href="/evaluation-logic" className="hover:text-brand-navy hover:underline">評価の仕組み</Link>
+          <Link href="/security" className="hover:text-brand-navy hover:underline">セキュリティ</Link>
+          <Link href="/contact" className="hover:text-brand-navy hover:underline">導入相談</Link>
+        </nav>
         <p className="mt-5 text-xs leading-6 text-slate-500">
           本サービスは輸出管理における専門家の判断を補助するツールです。ご利用にあたっては
           <Link href="/terms" className="font-semibold text-brand-navy hover:underline">
