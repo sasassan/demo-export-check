@@ -32,6 +32,7 @@ export function SiteFooter() {
           <Link href="/getting-started" className="hover:text-brand-navy hover:underline">はじめての方</Link>
           <Link href="/demo" className="hover:text-brand-navy hover:underline">公開デモ</Link>
           <Link href="/evaluation-logic" className="hover:text-brand-navy hover:underline">評価の仕組み</Link>
+          <Link href="/result-guide" className="hover:text-brand-navy hover:underline">結果の読み方</Link>
           <Link href="/security" className="hover:text-brand-navy hover:underline">セキュリティ</Link>
           <Link href="/contact" className="hover:text-brand-navy hover:underline">導入相談</Link>
         </nav>
