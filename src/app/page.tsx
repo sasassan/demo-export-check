@@ -272,159 +272,92 @@ export default function Home() {
       </nav>
 
       <main id="main-content" tabIndex={-1} className="outline-none">
-        {/* ヒーローセクション */}
-        <section className="relative overflow-hidden border-b border-slate-100 bg-gradient-to-b from-panel via-panel to-slate-50/70 px-4 py-16 sm:px-6 sm:py-20">
-          <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-[#22d3ee]/15 blur-3xl" />
-          <div className="pointer-events-none absolute -right-24 top-40 h-80 w-80 rounded-full bg-teal-200/25 blur-3xl" />
-          <WorldMapPattern
-            aria-hidden="true"
-            preserveAspectRatio="xMidYMax slice"
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-64 w-full text-brand-navy/10"
-          />
-          <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2">
-            <div className="trade-fade-in-up">
-              <span className="inline-flex items-center gap-2 rounded-full border border-tint-blue-bright bg-tint-blue px-3 py-1.5 text-sm font-medium text-brand-navy">
-                <span className="live-dot" />
-                輸出管理部門がない企業・海外営業向け
-              </span>
-              <h1 className="mt-6 text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
-                その輸出、<br />
-                <span className="bg-gradient-to-r from-brand-cyan via-brand-navy to-brand-teal bg-clip-text text-transparent">
-                  AIで論点を整理
-                </span>
-                一次確認。
-              </h1>
-              <p className="mt-4 text-lg font-medium text-brand-navy">
-                該非判定・制裁・国リスクの確認論点を整理。最終判断は担当者が行います。
+        {/* ヒーロー: 調査範囲と次のアクションを優先したBtoB向け構成 */}
+        <section aria-labelledby="hero-title" className="border-b border-slate-200 bg-gradient-to-b from-white to-slate-50 px-4 py-14 sm:px-6 sm:py-20">
+          <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-14">
+            <div>
+              <p className="inline-flex rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-brand-navy">
+                海外営業・輸出管理担当者向け｜公開デモ
               </p>
-              <p className="mt-3 max-w-xl text-base leading-7 text-slate-600">
-                商品・型番・輸出先・相手先を入力するだけで、A/B/C評価と根拠・確認アクションをAIが提示。
-                PDFレポートで社内共有まで一気に進みます。
+              <h1 id="hero-title" className="mt-6 text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
+                輸出管理の一次確認を、
+                <span className="block text-brand-navy">わかりやすく、確実な次の一歩へ。</span>
+              </h1>
+              <p className="mt-5 max-w-xl text-base leading-8 text-slate-700">
+                商品・仕向地・取引先の情報から、確認すべき論点を整理。
+                調査結果だけでなく、未確認事項と追加確認のアクションを明確にします。
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link href="/demo?v=hero" data-cta-id="hero-demo" data-cta-label="一次確認を試す（デモ）" data-cta-target="/demo?v=hero" className="group inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-brand-cyan to-brand-blue px-5 py-2.5 text-sm font-bold text-[#06242e] shadow-lg shadow-brand-cyan/25 transition hover:-translate-y-0.5 hover:brightness-110 hover:shadow-xl hover:shadow-brand-cyan/40">
-                  一次確認を試す（デモ）
-                  <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 transition group-hover:translate-x-0.5"><path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" /></svg>
+                <Link href="/demo?v=hero" data-cta-id="hero-demo" data-cta-label="公開デモを試す" data-cta-target="/demo?v=hero" className="inline-flex min-h-12 items-center justify-center rounded-lg bg-brand-deep px-6 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-brand-deep-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy">
+                  公開デモを試す <span aria-hidden="true" className="ml-2">→</span>
                 </Link>
-                <Link href="/ai-room?v=hero" data-cta-id="hero-ai-room" data-cta-label="AIに相談" data-cta-target="/ai-room?v=hero" className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-panel px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-navy hover:text-brand-navy">
-                  AIに相談
-                </Link>
-                <Link href="/updates?v=hero" data-cta-id="hero-regulations" data-cta-label="規制情報を見る" data-cta-target="/updates?v=hero" className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-panel px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-navy hover:text-brand-navy">
-                  規制情報を見る
+                <Link href="/evaluation-logic" className="inline-flex min-h-12 items-center justify-center rounded-lg border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-800 transition hover:border-brand-navy hover:text-brand-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy">
+                  評価の仕組みを見る
                 </Link>
               </div>
-              <p className="mt-3 text-xs leading-6 text-slate-600">
-                <Link href="/about?v=hero" data-cta-id="hero-about" data-cta-label="サービス詳細" data-cta-target="/about?v=hero" className="font-semibold text-brand-navy hover:underline">
-                  サービス詳細
-                </Link>
-                もご覧いただけます。提供機能と利用条件はサービス詳細をご確認ください。
+              <p className="mt-5 max-w-xl text-sm leading-6 text-slate-600">
+                本サービスは輸出管理の一次確認支援です。法令上の該非判定、制裁対象との確定照合、輸出許可・取引承認を保証するものではありません。
               </p>
-              <div className="mt-8 grid grid-cols-3 gap-4">
+              <div className="mt-7 grid gap-3 border-t border-slate-200 pt-6 sm:grid-cols-3">
                 {[
-                  ["提供状況", "公開デモ"],
-                  ["AI診断観点", "8項目"],
-                  ["出力形式", "PDF / 要約"],
-                ].map(([label, value]) => (
-                  <div key={label} className="trade-hover-lift rounded-lg border border-slate-200 bg-gradient-to-b from-slate-50 to-panel p-3 shadow-sm">
-                    <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-600">{label}</p>
-                    <p className="mt-1 text-lg font-bold text-slate-900">{value}</p>
+                  ["01", "情報を入力"],
+                  ["02", "確認事項を整理"],
+                  ["03", "根拠と未確認事項を確認"],
+                ].map(([number, label]) => (
+                  <div key={number} className="flex items-start gap-2">
+                    <span className="font-mono text-xs font-bold text-brand-navy">{number}</span>
+                    <span className="text-sm font-medium text-slate-700">{label}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="trade-fade-in-up space-y-4" style={{ animationDelay: "0.15s" }}>
-              <div className="trade-hover-lift overflow-hidden rounded-xl border border-slate-200 bg-panel shadow-2xl shadow-black/30">
-                <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-4 py-2.5">
-                  <p className="text-xs font-semibold tracking-wide text-slate-900">グローバル航路ネットワーク</p>
-                  <span className="inline-flex items-center gap-1.5 text-[10px] font-bold tracking-widest text-brand-emerald">
-                    <span className="live-dot" />
-                    LIVE
-                  </span>
+            <div aria-label="診断結果のサンプル表示" className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 bg-slate-50 px-5 py-4">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">ASSESSMENT PREVIEW</p>
+                  <h2 className="mt-1 text-base font-bold text-slate-900">一次確認レポート</h2>
                 </div>
-                <TradeRouteMap aria-hidden="true" className="block h-auto w-full" idPrefix="hero-map" />
-                <div className="grid grid-cols-2 gap-2 border-t border-slate-200 bg-slate-50 px-4 py-3 sm:grid-cols-4">
-                  {[
-                    ["主要ハブ", "東京・シンガポール"],
-                    ["カバレッジ", "世界の主要航路"],
-                    ["監視観点", "制裁・規制・国リスク"],
-                    ["表示", "デモイメージ"],
-                  ].map(([label, value]) => (
-                    <div key={label}>
-                      <p className="text-[9px] font-semibold uppercase tracking-wider text-slate-600">{label}</p>
-                      <p className="mt-0.5 text-[11px] font-bold text-slate-900">{value}</p>
-                    </div>
-                  ))}
-                </div>
+                <span className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-semibold text-slate-700">サンプル・実際の照合結果ではありません</span>
               </div>
-              <div className="trade-float overflow-hidden rounded-xl border border-slate-200 bg-panel shadow-2xl shadow-black/30">
-                <div className="border-b border-slate-200 bg-slate-50 px-4 py-3">
-                  <div className="flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-rose-300" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-amber-300" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-emerald-300" />
-                    <span className="ml-2 text-xs font-medium text-slate-600">公開デモの画面イメージ</span>
+              <div className="space-y-5 p-5 sm:p-6">
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-lg bg-slate-50 p-3">
+                    <p className="text-xs text-slate-500">商品</p>
+                    <p className="mt-1 text-sm font-semibold text-slate-900">産業用サーボモーター（架空例）</p>
+                  </div>
+                  <div className="rounded-lg bg-slate-50 p-3">
+                    <p className="text-xs text-slate-500">仕向地</p>
+                    <p className="mt-1 text-sm font-semibold text-slate-900">ベトナム（例示）</p>
                   </div>
                 </div>
-                <div className="grid gap-4 p-5 lg:grid-cols-[0.95fr_1.05fr]">
-                  <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-brand-navy">入力情報</p>
-                    <div className="mt-3 space-y-3">
-                      {[
-                        ["商品名", "高精度サーボモーター"],
-                        ["型番", "SRV-9800"],
-                        ["輸出先国", "ベトナム"],
-                        ["顧客企業名", "Hanoi Precision Robotics Co., Ltd."],
-                      ].map(([label, value]) => (
-                        <div key={label} className="rounded-md border border-slate-200 bg-panel px-3 py-2.5">
-                          <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-600">{label}</p>
-                          <p className="mt-1 text-sm font-medium text-slate-800">{value}</p>
-                        </div>
-                      ))}
-                    </div>
+                <div className="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 p-4">
+                  <span aria-hidden="true" className="mt-0.5 h-2.5 w-2.5 shrink-0 rounded-full bg-amber-500" />
+                  <div>
+                    <p className="text-sm font-bold text-amber-950">要追加確認</p>
+                    <p className="mt-1 text-sm leading-6 text-amber-900">最終需要者と用途の裏付けが不足しています。取引可否の判断は保留してください。</p>
                   </div>
-                  <div className="rounded-lg border border-slate-200 bg-panel p-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-xs font-semibold uppercase tracking-wider text-brand-navy">診断結果</p>
-                        <p className="mt-1 text-sm font-semibold text-slate-900">高精度サーボモーター SRV-9800 → ベトナム</p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900">確認状況（表示例）</h3>
+                  <div className="mt-3 space-y-2">
+                    {[
+                      ["商品情報", "入力済み", "text-slate-700 bg-slate-100"],
+                      ["最終用途", "未確認", "text-amber-900 bg-amber-100"],
+                      ["制裁リスト照合", "未実施", "text-slate-700 bg-slate-100"],
+                    ].map(([label, status, style]) => (
+                      <div key={label} className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 px-3 py-2.5">
+                        <span className="text-sm text-slate-800">{label}</span>
+                        <span className={`rounded-md px-2 py-1 text-xs font-semibold ${style}`}>{status}</span>
                       </div>
-                      <span className="rounded-md border border-tint-amber-border bg-tint-amber px-3 py-1 text-sm font-bold text-amber-300">総合 B</span>
-                    </div>
-                    <div className="mt-4 grid grid-cols-4 gap-2">
-                      {[
-                        { label: "制裁", grade: "A", bg: "bg-tint-emerald", border: "border-tint-emerald-border", text: "text-emerald-400" },
-                        { label: "企業信用", grade: "B", bg: "bg-tint-amber", border: "border-tint-amber-border", text: "text-amber-300" },
-                        { label: "国リスク", grade: "B", bg: "bg-tint-amber", border: "border-tint-amber-border", text: "text-amber-300" },
-                        { label: "用途", grade: "A", bg: "bg-tint-emerald", border: "border-tint-emerald-border", text: "text-emerald-400" },
-                      ].map((item) => (
-                        <div key={item.label} className={`rounded-lg border p-2 text-center ${item.bg} ${item.border}`}>
-                          <p className="text-[10px] text-slate-600">{item.label}</p>
-                          <p className={`mt-0.5 text-lg font-bold ${item.text}`}>{item.grade}</p>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="mt-4 rounded-lg border border-tint-amber-border bg-tint-amber p-3">
-                      <p className="text-xs font-semibold text-amber-300">要確認: 企業信用 / 最終用途</p>
-                      <p className="mt-1 text-xs leading-5 text-amber-300">類似名称企業の存在と、最終需要先の裏取り不足のため追加確認を推奨。</p>
-                    </div>
+                    ))}
                   </div>
                 </div>
+                <p className="border-t border-slate-200 pt-4 text-xs leading-5 text-slate-500">
+                  未確認は「問題なし」を意味しません。実際の診断では根拠・対象・確認日時を確認してください。
+                </p>
               </div>
             </div>
-          </div>
-
-          <div className="mx-auto mt-10 grid max-w-6xl gap-3 sm:grid-cols-3">
-            {trustSignals.map((item) => (
-              <Link
-                key={item.title}
-                href={item.href}
-                className="trade-hover-lift rounded-xl border border-slate-200 bg-panel p-4 shadow-sm"
-              >
-                <p className="text-sm font-semibold text-slate-900">{item.title}</p>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{item.body}</p>
-              </Link>
-            ))}
           </div>
         </section>
 
