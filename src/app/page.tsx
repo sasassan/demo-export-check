@@ -2,8 +2,7 @@ import Link from "next/link";
 
 import { APP_NAME } from "@/lib/constants";
 import { buildSeo, SITE_URL } from "@/lib/seo";
-import { PortTerminalScene, TradeRouteMap } from "@/components/icons/port-scene";
-import { WorldMapPattern } from "@/components/icons/trade-illustrations";
+import { PortTerminalScene } from "@/components/icons/port-scene";
 
 export const dynamic = "force-static";
 
