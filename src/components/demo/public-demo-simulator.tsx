@@ -216,7 +216,10 @@ export function PublicDemoSimulator() {
     setRunState("done");
   };
 
+  const matchesSample = Object.entries(formState).every(([key, value]) => value === selectedScenario[key as keyof typeof formState]);
+
   const runDemo = () => {
+    if (!matchesSample) return;
     setRunState("loading");
     window.setTimeout(() => {
       setRunState("done");
@@ -328,11 +331,12 @@ export function PublicDemoSimulator() {
           <button
             type="button"
             onClick={runDemo}
+            disabled={!matchesSample || runState === "loading"}
             data-cta-id="public-demo-run"
-            data-cta-label="この条件でデモ判定を見る"
-            className="trade-primary-button"
+            data-cta-label="固定サンプル結果を見る"
+            className="trade-primary-button disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {runState === "loading" ? "AIが判定中..." : "この条件でデモ判定を見る"}
+            {runState === "loading" ? "サンプル表示中..." : "この条件でデモ判定を見る"}
           </button>
           <p className="text-xs leading-6 text-slate-700">
             実運用ではここから AI が論点整理、根拠要約、PDF レポート化を行います。
@@ -358,7 +362,9 @@ export function PublicDemoSimulator() {
           </span>
         </div>
 
-        {runState === "loading" ? (
+        {!matchesSample ? (
+          <div role="status" className="mt-5 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">入力内容が固定サンプルと異なるため、評価を表示できません。シナリオを選び直してください。</div>
+        ) : runState === "loading" ? (
           <div className="mt-5 space-y-4">
             <div className="rounded-lg border border-tint-blue-bright bg-tint-blue px-4 py-3 text-sm font-medium text-brand-navy">
               条件をもとに論点を整理しています。実運用ではこの間に AI が確認ポイントと推奨アクションを生成します。
