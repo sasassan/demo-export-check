@@ -259,13 +259,13 @@ export default function Home() {
             </div>
             <span className="text-base font-bold text-slate-900">{APP_NAME}</span>
           </div>
-          <div className="flex items-center gap-1">
-            <Link href="/about?v=lp-nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">概要</Link>
-            <Link href="/glossary?v=lp-nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">辞典</Link>
-            <Link href="/ai-room?v=lp-nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">AI相談室</Link>
-            <Link href="/demo?v=lp-nav" className="hidden rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 md:inline-flex">デモ</Link>
+          <div className="flex flex-wrap items-center justify-end gap-1">
+            <Link href="/getting-started" className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">はじめての方</Link>
+            <Link href="/evaluation-logic" className="hidden rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 sm:inline-flex">評価の仕組み</Link>
+            <Link href="/ai-room?v=lp-nav" className="hidden rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 lg:inline-flex">AI相談室</Link>
+            <Link href="/demo?v=lp-nav" className="hidden rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 md:inline-flex">公開デモ</Link>
             <span className="mx-1 hidden h-5 w-px bg-slate-200 md:block" />
-            <Link href="/contact?v=lp-nav" className="rounded-md bg-brand-deep px-4 py-2 text-sm font-semibold !text-white shadow-sm hover:bg-brand-deep-light">お問い合わせ</Link>
+            <Link href="/contact?v=lp-nav" className="hidden rounded-md bg-brand-deep px-4 py-2 text-sm font-semibold !text-white shadow-sm hover:bg-brand-deep-light sm:inline-flex">導入相談</Link>
           </div>
         </div>
       </nav>
