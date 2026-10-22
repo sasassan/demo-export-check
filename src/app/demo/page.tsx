@@ -44,10 +44,10 @@ export default function DemoPage() {
       <main id="main-content" tabIndex={-1} className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-10 outline-none">
         <section className="rounded-xl border border-slate-200 bg-panel p-6 sm:p-8">
           <span className="trade-section-label">Public Demo</span>
-          <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">デモ画面</h1>
+          <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">公開デモ｜一次確認の流れ</h1>
           <p className="mt-3 max-w-3xl text-base leading-7 text-slate-600">
             このページでは、公開用のサンプルシナリオを使って「入力 → リスク論点整理 → 結果確認」の流れを体験できます。
-            実案件データ・顧客情報・社内案件一覧は一般公開対象外として保護しています。
+            固定のサンプル案件のみを表示します。入力した情報によるリアルタイム照合は実行しません。
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link href="/contact" data-cta-id="demo-contact" data-cta-label="導入について相談" data-cta-target="/contact" className="trade-primary-button">導入について相談</Link>
@@ -78,7 +78,7 @@ export default function DemoPage() {
               <li>- 業種別サンプル（半導体 / 工作機械 / 化学品 / 通信機器）の比較</li>
             </ul>
             <div className="mt-4 rounded-lg border border-tint-blue-bright bg-tint-blue p-4 text-sm leading-6 text-slate-700">
-              本番環境では、この後に案件保存、AI相談室への引き継ぎ、PDFレポート出力まで進む構成です。
+              案件保存、AI相談室への引き継ぎ、PDFレポート出力の提供範囲は導入前にご確認ください。
             </div>
           </div>
         </section>
