@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import * as Sentry from "@sentry/nextjs";
 
 import { ErrorFallback } from "@/components/ui/error-fallback";
 
@@ -15,6 +16,7 @@ export default function GlobalError({
 }) {
   useEffect(() => {
     console.error("[app/global-error]", error.digest ?? error.message);
+    Sentry.captureException(error);
   }, [error]);
 
   return (

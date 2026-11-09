@@ -54,6 +54,31 @@ const sections = [
     title: "データ削除",
     body: "利用者はアカウント削除またはお問い合わせにより、保存されたデータの削除を依頼できます。",
   },
+  {
+    number: 7,
+    title: "データ保存期間",
+    body: "案件データ・AI相談履歴・ログイン情報等は、サービス提供および法令対応に必要な期間、保存します。利用者から削除依頼があった場合、または利用目的の達成に不要となった場合は、速やかに削除または匿名化します。",
+  },
+  {
+    number: 8,
+    title: "外部サービスの利用（委託先）",
+    body: "サービスの提供にあたり、必要最小限の範囲で以下の外部サービスを利用し、情報を預託します。",
+    items: [
+      "AI処理: OpenAI / Google（Gemini）/ Anthropic（Claude）",
+      "メール送信: Resend",
+      "ホスティング: Vercel",
+      "データベース: Neon（PostgreSQL）",
+    ],
+  },
+  {
+    number: 9,
+    title: "Cookieおよび類似技術",
+    body: "本サービスでは、動作に必要なCookieおよびブラウザ内の識別子を利用します。",
+    items: [
+      "ern_session_email（Cookie）: ログイン状態の維持に使用します（HttpOnly、保存期間は約14日）。",
+      "ern_visitor_id / ern_session_id（ローカルストレージ）: 匿名の利用状況分析に使用する訪問者識別子です。",
+    ],
+  },
 ];
 
 export default function PrivacyPage() {
@@ -82,7 +107,7 @@ export default function PrivacyPage() {
           </div>
           <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-900">プライバシーポリシー</h1>
           <p className="mt-3 text-sm leading-7 text-slate-600">
-            最終更新日: <span className="font-bold text-brand-navy">2025年1月</span>
+            最終更新日: <span className="font-bold text-brand-navy">2026年11月</span>
           </p>
           <div className="mt-6 space-y-4 text-sm leading-7 text-slate-700">
             {sections.map((section) => (
@@ -124,7 +149,7 @@ export default function PrivacyPage() {
             <section className="trade-hover-lift rounded-lg border border-slate-200 bg-slate-50 p-5">
               <div className="flex items-start gap-3">
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-deep text-xs font-bold text-white">
-                  7
+                  10
                 </span>
                 <div className="flex-1">
                   <h2 className="text-lg font-semibold text-slate-900">お問い合わせ</h2>

@@ -21,6 +21,7 @@
     "@anthropic-ai/sdk": "^0.104.2",
     "@google/generative-ai": "^0.24.1",
     "@react-pdf/renderer": "^4.5.1",
+    "@sentry/nextjs": "^11.11.0",
     "@types/nodemailer": "^8.0.1",
     "drizzle-orm": "^0.45.2",
     "next": "16.4.2",
@@ -30,6 +31,7 @@
     "postgres": "^3.4.9",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "resend": "^6.37.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {

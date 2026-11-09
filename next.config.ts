@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withSentryConfig } from "@sentry/nextjs/config";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -72,4 +73,9 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  // ソースマップアップロードは SENTRY_AUTH_TOKEN / SENTRY_ORG / SENTRY_PROJECT が
+  // 設定されたときにのみ実行される。未設定ならビルド時のSentry計装
+  // （instrumentation-client.ts の自動注入など）のみが適用される。
+  silent: !process.env.CI,
+});

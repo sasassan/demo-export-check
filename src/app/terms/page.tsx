@@ -37,7 +37,7 @@ const sections = [
   {
     number: 4,
     title: "免責",
-    body: "本サービスの結果は参考情報であり、完全性・正確性・最新性を保証するものではありません。本サービス利用に起因して生じたいかなる損害についても、提供者は責任を負いません。",
+    body: "本サービスの結果（AIによる診断結果・相談内容を含みます）は参考情報であり、その完全性・正確性・最新性を保証するものではありません。AIによる出力には、事実と異なる内容や不正確な情報が含まれる可能性があります。法令上の判断や輸出可否の最終決定は、専門家（弁護士・社内法務・通関担当者等）への確認を経た上で、利用者自身の責任において行ってください。本サービスの利用または利用不能に起因して生じたいかなる損害についても、提供者は責任を負いません。",
   },
   {
     number: 5,
@@ -48,6 +48,16 @@ const sections = [
     number: 6,
     title: "知的財産権",
     body: "本サービスに関する知的財産権は提供者に帰属します。利用者が入力した情報の知的財産権は利用者に帰属します。",
+  },
+  {
+    number: 7,
+    title: "運営者情報",
+    body: "本サービスは個人開発者により運営されています。運営者名・連絡先の詳細については、お問い合わせフォームよりご確認ください。",
+  },
+  {
+    number: 8,
+    title: "準拠法・管轄裁判所",
+    body: "本規約の準拠法は日本法とします。本サービスに関連して生じる紛争については、東京地方裁判所を第一審の専属的合意管轄裁判所とします。",
   },
 ];
 
@@ -77,7 +87,7 @@ export default function TermsPage() {
           </div>
           <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-900">利用規約</h1>
           <p className="mt-3 text-sm leading-7 text-slate-600">
-            最終更新日: <span className="font-bold text-brand-navy">2025年1月</span>
+            最終更新日: <span className="font-bold text-brand-navy">2026年11月</span>
           </p>
           <div className="mt-6 space-y-4 text-sm leading-7 text-slate-700">
             {sections.map((section) => (
@@ -119,7 +129,7 @@ export default function TermsPage() {
             <section className="trade-hover-lift rounded-lg border border-slate-200 bg-slate-50 p-5">
               <div className="flex items-start gap-3">
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-deep text-xs font-bold text-white">
-                  7
+                  9
                 </span>
                 <div className="flex-1">
                   <h2 className="text-lg font-semibold text-slate-900">お問い合わせ</h2>

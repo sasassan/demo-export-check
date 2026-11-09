@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 
 /**
  * DB接続関連のエラーかどうかを判定する。
@@ -55,6 +56,7 @@ export async function withDbErrorHandling(
   try {
     return await handler();
   } catch (error) {
+    Sentry.captureException(error);
     if (isDbConnectionError(error)) {
       console.error("[db] connection error:", error);
       return dbUnavailableResponse();

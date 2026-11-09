@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 
 import { askAssistant, type ConversationMessage } from "@/lib/ai/assistant";
 import {
@@ -507,6 +508,10 @@ export async function POST(request: Request) {
       ? "リクエストの形式が不正です"
       : "処理中にエラーが発生しました。しばらく時間をおいて再度お試しください。";
     console.error("[assistant route]", error);
+    if (!isJsonError) {
+      // 入力形式の誤り（SyntaxError）は想定内のため、それ以外の例外のみ Sentry に送る。
+      Sentry.captureException(error);
+    }
     return NextResponse.json({ error: msg }, { status: isJsonError ? 400 : 500 });
   }
 }

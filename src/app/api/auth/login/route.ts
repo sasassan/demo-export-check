@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import * as Sentry from "@sentry/nextjs";
 
 import { createSessionCookieValue, isAdminEmail } from "@/lib/auth/server";
 import { checkOtpSendRateLimit, issueOtpCode } from "@/lib/auth/otp";
@@ -87,6 +88,7 @@ export async function POST(request: Request) {
       await sendOtpEmail(email, code);
     } catch (error) {
       console.error("[auth:login] OTPメール送信に失敗しました。", error);
+      Sentry.captureException(error);
       return NextResponse.json(
         { error: "確認コードの送信に失敗しました。しばらく時間をおいて再度お試しください。" },
         { status: 503 },
