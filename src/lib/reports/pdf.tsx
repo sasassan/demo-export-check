@@ -3,6 +3,7 @@ import {
   Document,
   type DocumentProps,
   Font,
+  Link,
   Page,
   StyleSheet,
   Text,
@@ -163,6 +164,11 @@ export function RiskReportPdf({ model }: { model: ReportModel }) {
               <Text style={styles.small}>
                 {item.sourceName} / 信頼度 {Math.round(item.confidence * 100)}%
               </Text>
+              {item.url ? (
+                <Link src={item.url} style={styles.small}>
+                  {item.url}
+                </Link>
+              ) : null}
             </View>
           ))}
         </View>
@@ -223,6 +229,11 @@ export function RiskReportPdf({ model }: { model: ReportModel }) {
                 <Text style={styles.small}>
                   {item.sourceName} / {item.publishedAt}
                 </Text>
+                {item.href ? (
+                  <Link src={item.href} style={styles.small}>
+                    {item.href}
+                  </Link>
+                ) : null}
               </View>
             ))}
           </View>

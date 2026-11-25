@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { Shell } from "@/components/layout/shell";
 import { DictionarySearch } from "@/components/glossary/dictionary-search";
-import { TermSearch } from "@/components/glossary/term-search";
+import { GlossaryTermList } from "@/components/glossary/glossary-term-list";
 import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
@@ -354,8 +354,6 @@ function slugify(term: string): string {
     .replace(/^-|-$/g, "");
 }
 
-const TERM_SLUGS = new Map(TERMS.map((t) => [t.term, slugify(t.term)]));
-
 const glossaryJsonLd = {
   "@context": "https://schema.org",
   "@type": "DefinedTermSet",
@@ -408,9 +406,7 @@ export default function GlossaryPage() {
         </nav>
       </div>
 
-      <TermSearch
-        items={TERMS.map((t) => ({ term: t.term, slug: TERM_SLUGS.get(t.term) ?? "" }))}
-      />
+      <GlossaryTermList terms={TERMS} categories={CATEGORIES} />
 
       <DictionarySearch />
 
@@ -431,85 +427,6 @@ export default function GlossaryPage() {
             </div>
           ))}
         </div>
-      </div>
-
-      <div className="space-y-10">
-        {CATEGORIES.map((category) => {
-          const categoryTerms = TERMS.filter((t) => t.category === category);
-          return (
-            <section key={category} id={slugify(category)} className="scroll-mt-24">
-              <div className="mb-4 flex items-center gap-3">
-                <h2 className="text-xl font-black text-slate-900">{category}</h2>
-                <span className="rounded-full border border-slate-200 bg-tint-blue px-2.5 py-0.5 text-xs font-medium text-brand-navy">
-                  {categoryTerms.length}件
-                </span>
-              </div>
-              <div className="space-y-4">
-                {categoryTerms.map((item) => (
-                  <div
-                    key={item.term}
-                    id={TERM_SLUGS.get(item.term)}
-                    className="trade-hover-lift scroll-mt-24 border border-slate-200 bg-panel rounded-xl p-6 transition hover:border-brand-navy/30"
-                  >
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex items-start gap-3">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-slate-50 to-tint-blue">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5 text-brand-navy">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-                          </svg>
-                        </div>
-                        <div>
-                          <div className="flex flex-wrap items-center gap-2">
-                            <h3 className="text-xl font-black text-slate-900">{item.term}</h3>
-                            <span className="rounded-full border border-slate-200 bg-tint-blue px-2.5 py-0.5 text-xs font-medium text-brand-navy">
-                              {item.category}
-                            </span>
-                          </div>
-                          {item.full && (
-                            <p className="mt-0.5 text-sm text-slate-500">{item.full}</p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-
-                    <p className="mt-3 text-sm leading-7 text-slate-700">{item.description}</p>
-
-                    {item.example && (
-                      <div className="rounded-lg border border-slate-200 bg-slate-50 mt-3 flex items-start gap-2 px-3 py-2">
-                        <svg viewBox="0 0 20 20" fill="currentColor" className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500">
-                          <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clipRule="evenodd" />
-                        </svg>
-                        <span className="text-xs font-semibold text-brand-navy flex-shrink-0 mt-0.5">
-                          活用例
-                        </span>
-                        <p className="text-xs text-slate-600">{item.example}</p>
-                      </div>
-                    )}
-
-                    {item.related && item.related.length > 0 && (
-                      <div className="mt-3 flex flex-wrap items-center gap-2">
-                        <span className="text-xs font-semibold text-slate-500">関連用語:</span>
-                        {item.related.map((relatedTerm) => {
-                          const slug = TERM_SLUGS.get(relatedTerm);
-                          if (!slug) return null;
-                          return (
-                            <Link
-                              key={relatedTerm}
-                              href={`#${slug}`}
-                              className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-xs font-medium text-brand-navy hover:border-brand-navy/40 hover:bg-tint-blue"
-                            >
-                              {relatedTerm}
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </section>
-          );
-        })}
       </div>
 
       <div className="rounded-xl border border-tint-blue-bright bg-slate-50 p-6 shadow-sm">

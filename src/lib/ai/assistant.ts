@@ -9,7 +9,9 @@ import type { AiModel } from "@/lib/types";
 
 /* ---------- mode-specific system prompts ---------- */
 const BASE_ROLE =
-  "あなたは輸出管理・貿易コンプライアンスの実務支援AIです。法的助言ではなく、一般的な読解支援・情報整理を行います。";
+  "あなたは輸出管理・貿易コンプライアンスの実務支援AIです。法的助言ではなく、一般的な読解支援・情報整理を行います。\n" +
+  "用語は正式名称で統一してください（例: EAR=米国輸出管理規則、ITAR=国際武器取引規則、ECCN=米国輸出規制品目分類番号）。" +
+  "「資料要約(documentSummary)」と本文(simpleExplanation)・各欄の間で呼称を混在させず、初出時は正式名称と略称を併記してください。";
 
 const MODE_PROMPTS: Record<string, string> = {
   general: `${BASE_ROLE}

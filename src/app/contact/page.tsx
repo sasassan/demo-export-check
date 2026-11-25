@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 
 import { ContactForm } from "@/components/forms/contact-form";
 import { Header } from "@/components/layout/header";
@@ -34,7 +35,10 @@ export default function ContactPage() {
         </section>
 
         <section className="rounded-xl border border-slate-200 bg-panel p-6 sm:p-8">
-          <ContactForm />
+          {/* useSearchParams を使うため、静的ページでは Suspense 境界でラップする */}
+          <Suspense fallback={null}>
+            <ContactForm />
+          </Suspense>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
               <p className="text-sm font-semibold text-slate-900">こんなご相談を受け付けています</p>

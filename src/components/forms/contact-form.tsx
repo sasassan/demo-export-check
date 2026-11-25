@@ -1,40 +1,66 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 import { Spinner } from "@/components/ui/spinner";
 
+const PURPOSE_OPTIONS = ["導入相談", "デモ依頼", "研修・教育相談", "フィードバック", "NDA・セキュリティ相談", "その他"] as const;
+
+function resolveInitialPurpose(v: string | null): string {
+  // 研修ページ（/training の「研修について相談する」→ /contact?v=training）から
+  // 遷移した場合は「研修・教育相談」を初期選択し、それ以外は従来通り「導入相談」。
+  return v === "training" ? "研修・教育相談" : "導入相談";
+}
+
 export function ContactForm() {
-  const [purpose, setPurpose] = useState("導入相談");
+  const searchParams = useSearchParams();
+  const [purpose, setPurpose] = useState<string>(() =>
+    resolveInitialPurpose(searchParams.get("v")),
+  );
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [errorDetail, setErrorDetail] = useState<string | null>(null);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("sending");
+    setErrorDetail(null);
+
+    // 送信処理が応答なしで固まらないようタイムアウトを設ける。
+    // fail-closed（本番でResend未設定時は503）を含め、何らかの応答が返れば
+    // その内容を画面に反映する。タイムアウト時は通信エラーとして扱う。
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
 
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ purpose, name, email, company, message }),
+        signal: controller.signal,
       });
 
       if (response.ok) {
         setStatus("sent");
-        setPurpose("導入相談");
+        setPurpose(resolveInitialPurpose(searchParams.get("v")));
         setName("");
         setEmail("");
         setCompany("");
         setMessage("");
       } else {
+        const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+        setErrorDetail(payload?.error ?? null);
         setStatus("error");
       }
     } catch {
+      setErrorDetail(null);
       setStatus("error");
+    } finally {
+      clearTimeout(timeoutId);
     }
   }
 
@@ -66,7 +92,7 @@ export function ContactForm() {
           className="rounded-xl border border-slate-300 bg-panel px-4 py-3 text-sm text-slate-900 outline-none focus:border-brand-navy focus:ring-2 focus:ring-blue-100"
           required
         >
-          {["導入相談", "デモ依頼", "研修・教育相談", "フィードバック", "NDA・セキュリティ相談", "その他"].map((item) => (
+          {PURPOSE_OPTIONS.map((item) => (
             <option key={item} value={item}>
               {item}
             </option>
@@ -117,7 +143,13 @@ export function ContactForm() {
 
       {status === "error" && (
         <div role="alert" className="rounded-xl border border-tint-rose-border bg-tint-rose px-4 py-3 text-sm text-rose-400">
-          送信に失敗しました。しばらくしてから再度お試しください。
+          <p className="font-semibold">送信に失敗しました。</p>
+          <p className="mt-1">
+            {errorDetail ?? "しばらくしてから再度お試しください。"}
+          </p>
+          <p className="mt-1">
+            入力内容は保持されています。修正して再度「送信する」を押すと再試行できます。
+          </p>
         </div>
       )}
 

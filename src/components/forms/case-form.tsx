@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -69,15 +70,21 @@ export function CaseForm({
         throw new Error(payload.error ?? "案件登録に失敗しました。");
       }
 
-      const investigationResponse = await fetch(`/api/investigations/${payload.id}/run`, {
-        method: "POST",
-      });
-
-      if (!investigationResponse.ok) {
-        const investigationPayload = (await investigationResponse.json().catch(() => null)) as
-          | { error?: string }
-          | null;
-        throw new Error(investigationPayload?.error ?? "AIスクリーニングの開始に失敗しました。");
+      // 案件はこの時点で保存済み。以降は「AI確認の開始」だけを行い、
+      // 開始に失敗しても案件詳細へ遷移して再操作できるようにする。
+      // ここで例外を投げると再送信で案件が二重登録されるため、遷移を優先する。
+      try {
+        const investigationResponse = await fetch(`/api/investigations/${payload.id}/run`, {
+          method: "POST",
+        });
+        if (!investigationResponse.ok) {
+          const investigationPayload = (await investigationResponse.json().catch(() => null)) as
+            | { error?: string }
+            | null;
+          console.error("AIスクリーニング開始に失敗", investigationPayload?.error ?? investigationResponse.status);
+        }
+      } catch (investigationError) {
+        console.error("AIスクリーニング開始に失敗", investigationError);
       }
 
       router.push(`/cases/${payload.id}`);
@@ -280,6 +287,16 @@ export function CaseForm({
             </>
           )}
         </button>
+
+        {submitting ? (
+          <p className="text-center text-xs leading-5 text-slate-500">
+            診断が完了するまでこの画面は「確認中」のままです。時間がかかる場合は
+            <Link href="/cases" className="mx-1 font-semibold text-brand-navy underline decoration-brand-navy/30 underline-offset-2">
+              案件一覧
+            </Link>
+            から進捗を確認できます（再操作しても案件は二重登録されません）。
+          </p>
+        ) : null}
       </div>
 
       {/* サイドパネル */}
