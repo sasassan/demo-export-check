@@ -50,7 +50,8 @@ export default function DemoPage() {
             実案件データ・顧客情報・社内案件一覧は一般公開対象外として保護しています。
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/contact" data-cta-id="demo-contact" data-cta-label="導入について相談" data-cta-target="/contact" className="trade-primary-button">導入について相談</Link>
+            <Link href="/cases/new" data-cta-id="demo-start" data-cta-label="自社案件で試す" data-cta-target="/cases/new" className="trade-primary-button">自社案件で試す</Link>
+            <Link href="/contact" data-cta-id="demo-contact" data-cta-label="導入について相談" data-cta-target="/contact" className="trade-secondary-button">導入について相談</Link>
             <Link href="/about" data-cta-id="demo-about" data-cta-label="サービス説明を見る" data-cta-target="/about" className="trade-secondary-button">サービス説明を見る</Link>
           </div>
         </section>
@@ -75,7 +76,8 @@ export default function DemoPage() {
               <li>- 商品 / 型番 / 輸出先 / 顧客名という入力導線</li>
               <li>- A / B / C 評価の見せ方</li>
               <li>- 推奨アクションと根拠サマリーの出し方</li>
-              <li>- 業種別サンプル（半導体 / 工作機械 / 化学品 / 通信機器）の比較</li>
+              <li>- 業種別サンプル（半導体 / 工作機械 / 化学品 / 通信機器 / レーザー）の比較</li>
+              <li>- 総合 A / B / C それぞれの評価と、C 判定時の保留理由・追加資料・引き継ぎ内容</li>
             </ul>
             <div className="mt-4 rounded-lg border border-tint-blue-bright bg-tint-blue p-4 text-sm leading-6 text-slate-700">
               本番環境では、この後に案件保存、AI相談室への引き継ぎ、PDFレポート出力まで進む構成です。

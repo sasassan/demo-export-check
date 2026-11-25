@@ -10,7 +10,7 @@ export const dynamic = "force-static";
 export const metadata = buildSeo({
   title: "輸出管理のAI一次確認・該非判定支援",
   description:
-    "輸出リスク・該非判定・キャッチオール規制まで、輸出管理の一次確認をAIが支援。制裁リスト・企業信用・用途・国リスクを8観点で評価し、中小企業の営業担当者が商談前に5分でチェックできます。",
+    "輸出リスク・該非判定・キャッチオール規制まで、輸出管理の一次確認をAIが支援。制裁リスト・企業信用・用途・国リスクを8観点で評価し、中小企業の営業担当者が商談前に約5分（目安）でチェックできます。",
   path: "/",
 });
 
@@ -161,8 +161,8 @@ const uspPoints = [
     body: "用語が分からない、条文の意味が難しい、確認ポイントを整理したい、という現場の流れを1つのサイト内で回せます。",
   },
   {
-    title: "商談前の5分確認を設計している",
-    body: "上司・法務・輸出管理に回す前の一次確認を、営業側で短時間に論点整理できることを重視しています。",
+    title: "商談前の短時間確認を設計している",
+    body: "上司・法務・輸出管理に回す前の一次確認を、営業側で短時間（目安 約5分）に論点整理できることを重視しています。",
   },
 ];
 
@@ -213,7 +213,7 @@ const jsonLd = {
   operatingSystem: "Web",
   inLanguage: "ja-JP",
   description:
-    "輸出リスク・該非判定・キャッチオール規制まで、輸出管理の一次確認をAIが支援する中小企業向けWebアプリ。営業担当者が商談前に5分で一次確認でき、AI相談室で規制資料や社内規程の読解支援も行う。",
+    "輸出リスク・該非判定・キャッチオール規制まで、輸出管理の一次確認をAIが支援する中小企業向けWebアプリ。営業担当者が商談前に約5分（目安）で一次確認でき、AI相談室で規制資料や社内規程の読解支援も行う。",
   audience: {
     "@type": "Audience",
     audienceType: "営業担当者、輸出管理担当者、管理部門",
@@ -266,7 +266,8 @@ export default function Home() {
             <Link href="/ai-room?v=lp-nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">AI相談室</Link>
             <Link href="/demo?v=lp-nav" className="hidden rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 md:inline-flex">デモ</Link>
             <span className="mx-1 hidden h-5 w-px bg-slate-200 md:block" />
-            <Link href="/contact?v=lp-nav" className="rounded-md bg-brand-deep px-4 py-2 text-sm font-semibold !text-white shadow-sm hover:bg-brand-deep-light">お問い合わせ</Link>
+            <Link href="/contact?v=lp-nav" className="hidden rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 md:inline-flex">お問い合わせ</Link>
+            <Link href="/cases/new?v=lp-nav" className="rounded-md bg-brand-deep px-4 py-2 text-sm font-semibold !text-white shadow-sm hover:bg-brand-deep-light">はじめる</Link>
           </div>
         </div>
       </nav>
@@ -290,7 +291,7 @@ export default function Home() {
               <h1 className="mt-6 text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
                 その輸出、<br />
                 <span className="bg-gradient-to-r from-brand-cyan via-brand-navy to-brand-teal bg-clip-text text-transparent">
-                  AIが5分で
+                  AIが約5分で
                 </span>
                 一次確認。
               </h1>
@@ -312,16 +313,28 @@ export default function Home() {
                 <Link href="/updates?v=hero" data-cta-id="hero-regulations" data-cta-label="規制情報を見る" data-cta-target="/updates?v=hero" className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-panel px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-navy hover:text-brand-navy">
                   規制情報を見る
                 </Link>
+                <Link href="/cases/new?v=hero" data-cta-id="hero-start" data-cta-label="自社案件で試す" data-cta-target="/cases/new?v=hero" className="inline-flex items-center gap-2 rounded-lg border border-brand-navy bg-panel px-5 py-2.5 text-sm font-semibold text-brand-navy shadow-sm transition hover:-translate-y-0.5 hover:bg-tint-blue">
+                  自社案件で試す（無料）
+                </Link>
               </div>
               <p className="mt-3 text-xs leading-6 text-slate-600">
+                まずは
+                <Link href="/demo?v=hero" data-cta-id="hero-demo-link" data-cta-label="デモで体験" data-cta-target="/demo?v=hero" className="font-semibold text-brand-navy hover:underline">
+                  デモで体験
+                </Link>
+                して、実案件は
+                <Link href="/cases/new?v=hero" data-cta-id="hero-start-link" data-cta-label="自社案件で試す" data-cta-target="/cases/new?v=hero" className="font-semibold text-brand-navy hover:underline">
+                  自社案件で試す
+                </Link>
+                から。ログイン後すぐにAI診断を利用できます。
                 <Link href="/about?v=hero" data-cta-id="hero-about" data-cta-label="サービス詳細" data-cta-target="/about?v=hero" className="font-semibold text-brand-navy hover:underline">
                   サービス詳細
                 </Link>
-                もご覧いただけます。ログインすれば案件登録からAI診断までそのまま利用できます。
+                もご覧いただけます。
               </p>
               <div className="mt-8 grid grid-cols-3 gap-4">
                 {[
-                  ["平均確認時間", "約5分"],
+                  ["入力の目安", "約5分"],
                   ["AI診断観点", "8項目"],
                   ["出力形式", "PDF / 要約"],
                 ].map(([label, value]) => (
@@ -727,7 +740,7 @@ export default function Home() {
               <div className="space-y-3">
                 {[
                   { title: "輸出管理部門がなくても使える", desc: "専門知識不要。商品と取引先の基本情報を入力するだけで一次確認を進められます。", border: "border-l-brand-navy" },
-                  { title: "営業担当者が商談前に確認できる", desc: "5分で完了するスクリーニングで、商談前のリスク把握が可能です。", border: "border-l-[#2dd4bf]" },
+                  { title: "営業担当者が商談前に確認できる", desc: "約5分（目安）で完了するスクリーニングで、商談前のリスク把握が可能です。", border: "border-l-[#2dd4bf]" },
                   { title: "判断根拠を可視化して共有", desc: "評価理由と根拠をPDFで出力し、上司・法務担当へスムーズに連携できます。", border: "border-l-[#38bdf8]" },
                 ].map((item) => (
                   <div key={item.title} className={`rounded-lg border border-slate-200 border-l-4 ${item.border} bg-panel p-4 shadow-sm`}>

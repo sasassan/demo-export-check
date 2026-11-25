@@ -52,10 +52,12 @@ export default function ContactPage() {
                 <li>- 想定案件数や対象商材</li>
                 <li>- 課題感（制裁確認、用途確認、資料読解など）</li>
                 <li>- 希望時期や相談したいテーマ</li>
+                <li>- 研修・教育の場合: 対象者・想定人数・希望形式（オンライン / 集合 / 動画など）</li>
               </ul>
             </div>
           </div>
-          <div className="mt-6">
+          <div className="mt-6 flex flex-wrap gap-4">
+            <Link href="/training" className="text-sm font-semibold text-brand-navy hover:underline">研修・教育サービスについて</Link>
             <Link href="/" className="text-sm font-semibold text-brand-navy hover:underline">トップページへ戻る</Link>
           </div>
         </section>

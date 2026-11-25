@@ -138,7 +138,8 @@ export default function EvaluationLogicPage() {
             {thresholdRows.map((row) => (
               <div
                 key={row.grade}
-                className="trade-hover-lift rounded-lg border border-slate-200 bg-slate-50 p-5"
+                id={`grade-${row.grade}`}
+                className="trade-hover-lift scroll-mt-24 rounded-lg border border-slate-200 bg-slate-50 p-5"
               >
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-bold text-brand-navy">{row.score}</p>
@@ -189,7 +190,8 @@ export default function EvaluationLogicPage() {
             {dimensions.map((item) => (
               <div
                 key={item.key}
-                className="trade-hover-lift rounded-lg border border-slate-200 bg-slate-50 p-4"
+                id={`dimension-${item.key}`}
+                className="trade-hover-lift scroll-mt-24 rounded-lg border border-slate-200 bg-slate-50 p-4"
               >
                 <p className="text-xs font-semibold uppercase tracking-wider text-brand-navy">
                   {item.key}

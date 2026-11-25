@@ -626,29 +626,23 @@ export function AiRoomPanel({
         </div>
       </div>
 
-      <div className="mt-4 rounded-2xl border border-tint-cyan-border bg-gradient-to-br from-tint-blue/70 to-tint-cyan/70 p-4">
-        <p className="flex items-center gap-2 text-sm font-semibold text-slate-900">
-          <SatelliteIcon aria-hidden="true" className="h-4 w-4 text-brand-navy" />
-          回答するAIを選択
-        </p>
-        <div className="mt-3 grid gap-2 md:grid-cols-3">
-          {MODELS.map((item) => (
-            <button
-              key={item.value}
-              type="button"
-              onClick={() => setAiModel(item.value)}
-              className={`min-h-11 rounded-xl border px-4 py-3 text-left transition ${
-                aiModel === item.value
-                  ? "border-brand-cyan/50 bg-panel shadow-sm"
-                  : "border-slate-200 bg-slate-100 hover:border-slate-300"
-              }`}
-            >
-              <p className="text-sm font-semibold text-slate-900">{item.label}</p>
-              <p className="mt-1 text-sm leading-6 text-slate-500">{item.description}</p>
-            </button>
-          ))}
+      {thread.length === 0 && (
+        <div className="mt-4 rounded-2xl border border-tint-cyan-border bg-gradient-to-br from-tint-blue/70 to-tint-cyan/70 p-4">
+          <p className="text-sm font-semibold text-slate-900">質問例</p>
+          <div className="mt-3 grid gap-2">
+            {EXAMPLES.map((item) => (
+              <button
+                key={item}
+                type="button"
+                onClick={() => setMessage(item)}
+                className="min-h-11 w-full rounded-xl border border-slate-200 bg-panel px-4 py-3 text-left text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+              >
+                {item}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {thread.length === 0 && (
         <div className="mt-4 rounded-2xl border border-tint-cyan-border bg-gradient-to-br from-tint-blue/70 to-tint-cyan/70 p-4">
@@ -671,23 +665,29 @@ export function AiRoomPanel({
         </div>
       )}
 
-      {thread.length === 0 && (
-        <div className="mt-4 rounded-2xl border border-tint-cyan-border bg-gradient-to-br from-tint-blue/70 to-tint-cyan/70 p-4">
-          <p className="text-sm font-semibold text-slate-900">質問例</p>
-          <div className="mt-3 grid gap-2">
-            {EXAMPLES.map((item) => (
-              <button
-                key={item}
-                type="button"
-                onClick={() => setMessage(item)}
-                className="min-h-11 w-full rounded-xl border border-slate-200 bg-panel px-4 py-3 text-left text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
-              >
-                {item}
-              </button>
-            ))}
-          </div>
+      <details className="mt-4 rounded-2xl border border-tint-cyan-border bg-gradient-to-br from-tint-blue/70 to-tint-cyan/70 p-4">
+        <summary className="flex cursor-pointer list-none items-center gap-2 text-sm font-semibold text-slate-900">
+          <SatelliteIcon aria-hidden="true" className="h-4 w-4 text-brand-navy" />
+          回答するAIを選択（必要な場合のみ開く）
+        </summary>
+        <div className="mt-3 grid gap-2 md:grid-cols-3">
+          {MODELS.map((item) => (
+            <button
+              key={item.value}
+              type="button"
+              onClick={() => setAiModel(item.value)}
+              className={`min-h-11 rounded-xl border px-4 py-3 text-left transition ${
+                aiModel === item.value
+                  ? "border-brand-cyan/50 bg-panel shadow-sm"
+                  : "border-slate-200 bg-slate-100 hover:border-slate-300"
+              }`}
+            >
+              <p className="text-sm font-semibold text-slate-900">{item.label}</p>
+              <p className="mt-1 text-sm leading-6 text-slate-500">{item.description}</p>
+            </button>
+          ))}
         </div>
-      )}
+      </details>
 
       <div className="mt-4 space-y-3">
         <div>

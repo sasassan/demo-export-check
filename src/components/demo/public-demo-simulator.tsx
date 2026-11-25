@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 
-type ScenarioId = "servo" | "chemical" | "semiconductor" | "machinetool" | "telecom";
+type ScenarioId = "servo" | "chemical" | "semiconductor" | "machinetool" | "telecom" | "laser";
 
 type Scenario = {
   id: ScenarioId;
@@ -23,6 +23,9 @@ type Scenario = {
   }>;
   actions: string[];
   evidence: string[];
+  holdReason?: string[];
+  additionalDocuments?: string[];
+  handoffNotes?: string[];
 };
 
 const scenarios: Scenario[] = [
@@ -176,6 +179,52 @@ const scenarios: Scenario[] = [
       "暗号機能の有無は追加確認対象",
     ],
   },
+  {
+    id: "laser",
+    label: "高出力レーザー加工機（用途不透明）",
+    productName: "高出力レーザー加工機",
+    modelNumber: "LSR-9000",
+    destinationCountry: "シンガポール",
+    customerName: "Asia Pacific Trading Pte. Ltd.",
+    overallGrade: "C",
+    overallSummary:
+      "高出力レーザーはリスト規制・キャッチオール規制の懸念品目であり、商社経由で最終需要者と用途が不透明なため、営業単独での判断は保留とし、上長・輸出管理担当の関与を推奨します。",
+    cautionLabel: "要保留: 用途リスク / キャッチオール規制",
+    cautionBody:
+      "最終需要者が判明せず、用途説明も曖昧です。仕様（出力・波長）による該非判定と、最終用途証明書（EUC）の回収が済むまで出荷判断を保留してください。",
+    dimensions: [
+      { label: "制裁", grade: "A", score: 90 },
+      { label: "企業信用", grade: "C", score: 70 },
+      { label: "国リスク", grade: "B", score: 72 },
+      { label: "用途", grade: "C", score: 78 },
+    ],
+    actions: [
+      "出力・波長・同時制御軸数をもとに該非判定を実施",
+      "最終需要者と最終用途を文書で特定",
+      "上長・輸出管理担当へ即時エスカレーション",
+    ],
+    evidence: [
+      "商社経由で最終需要者が判明していない",
+      "高出力レーザーはリスト規制・キャッチオール規制の懸念品目",
+      "再輸出・第三国転送の可能性を排除できない",
+    ],
+    holdReason: [
+      "最終需要者と用途が判明せず、軍事転用の可能性を否定できない",
+      "該非判定に必要な仕様（出力・波長）の確定が済んでいない",
+      "商社経由の再輸出・第三国転送リスクを確認できていない",
+    ],
+    additionalDocuments: [
+      "最終用途証明書（EUC）",
+      "仕様書（出力・波長・同時制御軸数）",
+      "最終需要者の登記情報と事業内容",
+      "再輸出・第三国転送の有無に関する確認書",
+    ],
+    handoffNotes: [
+      "用途・最終需要者が特定されるまで営業段階では出荷判断を保留",
+      "該非判定の結果と根拠をパラメータシートに記録",
+      "輸出許可の要否判断は輸出管理担当・上長へ引き継ぐ",
+    ],
+  },
 ];
 
 const gradeClassMap = {
@@ -189,6 +238,13 @@ const gradeDescriptionMap = {
   B: "営業単独で進めず、追加確認や社内レビューを挟みたい状態",
   C: "重大論点があり、慎重な確認と上長・担当部門の関与が必要な状態",
 } as const;
+
+const dimensionLogicKeyMap: Record<string, string> = {
+  制裁: "sanctions",
+  企業信用: "reputation",
+  国リスク: "country",
+  用途: "useCase",
+};
 
 export function PublicDemoSimulator() {
   const [selectedId, setSelectedId] = useState<ScenarioId>("servo");
@@ -334,13 +390,26 @@ export function PublicDemoSimulator() {
           >
             {runState === "loading" ? "AIが判定中..." : "この条件でデモ判定を見る"}
           </button>
+          <button
+            type="button"
+            onClick={() =>
+              resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+            }
+            className="trade-secondary-button xl:hidden"
+          >
+            結果を見る ↓
+          </button>
           <p className="text-xs leading-6 text-slate-700">
             実運用ではここから AI が論点整理、根拠要約、PDF レポート化を行います。
           </p>
         </div>
       </section>
 
-      <section ref={resultRef} className="rounded-xl border border-slate-200 bg-panel p-6">
+      <section
+        ref={resultRef}
+        id="demo-result"
+        className="scroll-mt-24 rounded-xl border border-slate-200 bg-panel p-6"
+      >
         <div className="flex items-start justify-between gap-4">
           <div>
             <span className="trade-section-label">サンプル結果</span>
@@ -390,9 +459,11 @@ export function PublicDemoSimulator() {
 
             <div className="grid gap-3 sm:grid-cols-4">
               {selectedScenario.dimensions.map((dimension) => (
-                <div
+                <Link
                   key={dimension.label}
-                  className={`rounded-lg border p-3 text-center ${gradeClassMap[dimension.grade]}`}
+                  href={`/evaluation-logic#dimension-${dimensionLogicKeyMap[dimension.label] ?? ""}`}
+                  title="この観点の評価ロジックを見る"
+                  className={`block rounded-lg border p-3 text-center transition hover:brightness-105 ${gradeClassMap[dimension.grade]}`}
                 >
                   <p className="text-[11px] font-medium text-slate-700">
                     {dimension.label}
@@ -403,9 +474,12 @@ export function PublicDemoSimulator() {
                   <p className="text-[11px] text-slate-700">
                     {dimension.score} 点
                   </p>
-                </div>
+                </Link>
               ))}
             </div>
+            <p className="text-[11px] leading-5 text-slate-500">
+              各観点の判定根拠は、カードを選ぶと評価ロジックの該当項目で確認できます。
+            </p>
 
             <div className="rounded-lg border border-tint-amber-border bg-tint-amber p-4">
               <p className="text-sm font-semibold text-amber-300">
@@ -438,6 +512,37 @@ export function PublicDemoSimulator() {
                 </ul>
               </div>
             </div>
+
+            {selectedScenario.overallGrade === "C" && (
+              <div className="rounded-lg border border-tint-rose-border bg-tint-rose p-4">
+                <p className="text-sm font-semibold text-rose-400">
+                  判断を保留する理由
+                </p>
+                <ul className="mt-2 space-y-2 text-sm leading-6 text-rose-300">
+                  {(selectedScenario.holdReason ?? []).map((item) => (
+                    <li key={item}>- {item}</li>
+                  ))}
+                </ul>
+                <div className="mt-4 grid gap-4 lg:grid-cols-2">
+                  <div className="rounded-lg border border-rose-300/30 bg-panel/40 p-3">
+                    <p className="text-xs font-semibold text-rose-400">追加で確認する資料</p>
+                    <ul className="mt-2 space-y-1.5 text-sm leading-6 text-rose-200">
+                      {(selectedScenario.additionalDocuments ?? []).map((item) => (
+                        <li key={item}>- {item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="rounded-lg border border-rose-300/30 bg-panel/40 p-3">
+                    <p className="text-xs font-semibold text-rose-400">社内へ引き継ぐ内容</p>
+                    <ul className="mt-2 space-y-1.5 text-sm leading-6 text-rose-200">
+                      {(selectedScenario.handoffNotes ?? []).map((item) => (
+                        <li key={item}>- {item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            )}
 
             <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
               <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
@@ -478,10 +583,19 @@ export function PublicDemoSimulator() {
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-3">
-                  <Link href="/evaluation-logic" data-cta-id="demo-result-logic" data-cta-label="評価ロジックを見る" data-cta-target="/evaluation-logic" className="trade-secondary-button">
+                  <Link href="/cases/new" data-cta-id="demo-result-start" data-cta-label="自社案件で試す" data-cta-target="/cases/new" className="trade-primary-button">
+                    自社案件で試す
+                  </Link>
+                  <Link
+                    href={`/evaluation-logic#grade-${selectedScenario.overallGrade}`}
+                    data-cta-id="demo-result-logic"
+                    data-cta-label="評価ロジックを見る"
+                    data-cta-target={`/evaluation-logic#grade-${selectedScenario.overallGrade}`}
+                    className="trade-secondary-button"
+                  >
                     評価ロジックを見る
                   </Link>
-                  <Link href="/contact" data-cta-id="demo-result-contact" data-cta-label="デモ相談をする" data-cta-target="/contact" className="trade-primary-button">
+                  <Link href="/contact" data-cta-id="demo-result-contact" data-cta-label="デモ相談をする" data-cta-target="/contact" className="trade-secondary-button">
                     デモ相談をする
                   </Link>
                 </div>

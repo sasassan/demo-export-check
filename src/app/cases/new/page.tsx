@@ -12,7 +12,7 @@ export default async function NewCasePage({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  await requireSessionEmail();
+  await requireSessionEmail("/cases/new");
   const params = await searchParams;
 
   const readValue = (key: string) => {

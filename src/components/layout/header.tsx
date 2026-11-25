@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { APP_NAME } from "@/lib/constants";
 
 const navItems = [
-  { href: "/main?v=nav", match: "/main", label: "メイン" },
+  { href: "/main?v=nav", match: "/main", label: "ホーム" },
   { href: "/demo?v=nav", match: "/demo", label: "デモ" },
   { href: "/glossary?v=nav", match: "/glossary", label: "辞典" },
   { href: "/ai-room?v=nav", match: "/ai-room", label: "AI相談室" },
@@ -79,11 +79,20 @@ export function Header() {
           })}
           <span className="mx-1 hidden h-5 w-px bg-slate-200 md:block" />
           <Link
+            href="/cases/new?v=nav"
+            data-cta-id="header-start"
+            data-cta-label="はじめる"
+            data-cta-target="/cases/new?v=nav"
+            className="rounded-md bg-brand-deep px-4 py-2 text-sm font-semibold !text-white shadow-sm transition hover:bg-brand-deep-light"
+          >
+            はじめる
+          </Link>
+          <Link
             href="/contact?v=nav"
             data-cta-id="header-contact"
             data-cta-label="お問い合わせ"
             data-cta-target="/contact?v=nav"
-            className="rounded-md bg-brand-deep px-4 py-2 text-sm font-semibold !text-white shadow-sm transition hover:bg-brand-deep-light"
+            className="hidden rounded-md border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-900 md:inline-flex"
           >
             お問い合わせ
           </Link>
@@ -145,9 +154,16 @@ export function Header() {
                 );
               })}
               <Link
-                href="/contact?v=nav"
+                href="/cases/new?v=nav"
                 onClick={() => setIsMenuOpen(false)}
                 className="flex min-h-11 items-center rounded-md bg-brand-deep px-3 text-base font-semibold !text-white transition hover:bg-brand-deep-light"
+              >
+                はじめる
+              </Link>
+              <Link
+                href="/contact?v=nav"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex min-h-11 items-center rounded-md border border-slate-200 px-3 text-base font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-900"
               >
                 お問い合わせ
               </Link>

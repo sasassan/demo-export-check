@@ -64,6 +64,7 @@ export default function TrainingPage() {
           <p className="mt-3 max-w-3xl text-base leading-7 text-slate-600">
             AIツール導入だけでなく、営業担当・輸出担当・管理部門が共通理解を持てるようにするための、
             研修・教育・運用支援サービスをオプション提供する想定です。
+            各メニューの提供形式・料金・開催条件は現時点では未確定です。
           </p>
         </section>
 
@@ -113,9 +114,10 @@ export default function TrainingPage() {
 
           <section className="trade-hover-lift rounded-xl border border-brand-navy bg-gradient-to-br from-brand-deep to-blue-800 p-6 text-white">
             <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[10px] font-semibold tracking-wider">Enterprise</span>
-            <h2 className="mt-3 text-xl font-bold">導入前提の研修相談も可能</h2>
+            <h2 className="mt-3 text-xl font-bold">研修ニーズについてご相談いただけます</h2>
             <p className="mt-3 text-sm leading-6 text-white/80">
-              AIツールの活用だけでなく、営業・輸出管理・法務・経営層の認識をそろえるための支援メニューとして整理できます。
+              ご相談の際は、対象者（営業・輸出管理・法務・経営層など）、想定人数、希望形式（オンライン / 集合 / 動画など）をお伝えいただくとスムーズです。
+              提供内容・料金・開催条件は、ご相談内容をもとに個別に検討します。
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <Link href="/contact?v=training" className="rounded-md bg-panel px-4 py-2 text-sm font-semibold text-brand-navy hover:bg-slate-100">研修について相談する</Link>

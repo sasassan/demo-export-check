@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { Shell } from "@/components/layout/shell";
 import { DictionarySearch } from "@/components/glossary/dictionary-search";
+import { TermSearch } from "@/components/glossary/term-search";
 import { buildSeo } from "@/lib/seo";
 
 export const dynamic = "force-static";
@@ -387,9 +388,9 @@ export default function GlossaryPage() {
             </svg>
           </div>
           <div>
-            <h1 className="text-lg font-bold text-slate-900">輸出コンプライアンス用語辞典</h1>
+            <p className="text-lg font-bold text-slate-900">用語の検索・AI解説・カテゴリ別一覧</p>
             <p className="text-sm text-slate-500">
-              該非判定・リスト規制・国際規制・手続き・リスク評価まで、実務で必要な専門用語を解説します
+              掲載済み用語の絞り込み検索と、AIによる詳しい解説を組み合わせて利用できます
             </p>
           </div>
         </div>
@@ -406,6 +407,10 @@ export default function GlossaryPage() {
           ))}
         </nav>
       </div>
+
+      <TermSearch
+        items={TERMS.map((t) => ({ term: t.term, slug: TERM_SLUGS.get(t.term) ?? "" }))}
+      />
 
       <DictionarySearch />
 
@@ -513,10 +518,22 @@ export default function GlossaryPage() {
         </p>
         <div className="mt-3 flex flex-wrap gap-4">
           <Link
+            href="/ai-room"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-navy hover:text-brand-navy-light"
+          >
+            AI相談室で条文・規程を質問する →
+          </Link>
+          <Link
             href="/learning"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-navy hover:text-brand-navy-light"
           >
             学習コンテンツで基礎を学ぶ →
+          </Link>
+          <Link
+            href="/demo"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-navy hover:text-brand-navy-light"
+          >
+            デモで判定フローを体験する →
           </Link>
           <Link
             href="/"

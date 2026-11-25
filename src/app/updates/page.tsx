@@ -14,18 +14,6 @@ export const metadata = buildSeo({
   keywords: ["規制アップデート", "制裁", "みなし輸出", "該非判定", "キャッチオール規制"],
 });
 
-const templateFields = [
-  { label: "title", meaning: "記事タイトル（結論を端的に）", example: "デュアルユース品目の該非判定精度が求められています" },
-  { label: "category", meaning: "記事の分類", example: "制裁 / 品目規制 / 手続き / 技術提供 / キャッチオール" },
-  { label: "region", meaning: "対象地域", example: "日本 / 米国 / EU / 国際 / 複数地域" },
-  { label: "publishedAt", meaning: "公開日（YYYY-MM-DD）", example: "2026-06-01" },
-  { label: "summary", meaning: "1〜2文のサマリー", example: "高性能部品は用途次第で規制対象になり得ます。" },
-  { label: "impact", meaning: "案件判断への影響", example: "型番・仕様・用途をまとめて該非判定を確認します。" },
-  { label: "keyPoints", meaning: "押さえておきたいポイント（3件前後）", example: "仕様に基づく該非判定 / 用途確認 / 証跡の保存" },
-  { label: "tags", meaning: "検索・関連付け用のタグ", example: "該非判定 / キャッチオール規制" },
-  { label: "relatedLinks", meaning: "関連ページへの内部リンク", example: "用語辞典・学習コンテンツへのリンク" },
-];
-
 export default function UpdatesPage() {
   return (
     <Shell
@@ -115,38 +103,20 @@ export default function UpdatesPage() {
         </div>
       </section>
 
-      <section className="rounded-xl border border-slate-200 bg-panel p-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-navy">Article template</p>
-        <h2 className="mt-2 text-xl font-bold text-slate-900">規制アップデート記事の執筆テンプレート</h2>
-        <p className="mt-2 text-sm leading-7 text-slate-600">
-          記事は以下のフィールドで構成します。正確性を重視し、不確実な情報や具体的な数値は載せない方針です。法令の解釈・適用は必ず公式情報でご確認ください。
+      <section className="rounded-xl border border-tint-amber-border bg-tint-amber p-6">
+        <p className="text-sm leading-7 text-amber-300">
+          本ページのサマリーは確認ポイントの整理を目的としており、法令の解釈・適用を保証するものではありません。
+          実際の判断にあたっては、公的機関の一次資料（法令・告示・通達等）を必ずご確認ください。
         </p>
-        <div className="mt-5 overflow-x-auto">
-          <table className="w-full min-w-[560px] border-collapse text-sm">
-            <thead>
-              <tr className="border-b border-slate-200 text-left">
-                <th className="py-2 pr-3 font-semibold text-slate-500">フィールド</th>
-                <th className="py-2 pr-3 font-semibold text-slate-900">内容</th>
-                <th className="py-2 font-semibold text-slate-900">記入例</th>
-              </tr>
-            </thead>
-            <tbody>
-              {templateFields.map((field) => (
-                <tr key={field.label} className="border-b border-slate-100 align-top">
-                  <td className="py-3 pr-3 font-mono text-xs text-brand-navy">{field.label}</td>
-                  <td className="py-3 pr-3 text-slate-700">{field.meaning}</td>
-                  <td className="py-3 text-slate-500">{field.example}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
         <div className="mt-4 flex flex-wrap gap-3">
           <Link href="/glossary" className="trade-secondary-button">
             用語辞典で確認する
           </Link>
           <Link href="/learning" className="trade-secondary-button">
             学習コンテンツを見る
+          </Link>
+          <Link href="/ai-room" className="trade-secondary-button">
+            AI相談室で条文を確認する
           </Link>
         </div>
       </section>

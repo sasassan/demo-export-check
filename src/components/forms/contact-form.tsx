@@ -66,7 +66,7 @@ export function ContactForm() {
           className="rounded-xl border border-slate-300 bg-panel px-4 py-3 text-sm text-slate-900 outline-none focus:border-brand-navy focus:ring-2 focus:ring-blue-100"
           required
         >
-          {["導入相談", "デモ依頼", "フィードバック", "NDA・セキュリティ相談", "その他"].map((item) => (
+          {["導入相談", "デモ依頼", "研修・教育相談", "フィードバック", "NDA・セキュリティ相談", "その他"].map((item) => (
             <option key={item} value={item}>
               {item}
             </option>

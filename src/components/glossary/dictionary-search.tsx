@@ -56,8 +56,9 @@ export function DictionarySearch() {
 
   return (
     <div className="rounded-xl border border-slate-200 bg-panel p-6">
-      <h2 className="text-xl font-bold text-slate-900">専門用語をAIで検索</h2>
+      <h2 className="text-xl font-bold text-slate-900">AIで用語を質問する</h2>
       <p className="mt-2 text-sm leading-7 text-slate-600">
+        掲載していない用語や、用語を踏まえた実務の文脈をAIに解説してもらえます。
         例: インコタームズ / EAR / ECCN / UBO / キャッチオール規制 / 該非判定
       </p>
 

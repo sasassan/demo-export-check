@@ -64,7 +64,7 @@ export default function LoginPage() {
           <div className="mt-8 space-y-2.5">
             {[
               ["審査対象", "制裁 / エンドユーザー / 国リスク"],
-              ["処理時間", "平均 約5分"],
+              ["処理時間", "目安 約5分"],
               ["共有形式", "PDF / AI要約 / チェックリスト"],
             ].map(([label, value]) => (
               <div key={label} className="rounded-lg border border-white/15 bg-white/10 px-4 py-2.5">
