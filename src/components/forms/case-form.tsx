@@ -106,13 +106,13 @@ export function CaseForm({
     const messages: string[] = [];
 
     if (!form.productName.trim()) {
-      messages.push("商品名が未入力です。用途が分かる商品名を入れると診断精度が上がります。");
+      messages.push("商品名が未入力です。必須項目のため、用途が分かる商品名を入力してください。");
     } else if (!/モーター|装置|部品|基板|センサー|機械|工具|材料/.test(form.productName)) {
       messages.push("商品名が抽象的です。型番や用途が伝わる表現を追加すると判定しやすくなります。");
     }
 
     if (!form.modelNumber.trim()) {
-      messages.push("型番が未入力です。技術仕様に紐づく確認が弱くなるため、可能なら追加してください。");
+      messages.push("型番が未入力です。必須項目のため入力してください。技術仕様に紐づく確認に必要です。");
     }
 
     if (!form.destinationCountry.trim()) {
@@ -304,7 +304,7 @@ export function CaseForm({
         <div>
           <h2 className="text-base font-semibold text-slate-900">入力のポイント</h2>
           <p className="mt-2 text-sm leading-6 text-slate-500">
-            商品名だけでも開始できますが、型番・顧客名・輸出先国があるほど判定精度が上がります。
+            商品名・型番・輸出先国・顧客企業名の4項目は登録に必須です。商品名は規制候補、型番は仕様、輸出先国は国リスク、顧客企業名は制裁・実在性の確認に使います。
           </p>
         </div>
 

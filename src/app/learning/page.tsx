@@ -39,7 +39,7 @@ const guides: Guide[] = [
     related: [
       { label: "該非判定の用語解説", href: "/glossary#%E8%A9%B2%E9%9D%9E%E5%88%A4%E5%AE%9A" },
       { label: "デモで流れを体験", href: "/demo" },
-      { label: "AI相談室で質問", href: "/ai-room" },
+      { label: "AI相談室で質問", href: `/ai-room?message=${encodeURIComponent("初めて輸出管理を担当します。何を・どこへ・誰に・何に使うかの観点から、次に確認すべきことを教えてください。")}&mode=beginner-explain` },
     ],
   },
   {

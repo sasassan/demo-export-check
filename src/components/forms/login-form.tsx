@@ -21,7 +21,7 @@ function resolvePostLoginPath(): string {
 
 export function LoginForm() {
   const [stage, setStage] = useState<"email" | "code">("email");
-  const [email, setEmail] = useState("demo@example.com");
+  const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);

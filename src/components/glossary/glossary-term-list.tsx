@@ -161,6 +161,22 @@ export function GlossaryTermList({
                               <Link
                                 key={relatedTerm}
                                 href={`#${slug}`}
+                                onClick={(event) => {
+                                  if (filteredTerms.some((term) => term.term === relatedTerm)) return;
+                                  event.preventDefault();
+                                  setQuery(relatedTerm);
+                                  window.history.replaceState(
+                                    null,
+                                    "",
+                                    `/glossary?q=${encodeURIComponent(relatedTerm)}#${slug}`,
+                                  );
+                                  window.setTimeout(() => {
+                                    document.getElementById(slug)?.scrollIntoView({
+                                      behavior: "smooth",
+                                      block: "start",
+                                    });
+                                  }, 0);
+                                }}
                                 className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-xs font-medium text-brand-navy hover:border-brand-navy/40 hover:bg-tint-blue"
                               >
                                 {relatedTerm}

@@ -3,7 +3,7 @@ import { AiRoomPanel } from "@/components/ai/ai-room-panel";
 import { ConsultationHistory } from "@/components/ai/consultation-history";
 import { buildSeo } from "@/lib/seo";
 
-export const dynamic = "force-static";
+export const dynamic = "force-dynamic";
 
 export const metadata = buildSeo({
   title: "AI相談室",
@@ -12,7 +12,16 @@ export const metadata = buildSeo({
   path: "/ai-room",
 });
 
-export default function AiRoomPage() {
+export default async function AiRoomPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const params = await searchParams;
+  const message = params.message;
+  const initialMessage = Array.isArray(message) ? message[0] ?? "" : message ?? "";
+  const initialMode = params.mode === "beginner-explain" ? "beginner-explain" : "general";
+
   return (
     <Shell
       title="AI相談室"
@@ -20,7 +29,7 @@ export default function AiRoomPage() {
     >
       <section className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
         <div className="space-y-6">
-          <AiRoomPanel />
+          <AiRoomPanel initialMode={initialMode} initialMessage={initialMessage} />
           <ConsultationHistory />
         </div>
         <div className="space-y-6">

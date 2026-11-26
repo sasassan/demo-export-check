@@ -43,10 +43,10 @@ const scenarios: Scenario[] = [
     cautionBody:
       "類似名称企業の存在と、再輸出先の裏取りが不十分です。法人登記・最終需要先・用途確認書の回収が先です。",
     dimensions: [
-      { label: "制裁", grade: "A", score: 95 },
-      { label: "企業信用", grade: "B", score: 72 },
-      { label: "国リスク", grade: "B", score: 68 },
-      { label: "用途", grade: "A", score: 88 },
+      { label: "制裁", grade: "A", score: 20 },
+      { label: "企業信用", grade: "B", score: 52 },
+      { label: "国リスク", grade: "B", score: 48 },
+      { label: "用途", grade: "A", score: 24 },
     ],
     actions: [
       "法人登記番号または会社登録証を入手",
@@ -73,10 +73,10 @@ const scenarios: Scenario[] = [
     cautionBody:
       "サンプル輸出であっても、工程用途・濃度・転売先の確認が必要です。SDSと用途説明の整合を必ず確認してください。",
     dimensions: [
-      { label: "制裁", grade: "A", score: 93 },
-      { label: "企業信用", grade: "A", score: 80 },
-      { label: "国リスク", grade: "B", score: 70 },
-      { label: "用途", grade: "B", score: 61 },
+      { label: "制裁", grade: "A", score: 18 },
+      { label: "企業信用", grade: "A", score: 32 },
+      { label: "国リスク", grade: "B", score: 58 },
+      { label: "用途", grade: "B", score: 54 },
     ],
     actions: [
       "SDSと用途説明を照合",
@@ -103,10 +103,10 @@ const scenarios: Scenario[] = [
     cautionBody:
       "現時点で重大な赤信号はありませんが、最終仕様・最終需要先・再輸出条件は通常どおり確認してください。",
     dimensions: [
-      { label: "制裁", grade: "A", score: 96 },
-      { label: "企業信用", grade: "A", score: 86 },
-      { label: "国リスク", grade: "A", score: 81 },
-      { label: "用途", grade: "A", score: 84 },
+      { label: "制裁", grade: "A", score: 14 },
+      { label: "企業信用", grade: "A", score: 19 },
+      { label: "国リスク", grade: "A", score: 26 },
+      { label: "用途", grade: "A", score: 22 },
     ],
     actions: [
       "標準の取引先確認フローを実施",
@@ -133,10 +133,10 @@ const scenarios: Scenario[] = [
     cautionBody:
       "5軸制御や高精度仕様はリスト規制の該当候補になりやすいため、型番・仕様をもとに該非判定を行い、最終需要先と用途確認書（EUC）を回収してください。",
     dimensions: [
-      { label: "制裁", grade: "A", score: 94 },
-      { label: "企業信用", grade: "B", score: 74 },
-      { label: "国リスク", grade: "B", score: 69 },
-      { label: "用途", grade: "B", score: 66 },
+      { label: "制裁", grade: "A", score: 20 },
+      { label: "企業信用", grade: "B", score: 53 },
+      { label: "国リスク", grade: "B", score: 48 },
+      { label: "用途", grade: "B", score: 56 },
     ],
     actions: [
       "位置決め精度・同時制御軸数をもとに該非判定を実施",
@@ -163,10 +163,10 @@ const scenarios: Scenario[] = [
     cautionBody:
       "重大な赤信号はありませんが、暗号機能を搭載する場合はECCN等の規制該当性を必ず確認してください。",
     dimensions: [
-      { label: "制裁", grade: "A", score: 97 },
-      { label: "企業信用", grade: "A", score: 85 },
-      { label: "国リスク", grade: "A", score: 82 },
-      { label: "用途", grade: "A", score: 83 },
+      { label: "制裁", grade: "A", score: 12 },
+      { label: "企業信用", grade: "A", score: 20 },
+      { label: "国リスク", grade: "A", score: 25 },
+      { label: "用途", grade: "A", score: 21 },
     ],
     actions: [
       "標準の取引先確認フローを実施",
@@ -193,10 +193,10 @@ const scenarios: Scenario[] = [
     cautionBody:
       "最終需要者が判明せず、用途説明も曖昧です。仕様（出力・波長）による該非判定と、最終用途証明書（EUC）の回収が済むまで出荷判断を保留してください。",
     dimensions: [
-      { label: "制裁", grade: "A", score: 90 },
-      { label: "企業信用", grade: "C", score: 70 },
-      { label: "国リスク", grade: "B", score: 72 },
-      { label: "用途", grade: "C", score: 78 },
+      { label: "制裁", grade: "A", score: 26 },
+      { label: "企業信用", grade: "C", score: 78 },
+      { label: "国リスク", grade: "B", score: 51 },
+      { label: "用途", grade: "C", score: 83 },
     ],
     actions: [
       "出力・波長・同時制御軸数をもとに該非判定を実施",
@@ -254,21 +254,8 @@ export function PublicDemoSimulator() {
   const selectedScenario =
     scenarios.find((scenario) => scenario.id === selectedId) ?? scenarios[0];
 
-  const [formState, setFormState] = useState({
-    productName: selectedScenario.productName,
-    modelNumber: selectedScenario.modelNumber,
-    destinationCountry: selectedScenario.destinationCountry,
-    customerName: selectedScenario.customerName,
-  });
-
   const switchScenario = (scenario: Scenario) => {
     setSelectedId(scenario.id);
-    setFormState({
-      productName: scenario.productName,
-      modelNumber: scenario.modelNumber,
-      destinationCountry: scenario.destinationCountry,
-      customerName: scenario.customerName,
-    });
     setRunState("done");
   };
 
@@ -287,15 +274,14 @@ export function PublicDemoSimulator() {
           <div>
             <span className="trade-section-label">対話型モック</span>
             <h2 className="mt-3 text-xl font-bold text-slate-900">
-              公開デモで入力体験を再現
+              固定サンプルで確認フローを体験
             </h2>
             <p className="mt-2 text-sm leading-6 text-slate-700">
-              実案件データは公開していませんが、サンプルシナリオを使って
-              「入力 → 論点整理 → 結果確認」の流れを体験できます。
+              実案件データは公開していません。シナリオを選ぶと、そのサンプルの入力情報と判定結果を確認できます。
             </p>
           </div>
           <div className="rounded-lg border border-tint-amber-border bg-tint-amber px-3 py-2 text-xs font-medium leading-5 text-amber-300">
-            この結果はデモ用の固定サンプルです
+            固定サンプル（入力・判定結果は編集できません）
           </div>
         </div>
 
@@ -329,52 +315,32 @@ export function PublicDemoSimulator() {
           <label className="grid gap-2">
             <span className="text-sm font-medium text-slate-800">商品名</span>
             <input
-              value={formState.productName}
-              onChange={(event) =>
-                setFormState((current) => ({
-                  ...current,
-                  productName: event.target.value,
-                }))
-              }
+              value={selectedScenario.productName}
+              readOnly
               className="rounded-lg border border-slate-300 bg-panel px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             />
           </label>
           <label className="grid gap-2">
             <span className="text-sm font-medium text-slate-800">型番</span>
             <input
-              value={formState.modelNumber}
-              onChange={(event) =>
-                setFormState((current) => ({
-                  ...current,
-                  modelNumber: event.target.value,
-                }))
-              }
+              value={selectedScenario.modelNumber}
+              readOnly
               className="rounded-lg border border-slate-300 bg-panel px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             />
           </label>
           <label className="grid gap-2">
             <span className="text-sm font-medium text-slate-800">輸出先国</span>
             <input
-              value={formState.destinationCountry}
-              onChange={(event) =>
-                setFormState((current) => ({
-                  ...current,
-                  destinationCountry: event.target.value,
-                }))
-              }
+              value={selectedScenario.destinationCountry}
+              readOnly
               className="rounded-lg border border-slate-300 bg-panel px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             />
           </label>
           <label className="grid gap-2">
             <span className="text-sm font-medium text-slate-800">顧客企業名</span>
             <input
-              value={formState.customerName}
-              onChange={(event) =>
-                setFormState((current) => ({
-                  ...current,
-                  customerName: event.target.value,
-                }))
-              }
+              value={selectedScenario.customerName}
+              readOnly
               className="rounded-lg border border-slate-300 bg-panel px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand-navy focus:ring-4 focus:ring-blue-100"
             />
           </label>
@@ -385,10 +351,10 @@ export function PublicDemoSimulator() {
             type="button"
             onClick={runDemo}
             data-cta-id="public-demo-run"
-            data-cta-label="この条件でデモ判定を見る"
+            data-cta-label="このサンプルの判定結果を見る"
             className="trade-primary-button"
           >
-            {runState === "loading" ? "AIが判定中..." : "この条件でデモ判定を見る"}
+            {runState === "loading" ? "サンプルを表示中..." : "このサンプルの判定結果を見る"}
           </button>
           <button
             type="button"
@@ -446,8 +412,8 @@ export function PublicDemoSimulator() {
           <div className="mt-5 space-y-5">
             <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
               <p className="text-sm font-semibold text-slate-900">
-                {formState.productName} {formState.modelNumber} →{" "}
-                {formState.destinationCountry}
+                {selectedScenario.productName} {selectedScenario.modelNumber} →{" "}
+                {selectedScenario.destinationCountry}
               </p>
               <p className="mt-2 text-sm leading-6 text-slate-800">
                 {selectedScenario.overallSummary}

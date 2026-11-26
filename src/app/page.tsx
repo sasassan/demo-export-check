@@ -252,23 +252,38 @@ export default function Home() {
       {/* ナビゲーション */}
       <nav aria-label="メインナビゲーション" className="sticky top-0 z-50 border-b border-slate-200/80 bg-panel/90 shadow-[0_10px_24px_rgba(15,23,42,0.04)] backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-deep">
+          <div className="flex min-w-0 items-center gap-2.5">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-deep">
               <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="h-4 w-4">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.955 11.955 0 0 0 3 10.5c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.572-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Z" />
               </svg>
             </div>
-            <span className="text-base font-bold text-slate-900">{APP_NAME}</span>
+            <span className="truncate text-sm font-bold text-slate-900 sm:text-base">{APP_NAME}</span>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="hidden items-center gap-1 md:flex">
             <Link href="/about?v=lp-nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">概要</Link>
             <Link href="/glossary?v=lp-nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">辞典</Link>
             <Link href="/ai-room?v=lp-nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">AI相談室</Link>
-            <Link href="/demo?v=lp-nav" className="hidden rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 md:inline-flex">デモ</Link>
-            <span className="mx-1 hidden h-5 w-px bg-slate-200 md:block" />
-            <Link href="/contact?v=lp-nav" className="hidden rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 md:inline-flex">お問い合わせ</Link>
+            <Link href="/demo?v=lp-nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">デモ</Link>
+            <span className="mx-1 h-5 w-px bg-slate-200" />
+            <Link href="/contact?v=lp-nav" className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">お問い合わせ</Link>
             <Link href="/cases/new?v=lp-nav" className="rounded-md bg-brand-deep px-4 py-2 text-sm font-semibold !text-white shadow-sm hover:bg-brand-deep-light">はじめる</Link>
           </div>
+          <details className="relative md:hidden">
+            <summary aria-label="メニューを開く" className="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-md text-slate-700 hover:bg-slate-100 [&::-webkit-details-marker]:hidden">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-6 w-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              </svg>
+            </summary>
+            <div className="absolute right-0 top-full z-50 mt-2 w-56 rounded-lg border border-slate-200 bg-panel p-2 shadow-xl">
+              <Link href="/about?v=lp-nav" className="flex min-h-11 items-center rounded-md px-3 text-base font-medium text-slate-700 hover:bg-slate-100">概要</Link>
+              <Link href="/glossary?v=lp-nav" className="flex min-h-11 items-center rounded-md px-3 text-base font-medium text-slate-700 hover:bg-slate-100">辞典</Link>
+              <Link href="/ai-room?v=lp-nav" className="flex min-h-11 items-center rounded-md px-3 text-base font-medium text-slate-700 hover:bg-slate-100">AI相談室</Link>
+              <Link href="/demo?v=lp-nav" className="flex min-h-11 items-center rounded-md px-3 text-base font-medium text-slate-700 hover:bg-slate-100">デモ</Link>
+              <Link href="/contact?v=lp-nav" className="flex min-h-11 items-center rounded-md px-3 text-base font-medium text-slate-700 hover:bg-slate-100">お問い合わせ</Link>
+              <Link href="/cases/new?v=lp-nav" className="mt-1 flex min-h-11 items-center rounded-md bg-brand-deep px-3 text-base font-semibold !text-white">はじめる</Link>
+            </div>
+          </details>
         </div>
       </nav>
 
